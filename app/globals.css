@@ -12,6 +12,7 @@ body {
 
 .Nav-children-container {
   display: flex;
+
 }
 
 nav {
@@ -21,7 +22,95 @@ nav {
 .upperNav-children-container {
     flex: 1;
   padding: 20px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 30px;
+}
+
+.upperNav-children-container:first-child {
+  width: 100%; 
+}
+
+/*  home page -> animation slide  */
+
+.home-page .animation-slide {
+  width: 100%;
+  height: 300px;
+  background-image: url("/table-background.png") ;
+  background-size: cover;
+  border-radius: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.home-page .animation-slide  .player-image { 
+  position: absolute;
+  bottom: 0;
+  right: 10%;
+  z-index: 1;
+}
+.home-page .animation-slide  .ball { 
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgb(220, 220, 220);
+  position: absolute;
+  bottom: 20%;
+  left: 10px;
+  animation: ball-moves 4s infinite linear;
+}
+
+.home-page .animation-slide::before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 25%;
+  background-color: rgb(220, 220, 220);
+  bottom: 7%;
+  animation: up-down 4s infinite linear;
+  transition: .3s;
+}
+.home-page .animation-slide::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 25%;
+  background-color: rgb(220, 220, 220);
+  bottom: 7%;
+  right: 0;
+  animation: up-down 4s infinite linear .3s;
+  
+}
+
+@keyframes up-down {
+  0% {
+    bottom: 7%;
+  }
+  50% {
+    bottom: 65%;
+  }
+}
+@keyframes ball-moves {
+  0% {
+    bottom: 20%;
+  left: 10px;
+  height: 21px;
+  width: 18px;
+  }
+  25% {
+    height: 17px;
+    width: 24px;
+  }
+  50% {
+    left: 98%;
+    bottom: 65%;
+    height: 21px;
+    width: 18px;
+  }
+  75% {
+    height: 17px;
+    width: 24px;
+  }
 }

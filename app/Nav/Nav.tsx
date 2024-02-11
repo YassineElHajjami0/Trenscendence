@@ -10,6 +10,8 @@ import { FaRankingStar } from "react-icons/fa6";
 import { IoMdChatbubbles } from "react-icons/io";
 import { IoMdSettings } from "react-icons/io";
 import { MdOutlineLogout } from "react-icons/md";
+import next from "next";
+import nextAppLoader from "next/dist/build/webpack/loaders/next-app-loader";
 
 const Nav = () => {  
   return ( 
