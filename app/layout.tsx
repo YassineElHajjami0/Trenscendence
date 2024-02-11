@@ -28,7 +28,7 @@ export default function RootLayout({
         <div className="Nav-children-container">
            <Nav/>
            <div className="upperNav-children-container">
-              <UpperNav />
+              <UpperNav/>
               {children}
             </div>
         </div>
