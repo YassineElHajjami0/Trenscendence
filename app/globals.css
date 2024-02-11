@@ -15,10 +15,11 @@ body {
 }
 
 nav {
-  background-color: #2D2D31;
+    background-color: #2D2D31;
 }
 
 .upperNav-children-container {
+    flex: 1;
   padding: 20px;
   display: flex;
   flex-direction: column;
