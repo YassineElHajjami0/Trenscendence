@@ -2,6 +2,7 @@
   "my-data": 
     {
       "fullname": "yassine el hajjami",
+      "achievement" : [""],
       "statistic": {
         "level": 4,
         "rank": "beginner",

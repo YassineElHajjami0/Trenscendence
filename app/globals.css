@@ -268,7 +268,7 @@ nav {
 }
 .store-container .store .buy-paddle .buy-paddle-btn:hover,
 .store-container .store .buy-avatar .buy-avatar-btn:hover {
-  transition: .3s;
+  transition: 0.3s;
   font-size: 12px;
   font-weight: bold;
   background-color: #1dcd4a;
@@ -459,7 +459,7 @@ nav {
 .latest-games .header .see-all {
   text-decoration: none;
 }
-.latest-games .header .see-all:hover {
+.latest-games .header .see-all h3:hover {
   transition: 0.3s;
   color: #1dcc4a;
 }
@@ -470,7 +470,7 @@ nav {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  border-bottom:1px solid rgba(255, 255, 255, 0.225) ;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.225);
 }
 .latest-games .latests .line:hover {
   transition: 0.3s;
@@ -519,14 +519,21 @@ nav {
 .latest-games .latests .line .gamestatus .win {
   color: #1ce14e;
 }
- 
+
+@media (max-width: 1440px) {
+  .latest-games .latests .line {
+    padding: 30px 100px;
+  }
+}
 @media (max-width: 1024px) {
   .latest-games .latests .line {
-    padding: 30px 50px;}
+    padding: 30px 50px;
+  }
 }
 @media (max-width: 768px) {
   .latest-games .latests .line {
-    padding: 30px 20px;}
+    padding: 30px 20px;
+  }
 }
 @media (max-width: 425px) {
   .latest-games .header {
