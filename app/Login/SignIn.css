@@ -5,48 +5,85 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: space-evenly;
 	padding: 20px;
+}
+.sign_in_container h1 {
+	font-size: 25px;
+	font-weight: 300;
+}
+
+.sign_in_container .sign_in_input_div {
+	position: relative;
+	width: 95%;
+	height: 16%;
 }
 
 .sign_in_ships {
+	transition: all 0.4s;
+	border-radius: 5px;
 	padding: 10px;
-	width: 95%;
-	height: 15%;
+	width: 100%;
+	height: 100%;
 	text-align: left;
 	text-transform: capitalize;
 	color: white;
+	font-size: 1.1rem;
 	font-weight: 700;
 	background-color: #27272a;
 	outline: none;
 	border: none;
 }
+
+.sign_in_input_div:nth-child(1)::before,
+.sign_in_input_div:nth-child(2)::before {
+	content: "";
+	position: absolute;
+	background: #fb1616;
+border-radius: 1px;
+	bottom: 0.1px;
+	left: 1%;
+	width: 0;
+	height: 2px;
+    transition: all 0.4s;
+}
+.sign_in_input_div:nth-child(1):hover::before ,
+.sign_in_input_div:nth-child(2):hover::before {
+    width: 98%;
+    height: 2px;
+}
+
 .sign_in_ships::placeholder {
 	text-transform: uppercase;
 	color: white;
 }
 .btn {
-    display: flex;
+	cursor: pointer;
+	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	background-color: #1ce14e;
-    font-size: 20px;
+	font-size: 20px;
 }
 
-.btn svg{
-    font-size: 30px;
+.btn svg {
+	font-size: 30px;
+	animation: rightSignal 3s ease-in-out 2s infinite alternate;
+}
+.btn svg:hover {
+	animation-play-state: paused;
 }
 
 .outher_methods {
 	width: 100%;
-	height: 12%;
+	height: 15%;
 	display: flex;
 	align-items: center;
 	justify-content: space-evenly;
 }
 .other_login {
-    font-size: 1.2rem;
-    text-transform: capitalize;
+	font-size: 1.2rem;
+	text-transform: capitalize;
 	background: #27272a;
 	outline: none;
 	border: none;
@@ -56,4 +93,16 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-evenly;
+}
+
+@keyframes rightSignal {
+	0% {
+		transform: translateX(-5px);
+	}
+	50% {
+		transform: translateX(5px);
+	}
+	100% {
+		transform: translateX(-5px);
+	}
 }

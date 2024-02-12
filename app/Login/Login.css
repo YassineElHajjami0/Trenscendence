@@ -1,71 +1,85 @@
-.login_container{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.login_container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
-.sign_in_out{
-    max-width: 1380px;
-    width: 85%;
-    height: 65%;
-    background: #37373C;
-    border-radius: 10px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.sign_in_out {
+	max-width: 1380px;
+	width: 85%;
+	height: 65%;
+	background: #37373c;
+	border-radius: 10px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
-.log_in_out_img{
-    position: absolute;
-    border-radius: 10px;
-    width: 60%;
-    height: 100%;
-    object-fit: cover;
-    transform: translateX(66.6%);
+.log_in_out_img {
+	position: absolute;
+	border-radius: 10px;
+	width: 60%;
+	height: 100%;
+	object-fit: cover;
+	transform: translateX(66.6%);
+	transition: all 0.4s;
+}
+
+.sign_in {
     transition: all 0.4s;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	flex-direction: column;
+	text-align: left !important;
+	width: 40%;
+	height: 100%;
+}
+
+.sign_in_header {
+	width: 80%;
+	height: 10%;
+}
+
+.sign_in_header h1 {
+	text-transform: uppercase;
+	font-size: 3rem;
+}
+.sign_in_header h3 {
+	color: #a8ffb1;
+	font-size: 12px;
+}
+
+input[type="checkbox"] {
+	display: none;
+}
+
+.sign_in > h5 > label {
+	cursor: pointer;
+    color: #1ce14e;
+}
+input[type="checkbox"]:checked + div +.log_in_out_img {
+	/* left: 0; */
+	transform: translateX(0%);
+}
+input[type="checkbox"]:checked + div{
+	transform: translateX(150%);
 
 }
 
-
-.sign_in{
-    padding: 10px 25px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-direction: column;
-    text-align: left !important;
-    width: 40%;
-    height: 100%;
+.login_logo {
+	width: 60%;
+	height: 12%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-top: 1px solid rgba(255, 255, 255, 0.33);
 }
-
-input[type=checkbox]{
-    display: none;
-}
-
-.sign_in > h5 > label{
-    cursor: pointer;
-}
-input[type=checkbox]:checked + .log_in_out_img{
-
-        /* left: 0; */
-        transform: translateX(0%);
-
-}
-
-
-.logo{
-
-    width: 60%;
-    height: 12%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.33);
-}
-.logo_img{
-    width: 80px;
-    height: 80px;
+.logo_img {
+	width: 80px;
+	height: 80px;
 }
 
