@@ -1,0 +1,53 @@
+{
+  "my-data": 
+    {
+      "fullname": "yassine el hajjami",
+      "achievement" : [""],
+      "statistic": {
+        "level": 4,
+        "rank": "beginner",
+        "win": 19,
+        "lose": 6,
+        "resign": 7,
+        "wlr": 2.2
+      },
+      "matches": {
+        "20/12/2023": {
+          "10:24": {
+            "opponent": "yahya taqsi",
+            "result": "WIN",
+            "mygoals": 7,
+            "opponentgoals": 3
+          },
+          "11:24": {
+            "opponent": "mhammed hamadani",
+            "result": "LOSE",
+            "mygoals": 7,
+            "opponentgoals": 6
+          }
+        },
+        "29/12/2023": {
+          "12:24": {
+            "opponent": "ayoub amentag",
+            "result": "WIN",
+            "mygoals": 7,
+            "opponentgoals": 1
+          },
+          "14:24": {
+            "opponent": "lmaati lmadani",
+            "result": "WIN",
+            "mygoals": 7,
+            "opponentgoals": 2
+          }
+        },
+        "02/01/2024": {
+          "10:24": {
+            "opponent": "fatima lfihriya",
+            "result": "WIN",
+            "mygoals": 7,
+            "opponentgoals": 5
+          }
+        }
+      }
+    }
+}

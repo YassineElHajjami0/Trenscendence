@@ -27,8 +27,8 @@ const UpperNav = () => {
             alt="P"
             width={45}
             height={45}
-            loading="lazy"
-            objectFit="cover"
+            loading="lazy" 
+            
             onLoad={() => setImageLoaded(!imageLoaded)}
           />
         </div>
