@@ -7,7 +7,7 @@ import { FaRegSmileBeam } from "react-icons/fa";
 
 const Store = () => {
   const player_data: any = playerData["my-data"];
-  const [popUpCannotBuy, setPopUpCannotBuy] = useState(false)
+  const [popUpCannotBuy, setPopUpCannotBuy] = useState(false);
   const [choosedArticle, setChoosedArticle] = useState(
     player_data.avatarsAndPaddles[0]
   );
@@ -16,26 +16,27 @@ const Store = () => {
   const playerPoints = player_data.statistic.points;
 
   const handleBuyArticle = (id: any) => {
-    const searchArticle = all.filter((e:any) => e.id == id)
-    console.log("parseInt(playerPoints) => " , parseInt(playerPoints));
-    console.log("parseInt(searchArticle.price) => " , searchArticle);
-    if (parseInt(playerPoints)  < parseInt(searchArticle[0].price) ) {
-      console.log("thats true")
-      setPopUpCannotBuy(!popUpCannotBuy)
-      setTimeout(() => {setPopUpCannotBuy(!popUpCannotBuy)}, 10000);
-    }
-    else {
+    const searchArticle = all.filter((e: any) => e.id == id);
+    if (parseInt(playerPoints) < parseInt(searchArticle[0].price)) {
+      setPopUpCannotBuy(!popUpCannotBuy);
+      setTimeout(() => {
+        setPopUpCannotBuy(!popUpCannotBuy);
+      }, 10000);
+    } else {
       /*  Waiting ayoub to learn and tell us how he want the data to be sent to him   */
     }
   };
 
   return (
     <div className="all">
-      {popUpCannotBuy &&
-        <span className="popUpCannotBuy">Your wallet balance is insufficient <br />
-        to buy this article <br/>Try winning more matches to increase <br/>
-         your wallet balance <br/> <FaRegSmileBeam className="smily"/> </span>
-      }
+      {popUpCannotBuy && (
+        <span className="popUpCannotBuy">
+          Your wallet balance is insufficient <br />
+          to buy this article <br />
+          Try winning more matches to increase <br />
+          your wallet balance <br /> <FaRegSmileBeam className="smily" />{" "}
+        </span>
+      )}
       <h2>
         Store <TbShoppingBag className="shop-icon" />
       </h2>
@@ -55,7 +56,12 @@ const Store = () => {
             {choosedArticle.owned == "yes" ? (
               <p>{choosedArticle.price}</p>
             ) : (
-              <button onClick={() => handleBuyArticle(choosedArticle.id)}>
+              <button
+                onClick={(e) => {
+                  e.currentTarget.disabled = true;
+                  handleBuyArticle(choosedArticle.id);
+                }}
+              >
                 Buy Now {choosedArticle.price}
               </button>
             )}
