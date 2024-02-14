@@ -63,7 +63,7 @@ nav {
   position: absolute;
   bottom: 0;
   right: 10%;
-  z-index: 1;
+  z-index: 3;
 }
 .home-page .animation-slide .ball {
   width: 20px;
@@ -272,7 +272,7 @@ nav {
 .store-container .store .buy-paddle .buy-paddle-btn:hover,
 .store-container .store .buy-avatar .buy-avatar-btn:hover {
   transition: 0.3s;
-  font-size: 12px;
+  font-size: 20px;
   font-weight: bold;
   background-color: #1dcd4a;
   color: #e1e1e1;
@@ -420,6 +420,11 @@ nav {
     font-size: 12px;
     padding: 5px;
   }
+  .store-container .store .buy-paddle .buy-paddle-btn:hover,
+  .store-container .store .buy-avatar .buy-avatar-btn:hover {
+    font-size: 12px;
+    padding: 5px;
+  }
 }
 
 @media (max-width: 375px) {
@@ -467,7 +472,7 @@ nav {
   color: #1dcc4a;
 }
 .latest-games .latests .line {
-  background-color: #2d2d31;
+  background-color: #252529;
   padding: 30px 200px;
   font-size: 20px;
   display: flex;
@@ -477,7 +482,7 @@ nav {
 }
 .latest-games .latests .line:hover {
   transition: 0.3s;
-  background-color: #27272b;
+  background-color: #2e2e32;
 }
 .latest-games .latests .line:last-child {
   border: none;
@@ -510,8 +515,43 @@ nav {
   align-items: center;
   justify-content: center;
   gap: 5px;
+  position: relative;
+  z-index: 1;
   /* flex-grow: 1; */
 }
+/* .latest-games .latests .line .gamestatus::before {
+  content: '';
+  position: absolute;
+  left: -50px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 2px;
+  background-color: #7dee99c5;
+  /* animation: line 1s 1 ease-out;
+
+
+.latest-games .latests .line .gamestatus::after {
+  content: '';
+  position: absolute;
+  right: -50px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 2px;
+  background-color: #7dee99c5;
+  z-index: 0;
+  /* animation: line 1s 1 ease-out ;
+}
+@keyframes line {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 50px;
+  }
+} */
+
 .latest-games .latests .line .gamestatus div:last-child {
   font-size: 30px;
   font-weight: 900;
