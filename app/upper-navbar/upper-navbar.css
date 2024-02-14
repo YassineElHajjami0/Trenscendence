@@ -1,113 +1,120 @@
 .upperNav {
-    position: sticky;
-    top: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  position: sticky;
+  top: 0px;
+  padding: 10px 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #27272b00;
 }
 .upperNav input::placeholder {
-    color: rgba(255, 255, 255, 0.68);
+  color: rgba(255, 255, 255, 0.68);
 }
 .upperNav input {
-    font-weight: lighter;
-    background-color: #2D2D31;
-    padding: 10px;
-    padding-left: 60px;
-    font-size: 25px;
-    border-radius: 10px;
-    width: 400px;
-    border: none;
-    outline: none;
+  font-weight: lighter;
+  background-color: #2d2d31;
+  padding: 10px;
+  padding-left: 60px;
+  font-size: 25px;
+  border-radius: 10px;
+  width: 400px;
+  border: none;
+  outline: none;
 }
 .upperNav div:first-child {
-    position: relative;
-    display: flex;
-    align-items: center;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
-.upperNav  div:first-child .search-icon {
-    position: absolute;
-    font-size: 40px;
-    left: 10px;
+.upperNav div:first-child .search-icon {
+  position: absolute;
+  font-size: 40px;
+  left: 10px;
 }
 
 .notif-and-profilePic {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 .notif-and-profilePic .notif-icon {
-    width: 50px;
-    height: 50px;
-    background: #2D2D31;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 35px;
-    z-index: 2;
+  width: 50px;
+  height: 50px;
+  background: #2d2d31;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  z-index: 2;
 }
-.notif-and-profilePic .profile-picture  {
-    position: relative;
+.notif-and-profilePic .profile-picture {
+  position: relative;
 }
 .notif-and-profilePic .profile-picture .profile-picture-white {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 50%;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
 }
 .notif-and-profilePic .profile-picture img {
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
 }
 
 .notif-and-profilePic .notif-icon:hover {
-    transition: .3s;
-    cursor: pointer;
-    background-color: #1CE14E;
+  transition: 0.3s;
+  cursor: pointer;
+  background-color: #1ce14e;
 }
 
 @media (max-width: 425px) {
-    .upperNav input { width: 200px;
+  .upperNav input {
+    width: 200px;
     padding: 5px;
     padding-left: 40px;
     font-size: 16px;
-    } 
-    .notif-and-profilePic {gap: 10px;}
-    .upperNav  div:first-child .search-icon {
-        font-size: 25px;
-    }
-    .notif-and-profilePic .notif-icon {
-        width: 40px;
-        height: 40px;
-        font-size:30px ;
-    }
-    .notif-and-profilePic .profile-picture img {
-        width: 40px;
-        height: 40px;
-        
-    }
+  }
+  .notif-and-profilePic {
+    gap: 10px;
+  }
+  .upperNav div:first-child .search-icon {
+    font-size: 25px;
+  }
+  .notif-and-profilePic .notif-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+  }
+  .notif-and-profilePic .profile-picture img {
+    width: 40px;
+    height: 40px;
+  }
 }
 @media (max-width: 375px) {
-    .upperNav input { width: 160px;
+  .upperNav input {
+    width: 160px;
     padding: 5px;
     padding-left: 40px;
     font-size: 16px;
-    } 
-    .notif-and-profilePic {gap: 10px;}
-    .upperNav  div:first-child .search-icon {
-        font-size: 25px;
-    }
-    .notif-and-profilePic .notif-icon {
-        width: 40px;
-        height: 40px;
-        font-size:30px ;
-    }
-    .notif-and-profilePic .profile-picture img {
-        width: 40px;
-        height: 40px;
-
-    }
+  }
+  .notif-and-profilePic {
+    gap: 10px;
+  }
+  .upperNav div:first-child .search-icon {
+    font-size: 25px;
+  }
+  .notif-and-profilePic .notif-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+  }
+  .notif-and-profilePic .profile-picture img {
+    width: 40px;
+    height: 40px;
+  }
 }

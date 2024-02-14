@@ -12,7 +12,7 @@ export default function Home() {
   const player_data: any = playerData["my-data"];
   const matches = player_data.matches;
   let flag: number = 0;
-
+  
   return (
     <main className="home-page">
       <div className="animation-slide">
@@ -45,7 +45,7 @@ export default function Home() {
               height={290}
               alt="paddles"
             />
-            <button className="buy-paddle-btn">Buy Paddle</button>
+            <Link href={"/store"}> <button className="buy-paddle-btn">Buy Paddle</button></Link>
           </div>
           <Image
             className="avatar-for-store-slide"
@@ -62,7 +62,7 @@ export default function Home() {
               height={290}
               alt="avatars"
             />
-            <button className="buy-avatar-btn">Buy Avatar</button>
+            <Link href={"/store"}><button className="buy-avatar-btn">Buy Avatar</button></Link>
           </div>
         </div>
       </div>

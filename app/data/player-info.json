@@ -1,53 +1,167 @@
 {
-  "my-data": 
-    {
-      "fullname": "yassine el hajjami",
-      "achievement" : [""],
-      "statistic": {
-        "level": 4,
-        "rank": "beginner",
-        "win": 19,
-        "lose": 6,
-        "resign": 7,
-        "wlr": 2.2
+  "my-data": {
+    "fullname": "yassine el hajjami",
+    "achievement": [""],
+    "avatarsAndPaddles": [
+      {
+        "id": "1",
+        "paddle": "green-paddle.png",
+        "name": "ZENITH",
+        "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
+        "price": "500",
+        "owned": "no"
       },
-      "matches": {
-        "20/12/2023": {
-          "10:24": {
-            "opponent": "yahya taqsi",
-            "result": "WIN",
-            "mygoals": 7,
-            "opponentgoals": 3
-          },
-          "11:24": {
-            "opponent": "mhammed hamadani",
-            "result": "LOSE",
-            "mygoals": 7,
-            "opponentgoals": 6
-          }
+      {
+        "id": "2",
+        "avatar": "avatar1.png",
+        "name": "super hero",
+        "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
+        "price": "720",
+        "owned": "yes"
+      },
+      {
+        "id": "3",
+        "avatar": "avatar2.png",
+        "name": "pro avatar",
+        "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
+        "price": "310",
+        "owned": "no"
+      },
+      {
+        "id": "4",
+        "paddle": "gold-paddle.png",
+        "name": "golden",
+        "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
+        "price": "880",
+        "owned": "yes"
+      },
+      {
+        "id": "5",
+        "paddle": "pink-paddle.png",
+        "name": "pinky",
+        "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
+        "price": "920",
+        "owned": "no"
+      },
+      {
+        "id": "6",
+        "avatar": "avatar3.png",
+        "name": "flash",
+        "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
+        "price": "150",
+        "owned": "no"
+      },
+      {
+        "id": "7",
+        "avatar": "avatar4.png",
+        "name": "hulk",
+        "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
+        "price": "360",
+        "owned": "no"
+      }
+    ],
+    "statistic": {
+      "level": 4,
+      "points": 783,
+      "rank": "beginner",
+      "win": 19,
+      "lose": 6,
+      "resign": 7,
+      "wlr": 2.2
+    },
+    "matches": {
+      "20/12/2023": {
+        "10:24": {
+          "opponent": "yahya taqsi",
+          "result": "WIN",
+          "mygoals": 7,
+          "opponentgoals": 3
         },
-        "29/12/2023": {
-          "12:24": {
-            "opponent": "ayoub amentag",
-            "result": "WIN",
-            "mygoals": 7,
-            "opponentgoals": 1
-          },
-          "14:24": {
-            "opponent": "lmaati lmadani",
-            "result": "WIN",
-            "mygoals": 7,
-            "opponentgoals": 2
-          }
+        "11:24": {
+          "opponent": "mhammed hamadani",
+          "result": "LOSE",
+          "mygoals": 6,
+          "opponentgoals": 7
+        }
+      },
+      "29/12/2023": {
+        "12:24": {
+          "opponent": "ayoub amentag",
+          "result": "WIN",
+          "mygoals": 7,
+          "opponentgoals": 1
         },
-        "02/01/2024": {
-          "10:24": {
-            "opponent": "fatima lfihriya",
-            "result": "WIN",
-            "mygoals": 7,
-            "opponentgoals": 5
-          }
+        "14:24": {
+          "opponent": "lmaati lmadani",
+          "result": "WIN",
+          "mygoals": 7,
+          "opponentgoals": 2
+        }
+      },
+      "02/01/2024": {
+        "10:24": {
+          "opponent": "fatima lfihriya",
+          "result": "WIN",
+          "mygoals": 7,
+          "opponentgoals": 5
+        }
+      },
+      "03/01/2024": {
+        "10:24": {
+          "opponent": "fatima lfihriya",
+          "result": "WIN",
+          "mygoals": 7,
+          "opponentgoals": 5
+        }
+      },
+      "04/01/2024": {
+        "10:24": {
+          "opponent": "fatima lfihriya",
+          "result": "WIN",
+          "mygoals": 7,
+          "opponentgoals": 5
+        }
+      },
+      "06/01/2024": {
+        "10:24": {
+          "opponent": "fatima lfihriya",
+          "result": "WIN",
+          "mygoals": 7,
+          "opponentgoals": 5
+        }
+      },
+      "07/01/2024": {
+        "10:24": {
+          "opponent": "fatima lfihriya",
+          "result": "WIN",
+          "mygoals": 7,
+          "opponentgoals": 5
+        }
+      },
+      "08/01/2024": {
+        "10:24": {
+          "opponent": "fatima lfihriya",
+          "result": "WIN",
+          "mygoals": 7,
+          "opponentgoals": 5
+        }
+      },
+      "09/01/2024": {
+        "10:24": {
+          "opponent": "fatima lfihriya",
+          "result": "WIN",
+          "mygoals": 7,
+          "opponentgoals": 5
+        }
+      },
+      "10/01/2024": {
+        "10:24": {
+          "opponent": "fatima lfihriya",
+          "result": "WIN",
+          "mygoals": 7,
+          "opponentgoals": 5
         }
       }
     }
+  }
 }
