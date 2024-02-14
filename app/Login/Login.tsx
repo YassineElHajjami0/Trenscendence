@@ -21,8 +21,8 @@ export default function Login() {
 				<input type="checkbox" name="check" id="check" />
 				<div className="sign_in">
 					<div className="sign_in_header">
-						<h1>sign in</h1>
-						<h3>use you're ApexPongBattle account to continue</h3>
+						<h1>sign {signInUp ? "up" : "in"}</h1>
+						<h3> {signInUp && "New? create "} use you're ApexPongBattle account to continue</h3>
 					</div>
 					<SignIn signInUp={signInUp} />
 					<h5>

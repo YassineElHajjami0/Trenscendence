@@ -1,9 +1,58 @@
-import React from 'react'
+"use client";
+import React, { useRef } from "react";
+import "./Profile.css";
+import { MdOutlineEdit, MdContentCopy } from "react-icons/md";
+import ProfileDetails from "./ProfileDetails"
+
 
 const Profile = () => {
-  return (
-    <div>Profile</div>
-  )
-}
+	const uidRef = useRef<HTMLDivElement>(null);
 
-export default Profile
+	const copyUID = () => {
+		return;
+		if (uidRef.current) {
+			const textToCopy = uidRef.current.textContent || "";
+
+			navigator.clipboard
+				.writeText(textToCopy)
+				.then(() => {
+					console.log("Text copied to clipboard:", textToCopy);
+				})
+				.catch((error) => {
+					console.error("Unable to copy text to clipboard", error);
+				});
+		}
+	};
+
+	return (
+		<div className="profile_container">
+			<div className="user_account">
+				<div className="profile_photo"></div>
+				<div className="profile_data">
+					<div className="edit_label">
+						<span>Edit</span>
+						<MdOutlineEdit />
+					</div>
+					<h1 className="profile_name">Yahya TAQSI</h1>
+					<h4 className="profile_username">#BUDA</h4>
+					<h4 className="profile_email">buda98@gmail.com</h4>
+					<h2 className="profile_user_lvl">
+						LVL <span>5.32</span>
+					</h2>
+					<div className="profile_progress">
+						<div className="progress"></div>
+						<div onClick={copyUID} ref={uidRef} className="profile_uid">
+							5579654987965
+							<MdContentCopy />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div className="profile_details">
+                <ProfileDetails/>
+            </div>
+		</div>
+	);
+};
+
+export default Profile;

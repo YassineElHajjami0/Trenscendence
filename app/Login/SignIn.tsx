@@ -11,26 +11,19 @@ import intra from "../../public/42_logo.svg";
 export default function SignIn({ signInUp }) {
 	return (
 		<div className="sign_in_container">
-			<div className="sign_in_input_div">
-				<input placeholder="username" className="sign_in_ships" type="text" />
-			</div>
-			{signInUp && (
-				<div className="sign_in_input_div">
-					<input placeholder="email" className="sign_in_ships" type="text" />
-				</div>
-			)}
-			<div className="sign_in_input_div">
-				<input
-					placeholder="password"
-					className="sign_in_ships"
-					type="password"
-				/>
-			</div>
-			<div className="sign_in_input_div">
-				<button className="sign_in_ships btn">
-					Let's play <FaArrowRight />
-				</button>
-			</div>
+			<input placeholder="username" className="sign_in_ships" type="text" />
+
+			<input
+				placeholder="email"
+				className={`sign_in_ships ${!signInUp && "hide_pass"}`}
+				type="text"
+			/>
+
+			<input placeholder="password" className="sign_in_ships" type="password" />
+
+			<button className="sign_in_ships btn">
+				Let's play <FaArrowRight />
+			</button>
 
 			<h1>OR</h1>
 			<div className="outher_methods">

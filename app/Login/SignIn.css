@@ -1,6 +1,6 @@
 .sign_in_container {
 	width: 100%;
-	height: 60%;
+	height: 55%;
 
 	display: flex;
 	flex-direction: column;
@@ -13,18 +13,12 @@
 	font-weight: 300;
 }
 
-.sign_in_container .sign_in_input_div {
-	position: relative;
-	width: 95%;
-	height: 16%;
-}
-
 .sign_in_ships {
 	transition: all 0.4s;
 	border-radius: 5px;
 	padding: 10px;
-	width: 100%;
-	height: 100%;
+	width: 95%;
+	height: 16%;
 	text-align: left;
 	text-transform: capitalize;
 	color: white;
@@ -33,24 +27,6 @@
 	background-color: #27272a;
 	outline: none;
 	border: none;
-}
-
-.sign_in_input_div:nth-child(1)::before,
-.sign_in_input_div:nth-child(2)::before {
-	content: "";
-	position: absolute;
-	background: #fb1616;
-border-radius: 1px;
-	bottom: 0.1px;
-	left: 1%;
-	width: 0;
-	height: 2px;
-    transition: all 0.4s;
-}
-.sign_in_input_div:nth-child(1):hover::before ,
-.sign_in_input_div:nth-child(2):hover::before {
-    width: 98%;
-    height: 2px;
 }
 
 .sign_in_ships::placeholder {
@@ -82,6 +58,8 @@ border-radius: 1px;
 	justify-content: space-evenly;
 }
 .other_login {
+	transition: all 0.4s;
+	cursor: pointer;
 	font-size: 1.2rem;
 	text-transform: capitalize;
 	background: #27272a;
@@ -95,6 +73,17 @@ border-radius: 1px;
 	justify-content: space-evenly;
 }
 
+.other_login:active,
+button.sign_in_ships:active {
+	scale: 0.95;
+}
+
+.hide_pass {
+	display: none;
+}
+
+
+
 @keyframes rightSignal {
 	0% {
 		transform: translateX(-5px);
@@ -106,3 +95,16 @@ border-radius: 1px;
 		transform: translateX(-5px);
 	}
 }
+
+@media (max-width: 425px) {
+	.outher_methods {
+		flex-direction: column;
+		justify-content: space-between;
+		height: 25%;
+	}
+    .other_login{
+        height: 45%;
+    }
+}
+
+/* .outher_methods */

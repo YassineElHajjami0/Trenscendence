@@ -1,0 +1,118 @@
+* {
+	/* border: 1px solid red; */
+}
+
+.profile_container {
+	padding: 5rem 0;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+    justify-content: space-between;
+}
+
+.user_account {
+    max-width: 1024px;
+	border-radius: 15px;
+	width: 80%;
+	height: 30%;
+	background: #2d2d31;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	padding: 0 20px;
+	background-image: linear-gradient(77deg, rgba(0,0,0,1) 30%, rgba(255, 255, 255, 0) 100%),
+		url("../../public/Xarben_bear.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+    background-position: right;
+}
+
+.profile_photo {
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+	border: 5px solid #1ce14e;
+	box-shadow: 0 0 10px #1ce14e;
+}
+
+.profile_data {
+	width: 60%;
+	height: 85%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.profile_data h4, .profile_data h2{
+    color: #919191;
+}
+
+.edit_label:hover span {
+	opacity: 1;
+	transform: translate(0);
+}
+
+.edit_label {
+    text-shadow: 0 0 10px  #000000;
+	cursor: pointer;
+	font-size: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.edit_label svg {
+    text-shadow: 0 0 10px  #ff0000;
+	margin-left: 10px;
+}
+
+
+.edit_label span {
+
+	transition: all 0.5s;
+	opacity: 0;
+	transform: translate(50%, -50%);
+}
+
+.profile_progress {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.profile_uid {
+	text-align: right;
+	width: 50%;
+    cursor: pointer;
+}
+
+.profile_uid svg{
+    margin-left: 10px;
+}
+
+.progress {
+	border-radius: 10px;
+	position: relative;
+	width: 50%;
+	height: 16px;
+	background: #868686;
+}
+.progress::after {
+	border-radius: 10px;
+	content: "";
+	position: absolute;
+	height: 100%;
+	width: 20%;
+	left: 0;
+	top: 0;
+	background: #1ce14e;
+	box-shadow: 0 0 10px #1ce14e;
+}
+
+
+.profile_details{
+    border: 1px solid red;
+    width: 80%;
+    height: 60%;
+}

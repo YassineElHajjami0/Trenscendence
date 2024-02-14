@@ -1,0 +1,24 @@
+*{
+    border: 1px solid red;
+}
+.profile_details_container{
+
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+
+}
+
+.profile_details_header{
+height: 10%;
+width: 80%;
+}
+
+.profile_details_data{
+    height: 70%;
+    width: 80%;
+
+}
