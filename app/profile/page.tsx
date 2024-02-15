@@ -42,7 +42,7 @@ const Profile = () => {
 					<div className="profile_progress">
 						<div className="progress"></div>
 						<div onClick={copyUID} ref={uidRef} className="profile_uid">
-							5579654987965
+							684687487597
 							<MdContentCopy />
 						</div>
 					</div>

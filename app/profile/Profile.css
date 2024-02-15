@@ -112,7 +112,8 @@
 
 
 .profile_details{
-    border: 1px solid red;
+    max-width: 1024px;
+
     width: 80%;
     height: 60%;
 }
