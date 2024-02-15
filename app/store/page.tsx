@@ -18,10 +18,13 @@ const Store = () => {
   const handleBuyArticle = (id: any) => {
     const searchArticle = all.filter((e: any) => e.id == id);
     if (parseInt(playerPoints) < parseInt(searchArticle[0].price)) {
+      console.log("===> good");
       setPopUpCannotBuy(!popUpCannotBuy);
+      // setPopUpCannotBuy(!popUpCannotBuy);
       setTimeout(() => {
-        setPopUpCannotBuy(!popUpCannotBuy);
-      }, 10000);
+        console.log("now")
+        setPopUpCannotBuy(false);
+      }, 8000);
     } else {
       /*  Waiting ayoub to learn and tell us how he want the data to be sent to him   */
     }
@@ -58,11 +61,10 @@ const Store = () => {
             ) : (
               <button
                 onClick={(e) => {
-                  e.currentTarget.disabled = true;
                   handleBuyArticle(choosedArticle.id);
                 }}
               >
-                Buy Now {choosedArticle.price}
+                Buy Now {choosedArticle.price}$
               </button>
             )}
           </div>
