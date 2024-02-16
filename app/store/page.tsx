@@ -1,11 +1,18 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./store.css";
+import "../globals.css"
 import playerData from "../data/player-info.json";
 import { TbShoppingBag } from "react-icons/tb";
 import { FaRegSmileBeam } from "react-icons/fa";
 
 const Store = () => {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000)
+  }, [])
   const player_data: any = playerData["my-data"];
   const [popUpCannotBuy, setPopUpCannotBuy] = useState(false);
   const [choosedArticle, setChoosedArticle] = useState(
@@ -28,6 +35,17 @@ const Store = () => {
   };
 
   return (
+    <>
+    {loading ? (<div className="container">
+    <div className="bat">
+
+      <div className="handle">
+        <div className="inner"></div>
+      </div>
+      <div className="front"></div>
+    </div>
+    <div className="ball"></div>
+  </div>) : (
     <div className="all">
       {popUpCannotBuy && (
         <span className="popUpCannotBuy">
@@ -131,7 +149,8 @@ const Store = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div>)}
+    </>
   );
 };
 
