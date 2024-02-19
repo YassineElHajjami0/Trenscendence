@@ -1,6 +1,8 @@
 .all {
   position: relative;
   animation: shutdown 5s ease-out 1;
+  top:30%;
+  transform: translateY(-30%);
 }
 
 @keyframes shutdown {
@@ -241,6 +243,13 @@
 }
 .storeContainer .choosedArticle img {
   width: 200px;
+  transition: .3s;
+  animation: choosedImage 2s ease-in-out infinite;
+}
+@keyframes choosedImage {
+  50% {
+    transform: translateY(-10px);
+  }
 }
 .storeContainer .choosedArticle .name {
   font-weight: 900;
@@ -275,6 +284,8 @@
 .storeContainer .choosedArticle .price p {
   font-weight: 900;
   font-size: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 .storeContainer .choosedArticle .name {
   font-weight: 900;
