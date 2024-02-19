@@ -1,9 +1,11 @@
-import React from 'react'
+"use client";
+import { useState } from "react";
+
+import Login from "../Login/Login";
 
 const Play = () => {
-  return (
-    <div>Play</div>
-  )
-}
+	const [logged, setLogged] = useState(false);
+	return logged ? <div>Play</div> : <Login />;
+};
 
-export default Play
+export default Play;

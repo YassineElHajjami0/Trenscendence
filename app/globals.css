@@ -1,4 +1,6 @@
 * {
+    -webkit-user-drag: none;
+    user-select: none;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -19,6 +21,7 @@ nav {
 }
 
 .upperNav-children-container {
+    flex: 1;
   padding: 20px;
   flex: 1;
   display: flex;
