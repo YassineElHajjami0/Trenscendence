@@ -1,6 +1,157 @@
-.friend_container{
-    width: 80%;
-    height: 12%;
-    box-shadow: 0 0 5px #1ce14e;
-    border-radius: 10px;
+.friend_container {
+	width: 100%;
+	height: 15%;
+	box-shadow: 0 0 5px #000;
+	border-radius: 10px;
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 1.2rem;
+	padding: 0 2rem;
+    overflow: hidden;
+}
+
+.friend_container span {
+	transition: all 0.4s;
+}
+
+.friend_container svg {
+	font-size: 1.3rem;
+	transition: all 0.4s;
+	color: white;
+}
+
+.friend_msg:hover {
+	color: #1ce14e;
+	filter: drop-shadow(0 0 5px #1ce14e);
+}
+
+.friend_play:hover {
+	color: #1ce14e;
+	filter: drop-shadow(0 0 5px #1ce14e);
+}
+.friend_block:hover {
+	cursor: pointer;
+	color: #ff3355;
+	filter: drop-shadow(0 0 5px #ff3355);
+}
+.friend_unblock:hover {
+	cursor: pointer;
+	color: #1ce14e;
+	filter: drop-shadow(0 0 5px #1ce14e);
+}
+
+.blocked_friend {
+	color: gray;
+}
+
+.hide_block {
+	display: none;
+}
+
+.friend_unblock {
+	transition: all 4s;
+	display: none;
+}
+
+.friend_block {
+	transition: all 4s;
+}
+
+.show_unblock {
+	display: block;
+}
+
+.friend_component_btn {
+	outline: none;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+}
+
+.disable_btns {
+	cursor: not-allowed;
+}
+.disable_btns svg {
+	color: gray;
+}
+
+.friend_name_photo {
+	width: 35%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0;
+}
+
+.friend_avatar {
+	border-radius: 50%;
+	height: 50px;
+	width: 50px;
+	filter: drop-shadow(0 0 3px #1ce14d40);
+}
+
+.btn_conatiner {
+
+	width: 40%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.profile_burger_menu{
+    display: none;
+    content: ' ';
+    width: 20px;
+    height: 30%;
+
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.profile_burger_menu span{
+
+    background-color: white;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+}
+
+
+#burger_menu{
+    display: none;
+}
+
+#burger_menu:checked ~ .friend_name_photo  >span{
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .profile_burger_menu{
+        display: flex;
+
+    }
+    .btn_conatiner{
+        display: none;
+    }
+
+    .friend_name_photo{
+        width: 70%;
+    }
+    #burger_menu:checked ~ .btn_conatiner{
+        display: flex;
+	width: 100%;
+
+    }
+    .friend_container{
+        padding: 0 5px;
+        height: 10%;
+    }
+
 }

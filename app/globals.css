@@ -4,8 +4,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: white;
+  /* color: white; */
   font-family: "Poppins", sans-serif;
+  overflow: hidden;
 }
 
 body {
@@ -27,6 +28,7 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  height: 100svh;
 }
 
 .upperNav-children-container:first-child {
