@@ -608,11 +608,9 @@ nav {
   height: 400px;
   width: 350px;
   position: absolute;
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  left: 55%;
+  top: 50%;
+  transform: translate(-55%, -50%);
 }
 .bat {
   background-color: #5b5b5a;
@@ -709,3 +707,4 @@ nav {
     width: 25px;
   }
 }
+

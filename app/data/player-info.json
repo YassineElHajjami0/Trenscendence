@@ -1,7 +1,14 @@
 {
   "my-data": {
-    "fullname": "yassine el hajjami",
-    "achievement": [""],
+    "username": "yassine el hajjami",
+    "email": "yassine@gmail.com",
+    "bio": "someone who like software :) !",
+    "password": "yassine1234",
+    "friendRequest": [],
+    "friends": [],
+    "choosedProfileImage": "path",
+    "choosedBanner" : "path",
+    "achievement": [],
     "avatarsAndPaddles": [
       {
         "id": "1",
@@ -9,7 +16,9 @@
         "name": "ZENITH",
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "500",
-        "owned": "no"
+        "owned": "yes",
+        "power": "+ 5% ball speed",
+        "choosed" : "yes"
       },
       {
         "id": "2",
@@ -17,7 +26,8 @@
         "name": "super hero",
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "720",
-        "owned": "yes"
+        "owned": "yes",
+        "choosed" : "no"
       },
       {
         "id": "3",
@@ -25,7 +35,8 @@
         "name": "pro avatar",
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "310",
-        "owned": "no"
+        "owned": "no",
+        "choosed" : "no"
       },
       {
         "id": "4",
@@ -33,7 +44,9 @@
         "name": "golden",
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "880",
-        "owned": "yes"
+        "owned": "yes",
+        "power": "+ 15% ball speed",
+        "choosed" : "no"
       },
       {
         "id": "5",
@@ -41,7 +54,9 @@
         "name": "pinky",
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "920",
-        "owned": "no"
+        "owned": "no",
+        "power": "+ 17% ball speed",
+        "choosed" : "no"
       },
       {
         "id": "6",
@@ -49,7 +64,8 @@
         "name": "flash",
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "150",
-        "owned": "no"
+        "owned": "no",
+        "choosed" : "no"
       },
       {
         "id": "7",
@@ -57,7 +73,8 @@
         "name": "hulk",
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "360",
-        "owned": "no"
+        "owned": "no",
+        "choosed" : "no"
       }
     ],
     "statistic": {
