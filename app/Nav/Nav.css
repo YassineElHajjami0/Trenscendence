@@ -1,4 +1,5 @@
 .main-Nav {
+    color: white;
   position: sticky;
   top: 0;
   left: 0;
@@ -14,6 +15,8 @@
 }
 
 .link {
+    color: white;
+
   text-decoration: none;
 }
 
