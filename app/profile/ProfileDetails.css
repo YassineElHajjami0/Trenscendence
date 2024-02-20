@@ -20,14 +20,21 @@
 	text-transform: capitalize;
 	font-size: 1.3rem;
 }
-.underline_animation {
+
+.profile_details_header button{
     border: none;
-    outline: none;
-    background: transparent;
+	outline: none;
+	background: transparent;
 	cursor: pointer;
 	position: relative;
-    color: white;
-    font-size: 1.35rem;
+	color: white;
+	font-size: 1.35rem;
+    text-transform: capitalize;
+}
+
+.underline_animation {
+	
+    
 }
 
 .underline_animation::before {
@@ -46,9 +53,9 @@
 	transform: translateX(-50%);
 }
 
-.underline_animation:active::before {
+/* .underline_animation:active::before {
 	width: 100%;
-}
+} */
 .underline_animation:focus::before {
 	width: 100%;
 }

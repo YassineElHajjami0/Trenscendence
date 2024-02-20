@@ -5,6 +5,7 @@ import "../globals.css";
 import playerData from "../data/player-info.json";
 import { TbShoppingBag } from "react-icons/tb";
 import { FaRegSmileBeam } from "react-icons/fa";
+import { FaBagShopping } from "react-icons/fa6";
 
 const Store = () => {
   const [loading, setLoading] = useState(true);
@@ -60,7 +61,7 @@ const Store = () => {
             </span>
           )}
           <h2>
-            Store <TbShoppingBag className="shop-icon" />
+            Store <FaBagShopping className="shop-icon" />
           </h2>
           <div className="storeContainer">
             <div className="choosedArticle">

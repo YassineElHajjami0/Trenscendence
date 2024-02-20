@@ -5,7 +5,7 @@ import "./Nav.css";
 import raqeta from "../../public/rakita.png";
 import apb from "../../public/apb.png";
 import { FaGamepad } from "react-icons/fa6";
-import { CgProfile } from "react-icons/cg";
+import { FaUser } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
 import { IoMdChatbubbles } from "react-icons/io";
 import { IoMdSettings } from "react-icons/io";
@@ -13,8 +13,8 @@ import { MdOutlineLogout } from "react-icons/md";
 import next from "next";
 import nextAppLoader from "next/dist/build/webpack/loaders/next-app-loader";
 
-const Nav = () => {  
-  return ( 
+const Nav = () => {
+  return (
     <div className="main-Nav">
       <div className="logo-and-links">
         <div className="logo">
@@ -27,7 +27,7 @@ const Nav = () => {
           <Link className="link" href="/play">
             <li>
               <div>
-                <FaGamepad />
+                <FaGamepad className="nav-icon" />
               </div>
               <div>
                 Play<span className="hover-line"></span>
@@ -37,7 +37,7 @@ const Nav = () => {
           <Link className="link" href="/profile">
             <li>
               <div>
-                <CgProfile />
+                <FaUser className="nav-icon" />
               </div>
               <div>
                 Profile<span className="hover-line"></span>
@@ -47,7 +47,7 @@ const Nav = () => {
           <Link className="link" href="/leaderboard">
             <li>
               <div>
-                <FaRankingStar />
+                <FaRankingStar className="nav-icon" />
               </div>
               <div>
                 Leaderboard<span className="hover-line"></span>
@@ -57,7 +57,7 @@ const Nav = () => {
           <Link className="link" href="/chat">
             <li>
               <div>
-                <IoMdChatbubbles />
+                <IoMdChatbubbles className="nav-icon" />
               </div>
               <div>
                 Chat<span className="hover-line"></span>
@@ -72,18 +72,18 @@ const Nav = () => {
           <Link className="link" href="/settings">
             <li>
               <div>
-                <IoMdSettings />
+                <IoMdSettings className="nav-icon" />
               </div>
               <div>
                 Settings<span className="hover-line"></span>
               </div>
             </li>
           </Link>
-          <li style={{cursor:"pointer"}}>
+          <li style={{ cursor: "pointer" }}>
             <div>
-              <MdOutlineLogout />
+              <MdOutlineLogout className="nav-icon" />
             </div>
-            <div >Log-out</div>
+            <div>Log-out</div>
           </li>
         </ul>
       </div>

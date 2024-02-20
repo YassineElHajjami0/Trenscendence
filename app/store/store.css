@@ -1,10 +1,19 @@
 .all {
   position: relative;
   animation: shutdown 5s ease-out 1;
-  top:30%;
+  top: 30%;
   transform: translateY(-30%);
+  animation: showpage 1s 1 ease-out;
 }
-
+@keyframes showpage {
+  0% {
+    top: 32%;
+    opacity: 0;
+  }
+  100% {
+    top: 30%;
+  }
+}
 @keyframes shutdown {
   0% {
     display: flex;
@@ -81,7 +90,8 @@
   font-weight: 900;
 }
 .all h2 .shop-icon {
-  font-size: 30px;
+  font-size: 40px;
+  fill: #12a02e;
 }
 .all h2::before {
   content: "";
@@ -120,6 +130,7 @@
   border-bottom-right-radius: 0;
   transform: none;
   z-index: -1;
+  transition: 0.3s;
 }
 .all:hover h2::after {
   animation: magicafter 1s linear;
@@ -133,6 +144,7 @@
   border-bottom-left-radius: 0;
   transform: none;
   z-index: -1;
+  transition: 0.3s;
 }
 
 @keyframes magicbefore {
@@ -243,7 +255,7 @@
 }
 .storeContainer .choosedArticle img {
   width: 200px;
-  transition: .3s;
+  transition: 0.3s;
   animation: choosedImage 2s ease-in-out infinite;
 }
 @keyframes choosedImage {

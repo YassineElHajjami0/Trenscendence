@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import playerData from "../data/player-info.json";
 import "../globals.css";
+import "./latest-games.css";
 
 const LatestGames = () => {
   const [loading, setLoading] = useState(true);
@@ -35,7 +36,7 @@ const LatestGames = () => {
                 return (
                   <div className="line" key={time}>
                     <div className="player">
-                      {player_data.fullname}{" "}
+                      {player_data.username}{" "}
                       <span>{matches[date][time].mygoals}</span>
                     </div>
                     <div className="gamestatus">

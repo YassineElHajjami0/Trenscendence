@@ -6,6 +6,7 @@
     "password": "yassine1234",
     "friendRequest": [],
     "friends": [],
+    "TwoFA" : "true",
     "choosedProfileImage": "path",
     "choosedBanner" : "path",
     "achievement": [],
@@ -179,6 +180,64 @@
           "opponentgoals": 5
         }
       }
-    }
+    },
+    "stats": [
+        {
+          "date": "10/01/2024",
+          "win": "7",
+          "lose": "2"
+        },
+        {
+          "date": "11/01/2024",
+          "win": "9",
+          "lose": "3"
+        },
+        {
+          "date": "20/01/2024",
+          "win": "11",
+          "lose": "4"
+        },
+        {
+          "date": "22/01/2024",
+          "win": "4",
+          "lose": "0"
+        },
+        {
+          "date": "02/02/2024",
+          "win": "14",
+          "lose": "20"
+        },
+        {
+          "date": "05/02/2024",
+          "win": "40",
+          "lose": "32"
+        },
+        {
+          "date": "10/02/2024",
+          "win": "12",
+          "lose": "12"
+        },
+        {
+          "date": "12/02/2024",
+          "win": "1",
+          "lose": "0"
+        },
+        {
+          "date": "15/02/2024",
+          "win": "18",
+          "lose": "10"
+        },
+        {
+          "date": "20/02/2024",
+          "win": "22",
+          "lose": "30"
+        },
+        {
+          "date": "22/02/2024",
+          "win": "9",
+          "lose": "10"
+        }
+      ]
+    
   }
 }
