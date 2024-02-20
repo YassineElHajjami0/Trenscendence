@@ -6,6 +6,7 @@
     "password": "yassine1234",
     "friendRequest": [],
     "friends": [],
+    "TwoFA" : "true",
     "choosedProfileImage": "path",
     "choosedBanner" : "path",
     "achievement": [],
@@ -179,6 +180,25 @@
           "opponentgoals": 5
         }
       }
+    },
+    "stats": {
+      "10/01/2024": {
+        "win": "7",
+        "lose": "2"
+      },
+      "11/01/2024": {
+        "win": "9",
+        "lose": "3"
+      },
+      "20/01/2024": {
+        "win": "11",
+        "lose": "4"
+      },
+      "22/01/2024": {
+        "win": "4",
+        "lose": "0"
+      }
+      
     }
   }
 }

@@ -106,7 +106,7 @@ export default function Home() {
                   return (
                     <div className="line" key={time}>
                       <div className="player">
-                        {player_data.fullname}{" "}
+                        {player_data.username}{" "}
                         <span>{matches[date][time].mygoals}</span>
                       </div>
                       <div className="gamestatus">
