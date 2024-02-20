@@ -13,24 +13,24 @@ export default function ProfileDetails() {
 	return (
 		<div className="profile_details_container">
 			<div className="profile_details_header">
-				<span
+				<button
 					onClick={switchE}
-					className={`${switchElements === "stats" && "switch_e"}`}
+					className={`underline_animation`}
 				>
 					stats
-				</span>
-				<span
+				</button>
+				<button
 					onClick={switchE}
-					className={`${switchElements === "friends" && "switch_e"}`}
+					className={`underline_animation`}
 				>
 					friends
-				</span>
-				<span
+				</button>
+				<button
 					onClick={switchE}
-					className={`${switchElements === "achievements" && "switch_e"}`}
+					className={`underline_animation`}
 				>
 					achievements
-				</span>
+				</button>
 			</div>
 			<div className="profile_details_data">
 				{switchElements === "friends" && <Friends />}

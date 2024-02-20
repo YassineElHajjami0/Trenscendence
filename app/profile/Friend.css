@@ -1,6 +1,6 @@
 .friend_container {
 	width: 100%;
-	height: 15%;
+	height: 70px;
 	box-shadow: 0 0 5px #000;
 	border-radius: 10px;
 	margin-bottom: 15px;
@@ -9,7 +9,10 @@
 	justify-content: space-between;
 	font-size: 1.2rem;
 	padding: 0 2rem;
-    overflow: hidden;
+}
+
+.profile_name {
+	position: relative;
 }
 
 .friend_container span {
@@ -20,6 +23,7 @@
 	font-size: 1.3rem;
 	transition: all 0.4s;
 	color: white;
+	cursor: pointer;
 }
 
 .friend_msg:hover {
@@ -28,18 +32,20 @@
 }
 
 .friend_play:hover {
-	color: #1ce14e;
-	filter: drop-shadow(0 0 5px #1ce14e);
+	color: #ff7f00;
+	filter: drop-shadow(0 0 5px #ff7f00);
 }
 .friend_block:hover {
-	cursor: pointer;
 	color: #ff3355;
 	filter: drop-shadow(0 0 5px #ff3355);
 }
 .friend_unblock:hover {
-	cursor: pointer;
 	color: #1ce14e;
 	filter: drop-shadow(0 0 5px #1ce14e);
+}
+.view_profile:hover {
+	color: #fff;
+	filter: drop-shadow(0 0 5px #fff);
 }
 
 .blocked_friend {
@@ -78,23 +84,46 @@
 }
 
 .friend_name_photo {
-	width: 35%;
+	width: 45%;
 	height: 100%;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: space-around;
 	padding: 0;
+    cursor: pointer;
 }
 
 .friend_avatar {
 	border-radius: 50%;
-	height: 50px;
-	width: 50px;
-	filter: drop-shadow(0 0 3px #1ce14d40);
+	height: 55px;
+	width: 55px;
+    object-fit: contain;
+}
+
+.dot {
+	position: absolute;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #ff3355;
+	filter: drop-shadow(0 0 5px #ff3355);
+
+	right: -10%;
+	bottom: 50%;
+	transform: translate(50%, 50%);
+}
+
+.logged {
+	background: #1ce14e;
+	filter: drop-shadow(0 0 5px #1ce14e);
+}
+
+.ingame {
+	background: #ff7f00;
+	filter: drop-shadow(0 0 5px #ff7f00);
 }
 
 .btn_conatiner {
-
 	width: 40%;
 	height: 100%;
 	display: flex;
@@ -102,56 +131,80 @@
 	justify-content: space-evenly;
 }
 
-.profile_burger_menu{
-    display: none;
-    content: ' ';
-    width: 20px;
-    height: 30%;
-
-
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
+.profile_burger_menu {
+	display: none;
+	width: 20px;
+	height: 55%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	cursor: pointer;
 }
 
-.profile_burger_menu span{
-
-    background-color: white;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
+.profile_burger_menu span {
+	background-color: white;
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
 }
 
-
-#burger_menu{
-    display: none;
+.hideName {
+	display: none;
 }
-
-#burger_menu:checked ~ .friend_name_photo  >span{
-    display: none;
+.showParam {
+	display: flex !important;
 }
 
 @media (max-width: 768px) {
-    .profile_burger_menu{
+    .profile_burger_menu {
         display: flex;
-
-    }
-    .btn_conatiner{
+	}
+	.btn_conatiner {
         display: none;
-    }
-
-    .friend_name_photo{
-        width: 70%;
-    }
-    #burger_menu:checked ~ .btn_conatiner{
+	}
+    
+	#burger_menu:checked ~ .btn_conatiner {
         display: flex;
-	width: 100%;
-
-    }
-    .friend_container{
+		width: 100%;
+	}
+	.friend_container {
         padding: 0 5px;
-        height: 10%;
+		height: 10%;
+	}
+    .friend_avatar{
+        height: 30px;
+        width: 30px;
     }
-
+    .friend_name_photo{
+        width: 60%;
+    }
+    .friend_name_photo span{
+        font-size: 16px;
+    }
+    .showParam{
+        width: 60%;
+    }
 }
+
+
+@media (max-width: 425px) {
+    .showParam{
+        width: 200%;
+    }
+    .btn_conatiner svg{
+        width: 18px;
+    	height: 18px;
+    }
+}
+
+
+@media (max-width: 375px) {
+    .friend_name_photo{
+        width: 75%;
+    }
+    .friend_name_photo span{
+        font-size: 12px;
+    }
+    
+}
+
