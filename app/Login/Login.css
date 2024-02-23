@@ -4,6 +4,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+		color: white;
 }
 .sign_in_out {
 	max-width: 1380px;

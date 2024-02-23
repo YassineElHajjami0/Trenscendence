@@ -28,20 +28,25 @@
 	padding: 4px 24px;
 	cursor: pointer;
 	transition: all 0.4s;
-    border-radius: 8px;
+	border-radius: 8px;
 }
 
-.stat_btn_switch button:active{
-    scale: 0.95;
+.stat_btn_switch button:active {
+	scale: 0.95;
 }
 
 .chart {
 	filter: drop-shadow(0 0 5px #000000);
-    cursor: pointer;
+	cursor: pointer;
+}
+
+.recharts-default-tooltip {
+	background-color: #27272b !important;
+	border-radius: 10px !important;
+	border: none !important;
 }
 
 .btn_win {
-	
 	color: #1ce14e !important;
 	filter: drop-shadow(0 0 5px #1ce14e);
 }
@@ -56,7 +61,6 @@
 	filter: drop-shadow(0 0 10px #ff3355);
 }
 .btn_wl {
-	
 	color: #ff7f00 !important;
 	filter: drop-shadow(0 0 5px #ff7f00);
 }
@@ -64,5 +68,3 @@
 .btn_wl:hover {
 	filter: drop-shadow(0 0 10px #ff7f00);
 }
-
-

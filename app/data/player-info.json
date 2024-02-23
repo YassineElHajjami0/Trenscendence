@@ -9,7 +9,43 @@
     "TwoFA" : "true",
     "choosedProfileImage": "path",
     "choosedBanner" : "path",
-    "achievement": [],
+    "achievement": [
+      {
+        "name":"Precision Paddler",
+        "description":"Win a single match with a perfect score, never missing a shot.",
+        "uri":"../../public/achievement/Precision_Paddler.png",
+        "date":"02/22/2024",
+        "unlicked":true
+      },
+      {
+        "name":"Flawless Victory",
+        "description":"Win a single match without letting your opponent score a single point.",
+        "uri":"../../public/achievement/flawless.jpeg",
+        "date":"",
+        "unlicked":false
+      },
+      {
+        "name":"Speed Demon",
+        "description":"Win a match with a point scored within the first 10 seconds of each game.",
+        "uri":"../../public/achievement/Speed_Demon.jpeg",
+        "date":"",
+        "unlicked":false
+      },
+      {
+        "name":"Ping Pong Pro",
+        "description":"Win 100 matches against tough opponents.",
+        "uri":"../../public/achievement/ping_pong_pro.png",
+        "date":"",
+        "unlicked":false
+      },
+      {
+        "name":"",
+        "description":"",
+        "uri":"",
+        "date":"",
+        "unlicked":false
+      }
+    ],
     "avatarsAndPaddles": [
       {
         "id": "1",

@@ -9,11 +9,8 @@
 
 .profile_details_header {
 	color: white;
-	/* border: 1px solid red; */
-
 	height: 10%;
 	width: 80%;
-
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
@@ -32,12 +29,8 @@
     text-transform: capitalize;
 }
 
-.underline_animation {
-	
-    
-}
 
-.underline_animation::before {
+.profile_details_header button::before {
 	transition: all 0.4s;
 	position: absolute;
 	content: "";
@@ -53,11 +46,8 @@
 	transform: translateX(-50%);
 }
 
-/* .underline_animation:active::before {
-	width: 100%;
-} */
-.underline_animation:focus::before {
-	width: 100%;
+.underline_animation::before {
+	width: 100% !important;
 }
 
 .profile_details_data {

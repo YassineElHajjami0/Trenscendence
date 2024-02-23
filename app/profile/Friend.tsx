@@ -34,8 +34,8 @@ export default function Friend() {
 			<div className="friend_name_photo">
 				<Image
 					src={silence}
-					width={20}
-					height={20}
+					width={2000}
+					height={2000}
 					className="friend_avatar"
 					alt="avatar"
 				/>
@@ -62,7 +62,7 @@ export default function Friend() {
 						(blocked || !logged) && "disable_btns"
 					}`}
 					onClick={test}
-					disabled={(blocked || !logged)}
+					disabled={blocked || !logged}
 				>
 					<LuMessagesSquare className="" />
 				</button>
@@ -72,7 +72,7 @@ export default function Friend() {
 					}
                     `}
 					onClick={test}
-					disabled={(blocked || !logged || (logged && inGame))}
+					disabled={blocked || !logged || (logged && inGame)}
 				>
 					<BiSolidJoystickAlt className="" />
 				</button>

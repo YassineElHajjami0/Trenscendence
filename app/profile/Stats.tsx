@@ -11,7 +11,7 @@ import {
 	YAxis,
 	Tooltip,
 	ResponsiveContainer,
-	Animation,
+
 } from "recharts";
 
 export default function Stats() {
@@ -105,9 +105,7 @@ export default function Stats() {
 						dataKey={statsSwitch.state}
 						stroke={statsSwitch.color}
 						fill="url(#colorUv)"
-					>
-						<Animation duration={1000} />
-					</Area>
+					/>
 				</AreaChart>
 			</ResponsiveContainer>
 			<div className="stat_btn_switch">
