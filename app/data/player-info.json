@@ -39,9 +39,9 @@
         "unlicked":false
       },
       {
-        "name":"",
-        "description":"",
-        "uri":"",
+        "name":"AI Conqueror",
+        "description":"Defeat the AI opponent on the highest difficulty level in a single match.",
+        "uri":"../../public/achievement/ai_conqueror.png",
         "date":"",
         "unlicked":false
       }
