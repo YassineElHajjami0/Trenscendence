@@ -90,8 +90,9 @@
   font-weight: 900;
 }
 .all h2 .shop-icon {
-  font-size: 40px;
-  fill: #12a02e;
+  font-size: 30px;
+  margin-bottom: 5px;
+  fill: #67eb81;
 }
 .all h2::before {
   content: "";

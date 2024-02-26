@@ -26,7 +26,7 @@ const LatestGames = () => {
           <div className="ball"></div>
         </div>
       ) : (
-        <div className="latest-games">
+        <div className="latest-games l">
           <div className="header">
             <h3>Latest games</h3>
           </div>

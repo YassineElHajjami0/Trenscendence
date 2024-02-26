@@ -32,6 +32,8 @@ export default function Friend() {
 	return (
 		<div className="friend_container">
 			<div className="friend_name_photo">
+				<div>
+
 				<Image
 					src={silence}
 					width={2000}

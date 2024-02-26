@@ -37,13 +37,16 @@ export default function Home() {
         <main className="home-page">
           <div className="animation-slide">
             <span className="blur-effect"></span>
+            <div>
+
             <Image
               className="player-image"
               src={player}
               width={370}
               height={370}
               alt="Player"
-            />
+              />
+              </div>
             <span className="ball"></span>
           </div>
           <div className="store-container">
@@ -58,33 +61,42 @@ export default function Home() {
               <span className="shape5"></span>
               <span className="shape6"></span>
               <div className="buy-paddle">
+                <div>
+
                 <Image
                   className="paddles_chess"
                   src={pingpong_chess}
                   width={290}
                   height={290}
                   alt="paddles"
-                />
+                  />
+                  </div>
                 <Link href={"/store"}>
                   {" "}
                   <button className="buy-paddle-btn">Buy Paddle</button>
                 </Link>
               </div>
+              <div>
+
               <Image
                 className="avatar-for-store-slide"
                 src={avatar_forstore}
                 width={290}
                 height={290}
                 alt="paddles"
-              />
+                />
+                </div>
               <div className="buy-avatar">
+                <div>
+                  
                 <Image
                   className="avatars_chess"
                   src={avatars_chess}
                   width={290}
                   height={290}
                   alt="avatars"
-                />
+                  />
+                  </div>
                 <Link href={"/store"}>
                   <button className="buy-avatar-btn">Buy Avatar</button>
                 </Link>

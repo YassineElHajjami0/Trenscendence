@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Head from "next/head";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Nav from "./Nav/Nav"; 
+import Nav from "./Nav/Nav";
 import UpperNav from "./upper-navbar/upper-navbar";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,20 +19,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-      <link rel="icon" href="../public/favicon.ico" />
+     <link rel="icon" href="../public/favicon.ico" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com"/>
       <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100&display=swap" rel="stylesheet" />
       </Head>
       <body className={inter.className}>
         <div className="Nav-children-container">
-           <Nav/>
-           <div className="upperNav-children-container">
-              <UpperNav/>
-              {children}
-            </div>
+          <Nav />
+          <div className="upperNav-children-container">
+            <UpperNav />
+            {children}
+          </div>
         </div>
-       
       </body>
     </html>
   );

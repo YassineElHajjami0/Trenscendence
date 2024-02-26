@@ -32,11 +32,20 @@ export default function Login() {
 						</label>
 					</h5>
 					<div className="login_logo">
+						<div>
+
 						<Image className="logo_img" src={raqeta} alt="logo_img" />
+						</div>
+						<div>
+
 						<Image className="logo_img" src={apb} alt="logo_name" />
+						</div>
 					</div>
 				</div>
+				<div>
+
 				<Image className="log_in_out_img" src={log_in_out} alt="log_in_out" />
+				</div>
 			</div>
 		</div>
 	);

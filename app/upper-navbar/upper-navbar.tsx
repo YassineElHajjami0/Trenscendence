@@ -22,6 +22,8 @@ const UpperNav = () => {
         </div>
         <div className="profile-picture">
           {!imageLoaded && <div className="profile-picture-white"></div>}
+          <div>
+
           <Image
             src="https://cdn.intra.42.fr/users/b653c32ff7b8c8f272ffb8dfbb4674a7/yel-hajj.jpg"
             alt="P"
@@ -30,7 +32,8 @@ const UpperNav = () => {
             loading="lazy" 
             
             onLoad={() => setImageLoaded(!imageLoaded)}
-          />
+            />
+            </div>
         </div>
       </div>
     </div>
