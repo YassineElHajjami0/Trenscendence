@@ -28,12 +28,16 @@ export default function SignIn({ signInUp }) {
 			<h1>OR</h1>
 			<div className="outher_methods">
 				<button className="other_login">
-					{" "}
+					<div>
+
 					<Image src={ggl} width={26} height={26} alt="google" /> google
+					</div>
 				</button>
 				<button className="other_login">
-					{" "}
+					<div>
+
 					<Image src={intra} width={26} height={26} alt="google" /> intra
+					</div>
 				</button>
 			</div>
 		</div>

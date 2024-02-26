@@ -27,13 +27,16 @@ export default function Friend() {
 			<input type="checkbox" name="burger_menu" id="burger_menu" />
 
 			<div className="friend_name_photo">
+				<div>
+
 				<Image
 					src={silence}
 					width={20}
 					height={20}
 					className="friend_avatar"
 					alt="avatar"
-				/>
+					/>
+					</div>
 				<span className={`${blocked && "blocked_friend"}`}>Yahya TAQSI</span>
 			</div>
 			<div className="btn_conatiner">

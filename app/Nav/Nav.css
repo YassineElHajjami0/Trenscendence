@@ -44,10 +44,7 @@
   font-weight: 600;
 }
 
-.logo-and-links ul li div .nav-icon,
-.settings-logout ul li div .nav-icon {
-  fill: #adf4be;
-}
+
 .logo-and-links ul .link:hover li div:last-child,
 .settings-logout ul li:hover div:last-child,
 .settings-logout ul li:hover div:last-child {

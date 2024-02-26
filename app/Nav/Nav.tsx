@@ -19,8 +19,14 @@ const Nav = () => {
       <div className="logo-and-links">
         <div className="logo">
           <Link className="link" href="/">
+            <div>
+
             <Image className="image-logo" src={raqeta} alt="LOGO" width={100} />
+            </div>
+            <div>
+
             <Image className="apb-logo" src={apb} alt="LOGO" width={100} />
+            </div>
           </Link>
         </div>
         <ul>

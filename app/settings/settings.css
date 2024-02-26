@@ -87,25 +87,21 @@
 
 .banner .image-holder .btn-change-profile {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 2%;
-  width: 95%;
-  height: 100px;
-  border-bottom-left-radius: 100px;
-  border-bottom-right-radius: 100px;
+  right: 0;
+  bottom: 10%;
+  width: fit-content;
   border: none;
-  background-color: rgba(255, 255, 255, 0.122);
-  font-size: 40px;
+  font-size: 45px;
+  background-color: transparent;
   cursor: pointer;
-}
-.banner .image-holder .btn-change-profile:hover {
   transition: 0.3s;
-  background-color: rgba(255, 255, 255, 0.236);
+}
+.banner .image-holder .btn-change-profile:active {
+  scale: 0.9;
 }
 
 .banner .image-holder .btn-change-profile .camera {
-  fill: #a6eaaf;
+  fill: #95eba1;
 }
 .banner .button-holder {
   flex: 1;
@@ -123,6 +119,11 @@
   background-color: transparent;
   position: relative;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.banner .button-holder .addBannerBtn:active {
+  scale: 0.9;
 }
 
 .banner .button-holder .addBannerBtn .plus-icon {
@@ -176,7 +177,7 @@
     font-size: 40px;
   }
   .banner .image-holder .btn-change-profile {
-    height: 80px;
+    right: -10px;
   }
 }
 @media (max-width: 425px) {
@@ -385,7 +386,7 @@
 }
 
 .settings-container:hover .saveUpdates::before {
-  animation: magicbefore 1s linear;
+  animation: magicbefore 0.5s linear;
   animation-timing-function: 1;
   top: 0;
   left: 0;
@@ -398,7 +399,7 @@
   z-index: -1;
 }
 .settings-container:hover .saveUpdates::after {
-  animation: magicafter 1s linear;
+  animation: magicafter 0.5s linear;
   animation-timing-function: 1;
   top: 0;
   right: 0;
@@ -410,6 +411,7 @@
   transform: none;
   z-index: -1;
 }
+
 .saveUpdates:active {
   transition: 0.3s;
   scale: 0.95;

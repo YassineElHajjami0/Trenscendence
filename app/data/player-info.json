@@ -6,9 +6,10 @@
     "password": "yassine1234",
     "friendRequest": [],
     "friends": [],
+    "channels": [],
     "TwoFA" : "true",
-    "choosedProfileImage": "path",
-    "choosedBanner" : "path",
+    "choosedProfileImage": "/avatar5.png",
+    "choosedBanner" : "/Xarben_bear.png",
     "achievement": [],
     "avatarsAndPaddles": [
       {
@@ -36,7 +37,7 @@
         "name": "pro avatar",
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "310",
-        "owned": "no",
+        "owned": "yes",
         "choosed" : "no"
       },
       {
@@ -65,7 +66,7 @@
         "name": "flash",
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "150",
-        "owned": "no",
+        "owned": "yes",
         "choosed" : "no"
       },
       {
@@ -75,6 +76,18 @@
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "360",
         "owned": "no",
+        "choosed" : "no"
+      }
+      ,
+      {
+        "id": "8",
+        "banner": "Xarben_bear.png",
+        "choosed" : "no"
+      }
+      ,
+      {
+        "id": "9",
+        "banner": "natalia.jpg",
         "choosed" : "no"
       }
     ],
