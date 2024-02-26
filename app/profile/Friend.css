@@ -1,210 +1,206 @@
 .friend_container {
-	width: 100%;
-	height: 70px;
-	box-shadow: 0 0 5px #000;
-	border-radius: 10px;
-	margin-bottom: 15px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	font-size: 1.2rem;
-	padding: 0 2rem;
+  width: 100%;
+  height: 70px;
+  box-shadow: 0 0 5px #000;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  padding: 0 2rem;
 }
 
 .profile_name {
-	position: relative;
+  position: relative;
 }
 
 .friend_container span {
-	transition: all 0.4s;
+  transition: all 0.4s;
 }
 
 .friend_container svg {
-	font-size: 1.3rem;
-	transition: all 0.4s;
-	color: white;
-	cursor: pointer;
+  font-size: 1.3rem;
+  transition: all 0.4s;
+  color: white;
+  cursor: pointer;
 }
 
 .friend_msg:hover {
-	color: #1ce14e;
-	filter: drop-shadow(0 0 5px #1ce14e);
+  color: #1ce14e;
+  filter: drop-shadow(0 0 5px #1ce14e);
 }
 
 .friend_play:hover {
-	color: #ff7f00;
-	filter: drop-shadow(0 0 5px #ff7f00);
+  color: #ff7f00;
+  filter: drop-shadow(0 0 5px #ff7f00);
 }
 .friend_block:hover {
-	color: #ff3355;
-	filter: drop-shadow(0 0 5px #ff3355);
+  color: #ff3355;
+  filter: drop-shadow(0 0 5px #ff3355);
 }
 .friend_unblock:hover {
-	color: #1ce14e;
-	filter: drop-shadow(0 0 5px #1ce14e);
+  color: #1ce14e;
+  filter: drop-shadow(0 0 5px #1ce14e);
 }
 .view_profile:hover {
-	color: #fff;
-	filter: drop-shadow(0 0 5px #fff);
+  color: #fff;
+  filter: drop-shadow(0 0 5px #fff);
 }
 
 .blocked_friend {
-	color: gray;
+  color: gray;
 }
 
 .hide_block {
-	display: none;
+  display: none;
 }
 
 .friend_unblock {
-	transition: all 4s;
-	display: none;
+  transition: all 4s;
+  display: none;
 }
 
 .friend_block {
-	transition: all 4s;
+  transition: all 4s;
 }
 
 .show_unblock {
-	display: block;
+  display: block;
 }
 
 .friend_component_btn {
-	outline: none;
-	border: none;
-	background: transparent;
-	cursor: pointer;
+  outline: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
 .disable_btns {
-	cursor: not-allowed;
+  cursor: not-allowed;
 }
 .disable_btns svg {
-	color: gray;
+  color: gray;
 }
 
 .friend_name_photo {
-	width: 45%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-around;
-	padding: 0;
-    cursor: pointer;
+  width: 45%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0;
+  cursor: pointer;
 }
 
 .friend_avatar {
-	border-radius: 50%;
-	height: 55px;
-	width: 55px;
-    object-fit: contain;
+  border-radius: 50%;
+  height: 55px;
+  width: 55px;
+  object-fit: contain;
 }
 
 .dot {
-	position: absolute;
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: #ff3355;
-	filter: drop-shadow(0 0 5px #ff3355);
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff3355;
+  filter: drop-shadow(0 0 5px #ff3355);
 
-	right: -10%;
-	bottom: 50%;
-	transform: translate(50%, 50%);
+  right: -10%;
+  bottom: 50%;
+  transform: translate(50%, 50%);
 }
 
 .logged {
-	background: #1ce14e;
-	filter: drop-shadow(0 0 5px #1ce14e);
+  background: #1ce14e;
+  filter: drop-shadow(0 0 5px #1ce14e);
 }
 
 .ingame {
-	background: #ff7f00;
-	filter: drop-shadow(0 0 5px #ff7f00);
+  background: #ff7f00;
+  filter: drop-shadow(0 0 5px #ff7f00);
 }
 
 .btn_conatiner {
-	width: 40%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-evenly;
+  width: 40%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .profile_burger_menu {
-	display: none;
-	width: 20px;
-	height: 55%;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	cursor: pointer;
+  display: none;
+  width: 20px;
+  height: 55%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
 }
 
 .profile_burger_menu span {
-	background-color: white;
-	width: 4px;
-	height: 4px;
-	border-radius: 50%;
+  background-color: white;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
 }
 
 .hideName {
-	display: none;
+  display: none;
 }
 .showParam {
-	display: flex !important;
+  display: flex !important;
 }
 
 @media (max-width: 768px) {
-    .profile_burger_menu {
-        display: flex;
-	}
-	.btn_conatiner {
-        display: none;
-	}
-    
-	#burger_menu:checked ~ .btn_conatiner {
-        display: flex;
-		width: 100%;
-	}
-	.friend_container {
-        padding: 0 5px;
-		height: 10%;
-	}
-    .friend_avatar{
-        height: 30px;
-        width: 30px;
-    }
-    .friend_name_photo{
-        width: 60%;
-    }
-    .friend_name_photo span{
-        font-size: 16px;
-    }
-    .showParam{
-        width: 60%;
-    }
-}
+  .profile_burger_menu {
+    display: flex;
+  }
+  .btn_conatiner {
+    display: none;
+  }
 
+  #burger_menu:checked ~ .btn_conatiner {
+    display: flex;
+    width: 100%;
+  }
+  .friend_container {
+    padding: 0 5px;
+    height: 60px;
+  }
+  .friend_avatar {
+    height: 50px;
+    width: 50px;
+  }
+  .friend_name_photo {
+    width: 60%;
+  }
+  .friend_name_photo span {
+    font-size: 16px;
+  }
+  .showParam {
+    width: 60%;
+  }
+}
 
 @media (max-width: 425px) {
-    .showParam{
-        width: 200%;
-    }
-    .btn_conatiner svg{
-        width: 18px;
-    	height: 18px;
-    }
+  .showParam {
+    width: 200%;
+  }
+  .btn_conatiner svg {
+    width: 24px;
+    height: 24px;
+  }
 }
-
 
 @media (max-width: 375px) {
-    .friend_name_photo{
-        width: 75%;
-    }
-    .friend_name_photo span{
-        font-size: 12px;
-    }
-    
+  .friend_name_photo {
+    width: 75%;
+  }
+  .friend_name_photo span {
+    font-size: 18px;
+  }
 }
-

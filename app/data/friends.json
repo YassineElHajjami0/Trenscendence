@@ -1,0 +1,30 @@
+{
+  "friends": [
+    {
+      "name": "Yassine el hajjami",
+      "status": "offline",
+      "avatar": "../../sdbads",
+      "lastMSG": "hello there!!!",
+      "uid": "1646516849",
+      "blocked": "false",
+      "bio": "Hi im using ApexPongBattle",
+      "rank": "beginner",
+      "achievments": [
+        {
+          "name": "Precision Paddler",
+          "description": "Win a single match with a perfect score, never missing a shot.",
+          "uri": "/Precision_Paddler.png",
+          "date": "02/22/2024",
+          "unlocked": true
+        },
+        {
+          "name": "Flawless Victory",
+          "description": "Win a single match without letting your opponent score a single point.",
+          "uri": "/flawless.jpeg",
+          "date": "02/26/2024",
+          "unlocked": true
+        }
+      ]
+    }
+  ]
+}

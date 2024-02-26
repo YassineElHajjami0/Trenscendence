@@ -1,49 +1,49 @@
 {
   "my-data": {
+    "uid": "1645589456",
     "username": "yassine el hajjami",
     "email": "yassine@gmail.com",
     "bio": "someone who like software :) !",
     "password": "yassine1234",
     "friendRequest": [],
-    "friends": [],
-    "TwoFA" : "true",
+    "TwoFA": "true",
     "choosedProfileImage": "path",
-    "choosedBanner" : "path",
-    "achievement": [
+    "choosedBanner": "path",
+    "achievements": [
       {
-        "name":"Precision Paddler",
-        "description":"Win a single match with a perfect score, never missing a shot.",
-        "uri":"../../public/achievement/Precision_Paddler.png",
-        "date":"02/22/2024",
-        "unlicked":true
+        "name": "Precision Paddler",
+        "description": "Win a single match with a perfect score, never missing a shot.",
+        "uri": "/Precision_Paddler.png",
+        "date": "02/22/2024",
+        "unlocked": true
       },
       {
-        "name":"Flawless Victory",
-        "description":"Win a single match without letting your opponent score a single point.",
-        "uri":"../../public/achievement/flawless.jpeg",
-        "date":"",
-        "unlicked":false
+        "name": "Flawless Victory",
+        "description": "Win a single match without letting your opponent score a single point.",
+        "uri": "/flawless.jpeg",
+        "date": "",
+        "unlocked": false
       },
       {
-        "name":"Speed Demon",
-        "description":"Win a match with a point scored within the first 10 seconds of each game.",
-        "uri":"../../public/achievement/Speed_Demon.jpeg",
-        "date":"",
-        "unlicked":false
+        "name": "Speed Demon",
+        "description": "Win a match with a point scored within the first 10 seconds of each game.",
+        "uri": "/Speed_Demon.jpeg",
+        "date": "",
+        "unlocked": false
       },
       {
-        "name":"Ping Pong Pro",
-        "description":"Win 100 matches against tough opponents.",
-        "uri":"../../public/achievement/ping_pong_pro.png",
-        "date":"",
-        "unlicked":false
+        "name": "Ping Pong Pro",
+        "description": "Win 100 matches against tough opponents.",
+        "uri": "/ping_pong_pro.png",
+        "date": "",
+        "unlocked": false
       },
       {
-        "name":"AI Conqueror",
-        "description":"Defeat the AI opponent on the highest difficulty level in a single match.",
-        "uri":"../../public/achievement/ai_conqueror.png",
-        "date":"",
-        "unlicked":false
+        "name": "AI Conqueror",
+        "description": "Defeat the AI opponent on the highest difficulty level in a single match.",
+        "uri": "/ai_conqueror.png",
+        "date": "",
+        "unlocked": false
       }
     ],
     "avatarsAndPaddles": [
@@ -55,7 +55,7 @@
         "price": "500",
         "owned": "yes",
         "power": "+ 5% ball speed",
-        "choosed" : "yes"
+        "choosed": "yes"
       },
       {
         "id": "2",
@@ -64,7 +64,7 @@
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "720",
         "owned": "yes",
-        "choosed" : "no"
+        "choosed": "no"
       },
       {
         "id": "3",
@@ -73,7 +73,7 @@
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "310",
         "owned": "no",
-        "choosed" : "no"
+        "choosed": "no"
       },
       {
         "id": "4",
@@ -83,7 +83,7 @@
         "price": "880",
         "owned": "yes",
         "power": "+ 15% ball speed",
-        "choosed" : "no"
+        "choosed": "no"
       },
       {
         "id": "5",
@@ -93,7 +93,7 @@
         "price": "920",
         "owned": "no",
         "power": "+ 17% ball speed",
-        "choosed" : "no"
+        "choosed": "no"
       },
       {
         "id": "6",
@@ -102,7 +102,7 @@
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "150",
         "owned": "no",
-        "choosed" : "no"
+        "choosed": "no"
       },
       {
         "id": "7",
@@ -111,7 +111,7 @@
         "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
         "price": "360",
         "owned": "no",
-        "choosed" : "no"
+        "choosed": "no"
       }
     ],
     "statistic": {
@@ -218,62 +218,61 @@
       }
     },
     "stats": [
-        {
-          "date": "10/01/2024",
-          "win": "7",
-          "lose": "2"
-        },
-        {
-          "date": "11/01/2024",
-          "win": "9",
-          "lose": "3"
-        },
-        {
-          "date": "20/01/2024",
-          "win": "11",
-          "lose": "4"
-        },
-        {
-          "date": "22/01/2024",
-          "win": "4",
-          "lose": "0"
-        },
-        {
-          "date": "02/02/2024",
-          "win": "14",
-          "lose": "20"
-        },
-        {
-          "date": "05/02/2024",
-          "win": "40",
-          "lose": "32"
-        },
-        {
-          "date": "10/02/2024",
-          "win": "12",
-          "lose": "12"
-        },
-        {
-          "date": "12/02/2024",
-          "win": "1",
-          "lose": "0"
-        },
-        {
-          "date": "15/02/2024",
-          "win": "18",
-          "lose": "10"
-        },
-        {
-          "date": "20/02/2024",
-          "win": "22",
-          "lose": "30"
-        },
-        {
-          "date": "22/02/2024",
-          "win": "9",
-          "lose": "10"
-        }
-      ]
-    
+      {
+        "date": "10/01/2024",
+        "win": "7",
+        "lose": "2"
+      },
+      {
+        "date": "11/01/2024",
+        "win": "9",
+        "lose": "3"
+      },
+      {
+        "date": "20/01/2024",
+        "win": "11",
+        "lose": "4"
+      },
+      {
+        "date": "22/01/2024",
+        "win": "4",
+        "lose": "0"
+      },
+      {
+        "date": "02/02/2024",
+        "win": "14",
+        "lose": "20"
+      },
+      {
+        "date": "05/02/2024",
+        "win": "40",
+        "lose": "32"
+      },
+      {
+        "date": "10/02/2024",
+        "win": "12",
+        "lose": "12"
+      },
+      {
+        "date": "12/02/2024",
+        "win": "1",
+        "lose": "0"
+      },
+      {
+        "date": "15/02/2024",
+        "win": "18",
+        "lose": "10"
+      },
+      {
+        "date": "20/02/2024",
+        "win": "22",
+        "lose": "30"
+      },
+      {
+        "date": "22/02/2024",
+        "win": "9",
+        "lose": "10"
+      }
+    ]
   }
 }
