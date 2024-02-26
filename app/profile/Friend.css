@@ -12,6 +12,8 @@
 }
 
 .profile_name {
+  margin-right: auto;
+  margin-left: 10%;
   position: relative;
 }
 
@@ -84,11 +86,11 @@
 }
 
 .friend_name_photo {
-  width: 45%;
+  width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 0;
   cursor: pointer;
 }
@@ -134,7 +136,7 @@
 .profile_burger_menu {
   display: none;
   width: 20px;
-  height: 55%;
+  height: 25px;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
@@ -175,9 +177,7 @@
     height: 50px;
     width: 50px;
   }
-  .friend_name_photo {
-    width: 60%;
-  }
+
   .friend_name_photo span {
     font-size: 16px;
   }
@@ -197,10 +197,16 @@
 }
 
 @media (max-width: 375px) {
-  .friend_name_photo {
-    width: 75%;
+  .btn_conatiner svg {
+    width: 20px;
+    height: 20px;
   }
   .friend_name_photo span {
-    font-size: 18px;
+    font-size: 14px;
+  }
+
+  .friend_avatar {
+    height: 40px;
+    width: 40px;
   }
 }

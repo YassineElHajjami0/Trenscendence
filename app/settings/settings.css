@@ -1,3 +1,6 @@
+.settings-container * {
+  color: white;
+}
 .settings-container {
   position: relative;
   top: 30%;
