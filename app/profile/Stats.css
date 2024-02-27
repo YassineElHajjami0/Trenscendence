@@ -71,6 +71,14 @@
 
 @media (max-width: 425px) {
   .stat_btn_switch {
-    width: 80%;
+    width: 85%;
+  }
+  .chart {
+    margin-right: 15% !important;
+  }
+}
+@media (max-width: 375px) {
+  .stat_btn_switch button {
+    padding: 4px 16px;
   }
 }

@@ -43,7 +43,7 @@ const Profile = () => {
         />
 
         <div className="profile_data">
-          <h1 className="profile_name">Yahya TAQSI</h1>
+          <h1>Yahya TAQSI</h1>
           <h4 className="profile_username">#BUDA</h4>
           <h4 className="profile_email">buda98@gmail.com</h4>
           <h2 className="profile_user_lvl">
