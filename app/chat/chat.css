@@ -1,0 +1,117 @@
+.chat_channels_container {
+  color: #ffffff;
+  display: flex;
+  height: 100%;
+  border-radius: 20px;
+  padding: 100px 200px;
+}
+.chat_channels_container .col1 {
+  width: 20%;
+  background-color: #4f4e4e80;
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
+  padding: 20px;
+}
+.chat_channels_container .col1 .switcher {
+  display: flex;
+  justify-content: space-around;
+  background-color: #27272b;
+  padding: 20px 10px;
+  text-align: center;
+  border-radius: 20px;
+  position: relative;
+  margin-bottom: 20px;
+}
+.chat_channels_container .col1 .switcher button {
+  color: white;
+  background-color: transparent;
+  font-size: 20px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  z-index: 2;
+}
+.chat_channels_container .col1 .switcher .selectedColor {
+  position: absolute;
+  width: 45%;
+  height: 65%;
+  border-radius: 10px;
+  z-index: 1;
+  top: 10px;
+  background-color: #67c63a;
+  transition: 0.3s;
+}
+.chat_channels_container .col1 .switcher .selectedColor .toleft {
+  transition: 0.3s;
+  animation: toleft 1s ease-in-out 1;
+  /* left: 10px; */
+}
+.chat_channels_container .col1 .switcher .selectedColor .toright {
+  transition: 0.3s;
+  right: 15px;
+}
+@keyframes toleft {
+  0% {
+    right: 15px;
+  }
+  100% {
+    left: 10px;
+  }
+}
+
+.chat_channels_container .col2 {
+  width: 50%;
+}
+.chat_channels_container .col3 {
+  width: 30%;
+  background-color: #4f4e4e80;
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit;
+  padding: 20px;
+}
+
+.chat_channels_container .col2 .svgHolder {
+  padding: 50px 0;
+  background: rgba(255, 255, 255, 0.17);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.8px);
+  -webkit-backdrop-filter: blur(7.8px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.chat_channels_container .col2 .svgHolder .svgImage {
+  flex: 1;
+  transition: 0.3s;
+  animation: updown 2s ease-in-out infinite;
+}
+@keyframes updown {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (max-width: 1440px) {
+  .chat_channels_container {
+    padding: 50px 30px;
+  }
+  .chat_channels_container .col1 {
+    padding: 5px;
+  }
+  .chat_channels_container .col1 .switcher button {
+    font-size: 18px;
+  }
+}
+@media (max-width: 1024px) {
+  .chat_channels_container {
+    padding: 50px 30px;
+  }
+  .chat_channels_container .col1 {
+    padding: 5px;
+  }
+  .chat_channels_container .col1 .switcher button {
+    font-size: 18px;
+  }
+}
