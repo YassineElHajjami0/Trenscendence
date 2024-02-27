@@ -16,6 +16,7 @@ body {
   display: flex;
   width: 100svw;
   height: 100svh;
+  color: white;
 }
 
 nav {
@@ -479,6 +480,7 @@ nav {
 }
 .latest-games .header .see-all {
   text-decoration: none;
+  color: white;
 }
 .latest-games .header .see-all h3:hover {
   transition: 0.3s;
