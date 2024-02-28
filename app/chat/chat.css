@@ -21,7 +21,7 @@
   background-color: #4f4e4e80;
   border-top-left-radius: inherit;
   border-bottom-left-radius: inherit;
-  padding: 20px;
+  padding: 20px 8px;
 }
 
 .col2 {
@@ -61,6 +61,7 @@
   border: none;
   outline: none;
   cursor: pointer;
+  font-weight: 900;
   z-index: 2;
 }
 .col1 .switcher .selectedColor {
