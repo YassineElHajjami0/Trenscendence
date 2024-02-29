@@ -8,12 +8,12 @@ export default function FriendsChat() {
   const sortedFriends = friend_data.sort((a: any, b: any) => {
     return (b.status === "online" ? 1 : -1) - (a.status === "online" ? 1 : -1);
   });
-  console.log(sortedFriends);
+  // console.log(sortedFriends);
 
   return (
     <div className="friends_chat_container">
       {sortedFriends.map((f: any) => (
-        <FriendChat friendData={f} />
+        <FriendChat key={f.uid} friendData={f} />
       ))}
     </div>
   );

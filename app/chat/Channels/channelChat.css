@@ -1,0 +1,57 @@
+.channelsList .channelContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  cursor: pointer;
+  padding: 10px;
+}
+.channelsList .channelContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  z-index: -1;
+  background: linear-gradient(to right, #1ce14e 40%, rgba(255, 255, 255, 0));
+  transition: 0.3s;
+}
+.channelsList .channelContainer:hover::before {
+  width: 100%;
+}
+.channelsList .channelContainer .imageContainer {
+  border-radius: 60%;
+}
+.channelsList .channelContainer .channelImage {
+  width: 90px;
+  height: 90px;
+}
+.channelsList .channelContainer .name_lastmsg {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.channelsList .channelContainer .name_lastmsg p {
+  font-size: 22px;
+  font-weight: 900;
+}
+.channelsList .channelContainer .name_lastmsg span {
+  color: rgb(203, 203, 203);
+}
+
+@media (max-width: 1440px) {
+  .channelsList .channelContainer .name_lastmsg p {
+    font-size: 20px;
+  }
+  .channelsList .channelContainer .channelImage {
+    width: 80px;
+    height: 80px;
+  }
+}
+@media (max-width: 1024px) {
+  .channelsList .channelContainer .channelImage {
+    width: 70px;
+    height: 70px;
+  }
+}

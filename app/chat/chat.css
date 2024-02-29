@@ -95,8 +95,15 @@
 }
 
 .dots_hide {
-  width: 30px;
-  height: 30px;
+  font-size: 30px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.dots_hide:active {
+  scale: 0.9;
+}
+.dots_hide:hover {
+  color: #71ff95;
 }
 
 .show_col3 {
@@ -134,14 +141,16 @@
 
 @media (max-width: 1440px) {
   .chat_channels_sub_container .col1 .switcher button {
-    font-size: 16px;
+    font-size: 20px;
   }
 }
 @media (max-width: 1024px) {
   .chat_channel_details {
     display: flex;
   }
-
+  .col1 .switcher button {
+    font-size: 20px;
+  }
   .col1 {
     width: 30%;
   }
@@ -162,6 +171,9 @@
 @media (max-width: 768px) {
   .col1 {
     width: 35%;
+  }
+  .col1 .switcher button {
+    font-size: 20px;
   }
   .chat_channels_sub_container {
     width: 100%;

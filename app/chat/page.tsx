@@ -4,8 +4,11 @@ import "./chat.css";
 import Image from "next/image";
 import { HiDotsVertical } from "react-icons/hi";
 import FriendsChat from "./Friends/FriendsChat";
+import ChannelChat from "./Channels/channelChat";
+import { MdOutlineCancel } from "react-icons/md";
 
 const Chat = () => {
+  const [dotsIcon, setDotsIcone] = useState(true);
   const [hide, setHide] = useState(false);
   const [mode, setMode] = useState("friends");
   const [selectedFriend, setSelectedFriend] = useState("none");
@@ -43,7 +46,9 @@ const Chat = () => {
               <FriendsChat />
             </div>
           ) : (
-            <div className="channelsList">channels list</div>
+            <div className="channelsList">
+              <ChannelChat setSelectedFriend={setSelectedFriend}/>
+            </div>
           )}
         </div>
         <div className="col2">
@@ -68,13 +73,16 @@ const Chat = () => {
 
           <div
             onClick={() => {
-              console.log("jjjjjjjjjj");
-
               setHide((prev) => !prev);
+              setDotsIcone((prev) => !prev);
             }}
             className="chat_channel_details"
           >
-            <HiDotsVertical className="dots_hide" />
+            {dotsIcon ? (
+              <HiDotsVertical className="dots_hide" />
+            ) : (
+              <MdOutlineCancel className="dots_hide" />
+            )}
           </div>
         </div>
         <div className={`col3 ${hide && "show_col3"}`}>col3</div>

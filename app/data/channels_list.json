@@ -4,6 +4,7 @@
     "channel_name": "aljazira",
     "members_number": 22,
     "topic": "this channel about all arabic news",
+    "lastmsg": "great",
     "members": [
       {
         "type": "owner",
@@ -30,33 +31,96 @@
       {
         "135498451684": [
           {
-            "id":"73737357357",
+            "id": "73737357357",
             "time": "135498451685",
             "msg": "hello",
             "recipient": "ture",
-            "avatar" : "/avatar1.jpg"
-        },
-        {
-            "id":"3773573737357",
+            "avatar": "/avatar1.jpg"
+          },
+          {
+            "id": "3773573737357",
             "time": "135498451686",
             "msg": "how are you",
             "recipient": "false",
-            "avatar" : "/avatar2.jpg"
-        },
-        {
-            "id":"3737357357",
+            "avatar": "/avatar2.jpg"
+          },
+          {
+            "id": "3737357357",
             "time": "135498451687",
             "msg": "im good",
             "recipient": "ture",
-            "avatar" : "/avatar3.jpg"
-        },
-        {
-            "id":"3773573",
+            "avatar": "/avatar3.jpg"
+          },
+          {
+            "id": "3773573",
             "time": "135498451688",
             "msg": "great",
             "recipient": "false",
-            "avatar" : "/avatar4.jpg"
-        }
+            "avatar": "/avatar4.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "avatar": "/arriadia.png",
+    "channel_name": "arriadia",
+    "members_number": 250,
+    "topic": "this channel about sport and matches",
+    "lastmsg": "wassup",
+    "members": [
+      {
+        "type": "owner",
+        "name": "yassine",
+        "avatar": "/avtar2.png"
+      },
+      {
+        "type": "admin",
+        "name": "yahya",
+        "avatar": "/avtar1.png"
+      },
+      {
+        "type": "user",
+        "name": "ayoub",
+        "avatar": "/avtar3.png"
+      },
+      {
+        "type": "user",
+        "name": "mimoun",
+        "avatar": "/avtar4.png"
+      }
+    ],
+    "messages": [
+      {
+        "135498451684": [
+          {
+            "id": "73737357357",
+            "time": "135498451685",
+            "msg": "hello",
+            "recipient": "ture",
+            "avatar": "/avatar2.jpg"
+          },
+          {
+            "id": "3773573737357",
+            "time": "135498451686",
+            "msg": "how are you",
+            "recipient": "false",
+            "avatar": "/avatar1.jpg"
+          },
+          {
+            "id": "3737357357",
+            "time": "135498451687",
+            "msg": "heeey",
+            "recipient": "ture",
+            "avatar": "/avatar3.jpg"
+          },
+          {
+            "id": "3773573",
+            "time": "135498451688",
+            "msg": "wassup",
+            "recipient": "false",
+            "avatar": "/avatar4.jpg"
+          }
         ]
       }
     ]
