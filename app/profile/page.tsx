@@ -10,21 +10,21 @@ import Image from "next/image";
 const Profile = () => {
   const uidRef = useRef<HTMLDivElement>(null);
 
-  const copyUID = () => {
-    return;
-    if (uidRef.current) {
-      const textToCopy = uidRef.current.textContent || "";
+  // const copyUID = () => {
+  //   return;
+  //   if (uidRef.current) {
+  //     const textToCopy = uidRef.current.textContent || "";
 
-      navigator.clipboard
-        .writeText(textToCopy)
-        .then(() => {
-          console.log("Text copied to clipboard:", textToCopy);
-        })
-        .catch((error) => {
-          console.error("Unable to copy text to clipboard", error);
-        });
-    }
-  };
+  //     navigator.clipboard
+  //       .writeText(textToCopy)
+  //       .then(() => {
+  //         console.log("Text copied to clipboard:", textToCopy);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Unable to copy text to clipboard", error);
+  //       });
+  //   }
+  // };
 
   return (
     <div className="profile_container">
@@ -53,7 +53,12 @@ const Profile = () => {
 
         <div className="profile_progress">
           <div className="progress"></div>
-          <div onClick={copyUID} ref={uidRef} className="profile_uid">
+          <div
+            //  onClick={copyUID}
+
+            ref={uidRef}
+            className="profile_uid"
+          >
             684687487597
             <MdContentCopy />
           </div>

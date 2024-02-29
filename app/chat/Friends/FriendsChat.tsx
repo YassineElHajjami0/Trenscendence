@@ -2,18 +2,18 @@ import React from "react";
 import "./FriendsChat.css";
 import FriendChat from "./FriendChat";
 import friendData from "../../data/friends.json";
+import { FriendData } from "@/app/Interfaces/friendDataInterface";
 
 export default function FriendsChat() {
-  const friend_data: any = friendData["friends"];
-  const sortedFriends = friend_data.sort((a: any, b: any) => {
+  const friend_data: FriendData[] = friendData;
+  const sortedFriends = friend_data.sort((a: FriendData, b: FriendData) => {
     return (b.status === "online" ? 1 : -1) - (a.status === "online" ? 1 : -1);
   });
-  console.log(sortedFriends);
 
   return (
     <div className="friends_chat_container">
-      {sortedFriends.map((f: any) => (
-        <FriendChat friendData={f} />
+      {sortedFriends.map((f: FriendData) => (
+        <FriendChat key={f.uid} friendData={f} />
       ))}
     </div>
   );

@@ -17,8 +17,7 @@ export default function Home() {
       setLoading(false);
     }, 1000);
   }, []);
-  const player_data: any = playerData["my-data"];
-  const matches = player_data.matches;
+  const player_data: any = playerData;
   let flag: number = 0;
 
   return (
@@ -38,15 +37,14 @@ export default function Home() {
           <div className="animation-slide">
             <span className="blur-effect"></span>
             <div>
-
-            <Image
-              className="player-image"
-              src={player}
-              width={370}
-              height={370}
-              alt="Player"
+              <Image
+                className="player-image"
+                src={player}
+                width={370}
+                height={370}
+                alt="Player"
               />
-              </div>
+            </div>
             <span className="ball"></span>
           </div>
           <div className="store-container">
@@ -62,41 +60,38 @@ export default function Home() {
               <span className="shape6"></span>
               <div className="buy-paddle">
                 <div>
-
-                <Image
-                  className="paddles_chess"
-                  src={pingpong_chess}
-                  width={290}
-                  height={290}
-                  alt="paddles"
+                  <Image
+                    className="paddles_chess"
+                    src={pingpong_chess}
+                    width={290}
+                    height={290}
+                    alt="paddles"
                   />
-                  </div>
+                </div>
                 <Link href={"/store"}>
                   {" "}
                   <button className="buy-paddle-btn">Buy Paddle</button>
                 </Link>
               </div>
               <div>
-
-              <Image
-                className="avatar-for-store-slide"
-                src={avatar_forstore}
-                width={290}
-                height={290}
-                alt="paddles"
-                />
-                </div>
-              <div className="buy-avatar">
-                <div>
-                  
                 <Image
-                  className="avatars_chess"
-                  src={avatars_chess}
+                  className="avatar-for-store-slide"
+                  src={avatar_forstore}
                   width={290}
                   height={290}
-                  alt="avatars"
+                  alt="paddles"
+                />
+              </div>
+              <div className="buy-avatar">
+                <div>
+                  <Image
+                    className="avatars_chess"
+                    src={avatars_chess}
+                    width={290}
+                    height={290}
+                    alt="avatars"
                   />
-                  </div>
+                </div>
                 <Link href={"/store"}>
                   <button className="buy-avatar-btn">Buy Avatar</button>
                 </Link>
@@ -111,36 +106,38 @@ export default function Home() {
               </Link>
             </div>
             <div className="latests">
-              {Object.keys(matches).map((date) =>
-                Object.keys(matches[date]).map((time) => {
-                  if (flag === 3) return;
-                  flag++;
-                  return (
-                    <div className="line" key={time}>
-                      <div className="player">
-                        {player_data.username}{" "}
-                        <span>{matches[date][time].mygoals}</span>
-                      </div>
-                      <div className="gamestatus">
-                        <div> {date} </div>
-                        <div
-                          className={
-                            matches[date][time].result === "WIN"
-                              ? "win"
-                              : "lose"
-                          }
-                        >
-                          {matches[date][time].result}
-                        </div>
-                      </div>
-                      <div className="opponent">
-                        <span>{matches[date][time].opponentgoals}</span>
-                        {matches[date][time].opponent}
-                      </div>
-                    </div>
-                  );
-                })
-              )}
+              {player_data.matches.map((e: any) => {
+                return e.todaysMatches.map((match: any) => {
+                   if (flag === 3) return;
+                   flag++;
+ 
+                 
+                   return (
+                     <div className="line" key={e.hour}>
+                       <div className="player">
+                         {player_data.username}{" "}
+                         <span>{match.mygoals}</span>
+                       </div>
+                       <div className="gamestatus">
+                     
+                         <div
+                           className={
+                             match.result === "WIN"
+                               ? "win"
+                               : "lose"
+                           }
+                         >
+                           {match.result}
+                         </div>
+                       </div>
+                       <div className="opponent">
+                         <span>{match.opponentgoals}</span>
+                         {match.opponent}
+                       </div>
+                     </div>
+                   );
+                });
+              })}
             </div>
           </div>
         </main>

@@ -12,7 +12,7 @@ import "./settings.css";
 import playerData from "../data/player-info.json";
 
 const Settings = () => {
-  const player_data: any = playerData["my-data"];
+  const player_data: any = playerData;
   const [ArticlesType, setArticlesType] = useState("");
   const [showArticlesPopup, setShowArticlesPopup] = useState(false);
   const [profileBanner, setProfileBanner] = useState(player_data.choosedBanner);

@@ -14,7 +14,7 @@ const Store = () => {
       setLoading(false);
     }, 1000);
   }, []);
-  const player_data: any = playerData["my-data"];
+  const player_data: any = playerData;
   const [popUpCannotBuy, setPopUpCannotBuy] = useState(false);
   const [choosedArticle, setChoosedArticle] = useState(
     player_data.avatarsAndPaddles[0]
@@ -28,7 +28,7 @@ const Store = () => {
     if (parseInt(playerPoints) < parseInt(searchArticle[0].price)) {
       console.log("===> good");
       setPopUpCannotBuy(!popUpCannotBuy);
-      // setPopUpCannotBuy(!popUpCannotBuy);
+
       setTimeout(() => {
         console.log("now");
         setPopUpCannotBuy(false);
@@ -76,11 +76,11 @@ const Store = () => {
               <p className="name">{choosedArticle.name}</p>
               <p className="description">{choosedArticle.description}</p>
               <div className="price">
-                {choosedArticle.owned == "yes" ? (
+                {choosedArticle.owned  ? (
                   <>
                     <p>{choosedArticle.price} $</p>
                     <p>
-                      {choosedArticle.choosed == "yes" ? (
+                      {choosedArticle.choosed  ? (
                         "choosed"
                       ) : (
                         <button>choose</button>
@@ -129,7 +129,7 @@ const Store = () => {
                       >
                         <img src={all[article].avatar} alt="avatar" />
 
-                        {all[article].owned == "yes" ? (
+                        {all[article].owned ? (
                           ""
                         ) : (
                           <span className="notOwnedPrice">
@@ -148,7 +148,7 @@ const Store = () => {
                         onClick={() => setChoosedArticle(all[article])}
                       >
                         <img src={all[article].paddle} alt="paddle" />
-                        {all[article].owned == "yes" ? (
+                        {all[article].owned ? (
                           ""
                         ) : (
                           <span className="notOwnedPrice">

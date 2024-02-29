@@ -11,8 +11,8 @@ const LatestGames = () => {
       setLoading(false);
     }, 1000);
   }, []);
-  const player_data: any = playerData["my-data"];
-  const matches = player_data.matches;
+  const player_data: any = playerData;
+
   return (
     <>
       {loading ? (
@@ -31,32 +31,26 @@ const LatestGames = () => {
             <h3>Latest games</h3>
           </div>
           <div className="latests">
-            {Object.keys(matches).map((date) =>
-              Object.keys(matches[date]).map((time) => {
+            {player_data.matches.map((e: any) => {
+              return e.todaysMatches.map((match: any) => {
                 return (
-                  <div className="line" key={time}>
+                  <div className="line" key={e.hour}>
                     <div className="player">
-                      {player_data.username}{" "}
-                      <span>{matches[date][time].mygoals}</span>
+                      {player_data.username} <span>{match.mygoals}</span>
                     </div>
                     <div className="gamestatus">
-                      <div> {date} </div>
-                      <div
-                        className={
-                          matches[date][time].result === "WIN" ? "win" : "lose"
-                        }
-                      >
-                        {matches[date][time].result}
+                      <div className={match.result === "WIN" ? "win" : "lose"}>
+                        {match.result}
                       </div>
                     </div>
                     <div className="opponent">
-                      <span>{matches[date][time].opponentgoals}</span>
-                      {matches[date][time].opponent}
+                      <span>{match.opponentgoals}</span>
+                      {match.opponent}
                     </div>
                   </div>
                 );
-              })
-            )}
+              });
+            })}
           </div>
         </div>
       )}
