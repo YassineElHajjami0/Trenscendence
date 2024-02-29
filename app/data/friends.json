@@ -1,212 +1,61 @@
-{
-  "friends": [
-    {
-      "name": "Yassine el hajjami",
-      "status": "offline",
-      "avatar": "/avatar1.png",
-      "lastMSG": "hello there!!!",
-      "uid": "164616849",
-      "blocked": "false",
-      "bio": "Hi im using ApexPongBattle",
-      "rank": "beginner",
-      "achievments": [
-        {
-          "name": "Precision Paddler",
-          "description": "Win a single match with a perfect score, never missing a shot.",
-          "uri": "/Precision_Paddler.png",
-          "date": "02/22/2024",
-          "unlocked": true
-        },
-        {
-          "name": "Flawless Victory",
-          "description": "Win a single match without letting your opponent score a single point.",
-          "uri": "/flawless.jpeg",
-          "date": "02/26/2024",
-          "unlocked": true
-        }
-      ]
-    },
-    {
-      "name": "Zakaria lmoumni",
-      "status": "offline",
-      "avatar": "/avatar2.png",
-      "lastMSG": "do you wana play",
-      "uid": "164651650",
-      "blocked": "false",
-      "bio": "Hi im using ApexPongBattle",
-      "rank": "beginner",
-      "achievments": []
-    },
-    {
-      "name": "Mahdi amghar",
-      "status": "online",
-      "avatar": "/avatar3.png",
-      "lastMSG": "wa feen aba",
-      "uid": "646516851",
-      "blocked": "false",
-      "bio": "Hi im using ApexPongBattle",
-      "rank": "beginner",
-      "achievments": [
-        {
-          "name": "Flawless Victory",
-          "description": "Win a single match without letting your opponent score a single point.",
-          "uri": "/flawless.jpeg",
-          "date": "02/26/2024",
-          "unlocked": true
-        }
-      ]
-    },
-    {
-      "name": "Mahdi amghar",
-      "status": "online",
-      "avatar": "/avatar3.png",
-      "lastMSG": "wa feen aba",
-      "uid": "16516851",
-      "blocked": "false",
-      "bio": "Hi im using ApexPongBattle",
-      "rank": "beginner",
-      "achievments": [
-        {
-          "name": "Flawless Victory",
-          "description": "Win a single match without letting your opponent score a single point.",
-          "uri": "/flawless.jpeg",
-          "date": "02/26/2024",
-          "unlocked": true
-        }
-      ]
-    },
-    {
-      "name": "Mahdi amghar",
-      "status": "online",
-      "avatar": "/avatar3.png",
-      "lastMSG": "wa feen aba",
-      "uid": "16465168521",
-      "blocked": "false",
-      "bio": "Hi im using ApexPongBattle",
-      "rank": "beginner",
-      "achievments": [
-        {
-          "name": "Flawless Victory",
-          "description": "Win a single match without letting your opponent score a single point.",
-          "uri": "/flawless.jpeg",
-          "date": "02/26/2024",
-          "unlocked": true
-        }
-      ]
-    },
-    {
-      "name": "Mahdi amghar",
-      "status": "online",
-      "avatar": "/avatar3.png",
-      "lastMSG": "wa feen aba",
-      "uid": "16465161",
-      "blocked": "false",
-      "bio": "Hi im using ApexPongBattle",
-      "rank": "beginner",
-      "achievments": [
-        {
-          "name": "Flawless Victory",
-          "description": "Win a single match without letting your opponent score a single point.",
-          "uri": "/flawless.jpeg",
-          "date": "02/26/2024",
-          "unlocked": true
-        }
-      ]
-    },
-    {
-      "name": "Mahdi amghar",
-      "status": "online",
-      "avatar": "/avatar3.png",
-      "lastMSG": "wa feen aba",
-      "uid": "164651851",
-      "blocked": "false",
-      "bio": "Hi im using ApexPongBattle",
-      "rank": "beginner",
-      "achievments": [
-        {
-          "name": "Flawless Victory",
-          "description": "Win a single match without letting your opponent score a single point.",
-          "uri": "/flawless.jpeg",
-          "date": "02/26/2024",
-          "unlocked": true
-        }
-      ]
-    },
-    {
-      "name": "Mahdi amghar",
-      "status": "online",
-      "avatar": "/avatar3.png",
-      "lastMSG": "wa feen aba",
-      "uid": "164516851",
-      "blocked": "false",
-      "bio": "Hi im using ApexPongBattle",
-      "rank": "beginner",
-      "achievments": [
-        {
-          "name": "Flawless Victory",
-          "description": "Win a single match without letting your opponent score a single point.",
-          "uri": "/flawless.jpeg",
-          "date": "02/26/2024",
-          "unlocked": true
-        }
-      ]
-    },
-    {
-      "name": "Mahdi amghar",
-      "status": "online",
-      "avatar": "/avatar3.png",
-      "lastMSG": "wa feen aba",
-      "uid": "1516851",
-      "blocked": "false",
-      "bio": "Hi im using ApexPongBattle",
-      "rank": "beginner",
-      "achievments": [
-        {
-          "name": "Flawless Victory",
-          "description": "Win a single match without letting your opponent score a single point.",
-          "uri": "/flawless.jpeg",
-          "date": "02/26/2024",
-          "unlocked": true
-        }
-      ]
-    },
-    {
-      "name": "Mahdi amghar",
-      "status": "online",
-      "avatar": "/avatar3.png",
-      "lastMSG": "wa feen aba",
-      "uid": "16465174185",
-      "blocked": "false",
-      "bio": "Hi im using ApexPongBattle",
-      "rank": "beginner",
-      "achievments": [
-        {
-          "name": "Flawless Victory",
-          "description": "Win a single match without letting your opponent score a single point.",
-          "uri": "/flawless.jpeg",
-          "date": "02/26/2024",
-          "unlocked": true
-        }
-      ]
-    },
-    {
-      "name": "Mahdi amghar",
-      "status": "online",
-      "avatar": "/avatar3.png",
-      "lastMSG": "wa feen aba",
-      "uid": "16465859631",
-      "blocked": "false",
-      "bio": "Hi im using ApexPongBattle",
-      "rank": "beginner",
-      "achievments": [
-        {
-          "name": "Flawless Victory",
-          "description": "Win a single match without letting your opponent score a single point.",
-          "uri": "/flawless.jpeg",
-          "date": "02/26/2024",
-          "unlocked": true
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "Yassine el hajjami",
+    "status": "offline",
+    "avatar": "/avatar1.png",
+    "lastMSG": "hello there!!!",
+    "uid": "1646516849",
+    "blocked": false,
+    "bio": "Hi im using ApexPongBattle",
+    "rank": "beginner",
+    "rankBadge": "/beginner.png",
+    "achievments": [
+      {
+        "name": "Precision Paddler",
+        "description": "Win a single match with a perfect score, never missing a shot.",
+        "uri": "/Precision_Paddler.png",
+        "date": "02/22/2024",
+        "unlocked": true
+      },
+      {
+        "name": "Flawless Victory",
+        "description": "Win a single match without letting your opponent score a single point.",
+        "uri": "/flawless.jpeg",
+        "date": "02/26/2024",
+        "unlocked": true
+      }
+    ]
+  },
+  {
+    "name": "Zakaria lmoumni",
+    "status": "offline",
+    "avatar": "/avatar2.png",
+    "lastMSG": "do you wana play",
+    "uid": "1646516850",
+    "blocked": false,
+    "bio": "Hi im using ApexPongBattle",
+    "rank": "beginner",
+    "rankBadge": "/beginner.png",
+    "achievments": []
+  },
+  {
+    "name": "Mahdi amghar",
+    "status": "online",
+    "avatar": "/avatar3.png",
+    "lastMSG": "wa feen aba",
+    "uid": "1646516851",
+    "blocked": false,
+    "bio": "Hi im using ApexPongBattle",
+    "rank": "beginner",
+    "rankBadge": "/beginner.png",
+    "achievments": [
+      {
+        "name": "Flawless Victory",
+        "description": "Win a single match without letting your opponent score a single point.",
+        "uri": "/flawless.jpeg",
+        "date": "02/26/2024",
+        "unlocked": true
+      }
+    ]
+  }
+]

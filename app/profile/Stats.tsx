@@ -14,7 +14,7 @@ import {
 } from "recharts";
 
 export default function Stats() {
-  const player_data: any = playerData["my-data"];
+  const player_data: any = playerData;
   const [statsSwitch, setStatsSwitch] = useState({
     state: "win",
     color: "#1ce14e",
@@ -78,7 +78,7 @@ export default function Stats() {
             tick={{ fill: "white" }}
           />
           <YAxis
-            {...(statsSwitch.state === "w/l" ? { domain: [0, 100] } : {})}
+            domain={statsSwitch.state === "w/l" ? [0, 100] : undefined}
             axisLine={{ stroke: "white" }}
             tick={{ fill: "white" }}
           />

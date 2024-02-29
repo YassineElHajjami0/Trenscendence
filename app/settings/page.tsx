@@ -12,14 +12,14 @@ import "./settings.css";
 import playerData from "../data/player-info.json";
 
 const Settings = () => {
-  const player_data: any = playerData["my-data"];
+  const player_data: any = playerData;
   const [ArticlesType, setArticlesType] = useState("");
   const [showArticlesPopup, setShowArticlesPopup] = useState(false);
   const [profileBanner, setProfileBanner] = useState(player_data.choosedBanner);
   const [profileImage, setProfileImage] = useState(
     player_data.choosedProfileImage
   );
-  const [twoFaStatus, setTwoFaStatus] = useState(false);
+  const [twoFaStatus, setTwoFaStatus] = useState(player_data.TwoFA);
   const [username, setUserName] = useState(player_data.username);
   const [email, setEmail] = useState(player_data.email);
   const [password, setPassword] = useState(player_data.password);

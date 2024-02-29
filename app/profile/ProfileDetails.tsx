@@ -9,8 +9,8 @@ import Achievements from "./Achievements";
 export default function ProfileDetails() {
   const [switchElements, setSwitchElements] = useState("achievements");
 
-  const switchE = (e: any) => {
-    setSwitchElements(e.target.textContent);
+  const switchE = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setSwitchElements(e.currentTarget.textContent || "");
   };
   return (
     <div className="profile_details_container">

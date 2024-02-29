@@ -128,7 +128,8 @@
     font-size: 35px;
   }
   .logo-and-links ul li div:first-child:hover {
-    color: #1ce14e;
+    transition: .3s;
+    color: #a5ebb6;
   }
   .main-Nav .logo-and-links .image-logo {
     width: 70px;
