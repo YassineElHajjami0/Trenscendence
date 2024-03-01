@@ -6,14 +6,16 @@ import { HiDotsVertical } from "react-icons/hi";
 import FriendsChat from "./Friends/FriendsChat";
 import ChannelChat from "./Channels/channelChat";
 import { MdOutlineCancel } from "react-icons/md";
-
+import FriendChatList from "./Friends/FriendChatList";
+import { slctdFriend } from "../Atoms/friendAtom";
+import { useRecoilState } from "recoil";
 const Chat = () => {
   const [dotsIcon, setDotsIcone] = useState(true);
   const [hide, setHide] = useState(false);
   const [mode, setMode] = useState("friends");
-  const [selectedFriend, setSelectedFriend] = useState("none");
+  const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [selectedChannel, setSelectedChannel] = useState("none");
-  console.log(hide);
+  console.log("selectedFriend>>", selectedFriend);
 
   return (
     <div className="chat_channels_container">
@@ -47,14 +49,16 @@ const Chat = () => {
             </div>
           ) : (
             <div className="channelsList">
-              <ChannelChat setSelectedFriend={setSelectedFriend}/>
+              <ChannelChat setSelectedChannel={setSelectedChannel} />
             </div>
           )}
         </div>
         <div className="col2">
           {/* show selected friend chat or selected channel chat */}
           {mode == "friends" && selectedFriend != "none" ? (
-            <div className="selectedFriendChat">friend chat</div>
+            <div className="selectedFriendChat">
+              <FriendChatList selectedFriend={selectedFriend} />
+            </div>
           ) : mode == "channels" && selectedChannel != "none" ? (
             <div className="selectedChannelChat">channelchat</div>
           ) : (

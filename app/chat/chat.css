@@ -30,6 +30,11 @@
   position: relative;
 }
 
+.selectedFriendChat {
+  height: 100%;
+  width: 100%;
+}
+
 .col3 {
   width: 25%;
   height: 100%;
@@ -85,7 +90,8 @@
   position: absolute;
 
   padding: 10px;
-  width: 100%;
+  height: 60px;
+  width: fit-content;
   right: 0;
   top: 0;
   align-items: center;
@@ -159,6 +165,9 @@
   }
   .switcher {
     padding: 15px !important;
+  }
+  .chat_channels_sub_container {
+    border-radius: 15px 15px 0 15px;
   }
   .col2 {
     flex: 1;

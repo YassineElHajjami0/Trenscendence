@@ -28,7 +28,7 @@
   },
   {
     "name": "Zakaria lmoumni",
-    "status": "offline",
+    "status": "ingame",
     "avatar": "/avatar2.png",
     "lastMSG": "do you wana play",
     "uid": "1646516850",
@@ -57,5 +57,41 @@
         "unlocked": true
       }
     ]
+  },
+  {
+    "name": "Othman Chekairi",
+    "status": "offline",
+    "avatar": "/avatar3.png",
+    "lastMSG": "wa feen aba",
+    "uid": "1646516852",
+    "blocked": true,
+    "bio": "Hi im using ApexPongBattle",
+    "rank": "beginner",
+    "rankBadge": "/beginner.png",
+    "achievments": []
+  },
+  {
+    "name": "MedAitSwa",
+    "status": "ingame",
+    "avatar": "/mask_avatar.png",
+    "lastMSG": "wa feen aba",
+    "uid": "1646516822",
+    "blocked": true,
+    "bio": "Hi im using ApexPongBattle",
+    "rank": "beginner",
+    "rankBadge": "/beginner.png",
+    "achievments": []
+  },
+  {
+    "name": "saloua",
+    "status": "ingame",
+    "avatar": "/avatar2.png",
+    "lastMSG": "wa feen aba",
+    "uid": "1646516800",
+    "blocked": true,
+    "bio": "Hi im using ApexPongBattle",
+    "rank": "beginner",
+    "rankBadge": "/beginner.png",
+    "achievments": []
   }
 ]
