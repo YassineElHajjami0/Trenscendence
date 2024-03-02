@@ -7,7 +7,7 @@ import Stats from "./Stats";
 import Achievements from "./Achievements";
 
 export default function ProfileDetails() {
-  const [switchElements, setSwitchElements] = useState("achievements");
+  const [switchElements, setSwitchElements] = useState("friends");
 
   const switchE = (e: React.MouseEvent<HTMLButtonElement>) => {
     setSwitchElements(e.currentTarget.textContent || "");

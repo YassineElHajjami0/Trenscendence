@@ -19,7 +19,7 @@
   z-index: -1;
   background: linear-gradient(to right, #1ce14e 40%, rgba(255, 255, 255, 0));
   transition: 0.3s;
-  border-radius:0 10px 10px 0;
+  border-radius: 0 10px 10px 0;
 }
 .friend_chat_container:hover::before {
   width: 100%;
@@ -27,6 +27,7 @@
 .chat_list_avatar {
   width: 90px;
   height: 90px;
+  border-radius: 50%;
 }
 
 .chat_list_name {
@@ -63,7 +64,7 @@
 }
 @media (max-width: 1024px) {
   .chat_list_avatar {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
   }
 }

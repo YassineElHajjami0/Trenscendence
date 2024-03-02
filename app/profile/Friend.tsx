@@ -11,11 +11,14 @@ import silence from "../../public/mask_avatar.png";
 
 import "./Friend.css";
 import Image from "next/image";
+import { FriendData } from "@/app/Interfaces/friendDataInterface";
 
-export default function Friend() {
-  const [logged, setLogged] = useState(false);
-  const [inGame, setInGame] = useState(false);
-  const [blocked, setBlocked] = useState(false);
+export default function Friend({ friend }: { friend: FriendData }) {
+  const [logged, setLogged] = useState(
+    friend.status === "online" || friend.status === "ingame"
+  );
+  const [inGame, setInGame] = useState(friend.status === "ingame");
+  const [blocked, setBlocked] = useState(friend.blocked);
   const [burgerM, setBurgerM] = useState(false);
 
   const handleSwitch = () => {
@@ -33,10 +36,10 @@ export default function Friend() {
     <div className="friend_container">
       <div className="friend_name_photo">
         <Image
-          src={silence}
+          src={friend.avatar}
           width={2000}
           height={2000}
-          className="friend_avatar"
+          className={`friend_avatar ${blocked && "blocked_friend_avatar"}`}
           alt="avatar"
         />
 
@@ -45,17 +48,17 @@ export default function Friend() {
             burgerM && "hideName"
           }`}
         >
-          Yahya TAQSI
           <div
             className={`dot ${logged && "logged"}  ${
               logged && inGame && "ingame"
             }`}
           ></div>
+          {friend.name}
         </span>
 
         <div className={`btn_conatiner ${burgerM && "showParam"}`}>
           <button className="friend_component_btn view_profile">
-            <TbUserShare />
+            <TbUserShare className="go_to_profile" />
           </button>
           <button
             className={`friend_component_btn friend_msg ${
@@ -64,7 +67,7 @@ export default function Friend() {
             onClick={test}
             disabled={blocked || !logged}
           >
-            <LuMessagesSquare className="" />
+            <LuMessagesSquare />
           </button>
           <button
             className={`friend_component_btn friend_play ${
@@ -74,7 +77,7 @@ export default function Friend() {
             onClick={test}
             disabled={blocked || !logged || (logged && inGame)}
           >
-            <BiSolidJoystickAlt className="" />
+            <BiSolidJoystickAlt />
           </button>
           <MdBlock
             onClick={handleSwitch}

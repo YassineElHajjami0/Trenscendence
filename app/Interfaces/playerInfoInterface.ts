@@ -43,6 +43,7 @@ interface Stats {
 
 export type PlayerInfo = {
   uid: string;
+  status: string;
   username: string;
   email: string;
   bio: string;

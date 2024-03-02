@@ -2,10 +2,20 @@ import React from "react";
 import "./FriendChat.css";
 import Image from "next/image";
 import { FriendData } from "@/app/Interfaces/friendDataInterface";
+import { slctdFriend } from "../../Atoms/friendAtom";
+import { useRecoilState } from "recoil";
 
-export default function FriendChat({ friendData }: { friendData: FriendData }) {
+interface FriendChatProps {
+  friendData: FriendData;
+}
+
+const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
+  const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   return (
-    <div className="friend_chat_container">
+    <div
+      onClick={() => setSelectedFriend(friendData.uid)}
+      className="friend_chat_container"
+    >
       <Image
         className="chat_list_avatar"
         src={friendData.avatar}
@@ -19,4 +29,5 @@ export default function FriendChat({ friendData }: { friendData: FriendData }) {
       </div>
     </div>
   );
-}
+};
+export default FriendChat;

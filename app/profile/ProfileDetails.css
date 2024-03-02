@@ -29,6 +29,7 @@
   color: white;
   font-size: 1.35rem;
   text-transform: capitalize;
+  padding-bottom: 5px;
 }
 
 .profile_details_header button::before {
