@@ -44,7 +44,6 @@
   font-weight: 600;
 }
 
-
 .logo-and-links ul .link:hover li div:last-child,
 .settings-logout ul li:hover div:last-child,
 .settings-logout ul li:hover div:last-child {
@@ -128,8 +127,12 @@
     font-size: 35px;
   }
   .logo-and-links ul li div:first-child:hover {
-    transition: .3s;
-    color: #a5ebb6;
+    transition: 0.3s ease-out;
+    scale: 1.1;
+  }
+  .logo-and-links ul li div:first-child:active {
+    transition: 0.3s ease-out;
+    scale: 0.9;
   }
   .main-Nav .logo-and-links .image-logo {
     width: 70px;

@@ -23,6 +23,7 @@
   width: 400px;
   border: none;
   outline: none;
+  color: white;
 }
 .upperNav div:first-child {
   position: relative;

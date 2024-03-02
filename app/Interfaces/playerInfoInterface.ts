@@ -6,7 +6,7 @@ interface Achievement {
   unlocked: boolean;
 }
 interface AvatarsAndPaddles {
-  id: string;
+  id: number;
   paddle?: string;
   avatar?: string;
   name: string;

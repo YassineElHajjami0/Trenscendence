@@ -1,7 +1,7 @@
 "use client";
 import React, { useReducer } from "react";
 import { useState, useEffect } from "react";
-import Popup from "./popupChooseImage/page.jsx";
+import Popup from "./popupChooseImage/page";
 import Image from "next/image";
 import avatar from "../../public/avatar5.png";
 import { IoMdAdd } from "react-icons/io";
@@ -10,9 +10,10 @@ import { FaLock } from "react-icons/fa";
 import "../store/store.css";
 import "./settings.css";
 import playerData from "../data/player-info.json";
+import { PlayerInfo } from "../Interfaces/playerInfoInterface.js";
 
 const Settings = () => {
-  const player_data: any = playerData;
+  const player_data: PlayerInfo = playerData;
   const [ArticlesType, setArticlesType] = useState("");
   const [showArticlesPopup, setShowArticlesPopup] = useState(false);
   const [profileBanner, setProfileBanner] = useState(player_data.choosedBanner);
@@ -26,7 +27,11 @@ const Settings = () => {
   const [bio, setBio] = useState(player_data.bio);
   const [loading, setLoading] = useState(true);
 
-  function changeInputValue(e: any) {
+  function changeInputValue(
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) {
     const { name, value } = e.target;
 
     switch (name) {
@@ -87,15 +92,14 @@ const Settings = () => {
               >
                 <div className="image-holder">
                   <div>
-                  
-                  <Image
-                    className="profile-image"
-                    src={profileImage}
-                    width={200}
-                    height={200}
-                    alt="Profile Picture"
+                    <Image
+                      className="profile-image"
+                      src={profileImage}
+                      width={200}
+                      height={200}
+                      alt="Profile Picture"
                     />
-                    </div>
+                  </div>
                   <button
                     className="btn-change-profile"
                     onClick={() => {

@@ -46,7 +46,7 @@
   ],
   "avatarsAndPaddles": [
     {
-      "id": "1",
+      "id": 1,
       "paddle": "green-paddle.png",
       "name": "ZENITH",
       "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
@@ -56,7 +56,7 @@
       "choosed": true
     },
     {
-      "id": "2",
+      "id": 2,
       "avatar": "avatar1.png",
       "name": "super hero",
       "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
@@ -65,7 +65,7 @@
       "choosed": false
     },
     {
-      "id": "3",
+      "id": 3,
       "avatar": "avatar2.png",
       "name": "pro avatar",
       "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
@@ -74,7 +74,7 @@
       "choosed": false
     },
     {
-      "id": "4",
+      "id": 4,
       "paddle": "gold-paddle.png",
       "name": "golden",
       "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
@@ -84,7 +84,7 @@
       "choosed": false
     },
     {
-      "id": "5",
+      "id": 5,
       "paddle": "pink-paddle.png",
       "name": "pinky",
       "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
@@ -94,7 +94,7 @@
       "choosed": false
     },
     {
-      "id": "6",
+      "id": 6,
       "avatar": "avatar3.png",
       "name": "flash",
       "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
@@ -103,7 +103,7 @@
       "choosed": false
     },
     {
-      "id": "7",
+      "id": 7,
       "avatar": "avatar4.png",
       "name": "hulk",
       "description": "Designed to broaden your playing horizons with an extended width, granting players an Increased Width: 15%.",
@@ -171,8 +171,7 @@
           "opponentgoals": 5
         }
       ]
-    }
-    ,
+    },
     {
       "todaysDate": "02/01/2024",
       "todaysMatches": [
@@ -184,8 +183,7 @@
           "opponentgoals": 5
         }
       ]
-    }
-    ,
+    },
     {
       "todaysDate": "02/01/2024",
       "todaysMatches": [
@@ -197,8 +195,7 @@
           "opponentgoals": 5
         }
       ]
-    }
-    ,
+    },
     {
       "todaysDate": "02/01/2024",
       "todaysMatches": [
@@ -210,8 +207,7 @@
           "opponentgoals": 5
         }
       ]
-    }
-    ,
+    },
     {
       "todaysDate": "02/01/2024",
       "todaysMatches": [
@@ -223,8 +219,7 @@
           "opponentgoals": 5
         }
       ]
-    }
-    ,
+    },
     {
       "todaysDate": "02/01/2024",
       "todaysMatches": [
@@ -236,8 +231,7 @@
           "opponentgoals": 5
         }
       ]
-    }
-    ,
+    },
     {
       "todaysDate": "02/01/2024",
       "todaysMatches": [
@@ -249,8 +243,7 @@
           "opponentgoals": 5
         }
       ]
-    }
-    ,
+    },
     {
       "todaysDate": "02/01/2024",
       "todaysMatches": [
@@ -262,8 +255,7 @@
           "opponentgoals": 5
         }
       ]
-    }
-    ,
+    },
     {
       "todaysDate": "02/01/2024",
       "todaysMatches": [
@@ -275,8 +267,7 @@
           "opponentgoals": 5
         }
       ]
-    }
-    ,
+    },
     {
       "todaysDate": "02/01/2024",
       "todaysMatches": [
@@ -288,8 +279,7 @@
           "opponentgoals": 5
         }
       ]
-    }
-    ,
+    },
     {
       "todaysDate": "02/01/2024",
       "todaysMatches": [

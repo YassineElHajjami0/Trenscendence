@@ -107,13 +107,13 @@ export default function Home() {
               </Link>
             </div>
             <div className="latests">
-              {player_data.matches.map((e: any) => {
-                return e.todaysMatches.map((match: any) => {
+              {player_data.matches.map((e) => {
+                return e.todaysMatches.map((match) => {
                   if (flag === 3) return;
                   flag++;
 
                   return (
-                    <div className="line" key={e.hour}>
+                    <div className="line" key={match.hour}>
                       <div className="player">
                         {player_data.username} <span>{match.mygoals}</span>
                       </div>

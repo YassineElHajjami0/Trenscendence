@@ -15,8 +15,17 @@ import blob10 from "../../../public/blobs/blob10.svg";
 import blob11 from "../../../public/blobs/blob11.svg";
 import blob12 from "../../../public/blobs/blob12.svg";
 import { TiDelete } from "react-icons/ti";
+import { PlayerInfo } from "@/app/Interfaces/playerInfoInterface";
 
-const Popup = ({
+interface popupProps {
+  Type: string;
+  Articles: any[];
+  setShowArticlesPopup: React.Dispatch<React.SetStateAction<boolean>>;
+  setProfileImage: React.Dispatch<React.SetStateAction<string>>;
+  setProfileBanner: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Popup: React.FC<popupProps> = ({
   Type,
   Articles,
   setShowArticlesPopup,
@@ -35,15 +44,14 @@ const Popup = ({
         return (
           <div key={e.id} className="item">
             <div>
-
-            <Image
-              className="picture"
-              src={`/${e.avatar}`}
-              width={150}
-              height={150}
-              alt="avatar"
+              <Image
+                className="picture"
+                src={`/${e.avatar}`}
+                width={150}
+                height={150}
+                alt="avatar"
               />
-              </div>
+            </div>
             <p className="name">{e.name}</p>
             <p className="description">{e.description}</p>
             <button
@@ -65,15 +73,14 @@ const Popup = ({
         return (
           <div key={e.id} className="item">
             <div>
-
-            <Image
-              className="picture"
-              src={`/${e.paddle}`}
-              width={150}
-              height={150}
-              alt="paddle"
+              <Image
+                className="picture"
+                src={`/${e.paddle}`}
+                width={150}
+                height={150}
+                alt="paddle"
               />
-              </div>
+            </div>
             <p className="name">{e.name}</p>
             <p className="description">{e.description}</p>
             <button
@@ -94,15 +101,14 @@ const Popup = ({
         return (
           <div key={e.id} className="item">
             <div>
-
-            <Image
-              className="picture"
-              src={`/${e.banner}`}
-              width={150}
-              height={100}
-              alt="banner"
+              <Image
+                className="picture"
+                src={`/${e.banner}`}
+                width={150}
+                height={100}
+                alt="banner"
               />
-              </div>
+            </div>
             <button
               className="selectBtn"
               onClick={() => {
@@ -121,7 +127,7 @@ const Popup = ({
   return (
     <div className="renderedArticles">
       <div className="blobs">
-{/*         
+        {/*         
         <Image
           className="blob blob1"
           src={blob1}

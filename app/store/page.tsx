@@ -6,6 +6,7 @@ import playerData from "../data/player-info.json";
 import { TbShoppingBag } from "react-icons/tb";
 import { FaRegSmileBeam } from "react-icons/fa";
 import { FaBagShopping } from "react-icons/fa6";
+import { PlayerInfo } from "../Interfaces/playerInfoInterface";
 
 const Store = () => {
   const [loading, setLoading] = useState(true);
@@ -14,18 +15,17 @@ const Store = () => {
       setLoading(false);
     }, 1000);
   }, []);
-  const player_data: any = playerData;
   const [popUpCannotBuy, setPopUpCannotBuy] = useState(false);
   const [choosedArticle, setChoosedArticle] = useState(
-    player_data.avatarsAndPaddles[0]
+    playerData.avatarsAndPaddles[0]
   );
   const [selectedCategory, setselectedCategory] = useState("all");
-  const all = player_data.avatarsAndPaddles;
-  const playerPoints = player_data.statistic.points;
+  const all = playerData.avatarsAndPaddles;
+  const playerPoints = playerData.statistic.points;
 
-  const handleBuyArticle = (id: any) => {
-    const searchArticle = all.filter((e: any) => e.id == id);
-    if (parseInt(playerPoints) < parseInt(searchArticle[0].price)) {
+  const handleBuyArticle = (id: number) => {
+    const searchArticle = all.filter((e) => e.id == id);
+    if (playerPoints < searchArticle[0].price) {
       console.log("===> good");
       setPopUpCannotBuy(!popUpCannotBuy);
 
@@ -76,11 +76,11 @@ const Store = () => {
               <p className="name">{choosedArticle.name}</p>
               <p className="description">{choosedArticle.description}</p>
               <div className="price">
-                {choosedArticle.owned  ? (
+                {choosedArticle.owned ? (
                   <>
                     <p>{choosedArticle.price} $</p>
                     <p>
-                      {choosedArticle.choosed  ? (
+                      {choosedArticle.choosed ? (
                         "choosed"
                       ) : (
                         <button>choose</button>
@@ -89,7 +89,7 @@ const Store = () => {
                   </>
                 ) : (
                   <button
-                    onClick={(e) => {
+                    onClick={() => {
                       handleBuyArticle(choosedArticle.id);
                     }}
                   >
@@ -117,42 +117,42 @@ const Store = () => {
                 <p className="player-points"> {playerPoints} $</p>
               </div>
               <div className="articles">
-                {Object.keys(all).map((article) => {
+                {playerData.avatarsAndPaddles.map((article) => {
                   if (
-                    all[article].avatar != undefined &&
+                    article.avatar != undefined &&
                     (selectedCategory == "avatars" || selectedCategory == "all")
                   ) {
                     return (
                       <div
-                        key={all[article].avatar}
-                        onClick={() => setChoosedArticle(all[article])}
+                        key={article.avatar}
+                        onClick={() => setChoosedArticle(article)}
                       >
-                        <img src={all[article].avatar} alt="avatar" />
+                        <img src={article.avatar} alt="avatar" />
 
-                        {all[article].owned ? (
+                        {article.owned ? (
                           ""
                         ) : (
                           <span className="notOwnedPrice">
-                            {all[article].price} $
+                            {article.price} $
                           </span>
                         )}
                       </div>
                     );
                   } else if (
-                    all[article].paddle != undefined &&
+                    article.paddle != undefined &&
                     (selectedCategory == "paddles" || selectedCategory == "all")
                   ) {
                     return (
                       <div
-                        key={all[article].paddle}
-                        onClick={() => setChoosedArticle(all[article])}
+                        key={article.paddle}
+                        onClick={() => setChoosedArticle(article)}
                       >
-                        <img src={all[article].paddle} alt="paddle" />
-                        {all[article].owned ? (
+                        <img src={article.paddle} alt="paddle" />
+                        {article.owned ? (
                           ""
                         ) : (
                           <span className="notOwnedPrice">
-                            {all[article].price} $
+                            {article.price} $
                           </span>
                         )}
                       </div>
