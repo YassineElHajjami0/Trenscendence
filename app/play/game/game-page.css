@@ -1,0 +1,127 @@
+.game-container {
+	font-family: "Inter", sans-serif;
+	font-weight: 300;
+	position: relative;
+	width: fit-content;
+	margin: 0 auto;
+	display: grid;
+}
+
+#resign-button {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 25%;
+	color: white;
+	border: #c67171 2px solid;
+	padding: 3px 15px;
+	border-radius: 10px;
+	font-size: 25px;
+	cursor: pointer;
+}
+
+#resign-button img {
+	margin-left: 10px;
+	align-items: center;
+	justify-content: center;
+}
+
+#character{
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 25%;
+	z-index: -1;
+}
+
+#canvas {
+	background-image: url('../../../public/game/game-background.png');
+	background-repeat: no-repeat ;
+	background-size: cover;
+	width: 1000px;
+	height: 500;
+}
+
+.info-bar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 60px;
+	padding: 10px;
+}
+
+
+#leftScore,
+#rightScore,
+#versus {
+	font-size: 35px;
+	color: white;
+	font-weight: bold;
+	font-family: sans-serif;
+	justify-self: center;
+}
+
+#versus {
+	padding-left: 50px;
+	padding-right: 50px;
+	font-size: 45px;
+	color: #1ee14e;
+}
+
+.left-player-info,
+		.right-player-info {
+			display: flex;
+			align-items: center;
+		}
+
+		.right-player-info {
+			justify-content: end;
+		}
+
+		.right-player-info,
+		.left-player-info {
+			flex: 1;
+		}
+
+		.right-player-info span {
+			margin-right: 15px;
+		}
+		
+		.left-player-info span {
+			margin-left: 15px;
+		}
+
+		.right-player-info span,
+		.left-player-info span {
+			font-size: 20px;
+		}
+
+		.right-player-info img,
+		.left-player-info img {
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+		}
+
+		.canvas-container {
+			display: grid;
+			border-radius: 20px 20px 0 0;
+			background-color: #696969;
+			color: white;
+		}
+
+		#faceRight,
+		#faceLeft {
+			background-color: transparent;
+			color: white;
+			width: 30px;
+			height: 30px;
+		}
+		#faceLeft {
+			margin-left: 10px;
+		}
+		
+		#faceRight {
+			margin-right: 10px;
+		}
