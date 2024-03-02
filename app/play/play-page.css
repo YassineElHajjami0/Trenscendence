@@ -174,6 +174,7 @@
 		flex-direction: column;
 	}
 	.game-mode-container .game-mode-card img {
+		object-position: 0% 25%;
 		filter: blur(1px);
 	}
 	.game-mode-container .game-mode-card {
@@ -217,6 +218,7 @@
 		flex-direction: column;
 	}
 	.game-mode-container .game-mode-card img {
+		object-position: 0% 25%;
 		filter: blur(1px);
 	}
 	.game-mode-container .game-mode-card {
