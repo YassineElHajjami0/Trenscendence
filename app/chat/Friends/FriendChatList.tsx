@@ -27,7 +27,6 @@ const FriendChatList = () => {
         />
 
         <Image
-          src={friend?.avatar ?? "/default.png"}
           className="my_chat_msg_avatar"
           src={friend?.avatar || "/avatar3.png"}
           width={2000}
