@@ -4,7 +4,7 @@
 .friend_chat_msg {
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.17);
+  background: #ffffff30;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(7.8px);
   -webkit-backdrop-filter: blur(7.8px);
@@ -86,13 +86,14 @@
 .my_chat_msg_name h5 {
   text-transform: capitalize;
 }
+
 .online {
   /* color: gray; */
   color: #1ce14e !important;
   filter: drop-shadow(0 0 5px #1ce14e);
 }
 
-.ingame {
+.ingames {
   color: #ff7f00 !important;
   filter: drop-shadow(0 0 5px #ff7f00);
 }
@@ -100,4 +101,18 @@
 .offline {
   color: #ff3355 !important;
   filter: drop-shadow(0 0 5px #ff3355);
+}
+
+.arrow_back {
+  cursor: pointer;
+
+  height: 100%;
+  width: 25px;
+  margin-right: 10px;
+  display: none;
+}
+@media (max-width: 425px) {
+  .arrow_back {
+    display: block;
+  }
 }

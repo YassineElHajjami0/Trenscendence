@@ -13,11 +13,16 @@
 
 .profile_name {
   margin-right: auto;
-  margin-left: 10%;
+  margin-left: 8%;
+
+  font-size: 22px;
   position: relative;
   cursor: pointer;
-  /* border: 1px solid red; */
   z-index: 5;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  text-transform: capitalize;
 }
 
 .profile_name:hover {
@@ -47,7 +52,7 @@
   background: #ff3355;
   filter: drop-shadow(0 0 1px #ff3355);
 
-  left: -15%;
+  left: -20px;
   bottom: 50%;
   transform: translate(50%, 50%);
   transition: all 0.4s;
@@ -224,6 +229,10 @@
 }
 
 @media (max-width: 768px) {
+  .profile_name {
+    font-size: 22px !important;
+  }
+
   .profile_burger_menu {
     display: flex;
   }
@@ -260,9 +269,15 @@
     width: 24px;
     height: 24px;
   }
+  .profile_name {
+    font-size: 18px !important;
+  }
 }
 
 @media (max-width: 375px) {
+  .profile_name {
+    font-size: 16px !important;
+  }
   .btn_conatiner svg {
     width: 20px;
     height: 20px;
@@ -274,5 +289,10 @@
   .friend_avatar {
     height: 40px;
     width: 40px;
+  }
+}
+@media (max-width: 320px) {
+  .profile_name {
+    font-size: 14px !important;
   }
 }
