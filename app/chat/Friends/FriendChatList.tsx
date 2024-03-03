@@ -5,8 +5,12 @@ import { IoIosSend } from "react-icons/io";
 import Image from "next/image";
 import { FriendData } from "@/app/Interfaces/friendDataInterface";
 import playerData from "../../data/friends.json";
+import { IoArrowBackOutline } from "react-icons/io5";
+import { slctdFriend } from "@/app/Atoms/friendAtom";
+import { useRecoilState } from "recoil";
 
-const FriendChatList = ({ selectedFriend }: { selectedFriend: string }) => {
+const FriendChatList = () => {
+  const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const friends: FriendData[] = playerData;
   const [friend, setFriend] = useState<FriendData | null>(null);
   useEffect(() => {
@@ -17,9 +21,15 @@ const FriendChatList = ({ selectedFriend }: { selectedFriend: string }) => {
   return (
     <div className="friend_chat_msg">
       <div className="friend_chat_msg_header">
+        <IoArrowBackOutline
+          className="arrow_back"
+          onClick={() => setSelectedFriend("none")}
+        />
+
         <Image
           src={friend?.avatar ?? "/default.png"}
           className="my_chat_msg_avatar"
+          src={friend?.avatar || "/avatar3.png"}
           width={2000}
           height={2000}
           alt="avatar"
@@ -27,12 +37,12 @@ const FriendChatList = ({ selectedFriend }: { selectedFriend: string }) => {
         <div className="my_chat_msg_name">
           <h1>{friend?.name}</h1>
           <h5
-            className={`online ${friend?.status === "ingame" && "ingame"}
+            className={`online ${friend?.status === "ingame" && "ingames"}
           ${friend?.status === "offline" && "offline"}
           `}
           >
             {friend?.status === "online"
-              ? "Active Now"
+              ? "Online"
               : friend?.status === "ingame"
               ? "Playing"
               : "Offline"}

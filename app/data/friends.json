@@ -27,10 +27,10 @@
     ]
   },
   {
-    "name": "Zakaria lmoumni",
-    "status": "ingame",
-    "avatar": "/avatar2.png",
-    "lastMSG": "do you wana play",
+    "name": "Zakaria moumni",
+    "status": "online",
+    "avatar": "/avatar3.png",
+    "lastMSG": "nod tghada",
     "uid": "1646516850",
     "blocked": false,
     "bio": "Hi im using ApexPongBattle",
@@ -40,7 +40,7 @@
   },
   {
     "name": "Mahdi amghar",
-    "status": "online",
+    "status": "offline",
     "avatar": "/avatar3.png",
     "lastMSG": "wa feen aba",
     "uid": "1646516851",
@@ -89,6 +89,18 @@
     "lastMSG": "wa feen aba",
     "uid": "1646516800",
     "blocked": true,
+    "bio": "Hi im using ApexPongBattle",
+    "rank": "beginner",
+    "rankBadge": "/beginner.png",
+    "achievments": []
+  },
+  {
+    "name": "Benito",
+    "status": "online",
+    "avatar": "/avatar1.png",
+    "lastMSG": "shalom",
+    "uid": "1646516888",
+    "blocked": false,
     "bio": "Hi im using ApexPongBattle",
     "rank": "beginner",
     "rankBadge": "/beginner.png",

@@ -20,7 +20,11 @@ const Chat = () => {
   return (
     <div className="chat_channels_container">
       <div className="chat_channels_sub_container">
-        <div className="col1">
+        <div
+          className={`col1 ${selectedFriend !== "none" && "hideCol1"}  ${
+            hide && "blurCols"
+          }`}
+        >
           <div className="switcher">
             <span
               className={`selectedColor ${
@@ -53,11 +57,15 @@ const Chat = () => {
             </div>
           )}
         </div>
-        <div className="col2">
+        <div
+          className={`col2 ${selectedFriend !== "none" && "showCol2"} ${
+            hide && "blurCols"
+          } `}
+        >
           {/* show selected friend chat or selected channel chat */}
           {mode == "friends" && selectedFriend != "none" ? (
             <div className="selectedFriendChat">
-              <FriendChatList selectedFriend={selectedFriend} />
+              <FriendChatList />
             </div>
           ) : mode == "channels" && selectedChannel > 0 ? (
             <div className="selectedChannelChat">
@@ -76,22 +84,21 @@ const Chat = () => {
               <p>all messages are end to end encrypted.</p>
             </div>
           )}
-
-          <div
-            onClick={() => {
-              setHide((prev) => !prev);
-              setDotsIcone((prev) => !prev);
-            }}
-            className="chat_channel_details"
-          >
-            {dotsIcon ? (
-              <HiDotsVertical className="dots_hide" />
-            ) : (
-              <MdOutlineCancel className="dots_hide" />
-            )}
-          </div>
         </div>
         <div className={`col3 ${hide && "show_col3"}`}>col3</div>
+        <div
+          onClick={() => {
+            setHide((prev) => !prev);
+            setDotsIcone((prev) => !prev);
+          }}
+          className="chat_channel_details"
+        >
+          {dotsIcon ? (
+            <HiDotsVertical className="dots_hide" />
+          ) : (
+            <MdOutlineCancel className="dots_hide" />
+          )}
+        </div>
       </div>
     </div>
   );
