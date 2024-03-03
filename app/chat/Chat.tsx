@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import "./chat.css";
 import Image from "next/image";
 import { HiDotsVertical } from "react-icons/hi";
 import FriendsChat from "./Friends/FriendsChat";
@@ -10,7 +9,8 @@ import { MdOutlineCancel } from "react-icons/md";
 import FriendChatList from "./Friends/FriendChatList";
 import { slctdFriend } from "../Atoms/friendAtom";
 import { useRecoilState } from "recoil";
-const Chat = () => {
+
+export const Chat = () => {
   const [dotsIcon, setDotsIcone] = useState(true);
   const [hide, setHide] = useState(false);
   const [mode, setMode] = useState("friends");
@@ -96,5 +96,3 @@ const Chat = () => {
     </div>
   );
 };
-
-export default Chat;

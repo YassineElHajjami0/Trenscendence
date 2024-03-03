@@ -3,8 +3,11 @@ import ChannelsList from "../../data/channels_list.json";
 import Image from "next/image";
 import "./channelChat.css";
 
-const channelChat = ({ setSelectedChannel }) => {
-  console.log(">>>>>>>>>>", ChannelsList);
+interface channelChatProps {
+  setSelectedChannel: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const channelChat: React.FC<channelChatProps> = ({ setSelectedChannel }) => {
   return (
     <div className="channelsList">
       {ChannelsList.map((e) => {
@@ -13,7 +16,7 @@ const channelChat = ({ setSelectedChannel }) => {
             key={e.channel_name}
             className="channelContainer"
             onClick={() => {
-              setSelectedChannel();
+              setSelectedChannel(e.channel_id);
             }}
           >
             <div className="imageContainer">

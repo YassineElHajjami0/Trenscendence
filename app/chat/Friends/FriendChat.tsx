@@ -10,7 +10,7 @@ interface FriendChatProps {
 }
 
 const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
-  const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
+  const [, setSelectedFriend] = useRecoilState(slctdFriend);
   return (
     <div
       onClick={() => setSelectedFriend(friendData.uid)}

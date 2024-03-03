@@ -18,8 +18,8 @@ const FriendChatList = ({ selectedFriend }: { selectedFriend: string }) => {
     <div className="friend_chat_msg">
       <div className="friend_chat_msg_header">
         <Image
+          src={friend?.avatar ?? "/default.png"}
           className="my_chat_msg_avatar"
-          src={friend?.avatar}
           width={2000}
           height={2000}
           alt="avatar"

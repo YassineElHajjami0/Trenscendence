@@ -55,3 +55,101 @@
     height: 70px;
   }
 }
+
+/* -------selectedChannelChat---------*/
+.channel_msg_section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+.channel_msg_section_header {
+  height: 60px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #2d2d31;
+}
+.channel_msg_section_header div {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+}
+.channel_msg_section_header_avatar {
+  width: 50px;
+  height: 50px;
+}
+/*--------start chat-------*/
+
+.channel_msg_section_chat {
+  padding: 0 10px;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.17);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.8px);
+  -webkit-backdrop-filter: blur(7.8px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  scrollbar-width: 0px;
+}
+.channel_msg_section_chat .channelMsgContainer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: start;
+  padding-bottom: 10px;
+}
+.channel_msg_section_chat .channelMsgContainerRecipient {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 5px;
+  padding-bottom: 10px;
+}
+.channel_msg_section_chat .senderOrRecieverImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.channel_msg_section_chat .msgAndTime {
+  padding: 8px 10px;
+  background: #2d2d2d;
+  border-radius: 10px;
+  max-width: 80%;
+}
+.channel_msg_section_chat .msgAndTime .msgTime {
+  font-size: 12px;
+  color: rgba(250, 250, 250, 0.71);
+  margin-top: 3%;
+}
+
+/*--------end chat-------*/
+.channel_msg_section_input {
+  display: flex;
+  align-items: center;
+  background-color: #2d2d31;
+  padding: 20px;
+  height: 60px;
+}
+.channel_msg_section_input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  font-size: 18px;
+}
+.channel_msg_section_input .sendIcon {
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.channel_msg_section_input .sendIcon:hover {
+  scale: 1.2;
+}
+.channel_msg_section_input .sendIcon:active {
+  scale: 0.9;
+}
