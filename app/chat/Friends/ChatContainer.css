@@ -1,0 +1,21 @@
+.chat_container {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.date_container {
+  width: 100%;
+  height: 0.5px;
+  background: white;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat_todays_date {
+  position: absolute;
+  background: #505053;
+  padding: 5px;
+  font-size: larger;
+}

@@ -5,6 +5,7 @@
   justify-content: center;
   width: 90%;
   height: 90%;
+  margin: auto;
 }
 .chat_channels_sub_container {
   width: 90%;
@@ -13,6 +14,7 @@
   border-radius: 15px;
   position: relative;
   overflow: hidden;
+  max-width: 1620px;
 }
 
 .col1 {
@@ -58,9 +60,9 @@
 .col1 .switcher {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   background-color: #27272b;
-  padding: 20px 15px;
+  padding: 15px;
   text-align: center;
   border-radius: 20px;
   position: relative;
@@ -76,9 +78,10 @@
   font-weight: 900;
   z-index: 2;
 }
+
 .col1 .switcher .selectedColor {
   position: absolute;
-  width: 40%;
+  width: 100px;
   height: 65%;
   border-radius: 10px;
   z-index: 1;
@@ -87,10 +90,10 @@
   transition: all 0.3s;
 }
 .toleft {
-  transform: translateX(-50%) !important;
+  transform: translateX(-5%) !important;
 }
 .toright {
-  transform: translateX(50%) !important;
+  transform: translateX(265%) !important;
 }
 
 .chat_channel_details {
@@ -153,11 +156,23 @@
 }
 
 @media (max-width: 1440px) {
-  .chat_channels_sub_container .col1 .switcher button {
-    font-size: 20px;
+  .col1 .switcher button {
+    font-size: 18px;
+  }
+  .selectedColor {
+    width: 90px !important;
+  }
+  .toright {
+    transform: translateX(150%) !important;
+  }
+  .chat_channels_sub_container {
+    width: 100%;
   }
 }
 @media (max-width: 1024px) {
+  .selectedColor {
+    width: 82px !important;
+  }
   .blurCols {
     filter: blur(5px);
   }
@@ -165,12 +180,12 @@
     display: flex;
   }
   .col1 .switcher button {
-    font-size: 20px;
+    font-size: 16px !important;
   }
   .col1 {
     width: 30%;
   }
-  .chat_channels_sub_container .col1 .switcher button {
+  .col1 .switcher button {
     font-size: 12px;
   }
   .switcher {
@@ -188,11 +203,14 @@
 }
 
 @media (max-width: 768px) {
+  .toright {
+    transform: translateX(109%) !important;
+  }
   .col1 {
     width: 35%;
   }
   .col1 .switcher button {
-    font-size: 20px;
+    font-size: 16px;
   }
   .chat_channels_sub_container {
     width: 100%;
@@ -202,6 +220,9 @@
   }
 }
 @media (max-width: 425px) {
+  .toright {
+    transform: translateX(220%) !important;
+  }
   .svgHolder * {
     display: none;
   }
@@ -225,5 +246,15 @@
 
   .hideCol1 {
     transform: translateX(-100%);
+  }
+}
+@media (max-width: 375px) {
+  .toright {
+    transform: translateX(160%) !important;
+  }
+}
+@media (max-width: 375px) {
+  .toright {
+    transform: translateX(125%) !important;
   }
 }

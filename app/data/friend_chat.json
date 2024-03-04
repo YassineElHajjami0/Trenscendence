@@ -1,46 +1,457 @@
-{
-  "135498451684": [
-    {
-      "time": "135498451685",
-      "msg": "hello",
-      "recipient": "true"
-    },
-    {
-      "time": "135498451686",
-      "msg": "how are you",
-      "recipient": "false"
-    },
-    {
-      "time": "135498451687",
-      "msg": "im good",
-      "recipient": "true"
-    },
-    {
-      "time": "135498451688",
-      "msg": "great",
-      "recipient": "false"
-    }
-  ],
-  "135898451684": [
-    {
-      "time": "135898551685",
-      "msg": "wassup",
-      "recipient": "false"
-    },
-    {
-      "time": "135898651686",
-      "msg": "feen",
-      "recipient": "true"
-    },
-    {
-      "time": "135898751687",
-      "msg": "chtmma",
-      "recipient": "false"
-    },
-    {
-      "time": "135898851688",
-      "msg": "matmmach",
-      "recipient": "true"
-    }
-  ]
-}
+[
+  {
+    "uid": "1640016849",
+    "allmessages": [
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709475198,
+        "messages": [
+          {
+            "time": 1709475198,
+            "msg": "hello",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475258,
+            "msg": "how are you",
+            "recipient": "false"
+          },
+          {
+            "time": 1709475270,
+            "msg": "im good",
+            "recipient": "true"
+          },
+          {
+            "time": 1709475330,
+            "msg": "great",
+            "recipient": "false"
+          }
+        ]
+      },
+      {
+        "date": 1709561538,
+        "messages": [
+          {
+            "time": 1709558130,
+            "msg": "wassup",
+            "recipient": "false"
+          },
+          {
+            "time": 1709558190,
+            "msg": "feen",
+            "recipient": "true"
+          },
+          {
+            "time": 1709558210,
+            "msg": "chtmma",
+            "recipient": "false"
+          },
+          {
+            "time": 1709558220,
+            "msg": "matmmach",
+            "recipient": "true"
+          }
+        ]
+      }
+    ]
+  }
+]
