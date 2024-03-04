@@ -10,22 +10,32 @@
       {
         "type": "owner",
         "name": "yahya_Taqsi",
-        "avatar": "/avtar1.png"
+        "avatar": "/avatar1.png"
       },
       {
         "type": "admin",
         "name": "yassine El",
-        "avatar": "/avtar2.png"
+        "avatar": "/avatar2.png"
       },
       {
-        "type": "user",
+        "type": "admin",
         "name": "ayoub",
-        "avatar": "/avtar3.png"
+        "avatar": "/avatar3.png"
       },
       {
         "type": "user",
         "name": "mimoun",
-        "avatar": "/avtar4.png"
+        "avatar": "/avatar4.png"
+      },
+      {
+        "type": "user",
+        "name": "fakhita",
+        "avatar": "/avatar5.png"
+      },
+      {
+        "type": "user",
+        "name": "lmekhtar",
+        "avatar": "/avatar-for-store.png"
       }
     ],
     "messages": [
