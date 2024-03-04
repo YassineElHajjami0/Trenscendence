@@ -2,6 +2,7 @@ import React from "react";
 import ChannelsList from "../../data/channels_list.json";
 import Image from "next/image";
 import "./channelChat.css";
+import { IoArrowBackOutline } from "react-icons/io5";
 
 interface channelChatProps {
   setSelectedChannel: React.Dispatch<React.SetStateAction<number>>;

@@ -10,6 +10,8 @@ import { MdOutlineCancel } from "react-icons/md";
 import FriendChatList from "./Friends/FriendChatList";
 import { slctdFriend } from "../Atoms/friendAtom";
 import { useRecoilState } from "recoil";
+import ChannelInfo from "./Channels/channelInfo";
+
 const Chat = () => {
   const [dotsIcon, setDotsIcone] = useState(true);
   const [hide, setHide] = useState(false);
@@ -21,9 +23,9 @@ const Chat = () => {
     <div className="chat_channels_container">
       <div className="chat_channels_sub_container">
         <div
-          className={`col1 ${selectedFriend !== "none" && "hideCol1"}  ${
-            hide && "blurCols"
-          }`}
+          className={`col1 ${
+            (selectedFriend !== "none" || selectedChannel > 0) && "hideCol1"
+          }  ${hide && "blurCols"}`}
         >
           <div className="switcher">
             <button
@@ -54,9 +56,9 @@ const Chat = () => {
           )}
         </div>
         <div
-          className={`col2 ${selectedFriend !== "none" && "showCol2"} ${
-            hide && "blurCols"
-          } `}
+          className={`col2 ${
+            (selectedFriend !== "none" || selectedChannel > 0) && "showCol2"
+          } ${hide && "blurCols"} `}
         >
           {/* show selected friend chat or selected channel chat */}
           {mode == "friends" && selectedFriend != "none" ? (
@@ -65,7 +67,10 @@ const Chat = () => {
             </div>
           ) : mode == "channels" && selectedChannel > 0 ? (
             <div className="selectedChannelChat">
-              <SelectedChannelChat selectedChannel={selectedChannel} />
+              <SelectedChannelChat
+                selectedChannel={selectedChannel}
+                setSelectedChannel={setSelectedChannel}
+              />
             </div>
           ) : (
             <div className="svgHolder">
@@ -81,7 +86,15 @@ const Chat = () => {
             </div>
           )}
         </div>
-        <div className={`col3 ${hide && "show_col3"}`}>col3</div>
+        <div className={`col3 ${hide && "show_col3"}`}>
+          {mode == "friends" && selectedFriend != "none" ? (
+            <div>friends</div>
+          ) : mode == "channels" && selectedChannel > 0 ? (
+            <ChannelInfo selectedChannel={selectedChannel} />
+          ) : (
+            ""
+          )}
+        </div>
         <div
           onClick={() => {
             setHide((prev) => !prev);

@@ -3,19 +3,22 @@ import Image from "next/image";
 import ChannelData from "../../data/channels_list.json";
 import { CHANNEL_DATA } from "@/app/Interfaces/channelDataInterface";
 import { IoIosSend } from "react-icons/io";
+import { IoArrowBackOutline } from "react-icons/io5";
+
 import "./channelChat.css";
 
 const SelectedChannelChat = ({
   selectedChannel,
+  setSelectedChannel,
 }: {
   selectedChannel: number;
+  setSelectedChannel: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const [chToDisplay, setChToDisplay] = useState<CHANNEL_DATA | undefined>();
   useEffect(() => {
     let channelToDisplay: CHANNEL_DATA | undefined = ChannelData.find(
       (ch) => ch.channel_id === selectedChannel
     );
-    console.log(">>>> ", channelToDisplay);
     setChToDisplay(channelToDisplay);
   }, [selectedChannel]);
 
@@ -25,12 +28,16 @@ const SelectedChannelChat = ({
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const result: string = "" + hours + ":" + minutes;
-    console.log(result);
     return result;
   };
   return (
     <div className="channel_msg_section">
       <div className="channel_msg_section_header">
+        <IoArrowBackOutline
+          style={{ width: "20px", margin: "5px" }}
+          className="arrow_back"
+          onClick={() => setSelectedChannel(-1)}
+        />
         <Image
           className="channel_msg_section_header_avatar"
           src={chToDisplay?.avatar ?? "/default.png"}
