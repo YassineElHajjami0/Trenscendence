@@ -14,7 +14,7 @@ const channelChat: React.FC<channelChatProps> = ({ setSelectedChannel }) => {
       {ChannelsList.map((e) => {
         return (
           <div
-            key={e.channel_name}
+            key={e.channel_id}
             className="channelContainer"
             onClick={() => {
               setSelectedChannel(e.channel_id);
@@ -30,8 +30,16 @@ const channelChat: React.FC<channelChatProps> = ({ setSelectedChannel }) => {
               />
             </div>
             <div className="name_lastmsg">
-              <p> {e.channel_name}</p>
-              <span>{e.lastmsg}</span>
+              <p>
+                {e.channel_name.length > 10
+                  ? `${e.channel_name.substring(0, 10)}..`
+                  : e.channel_name}
+              </p>
+              <span>
+                {e.lastmsg.length > 10
+                  ? `${e.lastmsg.substring(0, 10)}..`
+                  : e.lastmsg}
+              </span>
             </div>
           </div>
         );

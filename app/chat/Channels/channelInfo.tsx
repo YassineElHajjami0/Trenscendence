@@ -2,8 +2,10 @@ import channelsData from "../../data/channels_list.json";
 import { CHANNEL_DATA } from "@/app/Interfaces/channelDataInterface";
 import Image from "next/image";
 import "./channelChat.css";
+import { GiCancel } from "react-icons/gi";
 
 type CHANNELUSER = {
+  id: number;
   type: string;
   name: string;
   avatar: string;
@@ -56,7 +58,7 @@ const ChannelInfo = ({ selectedChannel }: { selectedChannel: number }) => {
         )}
         {channelAdmins?.map((adminUser) => {
           return (
-            <div className="admin">
+            <div className="admin" key={adminUser.avatar}>
               <div className="imageNameContainer">
                 <div className="userPic">
                   <Image
@@ -75,7 +77,7 @@ const ChannelInfo = ({ selectedChannel }: { selectedChannel: number }) => {
         })}
         {channelNormalUsers?.map((normalUser) => {
           return (
-            <div className="user">
+            <div className="user" key={normalUser.avatar}>
               <div className="imageNameContainer">
                 <div className="userPic">
                   <Image
@@ -91,9 +93,11 @@ const ChannelInfo = ({ selectedChannel }: { selectedChannel: number }) => {
             </div>
           );
         })}
-        {/* {selectedChannelData?.members.map((member) => {
-          return <div className="member"></div>;
-        })} */}
+      </div>
+
+      <div className="leaveBtn">
+        <GiCancel className="cancelBtn" />
+        <p>Leave {selectedChannelData?.channel_name}</p>
       </div>
     </div>
   );

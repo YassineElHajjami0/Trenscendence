@@ -6,6 +6,7 @@ export interface CHANNEL_DATA {
     topic: string;
     lastmsg: string;
     members: {
+        id: number;
         type: string;
         name: string;
         avatar: string;

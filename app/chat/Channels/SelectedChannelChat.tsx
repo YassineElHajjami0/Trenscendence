@@ -53,14 +53,14 @@ const SelectedChannelChat = ({
       <div className="channel_msg_section_chat">
         {chToDisplay?.messages.map((e) => {
           return e.recipient ? (
-            <div className="channelMsgContainerRecipient" key={e.id}>
+            <div className="channelMsgContainerRecipient" key={e.time}>
               <div className="msgAndTime">
                 <p className="channelMsg">{e.msg}</p>
                 <p className="msgTime">{returnMsgTime(e.time)}</p>
               </div>
             </div>
           ) : (
-            <div className="channelMsgContainer" key={e.id}>
+            <div className="channelMsgContainer" key={e.time}>
               <Image
                 className="senderOrRecieverImage"
                 src={e.avatar}
