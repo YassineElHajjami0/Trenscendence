@@ -10,7 +10,10 @@ interface FriendChatProps {
 }
 
 const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
+  console.log("=====>", friendData?.status);
+
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
+
   return (
     <div
       onClick={() => setSelectedFriend(friendData.uid)}
@@ -26,8 +29,8 @@ const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
         />
         <span
           className={`status_dot ${
-            friendData.status === "online" && "logged"
-          }  ${friendData.status === "ingame" && "ingame"}`}
+            friendData?.status === "online" && "logged"
+          }  ${friendData?.status === "ingame" && "ingame"}`}
         ></span>
       </div>
       <div className="chat_list_name">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./FriendChatList.css";
 import { BiSolidJoystickAlt } from "react-icons/bi";
 import { IoIosSend } from "react-icons/io";
@@ -13,6 +13,8 @@ import { FriendMSG } from "./FriendMSG";
 import { ChatContainer } from "./ChatContainer";
 
 const FriendChatList = () => {
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const friends: FriendData[] = playerData;
   const myFriendChat: any = myFriendsChat;
@@ -27,6 +29,13 @@ const FriendChatList = () => {
     setFriend(selectedFriendData || null);
     setFriendChat(selectedFriendChat || null);
   }, [selectedFriend]);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [friendChat?.allmessages]);
 
   return (
     <div className="friend_chat_msg">
@@ -58,7 +67,7 @@ const FriendChatList = () => {
           </h5>
         </div>
       </div>
-      <div className="friend_chat_msg_body">
+      <div ref={chatContainerRef} className="friend_chat_msg_body">
         {friendChat?.allmessages?.map((m: any) => (
           <ChatContainer messages={m} />
         ))}

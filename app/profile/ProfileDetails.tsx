@@ -21,6 +21,7 @@ export default function ProfileDetails() {
         >
           stats
         </button>
+
         <button
           onClick={switchE}
           className={`${switchElements === "friends" && "underline_animation"}`}
