@@ -18,7 +18,7 @@ const Chat = () => {
   const [mode, setMode] = useState("friends");
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [selectedChannel, setSelectedChannel] = useState(-1);
-
+  const selectedBtn = mode === "friends" ? "toleft" : "toright";
   return (
     <div className="chat_channels_container">
       <div className="chat_channels_sub_container">
@@ -28,11 +28,6 @@ const Chat = () => {
           }  ${hide && "blurCols"}`}
         >
           <div className="switcher">
-            <span
-              className={`selectedColor ${
-                mode === "friends" ? "toleft" : "toright"
-              }`}
-            ></span>
             <button
               onClick={() => {
                 setMode("friends");
@@ -47,6 +42,7 @@ const Chat = () => {
             >
               Channels
             </button>
+            <span className={`selectedColor ${selectedBtn}`}></span>
           </div>
           {/* show friends list or channels list */}
           {mode == "friends" ? (

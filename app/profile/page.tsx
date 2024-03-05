@@ -35,7 +35,7 @@ const Profile = () => {
         </div>
 
         <Image
-          src={silence}
+          src="/av/av7.png"
           width={2000}
           height={2000}
           alt="profile_avatar"

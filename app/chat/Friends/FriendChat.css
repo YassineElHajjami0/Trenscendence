@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 0;
+  padding: 10px 5px;
 
   position: relative;
   cursor: pointer;
@@ -17,7 +17,7 @@
   height: 100%;
   width: 0%;
   z-index: -1;
-  background: linear-gradient(to right, #1ce14e 40%, rgba(255, 255, 255, 0));
+  background: linear-gradient(to right, #1ce14e -50%, rgba(255, 255, 255, 0));
   transition: 0.3s;
   border-radius: 0 10px 10px 0;
 }
@@ -25,9 +25,10 @@
   width: 100%;
 }
 .chat_list_avatar {
-  width: 80px;
-  height: 80px;
+  width: 75px;
+  height: 75px;
   border-radius: 50%;
+  box-shadow: 0 0 5px black;
 }
 
 .chat_list_name {
@@ -42,29 +43,74 @@
   gap: 5px;
 }
 
+.chat_list_name h1,
+.chat_list_name h4 {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .chat_list_name h1 {
-  font-size: 24px;
+  font-size: 22px;
 }
 .chat_list_name h4 {
   font-size: 18px;
   color: rgb(208, 208, 208);
   font-weight: normal;
 }
+.chat_list_avatar_container {
+  position: relative;
+}
+.status_dot {
+  border: 2px solid #3d3d3d;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff3355;
+  filter: drop-shadow(0 0 1px #ff3355);
+  left: 5%;
+  bottom: 11%;
+  transition: all 0.4s;
+}
+
+.logged {
+  background: #1ce14e;
+  filter: drop-shadow(0 0 1px #1ce14e);
+}
+.ingame {
+  background: #ff7f00;
+  filter: drop-shadow(0 0 1px #ff7f00);
+}
+
 @media (max-width: 1440px) {
   .chat_list_name h1 {
-    font-size: 20px;
+    font-size: 18px;
   }
   .chat_list_name h4 {
-    font-size: 16px;
+    font-size: 14px;
   }
   .chat_list_avatar {
-    width: 80px;
-    height: 80px;
+    width: 65px;
+    height: 65px;
   }
 }
 @media (max-width: 1024px) {
   .chat_list_avatar {
     width: 60px;
     height: 60px;
+  }
+}
+@media (max-width: 768px) {
+  .chat_list_avatar {
+    width: 50px;
+    height: 50px;
+  }
+  .chat_list_name h1 {
+    font-size: 16px !important;
+  }
+  .chat_list_name h4 {
+    font-size: 12px !important;
   }
 }

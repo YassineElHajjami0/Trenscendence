@@ -1,8 +1,35 @@
 [
   {
+    "name": "Hamdani Med Ismail",
+    "status": "online",
+    "avatar": "/av/av1.png",
+    "lastMSG": "Salam 3lk alkharmoudi",
+    "uid": "1640016849",
+    "blocked": false,
+    "bio": "Hi im using ApexPongBattle",
+    "rank": "beginner",
+    "rankBadge": "/beginner.png",
+    "achievments": [
+      {
+        "name": "Precision Paddler",
+        "description": "Win a single match with a perfect score, never missing a shot.",
+        "uri": "/Precision_Paddler.png",
+        "date": "02/22/2024",
+        "unlocked": true
+      },
+      {
+        "name": "Flawless Victory",
+        "description": "Win a single match without letting your opponent score a single point.",
+        "uri": "/flawless.jpeg",
+        "date": "02/26/2024",
+        "unlocked": true
+      }
+    ]
+  },
+  {
     "name": "Yassine el hajjami",
     "status": "offline",
-    "avatar": "/avatar1.png",
+    "avatar": "/av/av2.png",
     "lastMSG": "hello there!!!",
     "uid": "1646516849",
     "blocked": false,
@@ -27,9 +54,29 @@
     ]
   },
   {
+    "name": "zakaria makhkhas",
+    "status": "online",
+    "avatar": "/av/av8.png",
+    "lastMSG": "hello there!!!",
+    "uid": "1646226849",
+    "blocked": false,
+    "bio": "Hi im using ApexPongBattle",
+    "rank": "beginner",
+    "rankBadge": "/beginner.png",
+    "achievments": [
+      {
+        "name": "Flawless Victory",
+        "description": "Win a single match without letting your opponent score a single point.",
+        "uri": "/flawless.jpeg",
+        "date": "02/26/2024",
+        "unlocked": true
+      }
+    ]
+  },
+  {
     "name": "Zakaria moumni",
     "status": "online",
-    "avatar": "/avatar3.png",
+    "avatar": "/av/av3.png",
     "lastMSG": "nod tghada",
     "uid": "1646516850",
     "blocked": false,
@@ -41,7 +88,7 @@
   {
     "name": "Mahdi amghar",
     "status": "offline",
-    "avatar": "/avatar3.png",
+    "avatar": "/av/av4.png",
     "lastMSG": "wa feen aba",
     "uid": "1646516851",
     "blocked": false,
@@ -61,7 +108,7 @@
   {
     "name": "Othman Chekairi",
     "status": "offline",
-    "avatar": "/avatar3.png",
+    "avatar": "/av/av5.png",
     "lastMSG": "wa feen aba",
     "uid": "1646516852",
     "blocked": true,
@@ -73,7 +120,7 @@
   {
     "name": "MedAitSwa",
     "status": "ingame",
-    "avatar": "/mask_avatar.png",
+    "avatar": "/av/av6.png",
     "lastMSG": "wa feen aba",
     "uid": "1646516822",
     "blocked": true,
@@ -85,7 +132,7 @@
   {
     "name": "saloua",
     "status": "ingame",
-    "avatar": "/avatar2.png",
+    "avatar": "/av/av10.png",
     "lastMSG": "wa feen aba",
     "uid": "1646516800",
     "blocked": true,
@@ -97,7 +144,7 @@
   {
     "name": "Benito",
     "status": "online",
-    "avatar": "/avatar1.png",
+    "avatar": "/av/av9.png",
     "lastMSG": "shalom",
     "uid": "1646516888",
     "blocked": false,
