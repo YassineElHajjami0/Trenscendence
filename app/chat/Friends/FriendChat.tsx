@@ -10,8 +10,6 @@ interface FriendChatProps {
 }
 
 const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
-  console.log("=====>", friendData?.status);
-
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
 
   return (
