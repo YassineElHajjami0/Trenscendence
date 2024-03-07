@@ -333,7 +333,7 @@
   transition: all 0.3s;
 }
 .toleft {
-  transform: translateX(-5%) !important;
+  transform: translateX(-10%) !important;
 }
 .toright {
   transform: translateX(265%) !important;
@@ -407,14 +407,14 @@
 }
 
 @media (max-width: 1440px) {
+  .toright {
+    transform: translateX(182%) !important;
+  }
   .col1 .switcher button {
     font-size: 18px;
   }
   .selectedColor {
     width: 90px !important;
-  }
-  .toright {
-    transform: translateX(150%) !important;
   }
   .chat_channels_container {
     width: 100%;
@@ -458,7 +458,7 @@
 
 @media (max-width: 768px) {
   .toright {
-    transform: translateX(109%) !important;
+    transform: translateX(135%) !important;
   }
   .col1 {
     width: 35%;
@@ -475,7 +475,7 @@
 }
 @media (max-width: 425px) {
   .toright {
-    transform: translateX(220%) !important;
+    transform: translateX(260%) !important;
   }
   .svgHolder * {
     display: none;
@@ -511,11 +511,11 @@
 }
 @media (max-width: 375px) {
   .toright {
-    transform: translateX(160%) !important;
+    transform: translateX(198%) !important;
   }
 }
-@media (max-width: 375px) {
+@media (max-width: 320px) {
   .toright {
-    transform: translateX(125%) !important;
+    transform: translateX(155%) !important;
   }
 }
