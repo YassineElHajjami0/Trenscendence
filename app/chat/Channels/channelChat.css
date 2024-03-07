@@ -1,7 +1,36 @@
 * {
   transition: 0.3s;
 }
-.channelsList .channelContainer {
+.channelsListContainer {
+  height: 100%;
+  position: relative;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+.addChannelBtn {
+  position: absolute;
+
+  right: 10px;
+  bottom: 0;
+  z-index: 2;
+  cursor: pointer;
+  font-size: 30px;
+  background-color: #1ccc48;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+}
+.addChannelBtn:hover {
+  background-color: #10a936;
+}
+.addChannelBtn:active {
+  scale: 0.95;
+}
+.channelsListContainer .channelContainer {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -9,7 +38,7 @@
   cursor: pointer;
   padding: 10px;
 }
-.channelsList .channelContainer::before {
+.channelsListContainer .channelContainer::before {
   content: "";
   position: absolute;
   top: 0;
@@ -20,46 +49,46 @@
   background: linear-gradient(to right, #1ce14e 40%, rgba(255, 255, 255, 0));
   transition: 0.3s;
 }
-.channelsList .channelContainer:hover::before {
+.channelsListContainer .channelContainer:hover::before {
   width: 100%;
 }
-.channelsList .channelContainer .imageContainer {
+.channelsListContainer .channelContainer .imageContainer {
   border-radius: 60%;
 }
-.channelsList .channelContainer .channelImage {
+.channelsListContainer .channelContainer .channelImage {
   width: 90px;
   height: 90px;
 }
-.channelsList .channelContainer .name_lastmsg {
+.channelsListContainer .channelContainer .name_lastmsg {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
-.channelsList .channelContainer .name_lastmsg p {
+.channelsListContainer .channelContainer .name_lastmsg p {
   font-size: 22px;
   font-weight: 900;
 }
-.channelsList .channelContainer .name_lastmsg span {
+.channelsListContainer .channelContainer .name_lastmsg span {
   color: rgb(203, 203, 203);
 }
 
 @media (max-width: 1440px) {
-  .channelsList .channelContainer .name_lastmsg p {
+  .channelsListContainer .channelContainer .name_lastmsg p {
     font-size: 20px;
   }
-  .channelsList .channelContainer .channelImage {
+  .channelsListContainer .channelContainer .channelImage {
     width: 70px;
     height: 70px;
   }
 }
 @media (max-width: 1024px) {
-  .channelsList .channelContainer .channelImage {
+  .channelsListContainer .channelContainer .channelImage {
     width: 60px;
     height: 60px;
   }
 }
 @media (max-width: 725px) {
-  .channelsList .channelContainer .channelImage {
+  .channelsListContainer .channelContainer .channelImage {
     width: 50px;
     height: 50px;
   }
@@ -136,6 +165,7 @@
 }
 
 /*--------end chat-------*/
+
 .channel_msg_section_input {
   display: flex;
   align-items: center;
@@ -206,6 +236,7 @@
   padding: 5px;
   height: 50%;
   overflow-y: scroll;
+  overflow-x: hidden;
   scrollbar-width: 2px;
 }
 ::-webkit-scrollbar {
@@ -235,6 +266,7 @@
   cursor: pointer;
   padding: 5px 0;
   position: relative;
+
   /* border-bottom: 0.5px solid rgba(232, 232, 232, 0.376); */
 }
 .selectedChannelData .members .owner::before,
@@ -242,18 +274,19 @@
 .selectedChannelData .members .user::before {
   content: "";
   position: absolute;
-  bottom: 0;
-  left: 50%;
+  top: 0;
+  left: 0;
   transform: translateX(-50%);
-  width: 0px;
-  height: 2px;
-  background-color: #00ff40;
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(to right, #00ff407e, rgba(47, 44, 44, 0));
+  z-index: -1;
   transition: 0.3s;
 }
 .selectedChannelData .members .owner:hover::before,
 .selectedChannelData .members .admin:hover::before,
 .selectedChannelData .members .user:hover::before {
-  width: 70%;
+  width: 100%;
 }
 
 .selectedChannelData .members .owner .userPic .pic,
@@ -273,15 +306,69 @@
 .selectedChannelData .members .user .name:hover {
   color: #99e8ad;
 }
-.selectedChannelData .members .owner .status,
-.selectedChannelData .members .admin .status,
-.selectedChannelData .members .user .status {
+.selectedChannelData .members .owner .status .type,
+.selectedChannelData .members .admin .status .type,
+.selectedChannelData .members .user .status .type {
   background-color: #1ccc48;
   padding: 4px;
   border-radius: 5px;
   flex-shrink: 1;
 }
+.selectedChannelData .members .owner .status,
+.selectedChannelData .members .admin .status,
+.selectedChannelData .members .user .status {
+  display: flex;
+  align-items: center;
+}
 
+.selectedChannelData .members .owner .status .actionsBtn,
+.selectedChannelData .members .admin .status .actionsBtn,
+.selectedChannelData .members .user .actionsBtn {
+  z-index: 10;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+}
+.selectedChannelData .members .owner .status .actionsBtn .btn:active,
+.selectedChannelData .members .admin .status .actionsBtn .btn:active,
+.selectedChannelData .members .user .actionsBtn .btn:active {
+  scale: 0.9;
+}
+.selectedChannelData .members .owner .status .actionsBtn .actions,
+.selectedChannelData .members .admin .status .actionsBtn .actions,
+.selectedChannelData .members .user .actionsBtn .actions {
+  position: absolute;
+  width: 120px;
+  text-align: left;
+  padding: 10px;
+  border-radius: 10px;
+  line-height: 1.8;
+  background-color: #059b2ae0;
+  right: 10px;
+  top: -10px;
+  font-weight: 600;
+  z-index: 20;
+  transform: translateX(110%);
+  opacity: 0;
+  transition: 0.3s;
+}
+.selectedChannelData .members .owner .status .actionsBtn:hover .actions,
+.selectedChannelData .members .admin .status .actionsBtn:hover .actions,
+.selectedChannelData .members .user .actionsBtn:hover .actions {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.selectedChannelData .members .owner .status .actionsBtn .actions ul,
+.selectedChannelData .members .admin .status .actionsBtn .actions ul,
+.selectedChannelData .members .user .actionsBtn .actions ul {
+  list-style: none;
+}
+
+.selectedChannelData .members .owner .status .actionsBtn .actions ul li:active,
+.selectedChannelData .members .admin .status .actionsBtn .actions ul li:active,
+.selectedChannelData .members .user .actionsBtn .actions ul li:active {
+  scale: 0.95;
+}
 .selectedChannelData .leaveBtn {
   flex: 1;
   display: flex;

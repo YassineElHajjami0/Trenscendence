@@ -11,6 +11,9 @@
 body {
   background: #27272b;
   background-image: url("/background.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .Nav-children-container {

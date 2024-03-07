@@ -9,13 +9,13 @@
     "members": [
       {
         "id": 78451200,
-        "type": "owner",
+        "type": "admin",
         "name": "yahya_Taqsi",
         "avatar": "/avatar1.png"
       },
       {
-        "id": 78451285,
-        "type": "admin",
+        "id": 1645589456,
+        "type": "owner",
         "name": "yassine El",
         "avatar": "/avatar2.png"
       },
@@ -60,7 +60,7 @@
         "avatar": "/avatar2.png"
       },
       {
-        "id": 3737357357,
+        "id": 73737357357,
         "time": 135498451687,
         "msg": "im good",
         "recipient": true,
@@ -168,14 +168,14 @@
     "lastmsg": "wassup",
     "members": [
       {
-        "id": 78400294,
-        "type": "owner",
+        "id": 1645589456,
+        "type": "admin",
         "name": "yassine",
         "avatar": "/avatar2.png"
       },
       {
         "id": 78444294,
-        "type": "admin",
+        "type": "owner",
         "name": "yahya",
         "avatar": "/avatar1.png"
       },

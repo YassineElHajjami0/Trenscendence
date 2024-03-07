@@ -1,8 +1,10 @@
 import channelsData from "../../data/channels_list.json";
 import { CHANNEL_DATA } from "@/app/Interfaces/channelDataInterface";
+import PlayerData from "../../data/player-info.json";
 import Image from "next/image";
 import "./channelChat.css";
 import { GiCancel } from "react-icons/gi";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 type CHANNELUSER = {
   id: number;
@@ -22,7 +24,15 @@ const ChannelInfo = ({ selectedChannel }: { selectedChannel: number }) => {
     selectedChannelData?.members.filter((e) => e.type == "admin");
   let channelNormalUsers: CHANNELUSER[] | undefined =
     selectedChannelData?.members.filter((e) => e.type == "user");
-  console.log("MMMMMMM", channelNormalUsers);
+  let myTypeInTheChannel = selectedChannelData?.members.find(
+    (e) => e.id === PlayerData.uid
+  );
+  const handleRemoveAdminClick = (id: number) => {};
+  const handleAdminClick = (id: number) => {};
+  const handleKickClick = (id: number) => {};
+  const handleBlockClick = (id: number) => {};
+  const handleMuteClick = (id: number) => {};
+  console.log("myTypeInTheChannel=>", myTypeInTheChannel);
   return (
     <div className="selectedChannelData">
       <div className="ChannelImage">
@@ -51,14 +61,16 @@ const ChannelInfo = ({ selectedChannel }: { selectedChannel: number }) => {
               </div>
               <div className="name">{channelOwner.name}</div>
             </div>
-            <div className="status">{channelOwner.type}</div>
+            <div className="status">
+              <span className="type">{channelOwner.type}</span>
+            </div>
           </div>
         ) : (
           ""
         )}
         {channelAdmins?.map((adminUser) => {
           return (
-            <div className="admin" key={adminUser.avatar}>
+            <div className="admin" key={adminUser.id}>
               <div className="imageNameContainer">
                 <div className="userPic">
                   <Image
@@ -71,13 +83,54 @@ const ChannelInfo = ({ selectedChannel }: { selectedChannel: number }) => {
                 </div>
                 <div className="name">{adminUser.name}</div>
               </div>
-              <div className="status">{adminUser.type}</div>
+              <div className="status">
+                <span className="type">{adminUser.type}</span>
+                {myTypeInTheChannel?.type === "owner" ? (
+                  <>
+                    <span className="actionsBtn">
+                      {myTypeInTheChannel?.type === "owner" ? (
+                        <BsThreeDotsVertical className="btn" />
+                      ) : (
+                        ""
+                      )}
+                      <span className="actions">
+                        <ul>
+                          <li>
+                            {myTypeInTheChannel?.type === "owner" ? (
+                              <li
+                                onClick={() =>
+                                  handleRemoveAdminClick(adminUser.id)
+                                }
+                              >
+                                Rm Admin
+                              </li>
+                            ) : (
+                              ""
+                            )}
+                          </li>
+                          <li onClick={() => handleKickClick(adminUser.id)}>
+                            kick
+                          </li>
+                          <li onClick={() => handleBlockClick(adminUser.id)}>
+                            Block
+                          </li>
+                          <li onClick={() => handleMuteClick(adminUser.id)}>
+                            Mute
+                          </li>
+                        </ul>
+                      </span>
+                    </span>
+                  </>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
           );
         })}
         {channelNormalUsers?.map((normalUser) => {
           return (
-            <div className="user" key={normalUser.avatar}>
+            <div className="user" key={normalUser.id}>
               <div className="imageNameContainer">
                 <div className="userPic">
                   <Image
@@ -89,6 +142,41 @@ const ChannelInfo = ({ selectedChannel }: { selectedChannel: number }) => {
                   />
                 </div>
                 <div className="name">{normalUser.name}</div>
+              </div>
+              <div className="actionsBtn">
+                {myTypeInTheChannel?.type === "owner" ||
+                myTypeInTheChannel?.type === "admin" ? (
+                  <BsThreeDotsVertical />
+                ) : (
+                  ""
+                )}
+                {myTypeInTheChannel?.type === "owner" ||
+                myTypeInTheChannel?.type === "admin" ? (
+                  <span className="actions">
+                    <ul>
+                      <li>
+                        {myTypeInTheChannel?.type === "owner" ? (
+                          <li onClick={() => handleAdminClick(normalUser.id)}>
+                            Admin
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                      </li>
+                      <li onClick={() => handleKickClick(normalUser.id)}>
+                        kick
+                      </li>
+                      <li onClick={() => handleBlockClick(normalUser.id)}>
+                        Block
+                      </li>
+                      <li onClick={() => handleMuteClick(normalUser.id)}>
+                        Mute
+                      </li>
+                    </ul>
+                  </span>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           );
