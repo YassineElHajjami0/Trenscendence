@@ -25,7 +25,7 @@ const Chat = () => {
   return (
     <div className="chat_channels_container">
       <div className="chat_channels_sub_container">
-        <div className="createChannelPopup">
+        {/* <div className="createChannelPopup">
           <div className="popupContainer">
             <div className="cancelBtn">
               <MdOutlineCancel />
@@ -87,7 +87,7 @@ const Chat = () => {
             </div>
             <button className="createChannelBtn">create</button>
           </div>
-        </div>
+        </div> */}
         <div
           className={`col1 ${
             (selectedFriend !== "none" || selectedChannel > 0) && "hideCol1"
