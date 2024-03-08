@@ -362,7 +362,7 @@
   scale: 0.9;
 }
 .dots_hide:hover {
-  color: #71ff95;
+  color: #1ce14e;
 }
 
 .show_col3 {
@@ -403,9 +403,80 @@
 
 .friendsList {
   width: 100%;
-  height: 90%;
+  height: 88%;
 }
 
+.add_friend {
+  z-index: 10;
+  border-radius: 10%;
+  position: absolute;
+  cursor: pointer;
+  background: #1ce14e;
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  bottom: 10px;
+  left: 10px;
+}
+
+.show_the_big_div {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: inherit;
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transform-origin: center;
+  transform: translate(50% 50%);
+  bottom: 0px;
+  left: 0px;
+  display: grid;
+  place-items: center;
+  transition: all 0.4s;
+}
+.add_friend_container {
+  width: 50%;
+  height: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 0px 5px 20px 5px;
+}
+.input_wrapper {
+  margin-bottom: 10px;
+  width: 70%;
+  height: 30%;
+  background-color: #25262b85;
+
+  border-radius: 0 0 10px 10px;
+}
+.add_friend_container input {
+  width: 100%;
+  height: 40%;
+  border-radius: inherit;
+  border: none;
+  outline: none;
+  transform: translateY(150%);
+  background-color: rgba(0, 0, 0, 0.142);
+  padding: 5px 15px;
+}
+.searchedFriends {
+  background-color: #25262b85;
+
+  width: 70%;
+  height: 60%;
+  border-radius: 15px;
+}
+
+/*-----------break point-----------*/
 @media (max-width: 1440px) {
   .toright {
     transform: translateX(182%) !important;

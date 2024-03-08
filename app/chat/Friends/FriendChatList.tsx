@@ -12,6 +12,7 @@ import { ChatContainer } from "./ChatContainer";
 import { slctdFriend } from "@/app/Atoms/friendAtom";
 import { slctdFriendChat } from "@/app/Atoms/friendChatAtom";
 import { FriendChat } from "@/app/Interfaces/friendChat";
+import { currentFriend } from "@/app/Atoms/currentFriend";
 const FriendChatList = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const friends: FriendData[] = playerData;
@@ -19,7 +20,7 @@ const FriendChatList = () => {
 
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [friendChat, setFriendChat] = useRecoilState(slctdFriendChat);
-  const [friend, setFriend] = useState<FriendData | null>(null);
+  const [friend, setFriend] = useRecoilState(currentFriend);
   const [inputMSG, setInputMSG] = useState<string>("");
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const FriendChatList = () => {
     const selectedFriendChat = myFriendChat.find(
       (f: any) => f.uid === selectedFriend
     );
-    setFriend(selectedFriendData || null);
+    setFriend(selectedFriendData);
     setFriendChat(selectedFriendChat || undefined);
   }, [selectedFriend]);
   useEffect(() => {
@@ -112,20 +113,22 @@ const FriendChatList = () => {
         ))}
       </div>
       <form onSubmit={sendMessage} className="friend_chat_msg_form">
-        <input
-          value={inputMSG}
-          onChange={(e) => setInputMSG(e.target.value)}
-          className="input_msg"
-          type="text"
-          placeholder="Message"
-        />
+        <fieldset disabled={friend?.blocked}>
+          <input
+            value={inputMSG}
+            onChange={(e) => setInputMSG(e.target.value)}
+            className="input_msg"
+            type="text"
+            placeholder="Message"
+          />
 
-        <div className="play_send_msg">
-          <BiSolidJoystickAlt />
-          <button className="submit_msg" type="submit">
-            <IoIosSend />
-          </button>
-        </div>
+          <div className="play_send_msg">
+            <BiSolidJoystickAlt />
+            <button className="submit_msg" type="submit">
+              <IoIosSend />
+            </button>
+          </div>
+        </fieldset>
       </form>
     </div>
   );

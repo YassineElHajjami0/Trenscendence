@@ -12,8 +12,11 @@ import { slctdFriend } from "../Atoms/friendAtom";
 import { useRecoilState } from "recoil";
 import ChannelInfo from "./Channels/channelInfo";
 import { IoCameraReverse } from "react-icons/io5";
+import { FriendInfo } from "./Friends/FriendInfo";
+import { TiUserAdd } from "react-icons/ti";
 
 const Chat = () => {
+  const [addFriend, setAddFriend] = useState(false);
   const [dotsIcon, setDotsIcone] = useState(true);
   const [hide, setHide] = useState(false);
   const [mode, setMode] = useState("friends");
@@ -22,6 +25,11 @@ const Chat = () => {
   const [selectedChannelPicture, setSelectedChannelPicture] =
     useState("/default.png");
   const selectedBtn = mode === "friends" ? "toleft" : "toright";
+
+  const addFriendClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
     <div className="chat_channels_container">
       <div className="chat_channels_sub_container">
@@ -154,24 +162,41 @@ const Chat = () => {
         </div>
         <div className={`col3 ${hide && "show_col3"}`}>
           {mode == "friends" && selectedFriend != "none" ? (
-            <div>friends</div>
+            <FriendInfo />
           ) : mode == "channels" && selectedChannel > 0 ? (
             <ChannelInfo selectedChannel={selectedChannel} />
           ) : (
             ""
           )}
         </div>
+
         <div
           onClick={() => {
             setHide((prev) => !prev);
             setDotsIcone((prev) => !prev);
           }}
+          hidden={selectedFriend === "none"}
           className="chat_channel_details"
         >
           {dotsIcon ? (
             <HiDotsVertical className="dots_hide" />
           ) : (
             <MdOutlineCancel className="dots_hide" />
+          )}
+        </div>
+        <div
+          onClick={() => setAddFriend((prev) => !prev)}
+          className={`add_friend ${addFriend && `show_the_big_div`}`}
+        >
+          {addFriend ? (
+            <div onClick={addFriendClick} className="add_friend_container">
+              <div className="input_wrapper">
+                <input type="text" placeholder="Search Player" />
+              </div>
+              <div className="searchedFriends"></div>
+            </div>
+          ) : (
+            <TiUserAdd />
           )}
         </div>
       </div>

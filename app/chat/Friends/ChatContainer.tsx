@@ -8,6 +8,7 @@ export const ChatContainer = ({ messages }: { messages: FriendChatMSG }) => {
     "en-US",
     options as Intl.DateTimeFormatOptions
   );
+
   return (
     <div className="chat_container">
       <h1 className="chat_todays_date">{date}</h1>

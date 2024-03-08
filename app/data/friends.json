@@ -8,8 +8,9 @@
     "blocked": false,
     "bio": "Hi im using ApexPongBattle",
     "rank": "beginner",
-    "rankBadge": "/beginner.png",
-    "achievments": [
+    "rankBadge": "/ranks/1.png",
+
+    "achievements": [
       {
         "name": "Precision Paddler",
         "description": "Win a single match with a perfect score, never missing a shot.",
@@ -20,9 +21,30 @@
       {
         "name": "Flawless Victory",
         "description": "Win a single match without letting your opponent score a single point.",
-        "uri": "/flawless.jpeg",
-        "date": "02/26/2024",
+        "uri": "/flawless.png",
+        "date": "",
         "unlocked": true
+      },
+      {
+        "name": "Speed Demon",
+        "description": "Win a match with a point scored within the first 10 seconds of each game.",
+        "uri": "/Speed_Demon.png",
+        "date": "",
+        "unlocked": true
+      },
+      {
+        "name": "Ping Pong Pro",
+        "description": "Win 100 matches against tough opponents.",
+        "uri": "/ping_pong_pro.png",
+        "date": "",
+        "unlocked": true
+      },
+      {
+        "name": "AI Conqueror",
+        "description": "Defeat the AI opponent on the highest difficulty level in a single match.",
+        "uri": "/ai_conqueror.png",
+        "date": "",
+        "unlocked": false
       }
     ]
   },
@@ -35,8 +57,9 @@
     "blocked": false,
     "bio": "Hi im using ApexPongBattle",
     "rank": "beginner",
-    "rankBadge": "/beginner.png",
-    "achievments": [
+    "rankBadge": "/ranks/1.png",
+
+    "achievements": [
       {
         "name": "Precision Paddler",
         "description": "Win a single match with a perfect score, never missing a shot.",
@@ -47,9 +70,30 @@
       {
         "name": "Flawless Victory",
         "description": "Win a single match without letting your opponent score a single point.",
-        "uri": "/flawless.jpeg",
-        "date": "02/26/2024",
-        "unlocked": true
+        "uri": "/flawless.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Speed Demon",
+        "description": "Win a match with a point scored within the first 10 seconds of each game.",
+        "uri": "/Speed_Demon.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Ping Pong Pro",
+        "description": "Win 100 matches against tough opponents.",
+        "uri": "/ping_pong_pro.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "AI Conqueror",
+        "description": "Defeat the AI opponent on the highest difficulty level in a single match.",
+        "uri": "/ai_conqueror.png",
+        "date": "",
+        "unlocked": false
       }
     ]
   },
@@ -62,14 +106,43 @@
     "blocked": false,
     "bio": "Hi im using ApexPongBattle",
     "rank": "beginner",
-    "rankBadge": "/beginner.png",
-    "achievments": [
+    "rankBadge": "/ranks/1.png",
+
+    "achievements": [
+      {
+        "name": "Precision Paddler",
+        "description": "Win a single match with a perfect score, never missing a shot.",
+        "uri": "/Precision_Paddler.png",
+        "date": "02/22/2024",
+        "unlocked": true
+      },
       {
         "name": "Flawless Victory",
         "description": "Win a single match without letting your opponent score a single point.",
-        "uri": "/flawless.jpeg",
-        "date": "02/26/2024",
-        "unlocked": true
+        "uri": "/flawless.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Speed Demon",
+        "description": "Win a match with a point scored within the first 10 seconds of each game.",
+        "uri": "/Speed_Demon.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Ping Pong Pro",
+        "description": "Win 100 matches against tough opponents.",
+        "uri": "/ping_pong_pro.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "AI Conqueror",
+        "description": "Defeat the AI opponent on the highest difficulty level in a single match.",
+        "uri": "/ai_conqueror.png",
+        "date": "",
+        "unlocked": false
       }
     ]
   },
@@ -82,8 +155,45 @@
     "blocked": false,
     "bio": "Hi im using ApexPongBattle",
     "rank": "beginner",
-    "rankBadge": "/beginner.png",
-    "achievments": []
+    "rankBadge": "/ranks/1.png",
+
+    "achievements": [
+      {
+        "name": "Precision Paddler",
+        "description": "Win a single match with a perfect score, never missing a shot.",
+        "uri": "/Precision_Paddler.png",
+        "date": "02/22/2024",
+        "unlocked": true
+      },
+      {
+        "name": "Flawless Victory",
+        "description": "Win a single match without letting your opponent score a single point.",
+        "uri": "/flawless.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Speed Demon",
+        "description": "Win a match with a point scored within the first 10 seconds of each game.",
+        "uri": "/Speed_Demon.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Ping Pong Pro",
+        "description": "Win 100 matches against tough opponents.",
+        "uri": "/ping_pong_pro.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "AI Conqueror",
+        "description": "Defeat the AI opponent on the highest difficulty level in a single match.",
+        "uri": "/ai_conqueror.png",
+        "date": "",
+        "unlocked": false
+      }
+    ]
   },
   {
     "name": "Mahdi amghar",
@@ -94,14 +204,43 @@
     "blocked": false,
     "bio": "Hi im using ApexPongBattle",
     "rank": "beginner",
-    "rankBadge": "/beginner.png",
-    "achievments": [
+    "rankBadge": "/ranks/1.png",
+
+    "achievements": [
+      {
+        "name": "Precision Paddler",
+        "description": "Win a single match with a perfect score, never missing a shot.",
+        "uri": "/Precision_Paddler.png",
+        "date": "02/22/2024",
+        "unlocked": true
+      },
       {
         "name": "Flawless Victory",
         "description": "Win a single match without letting your opponent score a single point.",
-        "uri": "/flawless.jpeg",
-        "date": "02/26/2024",
-        "unlocked": true
+        "uri": "/flawless.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Speed Demon",
+        "description": "Win a match with a point scored within the first 10 seconds of each game.",
+        "uri": "/Speed_Demon.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Ping Pong Pro",
+        "description": "Win 100 matches against tough opponents.",
+        "uri": "/ping_pong_pro.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "AI Conqueror",
+        "description": "Defeat the AI opponent on the highest difficulty level in a single match.",
+        "uri": "/ai_conqueror.png",
+        "date": "",
+        "unlocked": false
       }
     ]
   },
@@ -114,8 +253,45 @@
     "blocked": true,
     "bio": "Hi im using ApexPongBattle",
     "rank": "beginner",
-    "rankBadge": "/beginner.png",
-    "achievments": []
+    "rankBadge": "/ranks/1.png",
+
+    "achievements": [
+      {
+        "name": "Precision Paddler",
+        "description": "Win a single match with a perfect score, never missing a shot.",
+        "uri": "/Precision_Paddler.png",
+        "date": "02/22/2024",
+        "unlocked": true
+      },
+      {
+        "name": "Flawless Victory",
+        "description": "Win a single match without letting your opponent score a single point.",
+        "uri": "/flawless.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Speed Demon",
+        "description": "Win a match with a point scored within the first 10 seconds of each game.",
+        "uri": "/Speed_Demon.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Ping Pong Pro",
+        "description": "Win 100 matches against tough opponents.",
+        "uri": "/ping_pong_pro.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "AI Conqueror",
+        "description": "Defeat the AI opponent on the highest difficulty level in a single match.",
+        "uri": "/ai_conqueror.png",
+        "date": "",
+        "unlocked": false
+      }
+    ]
   },
   {
     "name": "MedAitSwa",
@@ -126,8 +302,45 @@
     "blocked": true,
     "bio": "Hi im using ApexPongBattle",
     "rank": "beginner",
-    "rankBadge": "/beginner.png",
-    "achievments": []
+    "rankBadge": "/ranks/1.png",
+
+    "achievements": [
+      {
+        "name": "Precision Paddler",
+        "description": "Win a single match with a perfect score, never missing a shot.",
+        "uri": "/Precision_Paddler.png",
+        "date": "02/22/2024",
+        "unlocked": true
+      },
+      {
+        "name": "Flawless Victory",
+        "description": "Win a single match without letting your opponent score a single point.",
+        "uri": "/flawless.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Speed Demon",
+        "description": "Win a match with a point scored within the first 10 seconds of each game.",
+        "uri": "/Speed_Demon.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Ping Pong Pro",
+        "description": "Win 100 matches against tough opponents.",
+        "uri": "/ping_pong_pro.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "AI Conqueror",
+        "description": "Defeat the AI opponent on the highest difficulty level in a single match.",
+        "uri": "/ai_conqueror.png",
+        "date": "",
+        "unlocked": false
+      }
+    ]
   },
   {
     "name": "saloua",
@@ -138,8 +351,45 @@
     "blocked": true,
     "bio": "Hi im using ApexPongBattle",
     "rank": "beginner",
-    "rankBadge": "/beginner.png",
-    "achievments": []
+    "rankBadge": "/ranks/1.png",
+
+    "achievements": [
+      {
+        "name": "Precision Paddler",
+        "description": "Win a single match with a perfect score, never missing a shot.",
+        "uri": "/Precision_Paddler.png",
+        "date": "02/22/2024",
+        "unlocked": true
+      },
+      {
+        "name": "Flawless Victory",
+        "description": "Win a single match without letting your opponent score a single point.",
+        "uri": "/flawless.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Speed Demon",
+        "description": "Win a match with a point scored within the first 10 seconds of each game.",
+        "uri": "/Speed_Demon.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Ping Pong Pro",
+        "description": "Win 100 matches against tough opponents.",
+        "uri": "/ping_pong_pro.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "AI Conqueror",
+        "description": "Defeat the AI opponent on the highest difficulty level in a single match.",
+        "uri": "/ai_conqueror.png",
+        "date": "",
+        "unlocked": false
+      }
+    ]
   },
   {
     "name": "Benito",
@@ -150,7 +400,44 @@
     "blocked": false,
     "bio": "Hi im using ApexPongBattle",
     "rank": "beginner",
-    "rankBadge": "/beginner.png",
-    "achievments": []
+    "rankBadge": "/ranks/1.png",
+
+    "achievements": [
+      {
+        "name": "Precision Paddler",
+        "description": "Win a single match with a perfect score, never missing a shot.",
+        "uri": "/Precision_Paddler.png",
+        "date": "02/22/2024",
+        "unlocked": true
+      },
+      {
+        "name": "Flawless Victory",
+        "description": "Win a single match without letting your opponent score a single point.",
+        "uri": "/flawless.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Speed Demon",
+        "description": "Win a match with a point scored within the first 10 seconds of each game.",
+        "uri": "/Speed_Demon.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "Ping Pong Pro",
+        "description": "Win 100 matches against tough opponents.",
+        "uri": "/ping_pong_pro.png",
+        "date": "",
+        "unlocked": false
+      },
+      {
+        "name": "AI Conqueror",
+        "description": "Defeat the AI opponent on the highest difficulty level in a single match.",
+        "uri": "/ai_conqueror.png",
+        "date": "",
+        "unlocked": false
+      }
+    ]
   }
 ]
