@@ -37,15 +37,35 @@
   height: fit-content;
   border-radius: 20px;
   text-align: center;
-  padding: 60px 340px;
+  padding: 10px 340px;
   background-color: #27272b;
 }
 .chat_channels_sub_container .createChannelPopup .popupContainer .cancelBtn {
-  position: absolute;
-  top: 0px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 30px;
+  font-size: 40px;
+  color: #1ce14e;
+  display: block;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  margin-top: 10px;
+  transition: 0.3s;
+  right: 0;
+
+  margin-left: auto;
+}
+.chat_channels_sub_container
+  .createChannelPopup
+  .popupContainer
+  .cancelBtn:active {
+  scale: 0.95;
+}
+.chat_channels_sub_container
+  .createChannelPopup
+  .popupContainer
+  .cancelBtn:hover {
+  color: #1ab741;
 }
 .chat_channels_sub_container .createChannelPopup .imageContainer {
   width: 150px;
@@ -71,6 +91,11 @@
   position: absolute;
   right: 10%;
   bottom: 15%;
+  cursor: pointer;
+}
+.chat_channels_sub_container .createChannelPopup .chooseImageBtn label {
+  cursor: pointer;
+  font-size: 25px;
 }
 .chat_channels_sub_container .createChannelPopup .chooseImageBtn:active {
   scale: 0.95;
@@ -129,6 +154,13 @@
   .createChannelPopup
   .popupContainer
   .channelType
+  label {
+  cursor: pointer;
+}
+.chat_channels_sub_container
+  .createChannelPopup
+  .popupContainer
+  .channelType
   input[type="radio"] {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -138,6 +170,7 @@
   border-radius: 50%;
   margin: 5px;
   border: 2px solid green;
+  cursor: pointer;
 }
 .chat_channels_sub_container
   .createChannelPopup
@@ -185,12 +218,12 @@
 
 @media (max-width: 1440px) {
   .chat_channels_sub_container .createChannelPopup .popupContainer {
-    padding: 60px 190px;
+    padding: 10px 190px;
   }
 }
 @media (max-width: 1024px) {
   .chat_channels_sub_container .createChannelPopup .popupContainer {
-    padding: 60px 115px;
+    padding: 10px 115px;
   }
   .chat_channels_sub_container
     .createChannelPopup
@@ -209,7 +242,7 @@
 }
 @media (max-width: 768px) {
   .chat_channels_sub_container .createChannelPopup .popupContainer {
-    padding: 50px 120px;
+    padding: 10px 120px;
   }
   .chat_channels_sub_container .createChannelPopup .popupContainer {
     width: 90%;

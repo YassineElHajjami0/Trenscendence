@@ -395,3 +395,19 @@
 .selectedChannelData .leaveBtn .cancelBtn:active {
   scale: 0.9;
 }
+
+/*-------------create channel----------------*/
+
+.popupContainer input[type="file"] {
+  display: none;
+}
+.custom-file-input {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: #070c08;
+  color: #070c08;
+  z-index: 852;
+}
+
+/*----------------end channel----------------*/
