@@ -26,7 +26,7 @@ const Chat = () => {
     useState("/default.png");
   const selectedBtn = mode === "friends" ? "toleft" : "toright";
 
-  const addFriendClick = (e) => {
+  const addFriendClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
 
@@ -184,21 +184,22 @@ const Chat = () => {
             <MdOutlineCancel className="dots_hide" />
           )}
         </div>
-        <div
-          onClick={() => setAddFriend((prev) => !prev)}
-          className={`add_friend ${addFriend && `show_the_big_div`}`}
-        >
-          {addFriend ? (
-            <div onClick={addFriendClick} className="add_friend_container">
-              <div className="input_wrapper">
+        {mode === "friends" && (
+          <div
+            onClick={() => setAddFriend((prev) => !prev)}
+            className={`add_friend ${addFriend && `show_the_big_div`}`}
+          >
+            {addFriend ? (
+              <div onClick={addFriendClick} className="add_friend_container">
                 <input type="text" placeholder="Search Player" />
+
+                <div className="searchedFriends"></div>
               </div>
-              <div className="searchedFriends"></div>
-            </div>
-          ) : (
-            <TiUserAdd />
-          )}
-        </div>
+            ) : (
+              <TiUserAdd />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

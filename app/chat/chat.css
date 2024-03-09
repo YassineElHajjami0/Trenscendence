@@ -404,6 +404,7 @@
 .friendsList {
   width: 100%;
   height: 88%;
+  padding: 0 0 20px 0;
 }
 
 .add_friend {
@@ -448,31 +449,25 @@
   flex-direction: column;
   align-items: center;
 
-  padding: 0px 5px 20px 5px;
+  padding: 45px 10px;
 }
-.input_wrapper {
-  margin-bottom: 10px;
-  width: 70%;
-  height: 30%;
-  background-color: #25262b85;
 
-  border-radius: 0 0 10px 10px;
-}
 .add_friend_container input {
-  width: 100%;
-  height: 40%;
-  border-radius: inherit;
+  width: 70%;
+  height: 40px;
+  border-radius: 10px;
   border: none;
   outline: none;
-  transform: translateY(150%);
-  background-color: rgba(0, 0, 0, 0.142);
+  background-color: #25262bba;
   padding: 5px 15px;
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
 }
 .searchedFriends {
-  background-color: #25262b85;
-
+  background-color: #25262bba;
   width: 70%;
-  height: 60%;
+  height: 80%;
   border-radius: 15px;
 }
 
