@@ -20,13 +20,20 @@ const Chat = () => {
   const [mode, setMode] = useState("friends");
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [selectedChannel, setSelectedChannel] = useState(-1);
+  const [showPopUpCreateChannel, setShowPopUpCreateChannel] = useState(false);
 
   const selectedBtn = mode === "friends" ? "toleft" : "toright";
   return (
     <div className="chat_channels_container">
       <div className="chat_channels_sub_container">
-        <div className="createChannelPopup">
-          <PopupCreateChannel />
+        <div
+          className={`createChannelPopup ${
+            showPopUpCreateChannel ? "showPopup" : "hidePopUp"
+          }`}
+        >
+          <PopupCreateChannel
+            setShowPopUpCreateChannel={setShowPopUpCreateChannel}
+          />
         </div>
         <div
           className={`col1 ${
@@ -57,7 +64,10 @@ const Chat = () => {
             </div>
           ) : (
             <div className="channelsList">
-              <ChannelChat setSelectedChannel={setSelectedChannel} />
+              <ChannelChat
+                setSelectedChannel={setSelectedChannel}
+                setShowPopUpCreateChannel={setShowPopUpCreateChannel}
+              />
             </div>
           )}
         </div>

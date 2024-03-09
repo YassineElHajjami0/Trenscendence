@@ -27,11 +27,11 @@
   height: 100%;
   background: #1415184a;
   backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-backdrop-filter: blur(5px);
+  display: none;
+  transition: 0.3s;
 }
+
 .chat_channels_sub_container .createChannelPopup .popupContainer {
   width: 70%;
   height: fit-content;
@@ -39,6 +39,30 @@
   text-align: center;
   padding: 10px 340px;
   background-color: #27272b;
+}
+.chat_channels_sub_container .showPopup {
+  animation: showPopup 0.5s ease-out 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+@keyframes showPopup {
+  0% {
+    scale: 0.95;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
 }
 .chat_channels_sub_container .createChannelPopup .popupContainer .cancelBtn {
   font-size: 40px;
@@ -75,9 +99,13 @@
   left: 50%;
   transform: translateX(-50%);
 }
+.chat_channels_sub_container .createChannelPopup .imageContainer .img {
+  border-radius: 50%;
+}
 .chat_channels_sub_container .createChannelPopup .imageContainer {
   width: 150px;
   height: 150px;
+  border-radius: 50%;
 }
 .chat_channels_sub_container .createChannelPopup .chooseImageBtn {
   font-size: 20px;
@@ -215,6 +243,12 @@
   .createChannelBtn:active {
   scale: 0.95;
 }
+.chat_channels_sub_container
+  .createChannelPopup
+  .popupContainer
+  .createChannelBtn:disabled {
+  cursor: not-allowed;
+}
 
 @media (max-width: 1440px) {
   .chat_channels_sub_container .createChannelPopup .popupContainer {
@@ -267,6 +301,10 @@
     min-width: 100%;
     max-width: 100%;
   }
+  .chat_channels_sub_container .createChannelPopup .chooseImageBtn label {
+    cursor: pointer;
+    font-size: 18px;
+  }
 }
 @media (max-width: 425px) {
   .chat_channels_sub_container .createChannelPopup .popupContainer {
@@ -277,8 +315,8 @@
     height: 90px;
   }
   .chat_channels_sub_container .createChannelPopup .imageContainer .img {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
   }
   .chat_channels_sub_container .createChannelPopup .chooseImageBtn {
     font-size: 15px;

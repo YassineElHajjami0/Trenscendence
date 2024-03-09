@@ -1,73 +1,160 @@
 "use client";
 import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Image from "next/image";
 import { IoCameraReverse } from "react-icons/io5";
 import { MdOutlineCancel } from "react-icons/md";
 import "./channelChat.css";
 
-const PopupCreateChannel = () => {
-  const [selectedChannelPicture, setSelectedChannelPicture] =
-    useState("/default.png");
+type FormFields = {
+  name: string;
+  topic: string;
+  status: string;
+  myFile: FileList | null | File;
+};
+
+interface popupProps {
+  setShowPopUpCreateChannel: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const PopupCreateChannel: React.FC<popupProps> = ({
+  setShowPopUpCreateChannel,
+}) => {
+  const [selectedChannelPicture, setSelectedChannelPicture] = useState(
+    "/channelDefaultImage.png"
+  );
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<FormFields>();
+
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1000);
+    });
+    setShowPopUpCreateChannel(false);
+    setSelectedChannelPicture("/channelDefaultImage.png");
+    console.log(data);
+    reset();
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      setSelectedChannelPicture(URL.createObjectURL(files[0]));
+      reset({ myFile: files[0] });
+    }
+  };
 
   return (
     <div className="popupContainer">
-      <button className="cancelBtn">
+      <button
+        className="cancelBtn"
+        onClick={() => setShowPopUpCreateChannel(false)}
+      >
         <MdOutlineCancel />
       </button>
       <h3>create channel</h3>
-      <div className="imageContainer">
-        <Image
-          className="img"
-          src={selectedChannelPicture}
-          width={150}
-          height={150}
-          alt=""
-        />
-        <div className="chooseImageBtn">
-          <label htmlFor="file-upload" className="">
-            <IoCameraReverse />
-          </label>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="imageContainer">
+          <Image
+            className="img"
+            src={selectedChannelPicture}
+            width={130}
+            height={130}
+            alt=""
+          />
+          <div className="chooseImageBtn">
+            <label htmlFor="file-upload" className="">
+              <IoCameraReverse />
+            </label>
+            <input
+              type="file"
+              id="file-upload"
+              className="custom-file-input"
+              accept=".jpg , .png , .jpeg"
+              {...register("myFile")}
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+        </div>
+        <div className="nameInput">
+          <label htmlFor="channelName">channel name</label>
           <input
-            type="file"
-            id="file-upload"
-            className="custom-file-input"
-            accept=".jpg .png .jpeg "
+            {...register("name", {
+              required: "name is required",
+              minLength: {
+                value: 3,
+                message: "name must have at least 3 characters",
+              },
+              maxLength: 25,
+            })}
+            type="text"
+            name="name"
+            id="channelName"
+            placeholder="name"
           />
         </div>
-      </div>
-      <div className="nameInput">
-        <label htmlFor="channelName">channel name</label>
-        <input type="text" maxLength={25} name="name" id="channelName" />
-      </div>
-      <div className="topicInput">
-        <label htmlFor="channeltopic">channel topic</label>
-        <input type="text" name="topic" maxLength={50} id="channeltopic" />
-      </div>
-      <div className="channelType">
-        <div>
-          <input type="radio" id="public" value={"public"} name="channelType" />
-          <label htmlFor="public">public</label>
-        </div>
-        <div>
+        <div className="errorMsg">{errors.name?.message}</div>
+        <div className="topicInput">
+          <label htmlFor="channeltopic">channel topic</label>
           <input
-            type="radio"
-            id="private"
-            value={"private"}
-            name="channelType"
+            {...register("topic", {
+              required: "topic is required",
+              minLength: {
+                value: 3,
+                message: "topic must have at least 3 characters",
+              },
+              maxLength: 50,
+            })}
+            type="text"
+            name="topic"
+            id="channeltopic"
+            placeholder="topic"
           />
-          <label htmlFor="private">private</label>
         </div>
-        <div>
-          <input
-            type="radio"
-            id="protected"
-            value={"protected"}
-            name="channelType"
-          />
-          <label htmlFor="protected">protected</label>
+        <div className="errorMsg">{errors.topic?.message}</div>
+        <div className="channelType">
+          <div>
+            <input
+              type="radio"
+              id="public"
+              value="public"
+              {...register("status")}
+              defaultChecked
+            />
+            <label htmlFor="public">public</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="private"
+              value="private"
+              {...register("status")}
+            />
+            <label htmlFor="private">private</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="protected"
+              value="protected"
+              {...register("status")}
+            />
+            <label htmlFor="protected">protected</label>
+          </div>
         </div>
-      </div>
-      <button className="createChannelBtn">create</button>
+        <button
+          className="createChannelBtn"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "creating..." : "create"}
+        </button>
+      </form>
     </div>
   );
 };
