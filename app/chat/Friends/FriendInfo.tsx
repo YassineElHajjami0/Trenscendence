@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import Image from "next/image";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
+import { FriendData } from "@/app/Interfaces/friendDataInterface";
 export const FriendInfo = () => {
   const [friend, setFriend] = useRecoilState(currentFriend);
 
@@ -55,6 +56,13 @@ export const FriendInfo = () => {
       </div>
       <div className="current_friend_block">
         <button
+          onClick={() =>
+            setFriend((prev: FriendData | undefined) => {
+              if (prev) {
+                return { ...prev, blocked: !prev?.blocked };
+              }
+            })
+          }
           className={`block_current_friend ${
             friend?.blocked ? "block_current_friend" : "unblock_current_friend"
           }`}

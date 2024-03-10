@@ -7,9 +7,13 @@ import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 interface channelChatProps {
   setSelectedChannel: React.Dispatch<React.SetStateAction<number>>;
+  setShowPopUpCreateChannel: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const channelChat: React.FC<channelChatProps> = ({ setSelectedChannel }) => {
+const channelChat: React.FC<channelChatProps> = ({
+  setSelectedChannel,
+  setShowPopUpCreateChannel,
+}) => {
   return (
     <>
       <div className="channelsListContainer">
@@ -47,7 +51,10 @@ const channelChat: React.FC<channelChatProps> = ({ setSelectedChannel }) => {
           );
         })}
       </div>
-      <div className="addChannelBtn">
+      <div
+        className="addChannelBtn"
+        onClick={() => setShowPopUpCreateChannel(true)}
+      >
         <AiOutlineUsergroupAdd />
       </div>
     </>

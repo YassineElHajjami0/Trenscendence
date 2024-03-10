@@ -30,6 +30,7 @@ const FriendChatList = () => {
     );
     setFriend(selectedFriendData);
     setFriendChat(selectedFriendChat || undefined);
+    setInputMSG("");
   }, [selectedFriend]);
   useEffect(() => {
     if (chatContainerRef.current) {

@@ -14,92 +14,48 @@ import ChannelInfo from "./Channels/channelInfo";
 import { IoCameraReverse } from "react-icons/io5";
 import { FriendInfo } from "./Friends/FriendInfo";
 import { TiUserAdd } from "react-icons/ti";
+import PopupCreateChannel from "./Channels/popupCreateChannel";
 
 const Chat = () => {
   const [addFriend, setAddFriend] = useState(false);
-  const [dotsIcon, setDotsIcone] = useState(true);
+
   const [hide, setHide] = useState(false);
   const [mode, setMode] = useState("friends");
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [selectedChannel, setSelectedChannel] = useState(-1);
-  const [selectedChannelPicture, setSelectedChannelPicture] =
-    useState("/default.png");
+  const [showPopUpCreateChannel, setShowPopUpCreateChannel] = useState(false);
+
   const selectedBtn = mode === "friends" ? "toleft" : "toright";
 
   const addFriendClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
 
+  const handleParentClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (
+      (event.target as HTMLElement).classList.contains("clo3_sub_container")
+    ) {
+      return;
+    }
+    setHide(false);
+  };
+
   return (
     <div className="chat_channels_container">
       <div className="chat_channels_sub_container">
-        {/* <div className="createChannelPopup">
-          <div className="popupContainer">
-            <div className="cancelBtn">
-              <MdOutlineCancel />
-            </div>
-            <h3>create channel</h3>
-            <div className="imageContainer">
-              <Image
-                className="img"
-                src={selectedChannelPicture}
-                width={150}
-                height={150}
-                alt=""
-              />
-              <div className="chooseImageBtn">
-                <IoCameraReverse />
-              </div>
-            </div>
-            <div className="nameInput">
-              <label htmlFor="channelName">channel name</label>
-              <input type="text" maxLength={25} name="name" id="channelName" />
-            </div>
-            <div className="topicInput">
-              <label htmlFor="channeltopic">channel topic</label>
-              <input
-                type="text"
-                name="topic"
-                maxLength={50}
-                id="channeltopic"
-              />
-            </div>
-            <div className="channelType">
-              <div>
-                <input
-                  type="radio"
-                  id="public"
-                  value={"public"}
-                  name="channelType"
-                />
-                <label htmlFor="public">public</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="private"
-                  value={"private"}
-                  name="channelType"
-                />
-                <label htmlFor="private">private</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="protected"
-                  value={"protected"}
-                  name="channelType"
-                />
-                <label htmlFor="protected">protected</label>
-              </div>
-            </div>
-            <button className="createChannelBtn">create</button>
-          </div>
-        </div> */}
+        <div
+          className={`createChannelPopup ${
+            showPopUpCreateChannel ? "showPopup" : "hidePopUp"
+          }`}
+        >
+          <PopupCreateChannel
+            setShowPopUpCreateChannel={setShowPopUpCreateChannel}
+          />
+        </div>
         <div
           className={`col1 ${
             (selectedFriend !== "none" || selectedChannel > 0) && "hideCol1"
-          }  ${hide && "blurCols"}`}
+          }  `}
         >
           <div className="switcher">
             <button
@@ -125,14 +81,17 @@ const Chat = () => {
             </div>
           ) : (
             <div className="channelsList">
-              <ChannelChat setSelectedChannel={setSelectedChannel} />
+              <ChannelChat
+                setSelectedChannel={setSelectedChannel}
+                setShowPopUpCreateChannel={setShowPopUpCreateChannel}
+              />
             </div>
           )}
         </div>
         <div
           className={`col2 ${
             (selectedFriend !== "none" || selectedChannel > 0) && "showCol2"
-          } ${hide && "blurCols"} `}
+          }  `}
         >
           {/* show selected friend chat or selected channel chat */}
           {mode == "friends" && selectedFriend != "none" ? (
@@ -160,28 +119,31 @@ const Chat = () => {
             </div>
           )}
         </div>
-        <div className={`col3 ${hide && "show_col3"}`}>
-          {mode == "friends" && selectedFriend != "none" ? (
-            <FriendInfo />
-          ) : mode == "channels" && selectedChannel > 0 ? (
-            <ChannelInfo selectedChannel={selectedChannel} />
-          ) : (
-            ""
-          )}
+        <div
+          onClick={handleParentClick}
+          className={`col3 ${hide && "show_col3"}`}
+        >
+          <div className="clo3_sub_container">
+            {mode == "friends" && selectedFriend != "none" ? (
+              <FriendInfo />
+            ) : mode == "channels" && selectedChannel > 0 ? (
+              <ChannelInfo selectedChannel={selectedChannel} />
+            ) : (
+              ""
+            )}
+          </div>
         </div>
 
         <div
           onClick={() => {
             setHide((prev) => !prev);
-            setDotsIcone((prev) => !prev);
           }}
-          hidden={selectedFriend === "none"}
           className="chat_channel_details"
         >
-          {dotsIcon ? (
-            <HiDotsVertical className="dots_hide" />
-          ) : (
+          {hide ? (
             <MdOutlineCancel className="dots_hide" />
+          ) : (
+            <HiDotsVertical className="dots_hide" />
           )}
         </div>
         {mode === "friends" && (
@@ -191,7 +153,7 @@ const Chat = () => {
           >
             {addFriend ? (
               <div onClick={addFriendClick} className="add_friend_container">
-                <input type="text" placeholder="Search Player" />
+                <input type="text" placeholder="Add friend" />
 
                 <div className="searchedFriends"></div>
               </div>

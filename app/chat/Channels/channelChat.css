@@ -46,7 +46,7 @@
   height: 100%;
   width: 0%;
   z-index: -1;
-  background: linear-gradient(to right, #1ce14e 40%, rgba(255, 255, 255, 0));
+  background: linear-gradient(to right, #1ce14e -50%, rgba(255, 255, 255, 0));
   transition: 0.3s;
 }
 .channelsListContainer .channelContainer:hover::before {
@@ -395,3 +395,25 @@
 .selectedChannelData .leaveBtn .cancelBtn:active {
   scale: 0.9;
 }
+
+/*-------------create channel----------------*/
+
+.popupContainer input[type="file"] {
+  display: none;
+}
+.custom-file-input {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: #070c08;
+  color: #070c08;
+  z-index: 852;
+}
+.errorMsg {
+  display: block;
+  text-align: right;
+  font-size: 14px;
+  padding: 0 0 5px;
+  color: tomato;
+}
+/*----------------end channel----------------*/
