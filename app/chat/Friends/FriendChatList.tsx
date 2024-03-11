@@ -120,7 +120,9 @@ const FriendChatList = () => {
             onChange={(e) => setInputMSG(e.target.value)}
             className="input_msg"
             type="text"
-            placeholder="Message"
+            placeholder={`${
+              friend?.blocked ? "You blocked this friend" : "Message"
+            }`}
           />
 
           <div className="play_send_msg">

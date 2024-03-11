@@ -375,6 +375,7 @@
 }
 
 .clo3_sub_container {
+  overflow: hidden;
   cursor: default;
   padding: 20px;
   background-color: #25262b;
@@ -568,6 +569,9 @@
 
 /*-----------break point-----------*/
 @media (max-width: 1440px) {
+  .clo3_sub_container {
+    padding: 20px 10px;
+  }
   .toright {
     transform: translateX(182%) !important;
   }
@@ -586,6 +590,9 @@
 }
 
 @media (max-width: 1024px) {
+  .clo3_sub_container {
+    padding: 20px;
+  }
   .selectedColor {
     width: 82px !important;
   }
