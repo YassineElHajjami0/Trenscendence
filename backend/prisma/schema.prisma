@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
+}
+
+// prisma/schema.prisma
+datasource db {
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  // directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+enum Status {
+  PENDING
+  ACCEPTED
+  BLOCKED
+}
+
+enum NotificationType {
+  Type1
+  Type2
+  Type3
+}
+
+model T_User {
+  uid Int @default(autoincrement()) @id
+  status String
+  username String @unique
+  email String @unique
+  bio String
+  password String
+  twoFA Boolean @default(false)
+  choosedProfileImage String
+  choosedBanner String
+  level Int @default(0)
+  points Int @default(0)
+  rank String @default("0")
+  win Int @default(0)
+  lose Int @default(0)
+  avatarsAndPaddles UserItem[]
+  usersSendThem  UserFriend[] @relation("usersSendThem")
+  usersSendMe UserFriend[] @relation("usersSendMe")
+  notifications Notification[]
+  achievements UserAchievement[]
+}
+
+// Friends of a user and vise versa ############################################################
+model UserFriend {
+  usersSendThem T_User @relation("usersSendThem", fields: [user1Id], references: [uid])
+  user1Id Int
+  usersSendMe T_User @relation("usersSendMe", fields: [user2Id], references: [uid])
+  user2Id Int
+  status Status
+  @@id([user1Id, user2Id])
+}
+
+// Item of a user ################################################################################
+model Item {
+  id Int @default(autoincrement()) @id
+  img String
+  name String
+  description String
+  price Int
+  is_avatar Boolean
+  power String
+  userItems UserItem[]
+}
+
+model UserItem {
+  user       T_User     @relation(fields: [userId], references: [uid])
+  userId     Int // relation scalar field (used in the `@relation` attribute above)
+  item   Item @relation(fields: [itemId], references: [id])
+  itemId Int // relation scalar field (used in the `@relation` attribute above)
+  unlocked Boolean
+  choosed Boolean
+  @@id([userId, itemId])
+}
+
+// Notification of a user  ##########################################################################
+model Notification {
+  id Int @default(autoincrement()) @id
+  type NotificationType
+  content String
+  createdAt DateTime @default(now())
+  read Boolean @default(false)
+  user T_User @relation(fields: [userId], references: [uid])
+  userId Int
+}
+
+// User Achievement  ##########################################################################
+model Achievement {
+  id Int @default(autoincrement()) @id
+  name String
+  description String
+  uri String
+  userAchievements UserAchievement[]
+}
+
+model UserAchievement {
+  user       T_User     @relation(fields: [userId], references: [uid])
+  userId     Int // relation scalar field (used in the `@relation` attribute above)
+  achievement Achievement @relation(fields: [achivementId], references: [id])
+  achivementId Int // relation scalar field (used in the `@relation` attribute above)
+  date DateTime @default(now())
+  unlocked Boolean
+  choosed Boolean
+  @@id([userId, achivementId])
+}

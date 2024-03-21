@@ -1,0 +1,71 @@
+import { UsersService } from './users.service';
+import { Prisma } from '@prisma/client';
+export declare class UsersController {
+    private readonly usersService;
+    constructor(usersService: UsersService);
+    create(createUserDto: Prisma.T_UserCreateInput): Promise<{
+        uid: number;
+        status: string;
+        username: string;
+        email: string;
+        bio: string;
+        password: string;
+        twoFA: boolean;
+        choosedProfileImage: string;
+        choosedBanner: string;
+        level: number;
+        points: number;
+        rank: string;
+        win: number;
+        lose: number;
+    }>;
+    findAll(): Promise<{
+        uid: number;
+        status: string;
+        username: string;
+        email: string;
+        bio: string;
+        password: string;
+        twoFA: boolean;
+        choosedProfileImage: string;
+        choosedBanner: string;
+        level: number;
+        points: number;
+        rank: string;
+        win: number;
+        lose: number;
+    }[]>;
+    findOne(id: string): Promise<{}>;
+    update(id: string, updateUserDto: Prisma.T_UserUpdateInput): Promise<{
+        uid: number;
+        status: string;
+        username: string;
+        email: string;
+        bio: string;
+        password: string;
+        twoFA: boolean;
+        choosedProfileImage: string;
+        choosedBanner: string;
+        level: number;
+        points: number;
+        rank: string;
+        win: number;
+        lose: number;
+    }>;
+    remove(id: string): Promise<{
+        uid: number;
+        status: string;
+        username: string;
+        email: string;
+        bio: string;
+        password: string;
+        twoFA: boolean;
+        choosedProfileImage: string;
+        choosedBanner: string;
+        level: number;
+        points: number;
+        rank: string;
+        win: number;
+        lose: number;
+    }>;
+}
