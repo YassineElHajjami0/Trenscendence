@@ -12,6 +12,16 @@ import "./settings.css";
 import playerData from "../data/player-info.json";
 import { PlayerInfo } from "../Interfaces/playerInfoInterface.js";
 
+interface dataInterface {
+  avatar: string;
+  banner: string;
+  username: string;
+  email: string;
+  password: string;
+  bio: string;
+  twoFA: boolean;
+}
+
 const Settings = () => {
   const player_data: PlayerInfo = playerData;
   const [ArticlesType, setArticlesType] = useState("");
@@ -26,6 +36,22 @@ const Settings = () => {
   const [password, setPassword] = useState(player_data.password);
   const [bio, setBio] = useState(player_data.bio);
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<dataInterface>();
+
+  useEffect(() => {
+    const fetchedData = async () => {
+      try {
+        const response = await fetch("http://10.11.4.15:3001/users/2");
+        const data = await response.json();
+        setData(data);
+        console.log(data);
+      } catch (err) {
+        console.error(">>>>>>", err);
+      }
+    };
+
+    fetchedData();
+  }, []);
 
   function changeInputValue(
     e:
@@ -57,6 +83,37 @@ const Settings = () => {
       setLoading(false);
     }, 1000);
   }, []);
+
+  const saveUpdatewBtn = async () => {
+    try {
+      const response = await fetch("http://10.11.4.15:3001/users/2", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json", //dfgdfdfbdfbdfbdbsbdb
+          // token
+        },
+        body: JSON.stringify({
+          avatar: "hamada",
+          banner: data?.banner,
+          username: data?.username,
+          email: data?.email,
+          password: data?.password,
+          bio: data?.bio,
+          twoFA: data?.twoFA,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(
+          `Failed to patch data. Error: ${errorResponse.message}`
+        );
+        throw new Error("Failed to patch data");
+      }
+    } catch (err) {
+      console.error(">>>", err);
+    }
+  };
 
   return (
     <>
@@ -132,7 +189,7 @@ const Settings = () => {
                       id="username"
                       placeholder="Username"
                       className="username"
-                      value={username}
+                      value={data?.username}
                       onChange={(e) => changeInputValue(e)}
                     />
                   </div>
@@ -177,7 +234,12 @@ const Settings = () => {
                     Set Up Two Factor Authentication <FaLock />
                   </h4>
                   <div>
-                    <img src="/qr.png" alt="Qr code" />
+                    <Image
+                      src="/qr.png"
+                      alt="Qr code"
+                      width={200}
+                      height={200}
+                    />
                     <button
                       onClick={() => setTwoFaStatus(!twoFaStatus)}
                       className={twoFaStatus ? "redbc" : "greenbc"}
@@ -187,7 +249,9 @@ const Settings = () => {
                   </div>
                 </div>
               </div>
-              <button className="saveUpdates">Save Updates</button>
+              <button className="saveUpdates" onClick={saveUpdatewBtn}>
+                Save Updates
+              </button>
             </div>
           )}
         </>
