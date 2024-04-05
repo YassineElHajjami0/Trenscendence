@@ -382,6 +382,7 @@
   width: 100%;
   height: 100%;
   margin-left: auto;
+  transition: all 1s ease-in-out !important;
 }
 
 .col1 .switcher {
@@ -523,8 +524,8 @@
   background: transparent;
   border-radius: inherit;
 
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transform-origin: center;
   transform: translate(50% 50%);
   bottom: 0px;
@@ -536,20 +537,20 @@
 }
 .add_friend_container {
   width: 50%;
-  height: 50%;
-  background: rgba(67, 66, 66, 0.5);
+  height: 80%;
+  background: rgba(0, 0, 0, 0.7);
   border-radius: 15px;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  cursor: default;
   padding: 45px 10px;
 }
 
 .add_friend_container input {
-  width: 70%;
+  width: 75%;
   height: 40px;
   border-radius: 10px;
   border: none;
@@ -562,9 +563,11 @@
 }
 .searchedFriends {
   background-color: #25262bba;
-  width: 70%;
-  height: 80%;
+  width: 75%;
+  height: 90%;
   border-radius: 15px;
+  overflow-y: scroll;
+  padding-top:10px ;
 }
 
 /*-----------break point-----------*/
@@ -590,6 +593,9 @@
 }
 
 @media (max-width: 1024px) {
+  .add_friend_container {
+    width: 75%;
+  }
   .clo3_sub_container {
     padding: 20px;
   }
@@ -647,6 +653,16 @@
   }
 }
 @media (max-width: 425px) {
+  .add_friend_container {
+    width: 90%;
+  }
+  .add_friend_container input {
+    width: 90%;
+  }
+  .searchedFriends {
+    width: 90%;
+  }
+
   .toright {
     transform: translateX(260%) !important;
   }

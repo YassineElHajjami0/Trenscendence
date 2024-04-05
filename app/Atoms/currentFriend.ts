@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 import { FriendData } from "../Interfaces/friendDataInterface";
-export const currentFriend = atom<FriendData | undefined>({
+export const currentFriend = atom<any>({
   key: "currentFriend",
-  default: undefined,
+  default: null,
   //   dangerouslyAllowMutability: true,
 });

@@ -40,8 +40,8 @@
   width: 90%;
   font-size: 1.8rem;
   text-transform: capitalize;
-  white-space: nowrap;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
 .current_friend_info h3 {
@@ -215,4 +215,26 @@
     width: 65px;
     height: 65px;
   } */
+}
+
+@media (max-width: 425px) {
+  .current_friend_info h1 {
+    font-size: 1.6rem;
+  }
+  .current_friend_achievement_badge {
+    width: 50px;
+    height: 50px;
+  }
+}
+@media (max-width: 375px) {
+  .current_friend_info h1:hover {
+    text-wrap: wrap;
+  }
+    .current_friend_achievement span:hover {
+      text-wrap: wrap;
+    }
+    .current_friend_block p:hover {
+      text-wrap: wrap;
+    }
+    
 }

@@ -39,7 +39,7 @@ export const FriendInfo = () => {
           {friend?.achievements.map((a) => {
             if (a.unlocked)
               return (
-                <div className="current_friend_achievement">
+                <div key={a.name} className="current_friend_achievement">
                   <Image
                     className="current_friend_achievement_badge"
                     src={a.uri || ""}

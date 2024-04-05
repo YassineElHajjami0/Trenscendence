@@ -13,12 +13,10 @@ import { useRecoilState } from "recoil";
 import ChannelInfo from "./Channels/channelInfo";
 import { IoCameraReverse } from "react-icons/io5";
 import { FriendInfo } from "./Friends/FriendInfo";
-import { TiUserAdd } from "react-icons/ti";
 import PopupCreateChannel from "./Channels/popupCreateChannel";
+import AddFriendSection from "./Friends/AddFriendSection";
 
 const Chat = () => {
-  const [addFriend, setAddFriend] = useState(false);
-
   const [hide, setHide] = useState(false);
   const [mode, setMode] = useState("friends");
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
@@ -27,16 +25,11 @@ const Chat = () => {
 
   const selectedBtn = mode === "friends" ? "toleft" : "toright";
 
-  const addFriendClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const preventCHilde = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
 
   const handleParentClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (
-      (event.target as HTMLElement).classList.contains("clo3_sub_container")
-    ) {
-      return;
-    }
     setHide(false);
   };
 
@@ -54,7 +47,7 @@ const Chat = () => {
         </div>
         <div
           className={`col1 ${
-            (selectedFriend !== "none" || selectedChannel > 0) && "hideCol1"
+            (selectedFriend !== -1 || selectedChannel > 0) && "hideCol1"
           }  `}
         >
           <div className="switcher">
@@ -90,11 +83,11 @@ const Chat = () => {
         </div>
         <div
           className={`col2 ${
-            (selectedFriend !== "none" || selectedChannel > 0) && "showCol2"
+            (selectedFriend !== -1 || selectedChannel > 0) && "showCol2"
           }  `}
         >
           {/* show selected friend chat or selected channel chat */}
-          {mode == "friends" && selectedFriend != "none" ? (
+          {mode == "friends" && selectedFriend != -1 ? (
             <div className="selectedFriendChat">
               <FriendChatList />
             </div>
@@ -123,8 +116,8 @@ const Chat = () => {
           onClick={handleParentClick}
           className={`col3 ${hide && "show_col3"}`}
         >
-          <div className="clo3_sub_container">
-            {mode == "friends" && selectedFriend != "none" ? (
+          <div onClick={preventCHilde} className="clo3_sub_container">
+            {mode == "friends" && selectedFriend != -1 ? (
               <FriendInfo />
             ) : mode == "channels" && selectedChannel > 0 ? (
               <ChannelInfo selectedChannel={selectedChannel} />
@@ -146,22 +139,9 @@ const Chat = () => {
             <HiDotsVertical className="dots_hide" />
           )}
         </div>
-        {mode === "friends" && (
-          <div
-            onClick={() => setAddFriend((prev) => !prev)}
-            className={`add_friend ${addFriend && `show_the_big_div`}`}
-          >
-            {addFriend ? (
-              <div onClick={addFriendClick} className="add_friend_container">
-                <input type="text" placeholder="Add friend" />
-
-                <div className="searchedFriends"></div>
-              </div>
-            ) : (
-              <TiUserAdd />
-            )}
-          </div>
-        )}
+        {/* {mode === "friends" && ( */}
+        <AddFriendSection />
+        {/* )} */}
       </div>
     </div>
   );

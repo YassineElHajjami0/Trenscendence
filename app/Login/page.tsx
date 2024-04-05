@@ -1,4 +1,4 @@
-"use clinet";
+"use client";
 import "./Login.css";
 import log_in_out from "../../public/login.png";
 import raqeta from "../../public/rakita.png";
@@ -6,10 +6,21 @@ import apb from "../../public/apb.png";
 
 import Image from "next/image";
 import SignIn from "./SignIn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { loggedUser } from "../Atoms/logged";
+import { useRecoilValue } from "recoil";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [signInUp, setSignInUp] = useState(false);
+  const router = useRouter();
+
+  const logged = useRecoilValue(loggedUser);
+  console.log("=======>>>>>>logged", logged);
+
+  useEffect(() => {
+    if (logged != -1) router.push("/");
+  }, [logged]);
 
   const switchSides = () => {
     setSignInUp((prev) => !prev);
@@ -28,7 +39,7 @@ export default function Login() {
               continue
             </h3>
           </div>
-          <SignIn signInUp={signInUp} />
+          <SignIn signInUp={signInUp as boolean} />
           <h5>
             you don't have an account?{" "}
             <label onClick={switchSides} htmlFor="check">

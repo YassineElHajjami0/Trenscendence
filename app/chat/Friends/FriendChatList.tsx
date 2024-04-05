@@ -7,31 +7,101 @@ import { FriendData } from "@/app/Interfaces/friendDataInterface";
 import playerData from "../../data/friends.json";
 import myFriendsChat from "../../data/friend_chat.json";
 import { IoArrowBackOutline } from "react-icons/io5";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { ChatContainer } from "./ChatContainer";
 import { slctdFriend } from "@/app/Atoms/friendAtom";
 import { slctdFriendChat } from "@/app/Atoms/friendChatAtom";
 import { FriendChat } from "@/app/Interfaces/friendChat";
 import { currentFriend } from "@/app/Atoms/currentFriend";
+import { loggedUser } from "@/app/Atoms/logged";
+import { channelId } from "@/app/Atoms/channelId";
 const FriendChatList = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
-  const friends: FriendData[] = playerData;
-  const myFriendChat: FriendChat[] = myFriendsChat;
+  const loggedU = useRecoilValue(loggedUser);
+
+  // const friends: FriendData[] = playerData;
+  // const myFriendChat: FriendChat[] = myFriendsChat;
 
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [friendChat, setFriendChat] = useRecoilState(slctdFriendChat);
   const [friend, setFriend] = useRecoilState(currentFriend);
   const [inputMSG, setInputMSG] = useState<string>("");
+  const [channelID, setChannelID] = useRecoilState(channelId);
+  const [msgSent, setMsgSent] = useState<number>(-1);
+
+
+  const getAllMSG = async (id:number) => {
+    const selectedFriendChat = await fetch(
+      `http://localhost:3000/message/${id}`
+    );
+    const data = await selectedFriendChat.json();
+    console.log("=========>>>>", data);
+    setFriendChat(data);
+  };
+
+  
+  useEffect(() => {
+    //get my friend data
+    // friends.find((f) => f.uid === selectedFriend);
+    const getMyFriendData = async () => {
+      /*----------------------------get my friend data------------------------------- */
+      const selectedFriendData = await fetch(
+        `http://localhost:3000/users/${selectedFriend}`
+      );
+      const dataF = await selectedFriendData.json();
+      //set my friend data
+      setFriend(dataF);
+
+      /*---------------------------create a channel or get its id------------------- */
+      const channelData = {
+        name: "",
+        topic: "",
+        id: loggedU,
+        frindId: selectedFriend,
+      };
+      const createOrGetChannelID = await fetch(
+        "http://localhost:3000/channels/dm",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(channelData),
+        }
+      );
+      const dataC = await createOrGetChannelID.json();
+      setChannelID(dataC);
+      getAllMSG(dataC);
+      setInputMSG("");
+    };
+    getMyFriendData();
+  }, [selectedFriend]);
 
   useEffect(() => {
-    const selectedFriendData = friends.find((f) => f.uid === selectedFriend);
-    const selectedFriendChat = myFriendChat.find(
-      (f: any) => f.uid === selectedFriend
-    );
-    setFriend(selectedFriendData);
-    setFriendChat(selectedFriendChat || undefined);
+    getAllMSG(channelID);
+  }, [msgSent]);
+
+  const sendMSG = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (inputMSG.length === 0) return;
+    const channelData = {
+      userID: loggedU,
+      channelID: channelID,
+      content: inputMSG,
+    };
+    const msg = await fetch("http://localhost:3000/message", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(channelData),
+    });
+
+    const data = await msg.json();
+    setMsgSent(data.id);
     setInputMSG("");
-  }, [selectedFriend]);
+  };
+
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
@@ -83,18 +153,18 @@ const FriendChatList = () => {
       <div className="friend_chat_msg_header">
         <IoArrowBackOutline
           className="arrow_back"
-          onClick={() => setSelectedFriend("none")}
+          onClick={() => setSelectedFriend(-1)}
         />
 
         <Image
           className="my_chat_msg_avatar"
-          src={friend?.avatar || "/avatar3.png"}
+          src={friend?.choosedProfileImage || "/avatar3.png"}
           width={2000}
           height={2000}
           alt="avatar"
         />
         <div className="my_chat_msg_name">
-          <h1>{friend?.name}</h1>
+          <h1>{friend?.username}</h1>
           <h5
             className={`online ${friend?.status === "ingame" && "ingames"}
           ${friend?.status === "offline" && "offline"}
@@ -109,11 +179,11 @@ const FriendChatList = () => {
         </div>
       </div>
       <div ref={chatContainerRef} className="friend_chat_msg_body">
-        {friendChat?.allmessages.map((m) => (
-          <ChatContainer key={m.date} messages={m} />
+        {friendChat?.map((m: any) => (
+          <ChatContainer key={m.createdAT} messages={m} />
         ))}
       </div>
-      <form onSubmit={sendMessage} className="friend_chat_msg_form">
+      <form onSubmit={sendMSG} className="friend_chat_msg_form">
         <fieldset disabled={friend?.blocked}>
           <input
             value={inputMSG}
