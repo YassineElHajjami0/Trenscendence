@@ -13,10 +13,24 @@ import { PlayerInfo } from "./Interfaces/playerInfoInterface";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(true);
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
+
+    const fetchedData = async () => {
+      try {
+        const response = await fetch("http://10.12.4.13:3001/users");
+        const data = await response.json();
+        setData(data);
+        console.log(data);
+      } catch (err) {
+        console.error(">>>>>>", err);
+      }
+    };
+
+    fetchedData();
   }, []);
   const player_data: PlayerInfo = playerData;
   let flag: number = 0;

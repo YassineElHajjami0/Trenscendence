@@ -9,6 +9,7 @@ import { FaBagShopping } from "react-icons/fa6";
 import { PlayerInfo } from "../Interfaces/playerInfoInterface";
 
 const Store = () => {
+  //http://10.12.4.13:3001/users
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
