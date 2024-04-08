@@ -1,15 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { MessageService } from './message.service';
 import { Prisma } from '@prisma/client';
-import { DatabaseService } from 'src/database/database.service';
+
+import { messageDto } from './dto/messageDto';
+
 
 @Controller('message')
 export class MessageController {
-  constructor(private readonly messageService: MessageService) {}
+  constructor(
+    private readonly messageService: MessageService,
+  ) {}
 
   @Post()
-  create(@Body() createMessageDto: Prisma.MessageUncheckedCreateInput) {
-    return this.messageService.create(createMessageDto);
+  create(@Body() createMessageDto: messageDto) {
+    const message = this.messageService.create(createMessageDto);
+
+
+    return message;
   }
 
   @Get()
@@ -23,7 +38,10 @@ export class MessageController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMessageDto: Prisma.MessageUpdateInput) {
+  update(
+    @Param('id') id: string,
+    @Body() updateMessageDto: Prisma.MessageUpdateInput,
+  ) {
     return this.messageService.update(+id, updateMessageDto);
   }
 

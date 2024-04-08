@@ -29,7 +29,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       password: pass,
     };
     try {
-      const response = await fetch(`http://localhost:3000/auth/signup`, {
+      const response = await fetch(`http://10.12.7.15:3000/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       password: pass,
     };
     try {
-      const response = await fetch(`http://localhost:3000/auth/login`, {
+      const response = await fetch(`http://10.12.7.15:3000/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -84,24 +84,28 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const signUpFunction = signInUp ? signup : loggin;
 
   const auth42 = async () => {
-    try {
-      console.log("hanaaaa>>>>>>>>>");
+    // try {
+    console.log("hanaaaa>>>>>>>>>");
 
-      const response = await fetch(`http://localhost:3000/auth/login-42`);
+    const response = await fetch(`http://10.12.7.15:3000/auth/login-42`, {
+      headers: {
+        Host: "localhost",
+      },
+    });
 
-      if (!response) {
-        console.log("Error no response");
-        return;
-      }
+    // if (!response) {
+    //   console.log("Error no response");
+    //   return;
+    // }
 
-      const data = await response.json();
-      console.log("useeeeer>>>>>>>", data);
-      // setLoggedU(data.user.uid);
-      // setUserTok(data.user_token);
-      // router.push("/");
-    } catch (error: any) {
-      console.log(`erroror here ${error}`);
-    }
+    const data = await response.json();
+    console.log("useeeeer>>>>>>>", data);
+    // setLoggedU(data.user.uid);
+    // setUserTok(data.user_token);
+    // router.push("/");
+    // } catch (error: any) {
+    //   console.log("error >>>> ", error.message);
+    // }
   };
 
   return (

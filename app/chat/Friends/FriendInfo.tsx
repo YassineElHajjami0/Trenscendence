@@ -36,19 +36,19 @@ export const FriendInfo = () => {
       <div className="current_friend_achievements_container">
         <h1>achievements</h1>
         <div className="current_friend_achievements">
-          {friend?.achievements.map((a) => {
-            if (a.unlocked)
+          {friend?.achievements?.map((a:any) => {
+            if (a?.unlocked)
               return (
-                <div key={a.name} className="current_friend_achievement">
+                <div key={a?.name} className="current_friend_achievement">
                   <Image
                     className="current_friend_achievement_badge"
-                    src={a.uri || ""}
+                    src={a?.uri || ""}
                     width={5000}
                     height={5000}
                     alt="achievement_badge"
                   />
 
-                  <span>{a.name}</span>
+                  <span>{a?.name}</span>
                 </div>
               );
           })}

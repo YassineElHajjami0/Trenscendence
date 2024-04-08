@@ -12,6 +12,8 @@ import { MatchHistoryModule } from './match-history/match-history.module';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { ChannelModule } from './channel/channel.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { APP_GUARD } from '@nestjs/core';
     FriendsModule,
     AuthModule,
     MatchHistoryModule,
+    ChannelModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [

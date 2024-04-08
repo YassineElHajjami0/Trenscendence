@@ -25,6 +25,7 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
     profile: any,
     done: VerifyCallback,
   ) {
+    console.log('VALIDATE 42');
     const { email } = profile._json;
     const user = await this.authService.signUpWith42({
       email: email,

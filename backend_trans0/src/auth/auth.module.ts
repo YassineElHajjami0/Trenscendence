@@ -14,7 +14,7 @@ import { FortyTwoStrategy } from './strategies/forty-two.strategy';
     UsersModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '3600s' },
+      signOptions: { expiresIn: '7d' },
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy, FortyTwoStrategy],

@@ -77,31 +77,31 @@ model Role {
 }
 
 model T_User {
-  uid Int @default(autoincrement()) @id
-  status String @default("online")
-  username String @default("")
-  email String @unique
-  bio String @default("I am a player")
-  password String
-  twoFA Boolean @default(false)
-  avatar String @default("/profile_image.jpeg")
-  banner String @default("/banner.jpeg")
-  level Int @default(0)
-  points Int @default(0)
-  rank String @default("0")
-  win Int @default(0)
-  lose Int @default(0)
-  role String @default("User")
-  strategy String @default("local")
-  userItems UserItem[]
-  usersSendThem  UserFriend[] @relation("usersSendThem")
-  usersSendMe UserFriend[] @relation("usersSendMe")
-  notifications Notification[]
+  uid              Int               @id @default(autoincrement())
+  status           String            @default("online")
+  username         String            @default("")
+  email            String            @unique
+  bio              String            @default("I am a player")
+  password         String
+  twoFA            Boolean           @default(false)
+  avatar           String            @default("/profile_image.jpeg")
+  banner           String            @default("/banner.jpeg")
+  level            Int               @default(0)
+  points           Int               @default(0)
+  rank             String            @default("0")
+  win              Int               @default(0)
+  lose             Int               @default(0)
+  role             String            @default("User")
+  strategy         String            @default("local")
+  userItems        UserItem[]
+  usersSendThem    UserFriend[]      @relation("usersSendThem")
+  usersSendMe      UserFriend[]      @relation("usersSendMe")
+  notifications    Notification[]
   userAchievements UserAchievement[]
-  winMatches  MatchHistory[] @relation("winner")
-  loseMatches MatchHistory[] @relation("loser")
-   roles               Role[]
-  messages            Message[]
+  winMatches       MatchHistory[]    @relation("winner")
+  loseMatches      MatchHistory[]    @relation("loser")
+  roles            Role[]
+  messages         Message[]
 }
 
 // Friends of a user and vise versa ############################################################
@@ -178,15 +178,15 @@ enum GameMode {
 }
 
 model MatchHistory {
-  id Int @default(autoincrement()) @id
-  createdAt DateTime @default(now())
-  winnerUser T_User @relation("winner", fields: [winner], references: [uid])
-  winner Int
-  loserUser T_User @relation("loser", fields: [loser], references: [uid])
-  loser Int
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  winnerUser  T_User   @relation("winner", fields: [winner], references: [uid])
+  winner      Int
+  loserUser   T_User   @relation("loser", fields: [loser], references: [uid])
+  loser       Int
   winnerScore Int
-  loserScore Int
-  gameMode GameMode
-  startAt DateTime @default(now())
-  endAt DateTime @default(now())
+  loserScore  Int
+  gameMode    GameMode
+  startAt     DateTime @default(now())
+  endAt       DateTime @default(now())
 }

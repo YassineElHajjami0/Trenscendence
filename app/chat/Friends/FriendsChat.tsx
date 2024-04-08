@@ -6,17 +6,23 @@ import { FriendData } from "@/app/Interfaces/friendDataInterface";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { loggedUser } from "@/app/Atoms/logged";
 import { slctdFriend } from "@/app/Atoms/friendAtom";
+import { mheaders } from "@/app/util/headers";
+import { userToken } from "@/app/Atoms/userToken";
 
 export default function FriendsChat() {
-  /// hna jib all the friends form the back of the .....
-  const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
-
   const loggedUserUID = useRecoilValue(loggedUser);
+  const userTok = useRecoilValue(userToken);
   const [myFriends, setMyFriends] = useState([]);
   const getMyFriends = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/friends/${loggedUserUID}`
+        `http://10.12.7.15:3000/friends/${loggedUserUID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       if (!response.ok) {
         console.log("Error000");

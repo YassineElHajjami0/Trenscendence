@@ -1,25 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
+import { messageDto } from './dto/messageDto';
+import { ChatGateway } from 'src/chatSockets/chat.getway';
+
 
 @Injectable()
 export class MessageService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly chatGateway: ChatGateway, 
 
-  create(createMessageDto: Prisma.MessageUncheckedCreateInput) {
-    return this.databaseService.message.create({
+    ) {}
+
+  async create(createMessageDto: messageDto) {
+    
+    const message = await this.databaseService.message.create({
       data: createMessageDto,
     });
-  }
+    console.log('----->', message);
+    this.chatGateway.sendMessage(message); 
+
+  } 
 
   findAll() {
-    return  this.databaseService.message.findMany({});  
+    return this.databaseService.message.findMany({});
   }
 
   async findOne(id: number) {
     const messages = await this.databaseService.message.findMany({
       where: { channelID: id },
-    });  
+    });
     // const groupedMessages = {};
     // messages.forEach((message) => {
     //   const date = new Date(message.createdAT).toLocaleDateString();
@@ -28,7 +39,7 @@ export class MessageService {
     //   }
     //   groupedMessages[date].push(message);
     // });
-  
+
     return messages;
   }
 

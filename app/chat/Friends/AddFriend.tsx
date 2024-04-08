@@ -15,11 +15,12 @@ export default function AddFriend({ user }: { user: any }) {
     const dataF = {
       user1Id: loggedU,
       user2Id: user.uid,
+      status: "ACCEPTED",
     };
 
     try {
       console.log(">>>>>>>>>>>>>>>>helloooooooooo");
-      const res = await fetch("http://localhost:3000/friends", {
+      const res = await fetch("http://10.12.7.15:3000/friends", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userTok}`,

@@ -79,6 +79,7 @@ export class AppController {
   @Public()
   @UseGuards(FortyTwoGuard)
   async fortyTwoAuth() {
+    console.log('VALIDATE 00');
     return {};
   }
 

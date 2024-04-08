@@ -6,10 +6,12 @@ import { TiUserAdd } from "react-icons/ti";
 import { useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
 import AddFriend from "./AddFriend";
+import { loggedUser } from "@/app/Atoms/logged";
 
 const AddFriendSection = () => {
   const userTok = useRecoilValue(userToken);
-  const [addFriend, setAddFriend] = useState(true);
+  const userL = useRecoilValue(loggedUser);
+  const [addFriend, setAddFriend] = useState(false);
 
   const [input, setInput] = useState("");
   const [allUsers, setAllUsers] = useState([]);
@@ -19,18 +21,23 @@ const AddFriendSection = () => {
   };
 
   const getAllusers = async () => {
+    if (!addFriend) return;
     try {
       console.log("toooooooooooooooo ====> 0000", userTok);
-      const res = await fetch("http://localhost:3000/users", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${userTok}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        `http://10.12.7.15:3000/friends/allusers/${userL}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await res.json();
-      setAllUsers(data);
+      if (data?.statusCode === 401) return;
       console.log("all users ====> ", data);
+      setAllUsers(data);
     } catch (error) {
       console.log("3aaaaaaaaaaaa>>>>>");
     }
@@ -49,7 +56,7 @@ const AddFriendSection = () => {
           <input type="text" placeholder="Add friend" />
 
           <div className="searchedFriends">
-            {allUsers.map((user: any) => (
+            {allUsers?.map((user: any) => (
               <AddFriend key={user.uid} user={user} />
             ))}
           </div>
