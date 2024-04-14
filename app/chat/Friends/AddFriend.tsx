@@ -20,7 +20,7 @@ export default function AddFriend({ user }: { user: any }) {
 
     try {
       console.log(">>>>>>>>>>>>>>>>helloooooooooo");
-      const res = await fetch("http://10.12.7.15:3000/friends", {
+      const res = await fetch("http://localhost:3000/friends", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -30,7 +30,7 @@ export default function AddFriend({ user }: { user: any }) {
       });
 
       const data = await res.json();
-      console.log(">>>>>>>>>>>>>>>>", data);
+      console.log(">>>>>>>>>>>>>>>>>>>>>", data);
     } catch (error: any) {
       console.log("error>>>", error.message);
     }

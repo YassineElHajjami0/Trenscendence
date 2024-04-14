@@ -161,10 +161,10 @@
 }
 
 .closed_picker {
-  background: #ffffff;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-size: 22px;
   cursor: pointer;
   transition: all 0.4s ease-in-out;
 }

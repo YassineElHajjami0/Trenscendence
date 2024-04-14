@@ -16,7 +16,7 @@ export default function FriendsChat() {
   const getMyFriends = async () => {
     try {
       const response = await fetch(
-        `http://10.12.7.15:3000/friends/${loggedUserUID}`,
+        `http://localhost:3000/friends/${loggedUserUID}`,
         {
           headers: {
             Authorization: `Bearer ${userTok}`,
@@ -24,7 +24,7 @@ export default function FriendsChat() {
           },
         }
       );
-      if (!response.ok) {
+      if (!response) {
         console.log("Error000");
       }
       const data = await response.json();

@@ -9,7 +9,7 @@ import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway(3001, {
   cors: {
-    origin: 'http://10.12.7.15:5252',
+    origin: 'http://localhost:5252',
     methods: ['POST', 'GET'],
   },
 })
@@ -20,7 +20,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleDisconnect(client: Socket) {}
 
   sendMessage(message: any) {
-    console.log('message>>>>', message);
+
 
     this.server.emit('message', message);
   }

@@ -29,7 +29,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       password: pass,
     };
     try {
-      const response = await fetch(`http://10.12.7.15:3000/auth/signup`, {
+      const response = await fetch(`http://localhost:3000/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       password: pass,
     };
     try {
-      const response = await fetch(`http://10.12.7.15:3000/auth/login`, {
+      const response = await fetch(`http://localhost:3000/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     // try {
     console.log("hanaaaa>>>>>>>>>");
 
-    const response = await fetch(`http://10.12.7.15:3000/auth/login-42`, {
+    const response = await fetch(`http://localhost:3000/auth/login-42`, {
       headers: {
         Host: "localhost",
       },

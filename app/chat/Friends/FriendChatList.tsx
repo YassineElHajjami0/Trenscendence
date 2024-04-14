@@ -3,25 +3,21 @@ import "./FriendChatList.css";
 import { BiSolidJoystickAlt } from "react-icons/bi";
 import { IoIosSend } from "react-icons/io";
 import Image from "next/image";
-import { FriendData } from "@/app/Interfaces/friendDataInterface";
-import playerData from "../../data/friends.json";
-import myFriendsChat from "../../data/friend_chat.json";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ChatContainer } from "./ChatContainer";
 import { slctdFriend } from "@/app/Atoms/friendAtom";
-import { slctdFriendChat } from "@/app/Atoms/friendChatAtom";
-import { FriendChat } from "@/app/Interfaces/friendChat";
+
 import { currentFriend } from "@/app/Atoms/currentFriend";
 import { loggedUser } from "@/app/Atoms/logged";
 import { channelId } from "@/app/Atoms/channelId";
 import { userToken } from "@/app/Atoms/userToken";
 import { io } from "socket.io-client";
-import EmojiPicker from "emoji-picker-react";
+import { RiEmojiStickerFill } from "react-icons/ri";
+
 import Picker from "emoji-picker-react";
 
-const socket = io("http://10.12.7.15:3001");
-
+const socket = io("http://localhost:3001");
 const FriendChatList = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const loggedU = useRecoilValue(loggedUser);
@@ -44,11 +40,13 @@ const FriendChatList = () => {
 
   useEffect(() => {
     const handleReceiveMessage = (message: any) => {
-      setFriendChat((prevMessages: any) => [...prevMessages, message]);
+      console.log("socket----------->>>>", message);
+      if (message?.channelID === channelID)
+        setFriendChat((prevMessages: any) => [...prevMessages, message]);
     };
     socket.on("message", handleReceiveMessage);
     return () => {
-      socket.off("message", handleReceiveMessage);
+      socket.off("message");
     };
   }, []);
 
@@ -57,7 +55,7 @@ const FriendChatList = () => {
 
     if (id === -1) return;
     const selectedFriendChat = await fetch(
-      `http://10.12.7.15:3000/message/${id}`,
+      `http://localhost:3000/message/${id}`,
       {
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -77,7 +75,7 @@ const FriendChatList = () => {
     const getMyFriendData = async () => {
       /*----------------------------get my friend data------------------------------- */
       const selectedFriendData = await fetch(
-        `http://10.12.7.15:3000/users/${selectedFriend}`,
+        `http://localhost:3000/users/${selectedFriend}`,
         {
           headers: {
             Authorization: `Bearer ${userTok}`,
@@ -97,7 +95,7 @@ const FriendChatList = () => {
         friendId: selectedFriend,
       };
       const createOrGetChannelID = await fetch(
-        "http://10.12.7.15:3000/channels/dm",
+        "http://localhost:3000/channels/dm",
         {
           method: "POST",
 
@@ -131,7 +129,7 @@ const FriendChatList = () => {
       channelID: channelID,
       content: inputMSG,
     };
-    const msg = await fetch("http://10.12.7.15:3000/message", {
+    const msg = await fetch("http://localhost:3000/message", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userTok}`,
@@ -143,7 +141,7 @@ const FriendChatList = () => {
     // const data = await msg.json();
 
     setInputMSG("");
-    setShowEmoji(false)
+    setShowEmoji(false);
   };
 
   useEffect(() => {
@@ -232,11 +230,13 @@ const FriendChatList = () => {
           <div
             className="closed_picker"
             onClick={() => setShowEmoji((prev) => !prev)}
-          ></div>
+          >
+            <RiEmojiStickerFill />
+          </div>
           <Picker
             emojiVersion="facebook"
             theme="dark"
-            className={`emoji_picker ${showEmoji && 'show_Emoji'} `}
+            className={`emoji_picker ${showEmoji && "show_Emoji"} `}
             searchDisabled={true}
             open={true}
             onEmojiClick={onEmojiClick}

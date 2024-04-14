@@ -6,7 +6,11 @@ import Friends from "./Friends";
 import Stats from "./Stats";
 import Achievements from "./Achievements";
 
-export default function ProfileDetails() {
+export default function ProfileDetails({
+  whichProfile,
+}: {
+  whichProfile: any;
+}) {
   const [switchElements, setSwitchElements] = useState("friends");
 
   const switchE = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,7 +43,9 @@ export default function ProfileDetails() {
       </div>
       <div className="profile_details_data">
         {switchElements === "stats" && <Stats />}
-        {switchElements === "friends" && <Friends />}
+        {switchElements === "friends" && (
+          <Friends whichProfile={whichProfile} />
+        )}
         {switchElements === "achievements" && <Achievements />}
       </div>
     </div>

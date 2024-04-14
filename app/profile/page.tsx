@@ -1,15 +1,26 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Profile.css";
-import silence from "../../public/mask_avatar.png";
 
 import { MdOutlineEdit, MdContentCopy } from "react-icons/md";
 import ProfileDetails from "./ProfileDetails";
 import Image from "next/image";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { loggedUser } from "../Atoms/logged";
+import { userToken } from "../Atoms/userToken";
+import { PiCurrencyEthFill } from "react-icons/pi";
+import { selectedFriendProfile } from "../Atoms/selectedFriendProfile";
 
 const Profile = () => {
   const uidRef = useRef<HTMLDivElement>(null);
 
+  const [selectedProfile, setSelectedProfile] = useRecoilState(
+    selectedFriendProfile
+  );
+  const loggedU = useRecoilValue(loggedUser);
+  const userTok = useRecoilValue(userToken);
+
+  const [userData, setUserData] = useState<any>({});
   // const copyUID = () => {
   //   return;
   //   if (uidRef.current) {
@@ -26,16 +37,48 @@ const Profile = () => {
   //   }
   // };
 
+  // useEffect(() => {
+  //   setSelectedProfile(-1);
+  // });
+  const whichProfile = selectedProfile === -1 ? loggedU : selectedProfile;
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/users/${whichProfile}`, {
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await res.json();
+        setUserData(data);
+        console.log("userData-->>>", data);
+      } catch (error: any) {
+        console.log("--->>>", error.message);
+      }
+    };
+    getUserData();
+  }, [whichProfile]);
+
   return (
     <div className="profile_container">
-      <div className="user_account">
+      <div
+        style={{
+          backgroundImage: `linear-gradient(
+          77deg,
+          rgba(0, 0, 0, 1) 30%,
+          rgba(255, 255, 255, 0) 100%
+        ), url(${userData?.banner})`,
+        }}
+        className="user_account"
+      >
         <div className="edit_label">
           <span>Edit</span>
           <MdOutlineEdit />
         </div>
 
         <Image
-          src="/av/av7.png"
+          src={userData?.avatar}
           width={2000}
           height={2000}
           alt="profile_avatar"
@@ -43,29 +86,38 @@ const Profile = () => {
         />
 
         <div className="profile_data">
-          <h1>Yahya TAQSI</h1>
-          <h4 className="profile_username">#BUDA</h4>
-          <h4 className="profile_email">buda98@gmail.com</h4>
+          <h1>{userData?.username}</h1>
+          <h4 className="profile_username">
+            <PiCurrencyEthFill /> {userData?.points}
+          </h4>
+          <h4 className="profile_email">{userData?.email}</h4>
           <h2 className="profile_user_lvl">
-            LVL <span>5.32</span>
+            LVL <span>{userData?.level}</span>
           </h2>
         </div>
 
         <div className="profile_progress">
-          <div className="progress"></div>
+          <div className="progress">
+            <div
+              style={{
+                width: `${userData?.level}%`,
+              }}
+              className="pseudoProgress"
+            ></div>
+          </div>
           <div
             //  onClick={copyUID}
 
             ref={uidRef}
             className="profile_uid"
           >
-            684687487597
+            {userData?.uid}
             <MdContentCopy />
           </div>
         </div>
       </div>
       <div className="profile_details">
-        <ProfileDetails />
+        <ProfileDetails whichProfile={whichProfile} />
       </div>
     </div>
   );

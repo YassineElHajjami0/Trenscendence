@@ -25,7 +25,7 @@ const AddFriendSection = () => {
     try {
       console.log("toooooooooooooooo ====> 0000", userTok);
       const res = await fetch(
-        `http://10.12.7.15:3000/friends/allusers/${userL}`,
+        `http://localhost:3000/friends/allusers/${userL}`,
         {
           method: "GET",
           headers: {
