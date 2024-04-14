@@ -5,14 +5,14 @@ import Image from "next/image";
 
 export default function Achievement({ achievement }) {
   return (
-    <div className="achievement_container">
+    <div className={`achievement_container ${
+      !achievement.unlocked && "locked_achievement"
+    }`}>
       <Image
         src={achievement.uri}
         width={1000}
         height={1000}
-        className={`friend_achievement_badge  ${
-          !achievement.unlocked && "locked_achievement"
-        }`}
+        className={`friend_achievement_badge  `}
         alt="achievement"
       />
 

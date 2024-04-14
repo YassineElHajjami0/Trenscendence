@@ -23,7 +23,6 @@ export default function Stats() {
     transformPlayerData(player_data)
   );
 
-  console.log(statsSwitch);
 
   function transformPlayerData(player_data: any) {
     const dataArray = player_data.stats.map((stat: any) => {

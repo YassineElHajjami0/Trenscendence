@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,20 +13,28 @@ import { IoMdSettings } from "react-icons/io";
 import { MdOutlineLogout } from "react-icons/md";
 import next from "next";
 import nextAppLoader from "next/dist/build/webpack/loaders/next-app-loader";
+import { useRecoilState } from "recoil";
+import { loggedUser } from "../Atoms/logged";
+import { userToken } from "../Atoms/userToken";
 
 const Nav = () => {
+  const [loggedU, setLoggedU] = useRecoilState(loggedUser);
+  const [loggedT, setLoggedT] = useRecoilState(userToken);
   return (
     <div className="main-Nav">
       <div className="logo-and-links">
         <div className="logo">
           <Link className="link" href="/">
             <div>
-
-            <Image className="image-logo" src={raqeta} alt="LOGO" width={100} />
+              <Image
+                className="image-logo"
+                src={raqeta}
+                alt="LOGO"
+                width={100}
+              />
             </div>
             <div>
-
-            <Image className="apb-logo" src={apb} alt="LOGO" width={100} />
+              <Image className="apb-logo" src={apb} alt="LOGO" width={100} />
             </div>
           </Link>
         </div>
@@ -89,7 +98,14 @@ const Nav = () => {
             <div>
               <MdOutlineLogout className="nav-icon" />
             </div>
-            <div>Log-out</div>
+            <div
+              onClick={() => {
+                setLoggedU(-1);
+                setLoggedT("");
+              }}
+            >
+              Log-out
+            </div>
           </li>
         </ul>
       </div>

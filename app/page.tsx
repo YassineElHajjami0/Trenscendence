@@ -10,8 +10,16 @@ import playerData from "./data/player-info.json";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PlayerInfo } from "./Interfaces/playerInfoInterface";
+import { loggedUser } from "./Atoms/logged";
+import { useRecoilState } from "recoil";
 
 export default function Home() {
+  const [logged, setLogged] = useRecoilState(loggedUser);
+  useEffect(() => {
+    const token = localStorage.getItem("loggedUser");
+    if (token) setLogged(Number(token));
+  }, []);
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(true);
   useEffect(() => {

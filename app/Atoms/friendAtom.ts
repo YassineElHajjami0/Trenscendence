@@ -1,5 +1,5 @@
 import { atom } from "recoil";
 export const slctdFriend = atom({
   key: "selectedFriend",
-  default: "none" as string,
+  default: Number(localStorage.getItem("selectedFriend")) || -1,
 });

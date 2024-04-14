@@ -46,7 +46,7 @@
   height: 100%;
   width: 0%;
   z-index: -1;
-  background: linear-gradient(to right, #1ce14e 40%, rgba(255, 255, 255, 0));
+  background: linear-gradient(to right, #1ce14e -50%, rgba(255, 255, 255, 0));
   transition: 0.3s;
 }
 .channelsListContainer .channelContainer:hover::before {

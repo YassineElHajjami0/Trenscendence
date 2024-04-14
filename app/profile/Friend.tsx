@@ -12,13 +12,25 @@ import silence from "../../public/mask_avatar.png";
 import "./Friend.css";
 import Image from "next/image";
 import { FriendData } from "@/app/Interfaces/friendDataInterface";
+import { slctdFriend } from "../Atoms/friendAtom";
+import { useRecoilState } from "recoil";
+import { useRouter } from "next/navigation";
+import { selectedFriendProfile } from "../Atoms/selectedFriendProfile";
 
-export default function Friend({ friend }: { friend: FriendData }) {
-  const [logged, setLogged] = useState(
-    friend.status === "online" || friend.status === "ingame"
+export default function Friend({ friend }: { friend: any }) {
+  const [selectedProfile, setSelectedProfile] = useRecoilState(
+    selectedFriendProfile
   );
-  const [inGame, setInGame] = useState(friend.status === "ingame");
-  const [blocked, setBlocked] = useState(friend.blocked);
+  const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
+  const route = useRouter();
+
+  const [logged, setLogged] = useState(
+    friend?.status === "online" || friend?.status === "ingame"
+  );
+  const [inGame, setInGame] = useState(friend?.status === "ingame");
+  const [blocked, setBlocked] = useState<boolean>(
+    friend?.fsStatus === "BLOCKED"
+  );
   const [burgerM, setBurgerM] = useState(false);
 
   const handleSwitch = () => {
@@ -29,6 +41,8 @@ export default function Friend({ friend }: { friend: FriendData }) {
   };
 
   const test = () => {
+    setSelectedFriend(friend?.uid);
+    route.push("/chat");
     console.log("-------->>>>>>>");
   };
 
@@ -36,7 +50,7 @@ export default function Friend({ friend }: { friend: FriendData }) {
     <div className="friend_container">
       <div className="friend_name_photo">
         <Image
-          src={friend.avatar}
+          src={friend?.avatar}
           width={2000}
           height={2000}
           className={`friend_avatar ${blocked && "blocked_friend_avatar"}`}
@@ -53,11 +67,14 @@ export default function Friend({ friend }: { friend: FriendData }) {
               logged && inGame && "ingame"
             }`}
           ></div>
-          {friend.name}
+          {friend?.name}
         </span>
 
         <div className={`btn_conatiner ${burgerM && "showParam"}`}>
-          <button className="friend_component_btn view_profile">
+          <button
+            onClick={() => setSelectedProfile(friend?.uid)}
+            className="friend_component_btn view_profile"
+          >
             <TbUserShare className="go_to_profile" />
           </button>
           <button

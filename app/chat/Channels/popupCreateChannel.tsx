@@ -44,7 +44,10 @@ const PopupCreateChannel: React.FC<popupProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      setSelectedChannelPicture(URL.createObjectURL(files[0]));
+      let file = URL.createObjectURL(files[0]);
+      console.log("fiel>>>>>>>", file);
+
+      setSelectedChannelPicture(file);
       reset({ myFile: files[0] });
     }
   };

@@ -8,11 +8,11 @@ export type FriendData = {
   bio: string;
   rank: string;
   rankBadge: string;
-  achievments: Array<{
+  achievements: Array<{
     name: string;
     description: string;
     uri: string;
     date: string;
     unlocked: boolean;
   }>;
-}
+};

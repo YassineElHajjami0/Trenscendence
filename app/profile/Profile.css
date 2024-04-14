@@ -20,12 +20,7 @@
   align-items: center;
   justify-content: space-around;
   padding: 0 20px;
-  background-image: linear-gradient(
-      77deg,
-      rgba(0, 0, 0, 1) 30%,
-      rgba(255, 255, 255, 0) 100%
-    ),
-    url("../../public/Xarben_bear.png");
+
   background-size: cover;
   background-repeat: no-repeat;
   background-position: right;
@@ -120,6 +115,14 @@
   text-shadow: 0 0 10px rgb(0, 0, 0);
 }
 
+.profile_username {
+  display: flex;
+  align-items: center;
+}
+.profile_username svg {
+  margin-right: 10px;
+}
+
 .profile_uid svg {
   margin-left: 10px;
 }
@@ -135,12 +138,11 @@
   height: 16px;
   background: #868686;
 }
-.progress::after {
+.pseudoProgress {
   border-radius: 10px;
   content: "";
   position: absolute;
   height: 100%;
-  width: 20%;
   left: 0;
   top: 0;
   background: #1ce14e;

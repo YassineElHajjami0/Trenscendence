@@ -347,6 +347,7 @@
   background: #141518bd;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(10px);
+  z-index: 11;
 }
 
 .selectedFriendChat {
@@ -361,14 +362,27 @@
 .col3 {
   width: 25%;
   height: 100%;
-  transition: all 0.5s ease-in-out;
-  background-color: #25262b;
+  transition: all 0.5s ease-in-out !important;
   border-top-right-radius: inherit;
   border-bottom-right-radius: inherit;
-  padding: 20px;
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 11;
+  background-color: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+}
+
+.clo3_sub_container {
+  overflow: hidden;
+  cursor: default;
+  padding: 20px;
+  background-color: #25262b;
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  transition: all 1s ease-in-out !important;
 }
 
 .col1 .switcher {
@@ -378,7 +392,7 @@
   /* background-color: #27272b; */
   padding: 15px;
   text-align: center;
-  border-radius: 20px;
+
   position: relative;
   margin-bottom: 20px;
 }
@@ -420,7 +434,7 @@
   top: 0;
   align-items: center;
   justify-content: flex-end;
-  z-index: 5;
+  z-index: 11;
   display: none;
 }
 
@@ -433,12 +447,23 @@
   scale: 0.9;
 }
 .dots_hide:hover {
-  color: #71ff95;
+  color: #1ce14e;
 }
 
 .show_col3 {
+  /* animation: kk 1s 1 ease-out; */
+  width: 100%;
+  transition: all 0.5s ease-in-out !important;
   transform: translateX(0) !important;
-  width: 40%;
+}
+
+@keyframes kk {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .col2 .svgHolder {
@@ -474,10 +499,82 @@
 
 .friendsList {
   width: 100%;
-  height: 90%;
+  height: 88%;
+  padding: 0 0 20px 0;
 }
 
+.add_friend {
+  z-index: 10;
+  border-radius: 10%;
+  position: absolute;
+  cursor: pointer;
+  background: #1ce14e;
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  bottom: 10px;
+  left: 10px;
+}
+
+.show_the_big_div {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border-radius: inherit;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform-origin: center;
+  transform: translate(50% 50%);
+  bottom: 0px;
+  left: 0px;
+  display: grid;
+  place-items: center;
+  transition: all 0.4s;
+  z-index: 12;
+}
+.add_friend_container {
+  width: 50%;
+  height: 80%;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+  padding: 45px 10px;
+}
+
+.add_friend_container input {
+  width: 75%;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background-color: #25262bba;
+  padding: 5px 15px;
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+.searchedFriends {
+  background-color: #25262bba;
+  width: 75%;
+  height: 90%;
+  border-radius: 15px;
+  overflow-y: scroll;
+  padding-top:10px ;
+}
+
+/*-----------break point-----------*/
 @media (max-width: 1440px) {
+  .clo3_sub_container {
+    padding: 20px 10px;
+  }
   .toright {
     transform: translateX(182%) !important;
   }
@@ -494,7 +591,14 @@
     width: 100%;
   }
 }
+
 @media (max-width: 1024px) {
+  .add_friend_container {
+    width: 75%;
+  }
+  .clo3_sub_container {
+    padding: 20px;
+  }
   .selectedColor {
     width: 82px !important;
   }
@@ -525,6 +629,9 @@
   .col3 {
     transform: translateX(100%);
   }
+  .clo3_sub_container {
+    width: 50%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -540,11 +647,22 @@
   .chat_channels_sub_container {
     width: 100%;
   }
-  .show_col3 {
+
+  .clo3_sub_container {
     width: 65%;
   }
 }
 @media (max-width: 425px) {
+  .add_friend_container {
+    width: 90%;
+  }
+  .add_friend_container input {
+    width: 90%;
+  }
+  .searchedFriends {
+    width: 90%;
+  }
+
   .toright {
     transform: translateX(260%) !important;
   }
@@ -556,16 +674,19 @@
     flex: 1 !important;
     width: 100% !important;
     border-radius: 10px;
+    padding: 40px 8px 30px 8px;
   }
   .col2 {
     position: absolute;
-    transform: translateX(100%);
+    transform: translateX(200%);
     border-radius: 10px;
   }
   .col3 {
     border-radius: inherit;
-    width: 100% !important;
     border-radius: 10px;
+  }
+  .clo3_sub_container {
+    width: 100%;
   }
   .showCol2 {
     width: 100%;
