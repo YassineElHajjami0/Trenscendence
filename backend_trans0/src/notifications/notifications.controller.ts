@@ -15,7 +15,7 @@ export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @Post()
-  create(@Body() createNotificationDto: Prisma.NotificationCreateInput) {
+  create(@Body() createNotificationDto: Prisma.NotificationUncheckedCreateInput) {
     return this.notificationsService.create(createNotificationDto);
   }
 

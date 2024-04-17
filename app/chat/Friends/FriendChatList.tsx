@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import "./FriendChatList.css";
 import { BiSolidJoystickAlt } from "react-icons/bi";
@@ -30,7 +31,7 @@ const FriendChatList = () => {
   const [friendChat, setFriendChat] = useState<any>([]);
   const [friend, setFriend] = useRecoilState(currentFriend);
   const [inputMSG, setInputMSG] = useState<string>("");
-  const [channelID, setChannelID] = useRecoilState(channelId);
+  const [channelID, setChannelID] = useState(-1);
   const [showEmoji, setShowEmoji] = useState(false);
   // const [msgSent, setMsgSent] = useState<number>(-1);
 
@@ -40,7 +41,6 @@ const FriendChatList = () => {
 
   useEffect(() => {
     const handleReceiveMessage = (message: any) => {
-      console.log("socket----------->>>>", message);
       if (message?.channelID === channelID)
         setFriendChat((prevMessages: any) => [...prevMessages, message]);
     };
@@ -48,7 +48,7 @@ const FriendChatList = () => {
     return () => {
       socket.off("message");
     };
-  }, []);
+  }, [channelID]);
 
   const getAllMSG = async (id: number) => {
     console.log("--------id>>>>>>>>", id);
@@ -107,8 +107,12 @@ const FriendChatList = () => {
         }
       );
       const dataC = await createOrGetChannelID.json();
-      if (dataC?.statusCode || dataC === -1) return;
+      if (dataC?.statusCode || dataC === -1) {
+        return;
+      }
+
       setChannelID(dataC);
+      console.log("=========================errr", dataC);
       getAllMSG(dataC);
       setInputMSG("");
     };

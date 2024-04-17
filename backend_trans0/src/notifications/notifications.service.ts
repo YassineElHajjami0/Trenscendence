@@ -6,7 +6,7 @@ import { DatabaseService } from 'src/database/database.service';
 export class NotificationsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async create(createNotificationDto: Prisma.NotificationCreateInput) {
+  async create(createNotificationDto: Prisma.NotificationUncheckedCreateInput) {
     return this.databaseService.notification.create({
       data: createNotificationDto,
     });

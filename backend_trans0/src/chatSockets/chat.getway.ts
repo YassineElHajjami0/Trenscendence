@@ -20,8 +20,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleDisconnect(client: Socket) {}
 
   sendMessage(message: any) {
-
-
     this.server.emit('message', message);
   }
 
