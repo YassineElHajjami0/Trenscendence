@@ -18,9 +18,20 @@ interface dataInterface {
   banner: string;
   username: string;
   email: string;
-  password: string;
+  oldPassword: string;
+  newPassword: string;
+  confirmedPassword: string;
   bio: string;
   twoFA: boolean;
+}
+interface itemsInterface {
+  description: string;
+  id: number;
+  img: string;
+  is_avatar: boolean;
+  name: string;
+  power: string;
+  price: number;
 }
 
 const Settings = () => {
@@ -28,6 +39,7 @@ const Settings = () => {
   const [showArticlesPopup, setShowArticlesPopup] = useState(false);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<dataInterface>();
+  const [errors, setErrors] = useState<string>("");
   const [avatarsAndPaddles, setAvatarsAndPaddles] = useState<any>();
   const userTok = useRecoilValue(userToken);
   const userId = useRecoilValue(loggedUser);
@@ -40,7 +52,7 @@ const Settings = () => {
     const fetchedData = async () => {
       try {
         const avatarsAndPaddlesResponse = await fetch(
-          "http://localhost:3000/items",
+          "http://localhost:3000/items", //remove the id in the response
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -89,10 +101,22 @@ const Settings = () => {
           email: value,
         }));
         break;
-      case "password":
+      case "oldPassword":
         setData((data) => ({
           ...(data as dataInterface),
-          password: value,
+          oldPassword: value,
+        }));
+        break;
+      case "newPassword":
+        setData((data) => ({
+          ...(data as dataInterface),
+          newPassword: value,
+        }));
+        break;
+      case "confirmedPassword":
+        setData((data) => ({
+          ...(data as dataInterface),
+          confirmedPassword: value,
         }));
         break;
       case "bio":
@@ -108,6 +132,23 @@ const Settings = () => {
 
   const saveUpdatewBtn = async () => {
     try {
+      if (
+        data?.newPassword == undefined &&
+        data?.confirmedPassword == undefined &&
+        data?.oldPassword == undefined
+      ) {
+      } else {
+        if (
+          data?.newPassword == undefined ||
+          data?.confirmedPassword == undefined ||
+          data?.oldPassword == undefined
+        ) {
+          setErrors("fill the 3 password fileds to change it !");
+        } else if (data.newPassword !== data.confirmedPassword) {
+          setErrors("you didn't confirm your password well ! ");
+        }
+      }
+
       const response = await fetch(`http://localhost:3000/users/${userId}`, {
         method: "PATCH",
         headers: {
@@ -119,7 +160,9 @@ const Settings = () => {
           banner: data?.banner,
           username: data?.username,
           email: data?.email,
-          password: data?.password,
+          oldPassword: data?.oldPassword,
+          newPassword: data?.newPassword,
+          confirmedPassword: data?.confirmedPassword,
           bio: data?.bio,
           twoFA: data?.twoFA,
         }),
@@ -127,10 +170,12 @@ const Settings = () => {
 
       if (!response.ok) {
         const errorResponse = await response.json();
+        setErrors((prev) => prev + "\n" + errorResponse.message);
         throw new Error(
           `Failed to patch data. Error: ${errorResponse.message}`
         );
       }
+      setErrors("");
     } catch (err) {
       console.error("SS ERR>>>", err);
     }
@@ -158,7 +203,7 @@ const Settings = () => {
             //   setProfileImage={setProfileImage}
             //   setProfileBanner={setProfileBanner}
             // />
-            <div></div>
+            <div>{/* {avatarsAndPaddles} */}</div>
           ) : (
             <div className="settings-container">
               <div
@@ -174,8 +219,8 @@ const Settings = () => {
                     <Image
                       className="profile-image"
                       src={data?.avatar ?? "default.png"}
-                      width={200}
-                      height={200}
+                      width={192}
+                      height={192}
                       alt="Profile Picture"
                     />
                   </div>
@@ -226,19 +271,7 @@ const Settings = () => {
                       value={data?.email}
                       onChange={(e) => changeInputValue(e)}
                     />
-                  </div>
-                  <div>
-                    <label htmlFor="label">password</label>
-                    <input
-                      id="password"
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      className="Password"
-                      value={data?.password}
-                      onChange={(e) => changeInputValue(e)}
-                    />
-                  </div>
+                  </div>{" "}
                   <div>
                     <label htmlFor="label">Bio</label>
                     <textarea
@@ -250,6 +283,43 @@ const Settings = () => {
                       onChange={(e) => changeInputValue(e)}
                     />
                   </div>
+                  <div>
+                    <label htmlFor="label">password</label>
+                    <input
+                      id="password"
+                      type="password"
+                      name="oldPassword"
+                      placeholder="old Password"
+                      className="Password"
+                      value={data?.oldPassword}
+                      onChange={(e) => changeInputValue(e)}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="label">new password</label>
+                    <input
+                      id="newpassword"
+                      type="password"
+                      name="newPassword"
+                      placeholder="new Password"
+                      className="Password"
+                      value={data?.newPassword}
+                      onChange={(e) => changeInputValue(e)}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="confirmpassword">confirm password</label>
+                    <input
+                      id="confirmpassword"
+                      type="password"
+                      name="confirmedPassword"
+                      placeholder="confirm Password"
+                      className="Password"
+                      value={data?.confirmedPassword}
+                      onChange={(e) => changeInputValue(e)}
+                    />
+                  </div>
+                  <pre className="errorsMsg">{errors}</pre>
                 </div>
                 <div className="twofa">
                   <h4>

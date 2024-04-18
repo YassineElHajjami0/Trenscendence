@@ -43,9 +43,17 @@
 }
 .banner .image-holder {
   position: relative;
+  width: 200px;
+  height: 200px;
 }
 .banner .image-holder .profile-image {
   border-radius: 50%;
+  width: 95%;
+  height: 95%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .banner .image-holder::before {
   position: absolute;
@@ -65,8 +73,8 @@
   top: 0;
   left: 0;
   border-radius: 50%;
-  width: 100%;
-  height: 100%;
+  width: 101%;
+  height: 101%;
   background: repeating-conic-gradient(
     #1ce14e 0%,
     #1ce14e 5%,
@@ -431,4 +439,9 @@
     font-size: 16px;
     font-weight: normal;
   }
+}
+.errorsMsg {
+  white-space: "pre-line";
+  line-height: 1.5;
+  color: rgb(236, 66, 66);
 }
