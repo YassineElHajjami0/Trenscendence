@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-User.dto';
+import { log } from 'console';
 
 @Injectable()
 export class UsersService {
@@ -94,7 +94,13 @@ export class UsersService {
         loseMatches: true,
       },*/
     });
-    return user;
+    const finalUser = {
+      ...user,
+      oldPassword: '',
+      newPassword: '',
+      confirmedPassword: '',
+    };
+    return finalUser;
     /*
     if (!user) {
       return {};
@@ -170,27 +176,23 @@ export class UsersService {
   }
 
   async update(uid: number, updateUserDto: UpdateUserDto) {
-    if (
-      updateUserDto.password &&
-      updateUserDto.newPassword &&
-      updateUserDto.newPassword != updateUserDto.password
-    ) {
-      const user = await this.validateUser(
-        updateUserDto.username,
-        updateUserDto.password,
-      );
-      if (!user) {
-        return 'The password is incorrect !!';
-      }
-      updateUserDto.password = await bcrypt.hash(updateUserDto.newPassword, 10);
+    log('updateUserDto===>', updateUserDto);
+    const user = await this.validateUser(
+      updateUserDto.username,
+      updateUserDto.oldPassword,
+    );
+    if (!user) {
+      return 'The password is incorrect !!';
     }
-    const { newPassword, password, ...result } = updateUserDto;
+    updateUserDto.password = await bcrypt.hash(updateUserDto.newPassword, 10);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { newPassword, oldPassword, confirmedPassword, ...result } =
+      updateUserDto;
     return this.databaseService.t_User.update({
       where: { uid },
       data: result,
     });
   }
-
 
   async remove(uid: number) {
     return this.databaseService.t_User.delete({ where: { uid } });
