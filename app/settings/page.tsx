@@ -9,8 +9,9 @@ import { IoCameraReverse } from "react-icons/io5";
 import { FaLock } from "react-icons/fa";
 import "../store/store.css";
 import "./settings.css";
-import playerData from "../data/player-info.json";
-import { PlayerInfo } from "../Interfaces/playerInfoInterface.js";
+import { userToken } from "@/app/Atoms/userToken";
+import { useRecoilValue } from "recoil";
+import { loggedUser } from "../Atoms/logged";
 
 interface dataInterface {
   avatar: string;
@@ -23,30 +24,45 @@ interface dataInterface {
 }
 
 const Settings = () => {
-  const player_data: PlayerInfo = playerData;
   const [ArticlesType, setArticlesType] = useState("");
   const [showArticlesPopup, setShowArticlesPopup] = useState(false);
-  const [profileBanner, setProfileBanner] = useState(player_data.choosedBanner);
-  const [profileImage, setProfileImage] = useState(
-    player_data.choosedProfileImage
-  );
-  const [twoFaStatus, setTwoFaStatus] = useState(player_data.TwoFA);
-  const [username, setUserName] = useState(player_data.username);
-  const [email, setEmail] = useState(player_data.email);
-  const [password, setPassword] = useState(player_data.password);
-  const [bio, setBio] = useState(player_data.bio);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<dataInterface>();
+  const [avatarsAndPaddles, setAvatarsAndPaddles] = useState<any>();
+  const userTok = useRecoilValue(userToken);
+  const userId = useRecoilValue(loggedUser);
 
+  //http://localhost:3000/users/2 if no 2 the backend does not return an error
   useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
     const fetchedData = async () => {
       try {
-        const response = await fetch("http://10.11.4.15:3001/users/2");
+        const avatarsAndPaddlesResponse = await fetch(
+          "http://localhost:3000/items",
+          {
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const response = await fetch(`http://localhost:3000/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const avatarsAndPaddlesData = await avatarsAndPaddlesResponse.json();
         const data = await response.json();
         setData(data);
-        console.log(data);
+        setAvatarsAndPaddles(avatarsAndPaddlesData);
+        console.log("data", data);
+        console.log("avatarsAndPaddles", avatarsAndPaddlesData);
       } catch (err) {
-        console.error(">>>>>>", err);
+        console.error("settings error >>>>>>", err);
       }
     };
 
@@ -62,38 +78,44 @@ const Settings = () => {
 
     switch (name) {
       case "username":
-        setUserName(value);
+        setData((data) => ({
+          ...(data as dataInterface),
+          username: value,
+        }));
         break;
       case "email":
-        setEmail(value);
+        setData((data) => ({
+          ...(data as dataInterface),
+          email: value,
+        }));
         break;
       case "password":
-        setPassword(value);
+        setData((data) => ({
+          ...(data as dataInterface),
+          password: value,
+        }));
         break;
       case "bio":
-        setBio(value);
+        setData((data) => ({
+          ...(data as dataInterface),
+          bio: value,
+        }));
         break;
       default:
         break;
     }
   }
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
-
   const saveUpdatewBtn = async () => {
     try {
-      const response = await fetch("http://10.11.4.15:3001/users/2", {
+      const response = await fetch(`http://localhost:3000/users/${userId}`, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json", //dfgdfdfbdfbdfbdbsbdb
-          // token
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          avatar: "hamada",
+          avatar: data?.avatar,
           banner: data?.banner,
           username: data?.username,
           email: data?.email,
@@ -108,10 +130,9 @@ const Settings = () => {
         throw new Error(
           `Failed to patch data. Error: ${errorResponse.message}`
         );
-        throw new Error("Failed to patch data");
       }
     } catch (err) {
-      console.error(">>>", err);
+      console.error("SS ERR>>>", err);
     }
   };
 
@@ -130,19 +151,20 @@ const Settings = () => {
       ) : (
         <>
           {showArticlesPopup ? (
-            <Popup
-              Type={ArticlesType}
-              Articles={player_data.avatarsAndPaddles}
-              setShowArticlesPopup={setShowArticlesPopup}
-              setProfileImage={setProfileImage}
-              setProfileBanner={setProfileBanner}
-            />
+            // <Popup
+            //   Type={ArticlesType}
+            //   Articles={player_data.avatarsAndPaddles}
+            //   setShowArticlesPopup={setShowArticlesPopup}
+            //   setProfileImage={setProfileImage}
+            //   setProfileBanner={setProfileBanner}
+            // />
+            <div></div>
           ) : (
             <div className="settings-container">
               <div
                 className="banner"
                 style={{
-                  backgroundImage: `url('${profileBanner}')`,
+                  backgroundImage: `url('${data?.banner}')`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -151,7 +173,7 @@ const Settings = () => {
                   <div>
                     <Image
                       className="profile-image"
-                      src={profileImage}
+                      src={data?.avatar ?? "default.png"}
                       width={200}
                       height={200}
                       alt="Profile Picture"
@@ -201,7 +223,7 @@ const Settings = () => {
                       id="email"
                       placeholder="Email"
                       className="email"
-                      value={email}
+                      value={data?.email}
                       onChange={(e) => changeInputValue(e)}
                     />
                   </div>
@@ -213,7 +235,7 @@ const Settings = () => {
                       name="password"
                       placeholder="Password"
                       className="Password"
-                      value={password}
+                      value={data?.password}
                       onChange={(e) => changeInputValue(e)}
                     />
                   </div>
@@ -224,7 +246,7 @@ const Settings = () => {
                       placeholder="Bio"
                       className="username"
                       name="bio"
-                      value={bio}
+                      value={data?.bio}
                       onChange={(e) => changeInputValue(e)}
                     />
                   </div>
@@ -241,10 +263,15 @@ const Settings = () => {
                       height={200}
                     />
                     <button
-                      onClick={() => setTwoFaStatus(!twoFaStatus)}
-                      className={twoFaStatus ? "redbc" : "greenbc"}
+                      onClick={() => {
+                        setData((data) => ({
+                          ...(data as dataInterface),
+                          twoFA: !data?.twoFA,
+                        }));
+                      }}
+                      className={data?.twoFA ? "redbc" : "greenbc"}
                     >
-                      {twoFaStatus ? "Disable 2FA" : "Enable 2FA"}
+                      {data?.twoFA ? "Disable 2FA" : "Enable 2FA"}
                     </button>
                   </div>
                 </div>

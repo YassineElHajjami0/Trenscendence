@@ -14,6 +14,7 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { ChannelModule } from './channel/channel.module';
 import { MessageModule } from './message/message.module';
+import { UserItemsModule } from './user-items/user-items.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { MessageModule } from './message/message.module';
     MatchHistoryModule,
     ChannelModule,
     MessageModule,
+    UserItemsModule,
   ],
   controllers: [AppController],
   providers: [

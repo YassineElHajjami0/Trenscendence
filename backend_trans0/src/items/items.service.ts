@@ -11,6 +11,7 @@ export class ItemsService {
   }
 
   async findAll() {
+    console.log('hello world');
     return this.databaseService.item.findMany({});
   }
 
