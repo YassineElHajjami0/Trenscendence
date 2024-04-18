@@ -31,7 +31,7 @@ interface itemsInterface {
   is_avatar: boolean;
   name: string;
   power: string;
-  price: number;
+  price: string;
 }
 
 const Settings = () => {
@@ -132,20 +132,23 @@ const Settings = () => {
 
   const saveUpdatewBtn = async () => {
     try {
+      setErrors("");
       if (
-        data?.newPassword == undefined &&
-        data?.confirmedPassword == undefined &&
-        data?.oldPassword == undefined
+        data?.newPassword == "" &&
+        data?.confirmedPassword == "" &&
+        data?.oldPassword == ""
       ) {
       } else {
         if (
-          data?.newPassword == undefined ||
-          data?.confirmedPassword == undefined ||
-          data?.oldPassword == undefined
+          data?.newPassword == "" ||
+          data?.confirmedPassword == "" ||
+          data?.oldPassword == ""
         ) {
           setErrors("fill the 3 password fileds to change it !");
-        } else if (data.newPassword !== data.confirmedPassword) {
+          return;
+        } else if (data?.newPassword !== data?.confirmedPassword) {
           setErrors("you didn't confirm your password well ! ");
+          return;
         }
       }
 

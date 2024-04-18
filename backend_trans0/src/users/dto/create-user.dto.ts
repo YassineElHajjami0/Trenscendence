@@ -19,15 +19,15 @@ export class CreateUserDto {
 
   @MinLength(8)
   @Matches(/^[a-z0-9]+(-[a-z0-9]+)*$/)
-  newPassword?: string;
+  newPassword?: string = 'test1234';
 
   @MinLength(8)
   @Matches(/^[a-z0-9]+(-[a-z0-9]+)*$/)
-  oldPassword?: string;
+  oldPassword?: string = 'test1234';
 
   @MinLength(8)
   @Matches(/^[a-z0-9]+(-[a-z0-9]+)*$/)
-  confirmedPassword?: string;
+  confirmedPassword?: string = 'test1234';
 
   twoFA?: boolean;
 

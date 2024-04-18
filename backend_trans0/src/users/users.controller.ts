@@ -14,6 +14,7 @@ import { UsersService } from './users.service';
 import { Prisma } from '@prisma/client';
 import { UpdateUserDto } from './dto/update-User.dto';
 import { Public } from '@prisma/client/runtime/library';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -23,7 +24,6 @@ export class UsersController {
   // create(@Body() createUserDto: CreateUserDto) {
   //   console.log(createUserDto);
   //   return createUserDto;
-  //   // return this.usersService.create(createUserDto);
   // }
 
   // @Roles(Role.Admin)
@@ -39,8 +39,6 @@ export class UsersController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    console.log('im heeeere');
-
     return this.usersService.update(+id, updateUserDto);
   }
 

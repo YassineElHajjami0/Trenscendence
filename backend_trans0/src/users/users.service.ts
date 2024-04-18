@@ -1,4 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -16,6 +22,7 @@ export class UsersService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.findUserByUsername(username);
+    console.log('pass=>', pass, 'user?.password=>', user?.password);
     const isMatch = await bcrypt.compare(pass, user?.password);
     if (isMatch) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -176,13 +183,14 @@ export class UsersService {
   }
 
   async update(uid: number, updateUserDto: UpdateUserDto) {
-    log('updateUserDto===>', updateUserDto);
+    const userInDb = await this.findOne(uid);
+
     const user = await this.validateUser(
-      updateUserDto.username,
+      userInDb.username,
       updateUserDto.oldPassword,
     );
     if (!user) {
-      return 'The password is incorrect !!';
+      throw new BadRequestException('Incorrect old password');
     }
     updateUserDto.password = await bcrypt.hash(updateUserDto.newPassword, 10);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
