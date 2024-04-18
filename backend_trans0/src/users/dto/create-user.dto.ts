@@ -17,6 +17,15 @@ export class CreateUserDto {
   @Matches(/^[a-z0-9]+(-[a-z0-9]+)*$/)
   password: string;
 
+  @MinLength(8)
+  @Matches(/^[a-z0-9]+(-[a-z0-9]+)*$/)
+  newPassword?: string;
+
+  @MinLength(8)
+  @Matches(/^[a-z0-9]+(-[a-z0-9]+)*$/)
+  confirmPassword?: string;
+
+
   twoFA?: boolean;
 
   avatar?: string;
