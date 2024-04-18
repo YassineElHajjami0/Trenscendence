@@ -8,6 +8,23 @@ import { UpdateUserDto } from './dto/update-User.dto';
 @Injectable()
 export class UsersService {
   constructor(private readonly databaseService: DatabaseService) {}
+
+  async validateUserId(uid: number) {
+    const user = await this.findOne(uid);
+    return user === undefined;
+  }
+
+  async validateUser(username: string, pass: string): Promise<any> {
+    const user = await this.findUserByUsername(username);
+    const isMatch = await bcrypt.compare(pass, user?.password);
+    if (isMatch) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
+  }
+
   // Without<T_UserUncheckedCreateInput
   async create(createUserDto: CreateUserDto) {
     // Handling error globally without putting the uggly try/catch everyWhere
@@ -153,14 +170,27 @@ export class UsersService {
   }
 
   async update(uid: number, updateUserDto: UpdateUserDto) {
-    console.log('im heeeere--->', updateUserDto);
-    if (updateUserDto.password)
-      updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
+    if (
+      updateUserDto.password &&
+      updateUserDto.newPassword &&
+      updateUserDto.newPassword != updateUserDto.password
+    ) {
+      const user = await this.validateUser(
+        updateUserDto.username,
+        updateUserDto.password,
+      );
+      if (!user) {
+        return 'The password is incorrect !!';
+      }
+      updateUserDto.password = await bcrypt.hash(updateUserDto.newPassword, 10);
+    }
+    const { newPassword, password, ...result } = updateUserDto;
     return this.databaseService.t_User.update({
       where: { uid },
-      data: updateUserDto,
+      data: result,
     });
   }
+
 
   async remove(uid: number) {
     return this.databaseService.t_User.delete({ where: { uid } });
