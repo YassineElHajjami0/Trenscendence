@@ -43,9 +43,7 @@ export default function ProfileDetails({
       </div>
       <div className="profile_details_data">
         {switchElements === "stats" && <Stats />}
-        {switchElements === "friends" && (
-          <Friends whichProfile={whichProfile} />
-        )}
+        {switchElements === "friends" && (<Friends whichProfile={whichProfile} />)}
         {switchElements === "achievements" && <Achievements />}
       </div>
     </div>

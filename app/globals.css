@@ -1,3 +1,7 @@
+:root {
+  --main-green: #1dcd4a; /* Define a variable */
+}
+
 * {
   -webkit-user-drag: none;
   user-select: none;
@@ -35,6 +39,7 @@ nav {
   flex-direction: column;
 
   gap: 30px;
+
   /* height: 100%;
 	width: calc(100% - 65px); */
 }
