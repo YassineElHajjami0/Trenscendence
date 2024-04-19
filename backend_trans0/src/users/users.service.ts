@@ -99,15 +99,19 @@ export class UsersService {
         },
         winMatches: true,
         loseMatches: true,
-      },*/
+      },
+      */
     });
-    const finalUser = {
-      ...user,
-      oldPassword: '',
-      newPassword: '',
-      confirmedPassword: '',
-    };
-    return finalUser;
+    if (user) {
+      const finalUser = {
+        ...user,
+        oldPassword: '',
+        newPassword: '',
+        confirmedPassword: '',
+      };
+      return finalUser;
+    }
+    return user;
     /*
     if (!user) {
       return {};

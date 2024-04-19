@@ -58,9 +58,17 @@ export class AppController {
 
   @Public()
   @Post('auth/signup')
-  async signup(@Body() createUserDto: CreateUserDto) {
-    await this.authService.signUp(createUserDto);
-    // await this.login(createUserDto);
+  async signup(@Body() createUserDto: CreateUserDto, @Res({ passthrough: true }) res) {
+    // await this.authService.signUp(createUserDto);
+    // ??
+
+    const user = await this.authService.signUp(createUserDto);
+    const bearer_token = await this.authService.login(user);
+    this.setCookie(res, bearer_token);
+    return {
+      user_token: bearer_token,
+      user: user,
+    };
   }
 
   @UseGuards(JwtAuthGuard)
