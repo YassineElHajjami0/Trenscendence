@@ -56,7 +56,10 @@ const PopupCreateChannel: React.FC<popupProps> = ({
     <div className="popupContainer">
       <button
         className="cancelBtn"
-        onClick={() => setShowPopUpCreateChannel(false)}
+        onClick={() => {
+          setShowPopUpCreateChannel(false);
+          reset();
+        }}
       >
         <MdOutlineCancel />
       </button>

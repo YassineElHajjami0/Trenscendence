@@ -14,9 +14,15 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { ChannelModule } from './channel/channel.module';
 import { MessageModule } from './message/message.module';
+import { UserItemsModule } from './user-items/user-items.module';
+import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+    }),
     UsersModule,
     DatabaseModule,
     NotificationsModule,
@@ -27,6 +33,7 @@ import { MessageModule } from './message/message.module';
     MatchHistoryModule,
     ChannelModule,
     MessageModule,
+    UserItemsModule,
   ],
   controllers: [AppController],
   providers: [

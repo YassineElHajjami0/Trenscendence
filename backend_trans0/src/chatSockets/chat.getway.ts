@@ -10,6 +10,7 @@ import { Server, Socket } from 'socket.io';
 @WebSocketGateway(3001, {
   cors: {
     origin: 'http://localhost:5252',
+
     methods: ['POST', 'GET'],
   },
 })

@@ -9,23 +9,78 @@ import { IoCameraReverse } from "react-icons/io5";
 import { FaLock } from "react-icons/fa";
 import "../store/store.css";
 import "./settings.css";
-import playerData from "../data/player-info.json";
-import { PlayerInfo } from "../Interfaces/playerInfoInterface.js";
+import { userToken } from "@/app/Atoms/userToken";
+import { useRecoilValue } from "recoil";
+import { loggedUser } from "../Atoms/logged";
 
+interface dataInterface {
+  avatar: string;
+  banner: string;
+  username: string;
+  email: string;
+  oldPassword: string;
+  newPassword: string;
+  confirmedPassword: string;
+  bio: string;
+  twoFA: boolean;
+}
+interface itemsInterface {
+  description: string;
+  id: number;
+  img: string;
+  type: string;
+  name: string;
+  power: string;
+  price: string;
+}
+//http://localhost:3000/image.jpeg
 const Settings = () => {
-  const player_data: PlayerInfo = playerData;
   const [ArticlesType, setArticlesType] = useState("");
   const [showArticlesPopup, setShowArticlesPopup] = useState(false);
-  const [profileBanner, setProfileBanner] = useState(player_data.choosedBanner);
-  const [profileImage, setProfileImage] = useState(
-    player_data.choosedProfileImage
-  );
-  const [twoFaStatus, setTwoFaStatus] = useState(player_data.TwoFA);
-  const [username, setUserName] = useState(player_data.username);
-  const [email, setEmail] = useState(player_data.email);
-  const [password, setPassword] = useState(player_data.password);
-  const [bio, setBio] = useState(player_data.bio);
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<dataInterface>();
+  const [errors, setErrors] = useState<string>("");
+  const [avatarsAndPaddles, setAvatarsAndPaddles] =
+    useState<itemsInterface[]>();
+  const userTok = useRecoilValue(userToken);
+  const userId = useRecoilValue(loggedUser);
+
+  //http://localhost:3000/users/2 if no 2 the backend does not return an error
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    const fetchedData = async () => {
+      try {
+        const avatarsAndPaddlesResponse = await fetch(
+          "http://localhost:3000/items", //remove the id in the response
+          {
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const response = await fetch(`http://localhost:3000/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const avatarsAndPaddlesData = await avatarsAndPaddlesResponse.json();
+        const data = await response.json();
+        setData(data);
+        setAvatarsAndPaddles(avatarsAndPaddlesData);
+        console.log("data", data);
+        console.log("avatarsAndPaddles", avatarsAndPaddlesData);
+      } catch (err) {
+        console.error("settings error >>>>>>", err);
+      }
+    };
+
+    fetchedData();
+  }, []);
 
   function changeInputValue(
     e:
@@ -36,27 +91,132 @@ const Settings = () => {
 
     switch (name) {
       case "username":
-        setUserName(value);
+        setData((data) => ({
+          ...(data as dataInterface),
+          username: value,
+        }));
         break;
       case "email":
-        setEmail(value);
+        setData((data) => ({
+          ...(data as dataInterface),
+          email: value,
+        }));
         break;
-      case "password":
-        setPassword(value);
+      case "oldPassword":
+        setData((data) => ({
+          ...(data as dataInterface),
+          oldPassword: value,
+        }));
+        break;
+      case "newPassword":
+        setData((data) => ({
+          ...(data as dataInterface),
+          newPassword: value,
+        }));
+        break;
+      case "confirmedPassword":
+        setData((data) => ({
+          ...(data as dataInterface),
+          confirmedPassword: value,
+        }));
         break;
       case "bio":
-        setBio(value);
+        setData((data) => ({
+          ...(data as dataInterface),
+          bio: value,
+        }));
         break;
       default:
         break;
     }
   }
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
+  const saveUpdatewBtn = async () => {
+    try {
+      setErrors("");
+      if (
+        data?.newPassword == "" &&
+        data?.confirmedPassword == "" &&
+        data?.oldPassword == ""
+      ) {
+      } else {
+        if (
+          data?.newPassword == "" ||
+          data?.confirmedPassword == "" ||
+          data?.oldPassword == ""
+        ) {
+          setErrors("fill the 3 password fileds to change it !");
+          return;
+        } else if (data?.newPassword !== data?.confirmedPassword) {
+          setErrors("you didn't confirm your password well ! ");
+          return;
+        }
+      }
+
+      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          avatar: data?.avatar,
+          banner: data?.banner,
+          username: data?.username,
+          email: data?.email,
+          oldPassword: data?.oldPassword,
+          newPassword: data?.newPassword,
+          confirmedPassword: data?.confirmedPassword,
+          bio: data?.bio,
+          twoFA: data?.twoFA,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        setErrors((prev) => prev + "\n" + errorResponse.message);
+        throw new Error(
+          `Failed to patch data. Error: ${errorResponse.message}`
+        );
+      }
+      setErrors("");
+    } catch (err) {
+      console.error("SS ERR>>>", err);
+    }
+  };
+
+  const changeImageInTheServer = async (img: string, banner?: string) => {
+    try {
+      setData((data) => ({
+        ...(data as dataInterface),
+        avatar: img,
+      }));
+      // console.log(">>>>>>>>>>>>>???>>>", data);
+      setLoading(true);
+      setTimeout(() => setLoading(false), 1000);
+      setShowArticlesPopup(false);
+      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          avatar: img,
+          banner: banner,
+        }),
+      });
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        setErrors("Something went wrong !");
+        throw new Error(
+          `Failed to patch data. Error: ${errorResponse.message}`
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -73,19 +233,54 @@ const Settings = () => {
       ) : (
         <>
           {showArticlesPopup ? (
-            <Popup
-              Type={ArticlesType}
-              Articles={player_data.avatarsAndPaddles}
-              setShowArticlesPopup={setShowArticlesPopup}
-              setProfileImage={setProfileImage}
-              setProfileBanner={setProfileBanner}
-            />
+            // <Popup
+            //   Type={ArticlesType}
+            //   Articles={player_data.avatarsAndPaddles}
+            //   setShowArticlesPopup={setShowArticlesPopup}
+            //   setProfileImage={setProfileImage}
+            //   setProfileBanner={setProfileBanner}
+            // />
+            <>
+              <div className="choosedItemsList">
+                {avatarsAndPaddles?.map((e) => {
+                  return e.type == ArticlesType ? (
+                    <div
+                      key={e.id}
+                      className="item"
+                      onClick={() => changeImageInTheServer(e.img)}
+                    >
+                      <Image
+                        className="img"
+                        src={`http://localhost:3000/av/${e.img}`}
+                        width={200}
+                        height={200}
+                        alt="IMG"
+                      />
+                      <p>{e.name}</p>
+                    </div>
+                  ) : (
+                    ""
+                  );
+                })}
+              </div>
+              <button
+                className="cancel"
+                onClick={() => {
+                  setLoading(true);
+                  setTimeout(() => setLoading(false), 1000);
+                  setArticlesType("");
+                  setShowArticlesPopup(false);
+                }}
+              >
+                Cancel
+              </button>
+            </>
           ) : (
             <div className="settings-container">
               <div
                 className="banner"
                 style={{
-                  backgroundImage: `url('${profileBanner}')`,
+                  backgroundImage: `url('${data?.banner}')`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -94,15 +289,20 @@ const Settings = () => {
                   <div>
                     <Image
                       className="profile-image"
-                      src={profileImage}
-                      width={200}
-                      height={200}
+                      src={
+                        `http://localhost:3000/av/${data?.avatar}` ??
+                        "default.png"
+                      }
+                      width={192}
+                      height={192}
                       alt="Profile Picture"
                     />
                   </div>
                   <button
                     className="btn-change-profile"
                     onClick={() => {
+                      setLoading(true);
+                      setTimeout(() => setLoading(false), 1000);
                       setArticlesType("avatar");
                       setShowArticlesPopup(!showArticlesPopup);
                     }}
@@ -132,7 +332,7 @@ const Settings = () => {
                       id="username"
                       placeholder="Username"
                       className="username"
-                      value={username}
+                      value={data?.username}
                       onChange={(e) => changeInputValue(e)}
                     />
                   </div>
@@ -144,7 +344,18 @@ const Settings = () => {
                       id="email"
                       placeholder="Email"
                       className="email"
-                      value={email}
+                      value={data?.email}
+                      onChange={(e) => changeInputValue(e)}
+                    />
+                  </div>{" "}
+                  <div>
+                    <label htmlFor="label">Bio</label>
+                    <textarea
+                      rows={4}
+                      placeholder="Bio"
+                      className="username"
+                      name="bio"
+                      value={data?.bio}
                       onChange={(e) => changeInputValue(e)}
                     />
                   </div>
@@ -153,41 +364,67 @@ const Settings = () => {
                     <input
                       id="password"
                       type="password"
-                      name="password"
-                      placeholder="Password"
+                      name="oldPassword"
+                      placeholder="old Password"
                       className="Password"
-                      value={password}
+                      value={data?.oldPassword}
                       onChange={(e) => changeInputValue(e)}
                     />
                   </div>
                   <div>
-                    <label htmlFor="label">Bio</label>
-                    <textarea
-                      rows={4}
-                      placeholder="Bio"
-                      className="username"
-                      name="bio"
-                      value={bio}
+                    <label htmlFor="label">new password</label>
+                    <input
+                      id="newpassword"
+                      type="password"
+                      name="newPassword"
+                      placeholder="new Password"
+                      className="Password"
+                      value={data?.newPassword}
                       onChange={(e) => changeInputValue(e)}
                     />
                   </div>
+                  <div>
+                    <label htmlFor="confirmpassword">confirm password</label>
+                    <input
+                      id="confirmpassword"
+                      type="password"
+                      name="confirmedPassword"
+                      placeholder="confirm Password"
+                      className="Password"
+                      value={data?.confirmedPassword}
+                      onChange={(e) => changeInputValue(e)}
+                    />
+                  </div>
+                  <pre className="errorsMsg">{errors}</pre>
                 </div>
                 <div className="twofa">
                   <h4>
                     Set Up Two Factor Authentication <FaLock />
                   </h4>
                   <div>
-                    <img src="/qr.png" alt="Qr code" />
+                    <Image
+                      src="/qr.png"
+                      alt="Qr code"
+                      width={200}
+                      height={200}
+                    />
                     <button
-                      onClick={() => setTwoFaStatus(!twoFaStatus)}
-                      className={twoFaStatus ? "redbc" : "greenbc"}
+                      onClick={() => {
+                        setData((data) => ({
+                          ...(data as dataInterface),
+                          twoFA: !data?.twoFA,
+                        }));
+                      }}
+                      className={data?.twoFA ? "redbc" : "greenbc"}
                     >
-                      {twoFaStatus ? "Disable 2FA" : "Enable 2FA"}
+                      {data?.twoFA ? "Disable 2FA" : "Enable 2FA"}
                     </button>
                   </div>
                 </div>
               </div>
-              <button className="saveUpdates">Save Updates</button>
+              <button className="saveUpdates" onClick={saveUpdatewBtn}>
+                Save Updates
+              </button>
             </div>
           )}
         </>

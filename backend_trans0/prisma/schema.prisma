@@ -85,8 +85,8 @@ model T_User {
   bio              String            @default("I am a player")
   password         String
   twoFA            Boolean           @default(false)
-  avatar           String            @default("/profile_image.jpeg")
-  banner           String            @default("/banner.jpeg")
+  avatar           String            @default("/default.png") // neeeeeed to be updated
+  banner           String            @default("/defaultBanner.jpg") // neeeeeed to be updated
   level            Int               @default(0)
   points           Int               @default(0)
   rank             String            @default("0")
@@ -131,13 +131,19 @@ model UserFriend {
 }
 
 // Item of a user ################################################################################
+// INSERT INTO UserItem(userId, itemId, unlocked, choosed)
+// VALUES (1, 1, true, false);
+// ERROR:  relation "useritem" does not exist
+// LINE 1: INSERT INTO UserItem(userId, itemId, unlocked, choosed)
+
 model Item {
   id          Int        @id @default(autoincrement())
   img         String
   name        String
   description String
   price       Int
-  is_avatar   Boolean
+  // is_avatar   Boolean
+  type        String
   power       String
   userItems   UserItem[]
 }

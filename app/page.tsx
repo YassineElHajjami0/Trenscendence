@@ -11,7 +11,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PlayerInfo } from "./Interfaces/playerInfoInterface";
 import { loggedUser } from "./Atoms/logged";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { userToken } from "@/app/Atoms/userToken";
 
 export default function Home() {
   const [logged, setLogged] = useRecoilState(loggedUser);
@@ -21,10 +22,31 @@ export default function Home() {
   }, []);
 
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(true);
+  const userTok = useRecoilValue(userToken);
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
+
+    const fetchedData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/match-history", {
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        setData(data);
+        console.log("heeeeeeeerrrrreeeeee");
+        console.log(data);
+      } catch (err) {
+        console.error(">>>>>>", err);
+      }
+    };
+
+    fetchedData();
   }, []);
   const player_data: PlayerInfo = playerData;
   let flag: number = 0;

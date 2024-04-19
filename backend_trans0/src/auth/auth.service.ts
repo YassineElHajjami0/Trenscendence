@@ -12,19 +12,13 @@ export class AuthService {
   ) {}
 
   async validateUserId(uid: number) {
-    const user = await this.usersService.findOne(uid);
+    const user = await this.usersService.validateUserId(uid);
     return user === undefined;
   }
 
   async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findUserByUsername(username);
-    const isMatch = await bcrypt.compare(pass, user?.password);
-    if (isMatch) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
+    const user = await this.usersService.validateUser(username, pass);
+    return user;
   }
 
   async login(user: any) {
@@ -33,9 +27,8 @@ export class AuthService {
   }
 
   async signUp(createUserDto: CreateUserDto) {
+    console.log('--->', createUserDto);
     const user = await this.usersService.create(createUserDto);
-    console.log('--->',user);
-    
     return user;
   }
 

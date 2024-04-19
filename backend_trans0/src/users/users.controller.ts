@@ -14,16 +14,16 @@ import { UsersService } from './users.service';
 import { Prisma } from '@prisma/client';
 import { UpdateUserDto } from './dto/update-User.dto';
 import { Public } from '@prisma/client/runtime/library';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   // @Post()
   // create(@Body() createUserDto: CreateUserDto) {
   //   console.log(createUserDto);
   //   return createUserDto;
-  //   // return this.usersService.create(createUserDto);
   // }
 
   // @Roles(Role.Admin)
@@ -31,7 +31,6 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
-
 
   @Get(':id')
   findOne(@Param('id') id: string) {

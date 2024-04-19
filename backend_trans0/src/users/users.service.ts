@@ -1,12 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
+import { UpdateUserDto } from './dto/update-User.dto';
+import { log } from 'console';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly databaseService: DatabaseService) {}
+
+  async validateUserId(uid: number) {
+    const user = await this.findOne(uid);
+    return user === undefined;
+  }
+
+  async validateUser(username: string, pass: string): Promise<any> {
+    const user = await this.findUserByUsername(username);
+    console.log('pass=>', pass, 'user?.password=>', user?.password);
+    const isMatch = await bcrypt.compare(pass, user?.password);
+    if (isMatch) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
+  }
+
   // Without<T_UserUncheckedCreateInput
   async create(createUserDto: CreateUserDto) {
     // Handling error globally without putting the uggly try/catch everyWhere
@@ -76,7 +101,13 @@ export class UsersService {
         loseMatches: true,
       },*/
     });
-    return user;
+    const finalUser = {
+      ...user,
+      oldPassword: '',
+      newPassword: '',
+      confirmedPassword: '',
+    };
+    return finalUser;
     /*
     if (!user) {
       return {};
@@ -151,9 +182,34 @@ export class UsersService {
     else return null;
   }
 
-  async update(uid: number, updateUserDto: Prisma.T_UserUpdateInput) {
-    // if (updateUserDto.password)
-    //   updateUserDto.password = await upd
+  async update(uid: number, updateUserDto: UpdateUserDto) {
+    console.log('pass >> >: ', updateUserDto.newPassword);
+    console.log('pass >> >: ', updateUserDto.confirmedPassword);
+    console.log('pass >> >: ', updateUserDto.oldPassword);
+    if (
+      updateUserDto.newPassword &&
+      updateUserDto.confirmedPassword &&
+      updateUserDto.oldPassword
+    ) {
+      console.log('HERE------>>');
+      const userInDb = await this.findOne(uid);
+
+      const user = await this.validateUser(
+        userInDb.username,
+        updateUserDto.oldPassword,
+      );
+      if (!user) {
+        throw new BadRequestException('Incorrect old password');
+      }
+      updateUserDto.password = await bcrypt.hash(updateUserDto.newPassword, 10);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { newPassword, oldPassword, confirmedPassword, ...result } =
+        updateUserDto;
+      return this.databaseService.t_User.update({
+        where: { uid },
+        data: result,
+      });
+    }
     return this.databaseService.t_User.update({
       where: { uid },
       data: updateUserDto,
