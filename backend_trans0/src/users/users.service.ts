@@ -183,22 +183,36 @@ export class UsersService {
   }
 
   async update(uid: number, updateUserDto: UpdateUserDto) {
-    const userInDb = await this.findOne(uid);
+    console.log('pass >> >: ', updateUserDto.newPassword);
+    console.log('pass >> >: ', updateUserDto.confirmedPassword);
+    console.log('pass >> >: ', updateUserDto.oldPassword);
+    if (
+      updateUserDto.newPassword &&
+      updateUserDto.confirmedPassword &&
+      updateUserDto.oldPassword
+    ) {
+      console.log('HERE------>>');
+      const userInDb = await this.findOne(uid);
 
-    const user = await this.validateUser(
-      userInDb.username,
-      updateUserDto.oldPassword,
-    );
-    if (!user) {
-      throw new BadRequestException('Incorrect old password');
+      const user = await this.validateUser(
+        userInDb.username,
+        updateUserDto.oldPassword,
+      );
+      if (!user) {
+        throw new BadRequestException('Incorrect old password');
+      }
+      updateUserDto.password = await bcrypt.hash(updateUserDto.newPassword, 10);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { newPassword, oldPassword, confirmedPassword, ...result } =
+        updateUserDto;
+      return this.databaseService.t_User.update({
+        where: { uid },
+        data: result,
+      });
     }
-    updateUserDto.password = await bcrypt.hash(updateUserDto.newPassword, 10);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { newPassword, oldPassword, confirmedPassword, ...result } =
-      updateUserDto;
     return this.databaseService.t_User.update({
       where: { uid },
-      data: result,
+      data: updateUserDto,
     });
   }
 

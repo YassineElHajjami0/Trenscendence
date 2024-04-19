@@ -28,19 +28,20 @@ interface itemsInterface {
   description: string;
   id: number;
   img: string;
-  is_avatar: boolean;
+  type: string;
   name: string;
   power: string;
   price: string;
 }
-
+//http://localhost:3000/image.jpeg
 const Settings = () => {
   const [ArticlesType, setArticlesType] = useState("");
   const [showArticlesPopup, setShowArticlesPopup] = useState(false);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<dataInterface>();
   const [errors, setErrors] = useState<string>("");
-  const [avatarsAndPaddles, setAvatarsAndPaddles] = useState<any>();
+  const [avatarsAndPaddles, setAvatarsAndPaddles] =
+    useState<itemsInterface[]>();
   const userTok = useRecoilValue(userToken);
   const userId = useRecoilValue(loggedUser);
 
@@ -184,6 +185,39 @@ const Settings = () => {
     }
   };
 
+  const changeImageInTheServer = async (img: string, banner?: string) => {
+    try {
+      setData((data) => ({
+        ...(data as dataInterface),
+        avatar: img,
+      }));
+      // console.log(">>>>>>>>>>>>>???>>>", data);
+      setLoading(true);
+      setTimeout(() => setLoading(false), 1000);
+      setShowArticlesPopup(false);
+      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          avatar: img,
+          banner: banner,
+        }),
+      });
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        setErrors("Something went wrong !");
+        throw new Error(
+          `Failed to patch data. Error: ${errorResponse.message}`
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -206,7 +240,41 @@ const Settings = () => {
             //   setProfileImage={setProfileImage}
             //   setProfileBanner={setProfileBanner}
             // />
-            <div>{/* {avatarsAndPaddles} */}</div>
+            <>
+              <div className="choosedItemsList">
+                {avatarsAndPaddles?.map((e) => {
+                  return e.type == ArticlesType ? (
+                    <div
+                      key={e.id}
+                      className="item"
+                      onClick={() => changeImageInTheServer(e.img)}
+                    >
+                      <Image
+                        className="img"
+                        src={`http://localhost:3000/av/${e.img}`}
+                        width={200}
+                        height={200}
+                        alt="IMG"
+                      />
+                      <p>{e.name}</p>
+                    </div>
+                  ) : (
+                    ""
+                  );
+                })}
+              </div>
+              <button
+                className="cancel"
+                onClick={() => {
+                  setLoading(true);
+                  setTimeout(() => setLoading(false), 1000);
+                  setArticlesType("");
+                  setShowArticlesPopup(false);
+                }}
+              >
+                Cancel
+              </button>
+            </>
           ) : (
             <div className="settings-container">
               <div
@@ -221,7 +289,10 @@ const Settings = () => {
                   <div>
                     <Image
                       className="profile-image"
-                      src={data?.avatar ?? "default.png"}
+                      src={
+                        `http://localhost:3000/av/${data?.avatar}` ??
+                        "default.png"
+                      }
                       width={192}
                       height={192}
                       alt="Profile Picture"
@@ -230,6 +301,8 @@ const Settings = () => {
                   <button
                     className="btn-change-profile"
                     onClick={() => {
+                      setLoading(true);
+                      setTimeout(() => setLoading(false), 1000);
                       setArticlesType("avatar");
                       setShowArticlesPopup(!showArticlesPopup);
                     }}
