@@ -6,6 +6,7 @@ import {
   Body,
   Res,
   Req,
+  Redirect,
 } from '@nestjs/common';
 import { AuthService } from './auth/auth.service';
 import { AppService } from './app.service';
@@ -47,20 +48,30 @@ export class AppController {
   // @Public()
   //   @Post('auth/signup')
   //   async signup(@Body() user, @Req() req, @Res({ passthrough: true }) res) {
-    
-    // const bearer_token = await this.authService.login(req.user);
-    // this.setCookie(res, bearer_token);
-    // return {
-    //   user_token: bearer_token,
-    //   user: req.user,
-    // };
+  // const bearer_token = await this.authService.login(req.user);
+  // this.setCookie(res, bearer_token);
+  // return {
+  //   user_token: bearer_token,
+  //   user: req.user,
+  // };
   // }
 
   @Public()
   @Post('auth/signup')
-  async signup(@Body() createUserDto: CreateUserDto) {
-    await this.authService.signUp(createUserDto);
-    // await this.login(createUserDto);
+  async signup(
+    @Body() createUserDto: CreateUserDto,
+    @Res({ passthrough: true }) res,
+  ) {
+    // await this.authService.signUp(createUserDto);
+    // ??
+
+    const user = await this.authService.signUp(createUserDto);
+    const bearer_token = await this.authService.login(user);
+    this.setCookie(res, bearer_token);
+    return {
+      user_token: bearer_token,
+      user: user,
+    };
   }
 
   @UseGuards(JwtAuthGuard)
@@ -85,6 +96,7 @@ export class AppController {
 
   @Get('/auth/fortyTwo/redirect')
   @Public()
+  // @Redirect('http://localhost:3002/login', 302)
   @UseGuards(FortyTwoGuard)
   async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
     const user = {

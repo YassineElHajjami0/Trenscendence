@@ -27,21 +27,20 @@ export class AuthService {
   }
 
   async signUp(createUserDto: CreateUserDto) {
-    console.log('--->', createUserDto);
     const user = await this.usersService.create(createUserDto);
     return user;
   }
 
-  async signUpWith42(createUserDto: CreateUserDto) {
-    const user = await this.usersService.findByEmail(createUserDto.email);
-    if (user) {
-      // This case is could happen
-      if ((user.strategy = 'local'))
-        return { msg: 'This email is already token by another user' };
-      return user;
-    }
-    return await this.usersService.create(createUserDto);
-  }
+  // async signUpWith42(createUserDto: CreateUserDto) {
+  //   const user = await this.usersService.findByEmail(createUserDto.email);
+  //   if (user) {
+  //     // This case is could happen
+  //     if ((user.strategy = 'local'))
+  //       return { msg: 'This email is already token by another user' };
+  //     return user;
+  //   }
+  //   return await this.usersService.create(createUserDto);
+  // }
 
   async fortyTwoLogin(user: any) {
     if (!user) {
