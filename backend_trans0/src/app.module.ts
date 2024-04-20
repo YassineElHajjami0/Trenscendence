@@ -17,6 +17,7 @@ import { MessageModule } from './message/message.module';
 import { UserItemsModule } from './user-items/user-items.module';
 import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module';
 import { join } from 'path';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { join } from 'path';
     ChannelModule,
     MessageModule,
     UserItemsModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [
