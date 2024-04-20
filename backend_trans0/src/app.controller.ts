@@ -93,6 +93,7 @@ export class AppController {
     };
     const bearer_token = await this.authService.fortyTwoLogin(user);
     this.setCookie(res, bearer_token);
+    return bearer_token
     return `User From 42 logged In`;
   }
 }

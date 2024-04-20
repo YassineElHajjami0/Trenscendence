@@ -1,5 +1,6 @@
 :root {
-  --main-green: #1dcd4a; /* Define a variable */
+  --main-green: #1dcd4a;
+  --main-red: #ff3355;
 }
 
 * {

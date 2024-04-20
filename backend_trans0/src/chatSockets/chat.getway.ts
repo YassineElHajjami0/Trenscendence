@@ -23,6 +23,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   sendMessage(message: any) {
     this.server.emit('message', message);
   }
+  sendNotification(notification: any) {
+    this.server.emit('notification', notification);
+  }
 
   @SubscribeMessage('get-chat')
   handeleGetChat(client: Socket) {}

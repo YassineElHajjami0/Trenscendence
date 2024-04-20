@@ -10,18 +10,20 @@ function Notification({ notif }: { notif: any }) {
     <div className="notification_container">
       <Image
         className="notification_avatar"
-        src="/avatar1.png"
+        src={notif?.suser?.avatar}
         width={50}
         height={50}
         alt="avatar"
       />
       <div className="notification_section">
         <p>
-          <span className="notification_frind_name">Yahya taqsi</span>
-          sent you a friend request
+          <span className="notification_frind_name">
+            {notif?.suser?.username}
+          </span>
+          {notif?.content}
         </p>
         <span className="time_ago">
-          <TimeAgo date={timestamp} />
+          <TimeAgo date={notif?.createdAt} />
         </span>
         <div className="notification_accept">
           <button className="notification_btns">accept</button>

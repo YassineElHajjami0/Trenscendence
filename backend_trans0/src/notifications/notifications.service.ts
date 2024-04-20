@@ -1,15 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { ChatGateway } from 'src/chatSockets/chat.getway';
 import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class NotificationsService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly chatGateway: ChatGateway,
+  ) {}
 
   async create(createNotificationDto: Prisma.NotificationUncheckedCreateInput) {
-    return this.databaseService.notification.create({
+    const getNotificatons = await this.databaseService.notification.findMany({
+      where: {
+        ruserId: createNotificationDto.ruserId,
+        suserId: createNotificationDto.suserId,
+      },
+    });
+    console.log('------------->>>>>>',getNotificatons);
+    
+    if (getNotificatons.length > 0) return;
+    const notification = await this.databaseService.notification.create({
       data: createNotificationDto,
     });
+    this.chatGateway.sendNotification(notification);
   }
 
   async findAll() {
@@ -17,8 +31,9 @@ export class NotificationsService {
   }
 
   async findOne(id: number) {
-    return this.databaseService.notification.findFirst({
-      where: { id },
+    return this.databaseService.notification.findMany({
+      where: { ruserId: id, read: false },
+      include: { suser: true },
     });
   }
 

@@ -93,13 +93,15 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       },
     });
 
-    // if (!response) {
-    //   console.log("Error no response");
-    //   return;
-    // }
+    if (!response) {
+      console.log("Error no response");
+      return;
+    }
 
     const data = await response.json();
     console.log("useeeeer>>>>>>>", data);
+
+
     // setLoggedU(data.user.uid);
     // setUserTok(data.user_token);
     // router.push("/");

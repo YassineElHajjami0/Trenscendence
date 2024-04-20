@@ -6,11 +6,13 @@ import "./upper-navbar.css";
 import { MdOutlinePersonSearch } from "react-icons/md";
 
 import Notifications from "./Notifications";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { userNotifications } from "../Atoms/notifications";
 
 const UpperNav = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
-
+  const myNotifications = useRecoilValue(userNotifications);
   return (
     <div className="upperNav">
       <div>
@@ -25,6 +27,10 @@ const UpperNav = () => {
           className="notif-icon"
         >
           <IoMdNotificationsOutline />
+
+          {myNotifications.length > 0 && (
+            <div className="notif_count">{myNotifications.length}</div>
+          )}
         </div>
         <Notifications showNotif={showNotif} />
         <div className="profile-picture">
