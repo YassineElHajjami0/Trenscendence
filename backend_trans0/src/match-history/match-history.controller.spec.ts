@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MatchHistoryController } from './match-history.controller';
-import { MatchHistoryService } from './match-history.service';
+import { MatchHistoryService } from './MatchHistoryService';
 
 describe('MatchHistoryController', () => {
   let controller: MatchHistoryController;
