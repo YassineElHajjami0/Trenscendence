@@ -18,7 +18,9 @@ interface itemsInterface {
   type: string;
   name: string;
   power: string;
-  price: string;
+  price: number;
+  owned: boolean;
+  choosed: boolean;
 }
 
 const Store = () => {
@@ -26,9 +28,7 @@ const Store = () => {
   const [loading, setLoading] = useState(true);
   const userTok = useRecoilValue(userToken);
   const [popUpCannotBuy, setPopUpCannotBuy] = useState(false);
-  const [choosedArticle, setChoosedArticle] = useState(
-    playerData.avatarsAndPaddles[0]
-  );
+  const [choosedArticle, setChoosedArticle] = useState<itemsInterface>();
   const [items, setItems] = useState<itemsInterface[]>();
   const [selectedCategory, setselectedCategory] = useState("all");
   const all = playerData.avatarsAndPaddles;
@@ -40,26 +40,84 @@ const Store = () => {
     }, 1000);
     const fetchedData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/useritems", {
+        const response = await fetch("http://localhost:3000/items", {
           headers: {
             Authorization: `Bearer ${userTok}`,
             "Content-Type": "application/json",
           },
         });
-        let data = await response.json();
-        // data = data.filter(e => e.type == "paddle" || e.type == "avatar")
+        let data: itemsInterface[] = await response.json();
+        data = data.filter((e) => e.type == "paddle" || e.type == "avatar");
+        // setChoosedArticle(data[0]);
         // setItems(data);
-        // console.log("heeeeeeeerrrrreeeeee");
-        console.log("data==>", data);
+        setChoosedArticle({
+          img: "av3.png",
+          name: "Hero",
+          description: "",
+          price: 641,
+          id: 7,
+          power: "",
+          type: "avatar",
+          owned: true,
+          choosed: false,
+        });
+        setItems([
+          {
+            img: "av3.png",
+            name: "Hero",
+            description: "",
+            price: 641,
+            id: 7,
+            power: "",
+            type: "avatar",
+            owned: true,
+            choosed: false,
+          },
+          {
+            img: "av2.png",
+            name: "HULK",
+            description: "",
+            price: 942,
+            id: 6,
+            power: "",
+            type: "avatar",
+            owned: false,
+            choosed: false,
+          },
+          {
+            img: "pd4.png",
+            name: "fire",
+            description:
+              "Designed to broaden your playing horizons with an extended width",
+            price: 50,
+            id: 14,
+            power: "+5% ball speed",
+            type: "paddle",
+            owned: false,
+            choosed: false,
+          },
+          {
+            img: "pd2.png",
+            name: "nature",
+            description:
+              "Designed to broaden your playing horizons with an extended width",
+            price: 520,
+            id: 12,
+            power: "+ 8% ball speed",
+            type: "paddle",
+            owned: false,
+            choosed: false,
+          },
+        ]);
       } catch (err) {
-        console.error(">>>>>>", err);
+        console.error(">>>", err);
       }
     };
 
     fetchedData();
   }, []);
 
-  const handleBuyArticle = (id: number) => {
+  const handleBuyArticle = (id: number | undefined) => {
     const searchArticle = all.filter((e) => e.id == id);
     if (playerPoints < searchArticle[0].price) {
       console.log("===> good");
@@ -102,19 +160,25 @@ const Store = () => {
           <div className="storeContainer">
             <div className="choosedArticle">
               <Image
-                src={items && items.length > 0 ? items[0].img : ""}
+                src={
+                  choosedArticle
+                    ? choosedArticle.type === "avatar"
+                      ? `http://localhost:3000/av/${choosedArticle.img}`
+                      : `http://localhost:3000/pd/${choosedArticle.img}`
+                    : ""
+                }
                 width={200}
                 height={200}
                 alt=""
               />
-              <p className="name">{choosedArticle.name}</p>
-              <p className="description">{choosedArticle.description}</p>
+              <p className="name">{choosedArticle?.name}</p>
+              <p className="description">{choosedArticle?.description}</p>
               <div className="price">
-                {choosedArticle.owned ? (
+                {choosedArticle?.owned ? (
                   <>
-                    <p>{choosedArticle.price} $</p>
+                    <p>{choosedArticle?.price} $</p>
                     <p>
-                      {choosedArticle.choosed ? (
+                      {choosedArticle?.choosed ? (
                         "choosed"
                       ) : (
                         <button>choose</button>
@@ -124,10 +188,10 @@ const Store = () => {
                 ) : (
                   <button
                     onClick={() => {
-                      handleBuyArticle(choosedArticle.id);
+                      handleBuyArticle(choosedArticle?.id);
                     }}
                   >
-                    Buy Now {choosedArticle.price}$
+                    Buy Now {choosedArticle?.price}$
                   </button>
                 )}
               </div>
@@ -151,17 +215,20 @@ const Store = () => {
                 <p className="player-points"> {playerPoints} $</p>
               </div>
               <div className="articles">
-                {playerData.avatarsAndPaddles.map((article) => {
+                {items?.map((article) => {
                   if (
-                    article.avatar != undefined &&
+                    article.img != undefined &&
                     (selectedCategory == "avatars" || selectedCategory == "all")
                   ) {
                     return (
                       <div
-                        key={article.avatar}
+                        key={article.img}
                         onClick={() => setChoosedArticle(article)}
                       >
-                        <img src={article.avatar} alt="avatar" />
+                        <img
+                          src={`http://localhost:3000/av/${article.img}`}
+                          alt="avatar"
+                        />
 
                         {article.owned ? (
                           ""
@@ -173,15 +240,18 @@ const Store = () => {
                       </div>
                     );
                   } else if (
-                    article.paddle != undefined &&
+                    article.img != undefined &&
                     (selectedCategory == "paddles" || selectedCategory == "all")
                   ) {
                     return (
                       <div
-                        key={article.paddle}
+                        key={article.id}
                         onClick={() => setChoosedArticle(article)}
                       >
-                        <img src={article.paddle} alt="paddle" />
+                        <img
+                          src={`http://localhost:3000/pd/${article.img}`}
+                          alt="paddle"
+                        />
                         {article.owned ? (
                           ""
                         ) : (

@@ -18,10 +18,10 @@ interface dataInterface {
   createdAt: string;
   endAt: string;
   gameMode: string;
-  loserName: string;
+  me: string;
   loserScore: number;
   startAt: string;
-  winnerName: string;
+  opponent: string;
   winnerScore: number;
   result: string;
 }
@@ -156,7 +156,7 @@ export default function Home() {
                 return (
                   <div className="line" key={match.createdAt}>
                     <div className="player">
-                      {match.winnerName} <span>{match.winnerScore}</span>
+                      {match.opponent} <span>{match.winnerScore}</span>
                     </div>
                     <div className="gamestatus">
                       <div className={match.result === "WIN" ? "win" : "lose"}>
@@ -175,7 +175,7 @@ export default function Home() {
                     </div>
                     <div className="opponent">
                       <span>{match.loserScore}</span>
-                      {match.loserName}
+                      {match.me}
                     </div>
                   </div>
                 );
