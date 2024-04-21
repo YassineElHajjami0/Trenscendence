@@ -180,8 +180,9 @@ model UserAchievement {
 // Match History ##########################################################################
 
 enum GameMode {
-  MODE1
-  MODE2
+  RANDOM
+  AGAINST_FRIEND
+  AGAINST_ROBOT
 }
 
 model MatchHistory {
@@ -191,8 +192,8 @@ model MatchHistory {
   winner      Int
   loserUser   T_User   @relation("loser", fields: [loser], references: [uid])
   loser       Int
-  winnerScore Int
-  loserScore  Int
+  winnerScore Int //Minis 0 and Max is 7
+  loserScore  Int //Minis 0 and Max is 7
   gameMode    GameMode
   startAt     DateTime @default(now())
   endAt       DateTime @default(now())

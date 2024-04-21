@@ -477,7 +477,7 @@
 
 .choosedItemsList {
   width: 100%;
-  height: 50%;
+  height: 60%;
   overflow-y: scroll;
   display: flex;
   flex-wrap: wrap;
@@ -489,7 +489,7 @@
 .choosedItemsList .item {
   padding: 30px;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(32, 32, 32, 0.399);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(2px);
@@ -511,12 +511,17 @@
   text-transform: uppercase;
   font-weight: 600;
 }
+.uploadAndCancel {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+}
 
 .cancel {
   width: fit-content;
-  position: relative;
+  /* position: relative;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); */
   padding: 10px 20px;
   border: none;
   outline: none;
@@ -527,6 +532,9 @@
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .cancel:hover {
@@ -535,4 +543,60 @@
 
 .cancel:active {
   scale: 0.95;
+}
+
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #1ce14e;
+  color: white;
+  transition: 0.3s;
+  width: fit-content;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 20px;
+}
+.custom-file-upload:hover {
+  background-color: #18c744;
+}
+.custom-file-upload:active {
+  scale: 0.95;
+}
+
+@media (max-width: 1440px) {
+  .uploadAndCancel {
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+  .choosedItemsList .item {
+    padding: 20px;
+    justify-content: center;
+  }
+  .choosedItemsList .item .img {
+    width: 200px;
+    height: 200px;
+  }
+}
+@media (max-width: 768px) {
+  .uploadAndCancel {
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+  .choosedItemsList .item {
+    padding: 20px;
+    justify-content: center;
+  }
+  .choosedItemsList .item .img {
+    width: 150px;
+    height: 150px;
+  }
 }
