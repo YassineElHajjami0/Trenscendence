@@ -128,7 +128,8 @@ model Item {
   name        String
   description String
   price       Int
-  is_avatar   Boolean
+  // is_avatar   Boolean
+  type        String
   power       String
   userItems   UserItem[]
 }
