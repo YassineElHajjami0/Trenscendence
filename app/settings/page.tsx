@@ -12,6 +12,8 @@ import "./settings.css";
 import { userToken } from "@/app/Atoms/userToken";
 import { useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
+import { FaImages } from "react-icons/fa6";
+import { FaArrowLeft } from "react-icons/fa";
 
 interface dataInterface {
   avatar: string;
@@ -185,27 +187,45 @@ const Settings = () => {
     }
   };
 
-  const changeImageInTheServer = async (img: string, banner?: string) => {
+  const changeImageInTheServer = async (img: string, type: string) => {
     try {
-      setData((data) => ({
-        ...(data as dataInterface),
-        avatar: img,
-      }));
+      if (type == "avatar") {
+        setData((data) => ({
+          ...(data as dataInterface),
+          avatar: img,
+        }));
+      } else if (type == "banner") {
+        setData((data) => ({
+          ...(data as dataInterface),
+          banner: img,
+        }));
+      }
       // console.log(">>>>>>>>>>>>>???>>>", data);
       setLoading(true);
       setTimeout(() => setLoading(false), 1000);
       setShowArticlesPopup(false);
-      const response = await fetch(`http://localhost:3000/users/${userId}`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${userTok}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          avatar: img,
-          banner: banner,
-        }),
-      });
+      const response =
+        type == "avatar"
+          ? await fetch(`http://localhost:3000/users/${userId}`, {
+              method: "PATCH",
+              headers: {
+                Authorization: `Bearer ${userTok}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                avatar: img,
+              }),
+            })
+          : await fetch(`http://localhost:3000/users/${userId}`, {
+              method: "PATCH",
+              headers: {
+                Authorization: `Bearer ${userTok}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                banner: img,
+              }),
+            });
       if (!response.ok) {
         const errorResponse = await response.json();
         setErrors("Something went wrong !");
@@ -215,6 +235,24 @@ const Settings = () => {
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("changed");
+    const file = event.target.files?.[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      fetch("YOUR_BACKEND_URL", {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => {})
+        .catch((error) => {
+          setErrors("something went wrong ! try again.");
+        });
     }
   };
 
@@ -244,43 +282,74 @@ const Settings = () => {
               <div className="choosedItemsList">
                 {avatarsAndPaddles?.map((e) => {
                   return e.type == ArticlesType ? (
-                    <div
-                      key={e.id}
-                      className="item"
-                      onClick={() => changeImageInTheServer(e.img)}
-                    >
-                      <Image
-                        className="img"
-                        src={`http://localhost:3000/av/${e.img}`}
-                        width={200}
-                        height={200}
-                        alt="IMG"
-                      />
-                      <p>{e.name}</p>
-                    </div>
+                    e.type == "avatar" ? (
+                      <div
+                        key={e.id}
+                        className="item"
+                        onClick={() => changeImageInTheServer(e.img, "avatar")}
+                      >
+                        <Image
+                          className="img"
+                          src={`http://localhost:3000/av/${e.img}`}
+                          width={200}
+                          height={200}
+                          alt="IMG"
+                        />
+                        <p>{e.name}</p>
+                      </div>
+                    ) : (
+                      <div
+                        key={e.id}
+                        className="item"
+                        style={{ backgroundColor: "transparent" }}
+                        onClick={() => changeImageInTheServer(e.img, "banner")}
+                      >
+                        <Image
+                          className="img"
+                          style={{
+                            borderRadius: 0,
+                            width: "100%",
+                            height: "60%",
+                          }}
+                          src={`http://localhost:3000/bn/${e.img}`}
+                          width={200}
+                          height={200}
+                          alt="IMG"
+                        />
+                      </div>
+                    )
                   ) : (
                     ""
                   );
                 })}
               </div>
-              <button
-                className="cancel"
-                onClick={() => {
-                  setLoading(true);
-                  setTimeout(() => setLoading(false), 1000);
-                  setArticlesType("");
-                  setShowArticlesPopup(false);
-                }}
-              >
-                Cancel
-              </button>
+              <div className="uploadAndCancel">
+                <label htmlFor="file-upload" className="custom-file-upload">
+                  Upload Image <FaImages />
+                </label>
+                <input
+                  id="file-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                />
+                <button
+                  className="cancel"
+                  onClick={() => {
+                    setArticlesType("");
+                    setShowArticlesPopup(false);
+                  }}
+                >
+                  <FaArrowLeft /> Cancel
+                </button>
+              </div>
             </>
           ) : (
             <div className="settings-container">
               <div
                 className="banner"
                 style={{
-                  backgroundImage: `url('${data?.banner}')`,
+                  backgroundImage: `url('http://localhost:3000/bn/${data?.banner}')`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -304,7 +373,7 @@ const Settings = () => {
                       setLoading(true);
                       setTimeout(() => setLoading(false), 1000);
                       setArticlesType("avatar");
-                      setShowArticlesPopup(!showArticlesPopup);
+                      setShowArticlesPopup(true);
                     }}
                   >
                     <IoCameraReverse className="camera" />
@@ -314,8 +383,10 @@ const Settings = () => {
                   <button
                     className="addBannerBtn"
                     onClick={() => {
+                      setLoading(true);
+                      setTimeout(() => setLoading(false), 1000);
                       setArticlesType("banner");
-                      setShowArticlesPopup(!showArticlesPopup);
+                      setShowArticlesPopup(true);
                     }}
                   >
                     <IoMdAdd className="plus-icon" />
