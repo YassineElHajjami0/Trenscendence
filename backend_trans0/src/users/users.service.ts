@@ -65,7 +65,6 @@ export class UsersService {
     // console.log("choosedItems", choosedItems);
 
     const avatar = choosedItems.filter((item: any) => {
-      console.log('type', item.item.type);
       if (item.item.type == 'avatar') {
         return item.item.name;
       }
@@ -74,6 +73,7 @@ export class UsersService {
       avatar.length > 0 ? avatar[0].item.name : 'default.jpeg';
     return avatarValue;
   }
+
   async findOne(uid: number) {
     const user = await this.databaseService.t_User.findFirst({
       where: { uid },
@@ -124,7 +124,7 @@ export class UsersService {
       },
       */
     });
-    const avatarValue = this.getChoosedAvatarOfUser(uid);
+    const avatarValue = await this.getChoosedAvatarOfUser(uid);
     if (user) {
       const finalUser = {
         ...user,
