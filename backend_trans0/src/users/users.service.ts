@@ -114,13 +114,13 @@ export class UsersService {
     // console.log("choosedItems", choosedItems);
 
     const avatar = choosedItems.filter((item: any) => {
-      console.log("type", item.item.type);
+      console.log('type', item.item.type);
       if (item.item.type == 'avatar') {
         return item.item.name;
       }
     });
-    console.log("avatar", avatar);
-    const avatarValue = avatar.length > 0 ? avatar[0].item.name : 'default.jpeg';
+    const avatarValue =
+      avatar.length > 0 ? avatar[0].item.name : 'default.jpeg';
     if (user) {
       const finalUser = {
         ...user,

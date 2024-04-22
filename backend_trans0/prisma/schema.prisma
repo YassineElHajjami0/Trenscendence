@@ -86,7 +86,7 @@ model T_User {
   password         String
   twoFA            Boolean           @default(false)
   // avatar           String            @default("/default.png") // neeeeeed to be updated
-  wallet          Int
+  wallet           Int               @default(0)
   banner           String            @default("/defaultBanner.jpg") // neeeeeed to be updated
   level            Int               @default(0)
   points           Int               @default(0)
