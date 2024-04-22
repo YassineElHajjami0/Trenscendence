@@ -10,8 +10,6 @@ import { Server, Socket } from 'socket.io';
 @WebSocketGateway(3001, {
   cors: {
     origin: 'http://localhost:5252',
-
-    methods: ['POST', 'GET'],
   },
 })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -27,6 +25,5 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit('notification', notification);
   }
 
-  @SubscribeMessage('get-chat')
-  handeleGetChat(client: Socket) {}
+
 }

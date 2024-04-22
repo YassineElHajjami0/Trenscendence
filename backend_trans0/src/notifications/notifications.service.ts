@@ -17,13 +17,14 @@ export class NotificationsService {
         suserId: createNotificationDto.suserId,
       },
     });
-    console.log('------------->>>>>>',getNotificatons);
-    
+
     if (getNotificatons.length > 0) return;
     const notification = await this.databaseService.notification.create({
       data: createNotificationDto,
+      include: { suser: true },
     });
-    this.chatGateway.sendNotification(notification);
+    console.log('------------->>>>>>', notification);
+    this.chatGateway.sendNotification(createNotificationDto);
   }
 
   async findAll() {

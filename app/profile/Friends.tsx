@@ -10,7 +10,7 @@ import { userToken } from "../Atoms/userToken";
 export default function Friends({ whichProfile }: { whichProfile: any }) {
   const loggedU = useRecoilValue(loggedUser);
   const userTok = useRecoilValue(userToken);
-  const [userFriends, setUserFriends] = useState<any>([]);
+  const [userFriends, setUserFriends] = useState<any[]>([]);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -44,7 +44,7 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
 
   return (
     <div className="friends_container">
-      {userFriends.map((e: any) => (
+      {userFriends?.length> 0&& userFriends?.map((e: any) => (
         <Friend friend={e} key={e.uid} />
       ))}
     </div>

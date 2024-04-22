@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
+import axios from "axios";
 
 export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const [loggedU, setLoggedU] = useRecoilState(loggedUser);
@@ -22,7 +23,8 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const [pass, setPass] = useState("");
   const router = useRouter();
 
-  const signup = async () => {
+  const signup = async (e: any) => {
+    e.preventDefault();
     const Udata = {
       email: email,
       username: username,
@@ -37,22 +39,24 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         body: JSON.stringify(Udata),
       });
 
-      // if (!response) {
-      //   console.log("Error no response");
-      //   return;
-      // }
+      if (!response) {
+        console.log("Error no response");
+        return;
+      }
 
-      // const data = await response.json();
-      // console.log("useeeeer>>>>>>>", data);
-      // localStorage.setItem("loggedUser", data.user.uid);
-      // localStorage.setItem("userToken", data.user_token);
-      // router.push("/");
+      const data = await response.json();
+      console.log("useeeeer>>>>>>>", data);
+      setLoggedU(data.user.uid);
+      setUserTok(data.user_token);
+      router.push("/");
     } catch (error: any) {
       console.log("error >> >", error.message);
     }
   };
 
-  const loggin = async () => {
+  const loggin = async (e: any) => {
+    e.preventDefault();
+
     const Udata = {
       username: username,
       password: pass,
@@ -84,34 +88,24 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const signUpFunction = signInUp ? signup : loggin;
 
   const auth42 = async () => {
-    // try {
-    console.log("hanaaaa>>>>>>>>>");
+    try {
+      const response = await axios.get(`http://localhost:3000/auth/login-42`);
 
-    const response = await fetch(`http://localhost:3000/auth/login-42`, {
-      headers: {
-        Host: "localhost",
-      },
-    });
+      console.log("resposnseeeeeeee>>>>>>>", response.data);
 
-    if (!response) {
-      console.log("Error no response");
-      return;
+      // const data = await response.json();
+      // console.log("useeeeer>>>>>>>", response);
+
+      // setLoggedU(data.user.uid);
+      // setUserTok(data.user_token);
+      // router.push("/");
+    } catch (error: any) {
+      console.log("error >>>>>>>>>>>>>???? ", error.message);
     }
-
-    const data = await response.json();
-    console.log("useeeeer>>>>>>>", data);
-
-
-    // setLoggedU(data.user.uid);
-    // setUserTok(data.user_token);
-    // router.push("/");
-    // } catch (error: any) {
-    //   console.log("error >>>> ", error.message);
-    // }
   };
 
   return (
-    <div className="sign_in_container">
+    <form onSubmit={signUpFunction} className="sign_in_container">
       <input
         placeholder="username"
         type="text"
@@ -136,7 +130,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         onChange={(e) => setPass(e.target.value)}
       />
 
-      <button onClick={signUpFunction} className="sign_in_ships btn">
+      <button type="submit" className="sign_in_ships btn">
         Let's play <FaArrowRight />
       </button>
 
@@ -149,6 +143,6 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
           <Image src={intra} width={26} height={26} alt="42 auth" /> intra
         </button>
       </div>
-    </div>
+    </form>
   );
 }

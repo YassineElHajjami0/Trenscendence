@@ -6,7 +6,7 @@ const { persistAtom } = recoilPersist({
   storage: localStorage,
 });
 
-export const userNotifications = atom<any>({
+export const userNotifications = atom<any[]>({
   key: "userNotifications",
   default: [],
   effects_UNSTABLE: [persistAtom],

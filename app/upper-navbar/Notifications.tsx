@@ -7,6 +7,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userToken } from "../Atoms/userToken";
 import { loggedUser } from "../Atoms/logged";
 import { io } from "socket.io-client";
+
+
 const socket = io("http://localhost:3001");
 
 function Notifications({ showNotif }: { showNotif: boolean }) {
@@ -27,7 +29,7 @@ function Notifications({ showNotif }: { showNotif: boolean }) {
     };
   }, []);
 
-  const addFriend = async () => {
+  const getNotifications = async () => {
     try {
       const res = await fetch(
         `http://localhost:3000/notifications/${loggedU}`,
@@ -45,8 +47,10 @@ function Notifications({ showNotif }: { showNotif: boolean }) {
     }
   };
   useEffect(() => {
-    addFriend();
+    getNotifications();
   }, []);
+
+  
 
   return (
     <div
@@ -56,9 +60,10 @@ function Notifications({ showNotif }: { showNotif: boolean }) {
     >
       <div className="notifications_container_header">Notificatons</div>
       <div className="notifications">
-        {myNotifications.map((notif: any) => (
-          <Notification notif={notif} />
-        ))}
+        {myNotifications.length > 0 &&
+          myNotifications.map((notif: any) => (
+            <Notification key={notif?.id} notif={notif} />
+          ))}
       </div>
     </div>
   );
