@@ -54,6 +54,7 @@ const Store = () => {
         let data: itemsInterface[] = await response.json();
         data = data.filter((e) => e.type == "paddle" || e.type == "avatar");
         setChoosedArticle(data[0]);
+        console.log("_______>>>", data);
         setItems(data);
         // setChoosedArticle({
         //   img: "av3.png",
@@ -138,7 +139,6 @@ const Store = () => {
         body: JSON.stringify({
           userId: userId,
           itemId: id,
-          unlocked: true,
           choosed: false,
         }),
       });
@@ -159,7 +159,6 @@ const Store = () => {
       body: JSON.stringify({
         userId: userId,
         itemId: id,
-        unlocked: true,
         choosed: true,
       }),
     });

@@ -139,9 +139,8 @@ model UserItem {
   userId   Int // relation scalar field (used in the `@relation` attribute above)
   item     Item    @relation(fields: [itemId], references: [id])
   itemId   Int // relation scalar field (used in the `@relation` attribute above)
-  unlocked Boolean
+  // unlocked Boolean
   choosed  Boolean
-
   @@id([userId, itemId])
 }
 
