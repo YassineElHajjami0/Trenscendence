@@ -53,6 +53,27 @@ export class UsersService {
     return users;
   }
 
+  async getChoosedAvatarOfUser(uid: number) {
+    const choosedItems = await this.databaseService.userItem.findMany({
+      select: {
+        item: true,
+      },
+      where: {
+        AND: [{ userId: uid }, { choosed: true }],
+      },
+    });
+    // console.log("choosedItems", choosedItems);
+
+    const avatar = choosedItems.filter((item: any) => {
+      console.log('type', item.item.type);
+      if (item.item.type == 'avatar') {
+        return item.item.name;
+      }
+    });
+    const avatarValue =
+      avatar.length > 0 ? avatar[0].item.name : 'default.jpeg';
+    return avatarValue;
+  }
   async findOne(uid: number) {
     const user = await this.databaseService.t_User.findFirst({
       where: { uid },
@@ -103,24 +124,7 @@ export class UsersService {
       },
       */
     });
-    const choosedItems = await this.databaseService.userItem.findMany({
-      select: {
-        item: true,
-      },
-      where: {
-        AND: [{ userId: uid }, { choosed: true }],
-      },
-    });
-    // console.log("choosedItems", choosedItems);
-
-    const avatar = choosedItems.filter((item: any) => {
-      console.log('type', item.item.type);
-      if (item.item.type == 'avatar') {
-        return item.item.name;
-      }
-    });
-    const avatarValue =
-      avatar.length > 0 ? avatar[0].item.name : 'default.jpeg';
+    const avatarValue = this.getChoosedAvatarOfUser(uid);
     if (user) {
       const finalUser = {
         ...user,
