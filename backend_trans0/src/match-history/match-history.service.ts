@@ -92,21 +92,27 @@ export class MatchHistoryService {
     const matches_two = matchesOfUser.map((match) => {
       let me: string;
       let opponent: string;
+      let myScore: number;
+      let opponentScore: number;
       let result: string;
       if (match.loserUser.uid == userId) {
         me = match.loserUser.username;
         opponent = match.winnerUser.username;
         result = 'LOSE';
+        myScore = match.loserScore;
+        opponentScore = match.winnerScore;
       } else {
         me = match.winnerUser.username;
         opponent = match.loserUser.username;
         result = 'WIN';
+        myScore = match.winnerScore;
+        opponentScore = match.loserScore;
       }
       return {
         me: me,
         opponent: opponent,
-        winnerScore: match.winnerScore,
-        loserScore: match.loserScore,
+        myScore: myScore,
+        opponentScore: opponentScore,
         createdAt: match.createdAt,
         endAt: match.endAt,
         startAt: match.startAt,

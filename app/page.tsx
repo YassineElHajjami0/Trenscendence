@@ -19,10 +19,10 @@ interface dataInterface {
   endAt: string;
   gameMode: string;
   me: string;
-  loserScore: number;
+  myScore: number;
   startAt: string;
   opponent: string;
-  winnerScore: number;
+  opponentScore: number;
   result: string;
 }
 
@@ -36,6 +36,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<dataInterface[]>();
   const userTok = useRecoilValue(userToken);
+  const userId = useRecoilValue(loggedUser);
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -43,12 +45,15 @@ export default function Home() {
 
     const fetchedData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/match-history", {
-          headers: {
-            Authorization: `Bearer ${userTok}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `http://localhost:3000/match-history?id=${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
         const data = await response.json();
         setData(data);
         console.log("heeeeeeeerrrrreeeeee");
@@ -156,7 +161,7 @@ export default function Home() {
                 return (
                   <div className="line" key={match.createdAt}>
                     <div className="player">
-                      {match.opponent} <span>{match.winnerScore}</span>
+                      {match.opponent} <span>{match.opponentScore}</span>
                     </div>
                     <div className="gamestatus">
                       <div className={match.result === "WIN" ? "win" : "lose"}>
@@ -174,7 +179,7 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="opponent">
-                      <span>{match.loserScore}</span>
+                      <span>{match.myScore}</span>
                       {match.me}
                     </div>
                   </div>

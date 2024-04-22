@@ -10,6 +10,7 @@ import { FaBagShopping } from "react-icons/fa6";
 import { PlayerInfo } from "../Interfaces/playerInfoInterface";
 import { userToken } from "@/app/Atoms/userToken";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { loggedUser } from "../Atoms/logged";
 
 interface itemsInterface {
   description: string;
@@ -33,6 +34,7 @@ const Store = () => {
   const [selectedCategory, setselectedCategory] = useState("all");
   const all = playerData.avatarsAndPaddles;
   const playerPoints = playerData.statistic.points;
+  const userId = useRecoilValue(loggedUser);
 
   useEffect(() => {
     setTimeout(() => {
@@ -40,75 +42,78 @@ const Store = () => {
     }, 1000);
     const fetchedData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/items", {
-          headers: {
-            Authorization: `Bearer ${userTok}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `http://localhost:3000/useritems?userId=${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
         let data: itemsInterface[] = await response.json();
         data = data.filter((e) => e.type == "paddle" || e.type == "avatar");
-        // setChoosedArticle(data[0]);
-        // setItems(data);
-        setChoosedArticle({
-          img: "av3.png",
-          name: "Hero",
-          description: "",
-          price: 641,
-          id: 7,
-          power: "",
-          type: "avatar",
-          owned: true,
-          choosed: false,
-        });
-        setItems([
-          {
-            img: "av3.png",
-            name: "Hero",
-            description: "",
-            price: 641,
-            id: 7,
-            power: "",
-            type: "avatar",
-            owned: true,
-            choosed: false,
-          },
-          {
-            img: "av2.png",
-            name: "HULK",
-            description: "",
-            price: 942,
-            id: 6,
-            power: "",
-            type: "avatar",
-            owned: false,
-            choosed: false,
-          },
-          {
-            img: "pd4.png",
-            name: "fire",
-            description:
-              "Designed to broaden your playing horizons with an extended width",
-            price: 50,
-            id: 14,
-            power: "+5% ball speed",
-            type: "paddle",
-            owned: false,
-            choosed: false,
-          },
-          {
-            img: "pd2.png",
-            name: "nature",
-            description:
-              "Designed to broaden your playing horizons with an extended width",
-            price: 520,
-            id: 12,
-            power: "+ 8% ball speed",
-            type: "paddle",
-            owned: false,
-            choosed: false,
-          },
-        ]);
+        setChoosedArticle(data[0]);
+        setItems(data);
+        // setChoosedArticle({
+        //   img: "av3.png",
+        //   name: "Hero",
+        //   description: "",
+        //   price: 641,
+        //   id: 7,
+        //   power: "",
+        //   type: "avatar",
+        //   owned: true,
+        //   choosed: false,
+        // });
+        // setItems([
+        //   {
+        //     img: "av3.png",
+        //     name: "Hero",
+        //     description: "",
+        //     price: 641,
+        //     id: 7,
+        //     power: "",
+        //     type: "avatar",
+        //     owned: true,
+        //     choosed: false,
+        //   },
+        //   {
+        //     img: "av2.png",
+        //     name: "HULK",
+        //     description: "",
+        //     price: 942,
+        //     id: 6,
+        //     power: "",
+        //     type: "avatar",
+        //     owned: false,
+        //     choosed: false,
+        //   },
+        //   {
+        //     img: "pd4.png",
+        //     name: "fire",
+        //     description:
+        //       "Designed to broaden your playing horizons with an extended width",
+        //     price: 50,
+        //     id: 14,
+        //     power: "+5% ball speed",
+        //     type: "paddle",
+        //     owned: false,
+        //     choosed: false,
+        //   },
+        //   {
+        //     img: "pd2.png",
+        //     name: "nature",
+        //     description:
+        //       "Designed to broaden your playing horizons with an extended width",
+        //     price: 520,
+        //     id: 12,
+        //     power: "+ 8% ball speed",
+        //     type: "paddle",
+        //     owned: false,
+        //     choosed: false,
+        //   },
+        // ]);
       } catch (err) {
         console.error(">>>", err);
       }
@@ -117,18 +122,50 @@ const Store = () => {
     fetchedData();
   }, []);
 
-  const handleBuyArticle = (id: number | undefined) => {
-    const searchArticle = all.filter((e) => e.id == id);
-    if (playerPoints < searchArticle[0].price) {
-      console.log("===> good");
+  const handleBuyArticle = async (id: number | undefined) => {
+    if (choosedArticle?.price && playerPoints < choosedArticle?.price) {
       setPopUpCannotBuy(!popUpCannotBuy);
-
       setTimeout(() => {
-        console.log("now");
         setPopUpCannotBuy(false);
-      }, 8000);
+      }, 5000);
     } else {
-      /*  Waiting ayoub to learn and tell us how he want the data to be sent to him   */
+      const response = await fetch(`http://localhost:3000/useritems`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userId,
+          itemId: id,
+          unlocked: true,
+          choosed: false,
+        }),
+      });
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(`Failed to POST data. Error: ${errorResponse.message}`);
+      }
+    }
+  };
+
+  const handleChooseArticle = async (id: number) => {
+    const response = await fetch(`http://localhost:3000/useritems`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${userTok}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        itemId: id,
+        unlocked: true,
+        choosed: true,
+      }),
+    });
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(`Failed to PATCH data. Error: ${errorResponse.message}`);
     }
   };
 
@@ -181,7 +218,11 @@ const Store = () => {
                       {choosedArticle?.choosed ? (
                         "choosed"
                       ) : (
-                        <button>choose</button>
+                        <button
+                          onClick={() => handleChooseArticle(choosedArticle.id)}
+                        >
+                          choose
+                        </button>
                       )}
                     </p>
                   </>
@@ -217,17 +258,21 @@ const Store = () => {
               <div className="articles">
                 {items?.map((article) => {
                   if (
-                    article.img != undefined &&
-                    (selectedCategory == "avatars" || selectedCategory == "all")
+                    (selectedCategory == "avatars" ||
+                      selectedCategory == "all") &&
+                    article.type == "avatar"
                   ) {
                     return (
                       <div
                         key={article.img}
                         onClick={() => setChoosedArticle(article)}
                       >
-                        <img
+                        <Image
+                          className="img"
                           src={`http://localhost:3000/av/${article.img}`}
                           alt="avatar"
+                          width={200}
+                          height={200}
                         />
 
                         {article.owned ? (
@@ -240,7 +285,7 @@ const Store = () => {
                       </div>
                     );
                   } else if (
-                    article.img != undefined &&
+                    article.type == "paddle" &&
                     (selectedCategory == "paddles" || selectedCategory == "all")
                   ) {
                     return (
@@ -248,9 +293,12 @@ const Store = () => {
                         key={article.id}
                         onClick={() => setChoosedArticle(article)}
                       >
-                        <img
+                        <Image
+                          className="img"
                           src={`http://localhost:3000/pd/${article.img}`}
                           alt="paddle"
+                          width={200}
+                          height={200}
                         />
                         {article.owned ? (
                           ""

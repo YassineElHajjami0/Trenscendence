@@ -145,8 +145,11 @@ nav {
   }
 
   .home-page .animation-slide {
-    background-position: 0cm -600px;
+    background-position: 0cm -700px;
+    width: 100%;
+    height: 190px;
   }
+
   @keyframes ball-moves {
     50% {
       left: 98%;

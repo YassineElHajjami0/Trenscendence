@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { UserItemsService } from './user-items.service';
 import { Prisma } from '@prisma/client';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('useritems')
 export class UserItemsController {
@@ -29,12 +30,10 @@ export class UserItemsController {
     return this.userItemsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateUserItemDto: Prisma.UserItemUpdateInput,
-  ) {
-    return this.userItemsService.update(+id, updateUserItemDto);
+  @Public()
+  @Patch()
+  update(@Body() updateUserItemDto: Prisma.UserItemUpdateInput) {
+    return this.userItemsService.update(updateUserItemDto);
   }
 
   @Delete(':id')

@@ -321,7 +321,7 @@
   position: relative;
   cursor: pointer;
 }
-.storeContainer .allArticles .articles div img {
+.storeContainer .allArticles .articles div .img {
   width: 200px;
 }
 .storeContainer .allArticles .articles div .notOwnedPrice {
@@ -357,7 +357,6 @@
   gap: 10px;
   font-size: 18px;
   align-items: center;
-
 }
 .storeContainer .allArticles .select select {
   padding: 5px 15px;
@@ -365,7 +364,8 @@
   background-color: #343439;
   font-size: 18px;
   border: none;
-  outline: none;  color: white;
+  outline: none;
+  color: white;
 }
 .storeContainer .allArticles .select .player-points {
   color: #4ae471;
@@ -412,8 +412,9 @@
     width: 150px;
     height: 150px;
   }
-  .storeContainer .allArticles .articles div img {
+  .storeContainer .allArticles .articles div .img {
     width: 150px;
+    height: 150px;
     background-size: cover;
   }
   .storeContainer .choosedArticle {
@@ -442,8 +443,9 @@
     width: 150px;
     height: 150px;
   }
-  .storeContainer .allArticles .articles div img {
+  .storeContainer .allArticles .articles div .img {
     width: 150px;
+    height: 150px;
     background-size: cover;
   }
   .storeContainer .choosedArticle {

@@ -20,8 +20,15 @@ export class UserItemsService {
     return this.databaseService.userItem.findMany({ where: { userId: id } });
   }
 
-  update(id: number, updateUserItemDto: Prisma.UserItemUpdateInput) {
-    if (updateUserItemDto) return `This action updates a #${id} userItem`;
+  update(updateUserItemDto: any) {
+    const body = {
+      userId: updateUserItemDto.userId,
+      itemId: updateUserItemDto.itemId,
+    };
+    return this.databaseService.userItem.update({
+      where: { userId_itemId: body },
+      data: updateUserItemDto,
+    });
   }
 
   remove(id: number) {
