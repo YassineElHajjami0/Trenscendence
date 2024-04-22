@@ -21,16 +21,18 @@ export class UserItemsService {
     const userItems = await this.databaseService.userItem.findMany({
       select: {
         itemId: true,
-      }
+        choosed: true,
+      },
     });
     const userItemsId = userItems.map((item) => item.itemId);
 
     const allItems = await this.databaseService.item.findMany();
     const allItemsModified = allItems.map((item) => {
       const newItem = { ...item, choosed: false, unlocked: false };
-      if (item.id in userItemsId) {
+      const index = userItemsId.indexOf(item.id);
+      if (index != -1) {
         newItem.unlocked = true;
-        newItem.choosed = false; // not always false
+        newItem.choosed = userItems[index].choosed;
       }
       return newItem;
     });
