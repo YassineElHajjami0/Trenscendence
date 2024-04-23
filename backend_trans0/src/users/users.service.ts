@@ -11,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-User.dto';
 import { log } from 'console';
 import { Prisma } from '@prisma/client';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Injectable()
 export class UsersService {
@@ -23,25 +24,27 @@ export class UsersService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.findUserByUsername(username);
-    console.log('pass=>', pass, 'user?.password=>', user?.password);
+    if (!user) {
+      throw new UnauthorizedException('Invalid Username');
+    }
     const isMatch = await bcrypt.compare(pass, user?.password);
     if (isMatch) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
       return result;
     }
-    return null;
+    throw new UnauthorizedException('Invalid password');
   }
 
   // Without<T_UserUncheckedCreateInput
-  async create(createUserDto: any) {
+  async create(createUserDto: CreateUserDto) {
+    console.log('CREATE USER');
     // Handling error globally without putting the uggly try/catch everyWhere
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
     try {
       const user = await this.databaseService.t_User.create({
         data: createUserDto,
       });
-      // console.log(createUserDto);
       return user;
     } catch (err: any) {
       return err.message;

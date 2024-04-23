@@ -71,7 +71,7 @@ export class FriendsService {
         },
       },
     });
-
+    // ??
     const allFriends = await Promise.all(
       friends.map(async (friend) => {
         const friendData =

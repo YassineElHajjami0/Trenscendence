@@ -136,12 +136,13 @@ model Item {
 }
 
 model UserItem {
-  user     T_User  @relation(fields: [userId], references: [uid])
-  userId   Int // relation scalar field (used in the `@relation` attribute above)
-  item     Item    @relation(fields: [itemId], references: [id])
-  itemId   Int // relation scalar field (used in the `@relation` attribute above)
+  user    T_User  @relation(fields: [userId], references: [uid])
+  userId  Int // relation scalar field (used in the `@relation` attribute above)
+  item    Item    @relation(fields: [itemId], references: [id])
+  itemId  Int // relation scalar field (used in the `@relation` attribute above)
   // unlocked Boolean
-  choosed  Boolean
+  choosed Boolean
+
   @@id([userId, itemId])
 }
 

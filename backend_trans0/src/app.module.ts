@@ -11,13 +11,14 @@ import { AuthModule } from './auth/auth.module';
 import { MatchHistoryModule } from './match-history/match-history.module';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { ChannelModule } from './channel/channel.module';
 import { MessageModule } from './message/message.module';
 import { UserItemsModule } from './user-items/user-items.module';
 import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module';
 import { join } from 'path';
 import { UploadModule } from './upload/upload.module';
+import { CustomValidationPipe } from './auth/pipes/user.validation.pipe';
 
 @Module({
   imports: [
@@ -47,6 +48,10 @@ import { UploadModule } from './upload/upload.module';
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: CustomValidationPipe,
     },
   ],
 })
