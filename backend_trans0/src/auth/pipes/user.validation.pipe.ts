@@ -17,6 +17,7 @@ export class CustomValidationPipe implements PipeTransform<any> {
       if (errors.length > 0) {
         const formattedErrors = errors.map((error) => {
           const constraints = Object.values(error.constraints);
+          //console.log(error);
           return { [error.property]: constraints[0] };
         });
         throw new BadRequestException({
@@ -26,7 +27,6 @@ export class CustomValidationPipe implements PipeTransform<any> {
         });
       }
     }
-
     return value;
   }
 }
