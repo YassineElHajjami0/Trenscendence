@@ -22,9 +22,9 @@ import { CustomValidationPipe } from './auth/pipes/user.validation.pipe';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
-    }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '..', 'public'),
+    // }),
     UsersModule,
     DatabaseModule,
     NotificationsModule,
