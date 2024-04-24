@@ -19,9 +19,13 @@ import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module
 import { join } from 'path';
 import { UploadModule } from './upload/upload.module';
 import { CustomValidationPipe } from './auth/pipes/user.validation.pipe';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
+    MulterModule.register({
+      dest: './public',
+    }),
     // ServeStaticModule.forRoot({
     //   rootPath: join(__dirname, '..', 'public'),
     // }),

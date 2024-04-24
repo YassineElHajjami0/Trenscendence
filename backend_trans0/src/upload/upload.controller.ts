@@ -2,31 +2,42 @@ import {
   Controller,
   Post,
   UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
+import { Public } from 'src/auth/decorators/public.decorator';
+import { UploadService } from './upload.service';
 
+@Public()
 @Controller('upload')
 export class UploadController {
+  constructor(private readonly uploadService: UploadService) {}
+  // @Post()
+  // @UseInterceptors(AnyFilesInterceptor())
+  // async uploadFile(@UploadedFile() file: Express.Multer.File) {
+  //   if (!file) {
+  //     throw new Error('No file uploaded');
+  //   }
+
+  //   const originalFileName = file.originalname; // Get the original file name
+
+  //   // Custom message with the original file name
+  //   const message = `File '${originalFileName}' uploaded successfully`;
+
+  //   // const message = await this.uploadService.saveFile(file);
+  //   return { message };
+  // }
+
   @Post()
-  @UseInterceptors(FileInterceptor('myFile', {
-    storage: diskStorage({
-      destination: './uploads',
-      filename: (req, file, cb) => {
-        const randomName = Array(32)
-          .fill(null)
-          .map(() => (Math.round(Math.random() * 16)).toString(16))
-          .join('');
-        return cb(null, `${randomName}${extname(file.originalname)}`);
-      },
-    }),
-    limits: { fileSize: 1000000 }, // 1MB file size limit
-  }))
-  async uploadFile(@UploadedFile() file) {
-    // File uploaded successfully
-    console.log(file);
-    return { message: 'File uploaded!' };
+  @UseInterceptors(AnyFilesInterceptor())
+  async uploadFile(@UploadedFiles() files: Array<Express.Multer.File>) {
+    console.log(files);
+    if (!files) {
+      return { message: 'No file uploaded' };
+    }
+    // const message = await this.uploadService.saveFile(file);
+    // return { message };
+    return 'Hello';
   }
 }
