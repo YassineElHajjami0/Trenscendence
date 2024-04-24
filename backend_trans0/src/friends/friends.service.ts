@@ -68,7 +68,7 @@ export class FriendsService {
     const friends = await this.databaseService.userFriend.findMany({
       where: {
         OR: [{ user1Id: userId }, { user2Id: userId }],
-        status: 'ACCEPTED',
+        NOT: { status: 'PENDING' },
       },
       select: {
         user1Id: true,

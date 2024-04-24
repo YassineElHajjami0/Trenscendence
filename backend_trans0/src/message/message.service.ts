@@ -18,7 +18,7 @@ export class MessageService {
     const message = await this.databaseService.message.create({
       data: createMessageDto,
     });
-    console.log('----->', message);
+
     this.chatGateway.sendMessage(message); 
 
   } 

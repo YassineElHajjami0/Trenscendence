@@ -20,7 +20,6 @@ export default function AddFriend({ user }: { user: any }) {
     };
 
     try {
-      console.log(">>>>>>>>>>>>>>>>helloooooooooo");
       const res = await fetch("http://localhost:3000/notifications", {
         method: "POST",
         headers: {

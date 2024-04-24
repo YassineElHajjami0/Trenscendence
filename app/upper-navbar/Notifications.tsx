@@ -9,7 +9,7 @@ import { loggedUser } from "../Atoms/logged";
 import { io } from "socket.io-client";
 
 
-const socket = io("http://localhost:3001");
+const socket = io("http://localhost:3001", { transports : ['websocket'] });
 
 function Notifications({ showNotif }: { showNotif: boolean }) {
   const userTok = useRecoilValue(userToken);

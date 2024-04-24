@@ -13,13 +13,17 @@ export default function SubChildrens({
   children: React.ReactNode;
 }) {
   const user = useRecoilValue(loggedUser);
+
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
     if (user === -1) {
-      router.replace("/login");
+      router.push("/login");
     }
+    if (user !== -1 && pathname === "/login" )
+    router.push("/");
+
   }, [user, pathname]);
 
   return (
