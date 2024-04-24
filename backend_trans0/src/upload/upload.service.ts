@@ -3,9 +3,12 @@ import { CreateUploadDto } from './dto/create-upload.dto';
 import { UpdateUploadDto } from './dto/update-upload.dto';
 import * as fs from 'fs';
 import * as path from 'path';
+import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class UploadService {
+  constructor(private readonly databaseService: DatabaseService) { }
+
   create(createUploadDto: CreateUploadDto) {
     return 'This action adds a new upload';
   }
@@ -26,10 +29,17 @@ export class UploadService {
     return `This action removes a #${id} upload`;
   }
 
-  async saveFile(file: Express.Multer.File) {
+  async saveFile(uid: number, file: Express.Multer.File) {
     try {
       const filePath = path.join(process.cwd(), 'public', file.originalname);
+      console.log(filePath);
       await fs.promises.writeFile(filePath, file.buffer);
+      await this.databaseService.t_User.update({
+        where: { uid },
+        data: {
+          uploadedAvatar: '/' + file.originalname,
+        },
+      });
       return 'Uploaded successfully';
     } catch (error) {
       return error.message;
