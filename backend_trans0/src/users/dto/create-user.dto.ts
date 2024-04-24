@@ -31,7 +31,7 @@ export class CreateUserDto {
 
   twoFA?: boolean;
 
-  avatar?: string;
+  // avatar?: string;
   banner?: string;
   level?: number;
   points?: number;
@@ -40,4 +40,5 @@ export class CreateUserDto {
   lose?: number;
   strategy?: string;
   role?: string;
+  wallet?: number;
 }

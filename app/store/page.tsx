@@ -11,6 +11,7 @@ import { PlayerInfo } from "../Interfaces/playerInfoInterface";
 import { userToken } from "@/app/Atoms/userToken";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
+import { useRouter } from "next/router";
 
 interface itemsInterface {
   description: string;
@@ -24,6 +25,19 @@ interface itemsInterface {
   choosed: boolean;
 }
 
+interface dataInterface {
+  avatar: string;
+  banner: string;
+  username: string;
+  email: string;
+  oldPassword: string;
+  newPassword: string;
+  confirmedPassword: string;
+  bio: string;
+  twoFA: boolean;
+  wallet: number;
+}
+
 const Store = () => {
   //http://10.12.4.13:3001/users
   const [loading, setLoading] = useState(true);
@@ -32,6 +46,7 @@ const Store = () => {
   const [choosedArticle, setChoosedArticle] = useState<itemsInterface>();
   const [items, setItems] = useState<itemsInterface[]>();
   const [selectedCategory, setselectedCategory] = useState("all");
+  const [userData, setUserData] = useState<dataInterface>();
   const all = playerData.avatarsAndPaddles;
   const playerPoints = playerData.statistic.points;
   const userId = useRecoilValue(loggedUser);
@@ -42,6 +57,19 @@ const Store = () => {
     }, 1000);
     const fetchedData = async () => {
       try {
+        const responseUser = await fetch(
+          `http://localhost:3000/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const dataofUser = await responseUser.json();
+        console.log("data of user : ", dataofUser);
+        setUserData(dataofUser);
+
         const response = await fetch(
           `http://localhost:3000/useritems?userId=${userId}`,
           {
@@ -56,65 +84,6 @@ const Store = () => {
         setChoosedArticle(data[0]);
         console.log("_______>>>", data);
         setItems(data);
-        // setChoosedArticle({
-        //   img: "av3.png",
-        //   name: "Hero",
-        //   description: "",
-        //   price: 641,
-        //   id: 7,
-        //   power: "",
-        //   type: "avatar",
-        //   owned: true,
-        //   choosed: false,
-        // });
-        // setItems([
-        //   {
-        //     img: "av3.png",
-        //     name: "Hero",
-        //     description: "",
-        //     price: 641,
-        //     id: 7,
-        //     power: "",
-        //     type: "avatar",
-        //     owned: true,
-        //     choosed: false,
-        //   },
-        //   {
-        //     img: "av2.png",
-        //     name: "HULK",
-        //     description: "",
-        //     price: 942,
-        //     id: 6,
-        //     power: "",
-        //     type: "avatar",
-        //     owned: false,
-        //     choosed: false,
-        //   },
-        //   {
-        //     img: "pd4.png",
-        //     name: "fire",
-        //     description:
-        //       "Designed to broaden your playing horizons with an extended width",
-        //     price: 50,
-        //     id: 14,
-        //     power: "+5% ball speed",
-        //     type: "paddle",
-        //     owned: false,
-        //     choosed: false,
-        //   },
-        //   {
-        //     img: "pd2.png",
-        //     name: "nature",
-        //     description:
-        //       "Designed to broaden your playing horizons with an extended width",
-        //     price: 520,
-        //     id: 12,
-        //     power: "+ 8% ball speed",
-        //     type: "paddle",
-        //     owned: false,
-        //     choosed: false,
-        //   },
-        // ]);
       } catch (err) {
         console.error(">>>", err);
       }
@@ -141,11 +110,30 @@ const Store = () => {
           itemId: id,
           choosed: false,
         }),
-      });
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        throw new Error(`Failed to POST data. Error: ${errorResponse.message}`);
-      }
+      })
+        .then(() => {
+          console.log(">>>>>>>>>>>>>>>baaa3>>>>>>>>>>");
+          const updatedItems = items?.map((item) => {
+            if (item.id === id) {
+              return {
+                ...item,
+                owned: true,
+              };
+            }
+            return item;
+          });
+          setItems(updatedItems);
+          const updatedchoosedArticle: any = {
+            ...choosedArticle,
+            owned: true,
+          };
+          setChoosedArticle(updatedchoosedArticle);
+        })
+        .catch((errorResponse) => {
+          throw new Error(
+            `Failed to POST data. Error: ${errorResponse.message}`
+          );
+        });
     }
   };
 
@@ -161,11 +149,28 @@ const Store = () => {
         itemId: id,
         choosed: true,
       }),
-    });
-    if (!response.ok) {
-      const errorResponse = await response.json();
-      throw new Error(`Failed to PATCH data. Error: ${errorResponse.message}`);
-    }
+    })
+      .then(() => {
+        console.log(">>>>>>>>>>>>>>>baaa3>>>>>>>>>>");
+        const updatedItems = items?.map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              choosed: true,
+            };
+          }
+          return { ...item, choosed: false };
+        });
+        setItems(updatedItems);
+        const updatedchoosedArticle: any = {
+          ...choosedArticle,
+          choosed: true,
+        };
+        setChoosedArticle(updatedchoosedArticle);
+      })
+      .catch((errorResponse) => {
+        throw new Error(`Failed to POST data. Error: ${errorResponse.message}`);
+      });
   };
 
   return (
@@ -252,7 +257,7 @@ const Store = () => {
                     <option value="paddles">paddles</option>
                   </select>
                 </div>
-                <p className="player-points"> {playerPoints} $</p>
+                <p className="player-points"> {userData?.wallet} $</p>
               </div>
               <div className="articles">
                 {items?.map((article) => {

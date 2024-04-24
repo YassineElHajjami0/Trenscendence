@@ -37,7 +37,6 @@ export class UserItemsService {
       }
       return newItem;
     });
-    console.log(allItemsModified);
     return allItemsModified;
   }
 
@@ -45,11 +44,20 @@ export class UserItemsService {
     return this.databaseService.userItem.findMany({ where: { userId: id } });
   }
 
-  update(updateUserItemDto: any) {
-    const body = {
+  async updateOthers(body: any) {
+    const userItems = await this.databaseService.userItem.updateMany({
+      where: { userId: body.userId },
+      data: { choosed: false },
+    });
+    return userItems;
+  }
+
+  async update(updateUserItemDto: any) {
+    const body: Prisma.UserItemUserIdItemIdCompoundUniqueInput = {
       userId: updateUserItemDto.userId,
       itemId: updateUserItemDto.itemId,
     };
+    await this.updateOthers(body);
     return this.databaseService.userItem.update({
       where: { userId_itemId: body },
       data: updateUserItemDto,

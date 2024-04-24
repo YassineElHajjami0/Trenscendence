@@ -13,6 +13,7 @@ import { PlayerInfo } from "./Interfaces/playerInfoInterface";
 import { loggedUser } from "./Atoms/logged";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
+import router from "next/router";
 
 interface dataInterface {
   createdAt: string;
@@ -117,7 +118,6 @@ export default function Home() {
                   />
                 </div>
                 <Link href={"/store"}>
-                  {" "}
                   <button className="buy-paddle-btn">Buy Paddle</button>
                 </Link>
               </div>

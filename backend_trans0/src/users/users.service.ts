@@ -10,6 +10,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-User.dto';
 import { log } from 'console';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -33,7 +34,7 @@ export class UsersService {
   }
 
   // Without<T_UserUncheckedCreateInput
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: any) {
     // Handling error globally without putting the uggly try/catch everyWhere
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
     try {
@@ -102,15 +103,35 @@ export class UsersService {
       },
       */
     });
+    const choosedItems = await this.databaseService.userItem.findMany({
+      select: {
+        item: true,
+      },
+      where: {
+        AND: [{ userId: uid }, { choosed: true }],
+      },
+    });
+    // console.log("choosedItems", choosedItems);
+
+    const avatar = choosedItems.filter((item: any) => {
+      console.log('type', item.item.type);
+      if (item.item.type == 'avatar') {
+        return item.item.name;
+      }
+    });
+    const avatarValue = avatar.length > 0 ? avatar[0].item.img : 'default.png';
+
     if (user) {
       const finalUser = {
         ...user,
         oldPassword: '',
         newPassword: '',
         confirmedPassword: '',
+        avatar: avatarValue,
       };
       return finalUser;
     }
+    // ???
     return user;
     /*
     if (!user) {

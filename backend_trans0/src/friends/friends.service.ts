@@ -52,7 +52,7 @@ export class FriendsService {
           name: friendData.username,
           email: friendData.email,
           status: friendData.status,
-          avatar: friendData.avatar,
+          // avatar: friendData.avatar,
           fsStatus: friend.status,
         };
       })

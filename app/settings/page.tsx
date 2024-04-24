@@ -25,6 +25,7 @@ interface dataInterface {
   confirmedPassword: string;
   bio: string;
   twoFA: boolean;
+  wallet: number;
 }
 interface itemsInterface {
   description: string;
@@ -34,6 +35,8 @@ interface itemsInterface {
   name: string;
   power: string;
   price: string;
+  choosed: boolean;
+  owned: boolean;
 }
 //http://localhost:3000/image.jpeg
 const Settings = () => {
@@ -55,7 +58,7 @@ const Settings = () => {
     const fetchedData = async () => {
       try {
         const avatarsAndPaddlesResponse = await fetch(
-          "http://localhost:3000/items", //remove the id in the response
+          `http://localhost:3000/useritems?userId=${userId}`, //remove the id in the response
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -187,7 +190,11 @@ const Settings = () => {
     }
   };
 
-  const changeImageInTheServer = async (img: string, type: string) => {
+  const changeImageInTheServer = async (
+    id: number,
+    img: string,
+    type: string
+  ) => {
     try {
       if (type == "avatar") {
         setData((data) => ({
@@ -200,20 +207,37 @@ const Settings = () => {
           banner: img,
         }));
       }
-      // console.log(">>>>>>>>>>>>>???>>>", data);
+      // const response = await fetch(`http://localhost:3000/useritems`, {
+      //   method: "PATCH",
+      //   headers: {
+      //     Authorization: `Bearer ${userTok}`,
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     userId: userId,
+      //     itemId: id,
+      //     choosed: true,
+      //   }),
+      // });
+      // if (!response.ok) {
+      //   const errorResponse = await response.json();
+      //   throw new Error(`Failed to PATCH data. Error: ${errorResponse.message}`);
+      // }
       setLoading(true);
       setTimeout(() => setLoading(false), 1000);
       setShowArticlesPopup(false);
       const response =
         type == "avatar"
-          ? await fetch(`http://localhost:3000/users/${userId}`, {
+          ? await fetch(`http://localhost:3000/useritems`, {
               method: "PATCH",
               headers: {
                 Authorization: `Bearer ${userTok}`,
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                avatar: img,
+                itemId: id,
+                userId: userId,
+                choosed: true,
               }),
             })
           : await fetch(`http://localhost:3000/users/${userId}`, {
@@ -282,11 +306,13 @@ const Settings = () => {
               <div className="choosedItemsList">
                 {avatarsAndPaddles?.map((e) => {
                   return e.type == ArticlesType ? (
-                    e.type == "avatar" ? (
+                    e.type == "avatar" && e.owned && !e.choosed ? (
                       <div
                         key={e.id}
                         className="item"
-                        onClick={() => changeImageInTheServer(e.img, "avatar")}
+                        onClick={() =>
+                          changeImageInTheServer(e.id, e.img, "avatar")
+                        }
                       >
                         <Image
                           className="img"
@@ -297,12 +323,14 @@ const Settings = () => {
                         />
                         <p>{e.name}</p>
                       </div>
-                    ) : (
+                    ) : e.type == "banner" && !e.choosed ? (
                       <div
                         key={e.id}
                         className="item"
                         style={{ backgroundColor: "transparent" }}
-                        onClick={() => changeImageInTheServer(e.img, "banner")}
+                        onClick={() =>
+                          changeImageInTheServer(e.id, e.img, "banner")
+                        }
                       >
                         <Image
                           className="img"
@@ -317,6 +345,8 @@ const Settings = () => {
                           alt="IMG"
                         />
                       </div>
+                    ) : (
+                      ""
                     )
                   ) : (
                     ""
