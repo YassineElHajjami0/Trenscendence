@@ -83,7 +83,7 @@ export class AuthController {
     };
 
     const cookies = await this.authService.signUpWith42(createUserDto);
-    this.setCookie(res, cookies.bearer_token);
+    // this.setCookie(res, cookies.bearer_token);
 
     res.cookie('loggedUser', cookies.uid, { httpOnly: true });
     res.cookie('userToken', cookies.bearer_token, { httpOnly: true });

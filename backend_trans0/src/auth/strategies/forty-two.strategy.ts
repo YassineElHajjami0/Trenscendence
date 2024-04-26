@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy, VerifyCallback } from 'passport-42';
-import { Role } from '../enums/role.enum';
+import { Strategy } from 'passport-42';
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -13,18 +12,13 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
       clientSecret:
         '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', //FORTYTWO_APP_SECRET,
       callbackURL: 'http://localhost:3000/auth/fortyTwo/redirect/',
-      // scope: ['email', 'profile'],
+      Scope: ['profile'],
     });
   }
 
   // refresh token ??
   // store in req the user
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: any,
-    // done: VerifyCallback,
-  ) {
+  async validate(accessToken: string, refreshToken: string, profile: any) {
     const { login, email } = profile._json;
     const user = await this.authService.signUpWith42({
       username: login,
