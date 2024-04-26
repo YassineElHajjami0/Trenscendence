@@ -25,9 +25,11 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
     profile: any,
     done: VerifyCallback,
   ) {
-    console.log('VALIDATE 42');
-    const { email } = profile._json;
+    console.log('VALIDATE');
+    // console.log(profile._json);
+    const { username, email } = profile._json;
     const user = await this.authService.signUpWith42({
+      username: username,
       email: email,
       password: this.authService.generateRandomPassword(10),
       strategy: '42',

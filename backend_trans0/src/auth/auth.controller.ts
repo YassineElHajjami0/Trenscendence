@@ -8,6 +8,7 @@ import {
   Req,
   Redirect,
   UsePipes,
+  Header,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -18,7 +19,7 @@ import { CustomValidationPipe } from './pipes/user.validation.pipe';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   setCookie(@Res() res, bearer_token?: string) {
     if (!bearer_token) bearer_token = '';
@@ -73,15 +74,20 @@ export class AuthController {
 
   @Get('fortyTwo/redirect')
   @Public()
-  // @Redirect('http://localhost:3002/login', 302)
   @UseGuards(FortyTwoGuard)
+  // @Redirect('http://localhost:3002/login', 302)
   async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
-    const user = {
-      username: req.user.email,
-      accessToken: req.user.accessToken,
-    };
-    const bearer_token = await this.authService.fortyTwoLogin(user);
-    this.setCookie(res, bearer_token);
+    // console.log(req.user);
+    // const user = {
+    //   username: req.user.username,
+    //   accessToken: req.user.accessToken,
+    // };
+    // const bearer_token = await this.authService.fortyTwoLogin(user);
+    // this.setCookie(res, bearer_token);
+
+    // console.log(`{username : ${req.user.username}, email: ${req.user.email}}`);
+
+    // res.cookie('accessToken', req.user, { httpOnly: true });
     return `User From 42 logged In`;
   }
 
