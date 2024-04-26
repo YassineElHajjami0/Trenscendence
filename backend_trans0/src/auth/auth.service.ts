@@ -9,7 +9,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async validateUserId(uid: number) {
     const user = await this.usersService.validateUserId(uid);
@@ -32,14 +32,15 @@ export class AuthService {
   }
 
   async signUpWith42(createUserDto: CreateUserDto) {
-    const user = await this.usersService.findByEmail(createUserDto.email);
-    if (user) {
-      // This case is could happen
-      if ((user.strategy = 'local'))
-        return { msg: 'This email is already token by another user' };
-      return user;
+    let user = await this.usersService.findByEmail(createUserDto.email);
+    if (!user) {
+      user = await this.signUp(createUserDto);
     }
-    return await this.usersService.create(createUserDto);
+    const bearer_token = await this.login(user);
+    return {
+      uid: user.uid,
+      bearer_token: bearer_token,
+    };
   }
 
   async fortyTwoLogin(user: any) {

@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
-
+import * as passport from 'passport';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const corsOptions: CorsOptions = {
@@ -16,6 +16,9 @@ async function bootstrap() {
   app.enableCors(corsOptions);
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
+
+  // extra
+  app.use(passport.initialize());
   await app.listen(3000);
 }
 

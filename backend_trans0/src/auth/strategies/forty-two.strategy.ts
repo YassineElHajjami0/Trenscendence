@@ -11,8 +11,8 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
       clientID:
         'u-s4t2ud-2eb7839586c2db3c5cb771db02b6ee638d6ae43d54ac0db84c2a8fdbfb61e654', //FORTYTWO_APP_ID,
       clientSecret:
-        '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', //FORTYTWO_APP_SECRET,
-      callbackURL: 'http://localhost:3000/auth/fortyTwo/redirect',
+        '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', //FORTYTWO_APP_SECRET,
+      callbackURL: 'http://localhost:3000/auth/fortyTwo/redirect/',
       // scope: ['email', 'profile'],
     });
   }
@@ -23,18 +23,17 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
     accessToken: string,
     refreshToken: string,
     profile: any,
-    done: VerifyCallback,
+    // done: VerifyCallback,
   ) {
-    console.log('VALIDATE');
-    // console.log(profile._json);
-    const { username, email } = profile._json;
+    const { login, email } = profile._json;
     const user = await this.authService.signUpWith42({
-      username: username,
+      username: login,
       email: email,
       password: this.authService.generateRandomPassword(10),
       strategy: '42',
     });
-    done(null, user);
+
+    // done(null, user);
     return user;
   }
 }
