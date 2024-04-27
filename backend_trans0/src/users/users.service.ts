@@ -57,6 +57,15 @@ export class UsersService {
   }
 
   async getChoosedAvatarOfUser(uid: number) {
+    const uploadedAvatar = await this.databaseService.t_User.findUnique({
+      where: { uid },
+      select: {
+        uploadedAvatar: true,
+      },
+    });
+    if (uploadedAvatar.uploadedAvatar.length > 0) {
+      return uploadedAvatar.uploadedAvatar;
+    }
     const choosedItems = await this.databaseService.userItem.findMany({
       select: {
         item: true,
@@ -223,7 +232,6 @@ export class UsersService {
       updateUserDto.confirmedPassword &&
       updateUserDto.oldPassword
     ) {
-      console.log('HERE------>>');
       const userInDb = await this.findOne(uid);
 
       const user = await this.validateUser(

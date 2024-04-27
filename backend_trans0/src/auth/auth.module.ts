@@ -11,7 +11,7 @@ import { AuthController } from './auth.controller';
 
 @Module({
   imports: [
-    PassportModule,
+    PassportModule.register({ session: false }),
     UsersModule,
     JwtModule.register({
       secret: jwtConstants.secret,

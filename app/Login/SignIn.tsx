@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
-import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const [loggedU, setLoggedU] = useRecoilState(loggedUser);
@@ -23,6 +23,11 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const [err, setErr] = useState("");
   const router = useRouter();
 
+  const getCoo = Cookies.get("userData");
+  let parsedCoo;
+  if (getCoo) parsedCoo = JSON.parse(getCoo);
+  console.log("cooooookies>>>>>>>", parsedCoo);
+
   // useEffect(() => {
   //   setEmail("");
   //   setUsername("");
@@ -32,7 +37,6 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const signup = async (e: any) => {
     e.preventDefault();
     console.log("click>>>>>>>>>>");
-
 
     const Udata = {
       email: email,
@@ -64,8 +68,6 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     e.preventDefault();
     console.log("click>>>>>>>>>>");
 
-
-
     const Udata = {
       username: username,
       password: pass,
@@ -95,7 +97,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const signUpFunction = signInUp ? signup : loggin;
 
   const auth42 = async () => {
-   
+    router.push("http://localhost:3000/auth/login-42");
   };
 
   return (
@@ -137,14 +139,14 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       </button>
 
       <h1>OR</h1>
-      {/* <div className="outher_methods">
+      <div className="outher_methods">
         <button className="other_login">
           <Image src={ggl} width={26} height={26} alt="google auth" /> google
         </button>
         <button onClick={auth42} className="other_login">
           <Image src={intra} width={26} height={26} alt="42 auth" /> intra
         </button>
-      </div> */}
+      </div>
     </form>
   );
 }

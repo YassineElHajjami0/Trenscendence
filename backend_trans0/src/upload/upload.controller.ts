@@ -1,5 +1,6 @@
 import {
   Controller,
+  Param,
   Post,
   UploadedFile,
   UploadedFiles,
@@ -29,15 +30,17 @@ export class UploadController {
   //   return { message };
   // }
 
-  @Post()
+  @Post(':uid')
   @UseInterceptors(AnyFilesInterceptor())
-  async uploadFile(@UploadedFiles() files: Array<any>) {
-    console.log(files);
+  async uploadFile(
+    @Param('uid') uid: string,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ) {
     if (!files) {
       return { message: 'No file uploaded' };
     }
-    // const message = await this.uploadService.saveFile(file);
-    // return { message };
-    return 'Hello';
+    const message = await this.uploadService.saveFile(+uid, files[0]);
+    // errase the old uploaded file
+    return { message };
   }
 }

@@ -87,7 +87,7 @@ model T_User {
   bio              String            @default("I am a player")
   password         String
   twoFA            Boolean           @default(false)
-  // avatar           String            @default("/default.png") // neeeeeed to be updated
+  uploadedAvatar   String            @default("")
   wallet           Int               @default(0)
   banner           String            @default("/defaultBanner.jpg") // neeeeeed to be updated
   level            Int               @default(0)
