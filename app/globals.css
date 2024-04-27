@@ -498,8 +498,8 @@ nav {
 }
 .latest-games .latests .line {
   background-color: #252529;
-  padding: 30px 200px;
-  font-size: 20px;
+  padding: 15px 200px;
+  font-size: 25px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -542,6 +542,7 @@ nav {
   gap: 5px;
   position: relative;
   z-index: 1;
+  text-align: center;
   /* flex-grow: 1; */
 }
 /* .latest-games .latests .line .gamestatus::before {
@@ -586,6 +587,10 @@ nav {
 }
 .latest-games .latests .line .gamestatus .win {
   color: #1ce14e;
+}
+.latest-games .latests .line .gamestatus .gameDate {
+  color: white;
+  font-size: 10px;
 }
 
 @media (max-width: 1440px) {

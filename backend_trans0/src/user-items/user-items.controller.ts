@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { UserItemsService } from './user-items.service';
 import { Prisma } from '@prisma/client';
@@ -20,7 +21,10 @@ export class UserItemsController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query('userId') userId: string) {
+    if (userId) {
+      return this.userItemsService.findUserItems(+userId);
+    }
     return this.userItemsService.findAll();
   }
 

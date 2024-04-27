@@ -6,4 +6,4 @@ import { MatchHistoryController } from './match-history.controller';
   controllers: [MatchHistoryController],
   providers: [MatchHistoryService],
 })
-export class MatchHistoryModule {}
+export class MatchHistoryModule { }

@@ -50,7 +50,7 @@ export default function FriendsChat() {
 
   return (
     <div className="friends_chat_container">
-      {
+      {myFriends.length > 0 &&
         myFriends.map((f: any) => <FriendChat key={f?.uid} friendData={f} />)}
     </div>
   );

@@ -19,12 +19,21 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const [userTok, setUserTok] = useRecoilState(userToken);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-
   const [pass, setPass] = useState("");
+  const [err, setErr] = useState("");
   const router = useRouter();
+
+  // useEffect(() => {
+  //   setEmail("");
+  //   setUsername("");
+  //   setPass("");
+  // }, [signInUp]);
 
   const signup = async (e: any) => {
     e.preventDefault();
+    console.log("click>>>>>>>>>>");
+
+
     const Udata = {
       email: email,
       username: username,
@@ -39,10 +48,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         body: JSON.stringify(Udata),
       });
 
-      if (!response) {
-        console.log("Error no response");
-        return;
-      }
+      console.log("errrrrrrrrrrrrrrrrrrr");
 
       const data = await response.json();
       console.log("useeeeer>>>>>>>", data);
@@ -56,6 +62,9 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
   const loggin = async (e: any) => {
     e.preventDefault();
+    console.log("click>>>>>>>>>>");
+
+
 
     const Udata = {
       username: username,
@@ -69,11 +78,9 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         },
         body: JSON.stringify(Udata),
       });
-      if (!response) {
-        console.log("Error000");
-        return;
-      }
+
       const data = await response.json();
+      console.log("errrrrrrrrrrrrrrrrrrr", data);
 
       setLoggedU(data.user.uid);
       setUserTok(data.user_token);
@@ -88,25 +95,14 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const signUpFunction = signInUp ? signup : loggin;
 
   const auth42 = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3000/auth/login-42`);
-
-      console.log("resposnseeeeeeee>>>>>>>", response.data);
-
-      // const data = await response.json();
-      // console.log("useeeeer>>>>>>>", response);
-
-      // setLoggedU(data.user.uid);
-      // setUserTok(data.user_token);
-      // router.push("/");
-    } catch (error: any) {
-      console.log("error >>>>>>>>>>>>>???? ", error.message);
-    }
+   
   };
 
   return (
     <form onSubmit={signUpFunction} className="sign_in_container">
+      {err.length > 0 && <p className="from_errors">{err}</p>}
       <input
+        required
         placeholder="username"
         type="text"
         value={username}
@@ -115,6 +111,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       />
 
       <input
+        required={signInUp}
         value={email}
         className={`sign_in_ships ${!signInUp && "hide_pass"}`}
         onChange={(e) => setEmail(e.target.value)}
@@ -123,6 +120,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       />
 
       <input
+        required
         placeholder="password"
         className="sign_in_ships"
         type="password"
@@ -130,19 +128,23 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         onChange={(e) => setPass(e.target.value)}
       />
 
-      <button type="submit" className="sign_in_ships btn">
+      <button
+        disabled={err.length > 0}
+        type="submit"
+        className={`sign_in_ships btn ${err.length > 0 && "lets_not_play"}`}
+      >
         Let's play <FaArrowRight />
       </button>
 
       <h1>OR</h1>
-      <div className="outher_methods">
+      {/* <div className="outher_methods">
         <button className="other_login">
           <Image src={ggl} width={26} height={26} alt="google auth" /> google
         </button>
         <button onClick={auth42} className="other_login">
           <Image src={intra} width={26} height={26} alt="42 auth" /> intra
         </button>
-      </div>
+      </div> */}
     </form>
   );
 }

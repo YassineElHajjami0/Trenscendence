@@ -5,7 +5,9 @@ import { DatabaseService } from 'src/database/database.service';
 @Injectable()
 export class MatchHistoryService {
   constructor(private databaseService: DatabaseService) {}
+
   async create(createMatchHistoryDto: Prisma.MatchHistoryCreateInput) {
+    console.log('datat ', createMatchHistoryDto);
     const matchHistory = await this.databaseService.matchHistory.create({
       data: createMatchHistoryDto,
     });
@@ -13,8 +15,106 @@ export class MatchHistoryService {
   }
 
   async findAll() {
-    const matches = await this.databaseService.matchHistory.findMany();
-    return matches;
+    const matches = await this.databaseService.matchHistory.findMany({
+      select: {
+        winnerUser: {
+          select: {
+            username: true,
+          },
+        },
+        loserUser: {
+          select: {
+            username: true,
+          },
+        },
+        winnerScore: true,
+        loserScore: true,
+        createdAt: true,
+        endAt: true,
+        startAt: true,
+        gameMode: true,
+      },
+    });
+    const matches_two = matches.map((match) => {
+      console.log(match);
+      return {
+        loserName: match.loserUser.username,
+        winnerName: match.winnerUser.username,
+        winnerScore: match.winnerScore,
+        loserScore: match.loserScore,
+        createdAt: match.createdAt,
+        endAt: match.endAt,
+        startAt: match.startAt,
+        gameMode: match.gameMode,
+        result: 'WIN',
+      };
+    });
+    return matches_two;
+  }
+
+  async findMatchOfUser(userId: number) {
+    const matchesOfUser = await this.databaseService.matchHistory.findMany({
+      select: {
+        winnerUser: {
+          select: {
+            username: true,
+            uid: true,
+          },
+        },
+        loserUser: {
+          select: {
+            username: true,
+            uid: true,
+          },
+        },
+        winnerScore: true,
+        loserScore: true,
+        createdAt: true,
+        endAt: true,
+        startAt: true,
+        gameMode: true,
+      },
+      where: {
+        OR: [
+          {
+            winnerUser: {
+              uid: userId,
+            },
+          },
+          {
+            loserUser: {
+              uid: userId,
+            },
+          },
+        ],
+      },
+    });
+    const matches_two = matchesOfUser.map((match) => {
+      let me: string;
+      let opponent: string;
+      let result: string;
+      if (match.loserUser.uid == userId) {
+        me = match.loserUser.username;
+        opponent = match.winnerUser.username;
+        result = 'LOSE';
+      } else {
+        me = match.winnerUser.username;
+        opponent = match.loserUser.username;
+        result = 'WIN';
+      }
+      return {
+        me: me,
+        opponent: opponent,
+        winnerScore: match.winnerScore,
+        loserScore: match.loserScore,
+        createdAt: match.createdAt,
+        endAt: match.endAt,
+        startAt: match.startAt,
+        gameMode: match.gameMode,
+        result: result,
+      };
+    });
+    return matches_two;
   }
 
   async findOne(id: number) {

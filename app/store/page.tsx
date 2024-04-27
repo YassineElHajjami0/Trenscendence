@@ -2,27 +2,62 @@
 import React, { useState, useEffect } from "react";
 import "./store.css";
 import "../globals.css";
+import Image from "next/image";
 import playerData from "../data/player-info.json";
 import { TbShoppingBag } from "react-icons/tb";
 import { FaRegSmileBeam } from "react-icons/fa";
 import { FaBagShopping } from "react-icons/fa6";
 import { PlayerInfo } from "../Interfaces/playerInfoInterface";
+import { userToken } from "@/app/Atoms/userToken";
+import { useRecoilState, useRecoilValue } from "recoil";
+
+interface itemsInterface {
+  description: string;
+  id: number;
+  img: string;
+  type: string;
+  name: string;
+  power: string;
+  price: string;
+}
 
 const Store = () => {
   //http://10.12.4.13:3001/users
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
+  const userTok = useRecoilValue(userToken);
   const [popUpCannotBuy, setPopUpCannotBuy] = useState(false);
   const [choosedArticle, setChoosedArticle] = useState(
     playerData.avatarsAndPaddles[0]
   );
+  const [items, setItems] = useState<itemsInterface[]>();
   const [selectedCategory, setselectedCategory] = useState("all");
   const all = playerData.avatarsAndPaddles;
   const playerPoints = playerData.statistic.points;
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    const fetchedData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/useritems", {
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        });
+        let data = await response.json();
+        // data = data.filter(e => e.type == "paddle" || e.type == "avatar")
+        // setItems(data);
+        // console.log("heeeeeeeerrrrreeeeee");
+        console.log("data==>", data);
+      } catch (err) {
+        console.error(">>>>>>", err);
+      }
+    };
+
+    fetchedData();
+  }, []);
 
   const handleBuyArticle = (id: number) => {
     const searchArticle = all.filter((e) => e.id == id);
@@ -66,12 +101,10 @@ const Store = () => {
           </h2>
           <div className="storeContainer">
             <div className="choosedArticle">
-              <img
-                src={
-                  choosedArticle.avatar == undefined
-                    ? choosedArticle.paddle
-                    : choosedArticle.avatar
-                }
+              <Image
+                src={items && items.length > 0 ? items[0].img : ""}
+                width={200}
+                height={200}
                 alt=""
               />
               <p className="name">{choosedArticle.name}</p>

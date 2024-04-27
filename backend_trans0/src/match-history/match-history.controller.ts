@@ -6,21 +6,28 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { MatchHistoryService } from './match-history.service';
 import { Prisma } from '@prisma/client';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('match-history')
 export class MatchHistoryController {
-  constructor(private readonly matchHistoryService: MatchHistoryService) {}
+  constructor(private readonly matchHistoryService: MatchHistoryService) { }
 
+  @Public()
   @Post()
   create(@Body() createMatchHistoryDto: Prisma.MatchHistoryCreateInput) {
+    console.log('dataatat, ', createMatchHistoryDto);
     return this.matchHistoryService.create(createMatchHistoryDto);
   }
 
   @Get()
-  findAll() {
+  findAll(@Query('id') id: string) {
+    if (id) {
+      return this.matchHistoryService.findMatchOfUser(+id);
+    }
     return this.matchHistoryService.findAll();
   }
 

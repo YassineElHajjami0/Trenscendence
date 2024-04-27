@@ -23,6 +23,7 @@ enum Status {
   ACCEPTED
   BLOCKED
   DENIED
+  NONE
 }
 
 enum NotificationType {
@@ -86,10 +87,11 @@ model T_User {
   bio              String            @default("I am a player")
   password         String
   twoFA            Boolean           @default(false)
-  avatar           String            @default("/default.png") // neeeeeed to be updated
+  // avatar           String            @default("/default.png") // neeeeeed to be updated
+  wallet           Int               @default(0)
   banner           String            @default("/defaultBanner.jpg") // neeeeeed to be updated
   level            Int               @default(0)
-  points           Int               @default(0)
+  // points           Int               @default(0)
   rank             String            @default("0")
   win              Int               @default(0)
   lose             Int               @default(0)
@@ -126,7 +128,7 @@ model UserFriend {
   user1Id       Int
   usersSendMe   T_User @relation("usersSendMe", fields: [user2Id], references: [uid])
   user2Id       Int
-  status        Status @default(PENDING)
+  status        Status @default(NONE)
 
   @@id([user1Id, user2Id])
 }
@@ -150,12 +152,12 @@ model Item {
 }
 
 model UserItem {
-  user     T_User  @relation(fields: [userId], references: [uid])
-  userId   Int // relation scalar field (used in the `@relation` attribute above)
-  item     Item    @relation(fields: [itemId], references: [id])
-  itemId   Int // relation scalar field (used in the `@relation` attribute above)
-  unlocked Boolean
-  choosed  Boolean
+  user    T_User  @relation(fields: [userId], references: [uid])
+  userId  Int // relation scalar field (used in the `@relation` attribute above)
+  item    Item    @relation(fields: [itemId], references: [id])
+  itemId  Int // relation scalar field (used in the `@relation` attribute above)
+  // unlocked Boolean
+  choosed Boolean
 
   @@id([userId, itemId])
 }
@@ -184,8 +186,9 @@ model UserAchievement {
 // Match History ##########################################################################
 
 enum GameMode {
-  MODE1
-  MODE2
+  RANDOM
+  AGAINST_FRIEND
+  AGAINST_ROBOT
 }
 
 model MatchHistory {
@@ -195,8 +198,8 @@ model MatchHistory {
   winner      Int
   loserUser   T_User   @relation("loser", fields: [loser], references: [uid])
   loser       Int
-  winnerScore Int
-  loserScore  Int
+  winnerScore Int //Minis 0 and Max is 7
+  loserScore  Int //Minis 0 and Max is 7
   gameMode    GameMode
   startAt     DateTime @default(now())
   endAt       DateTime @default(now())

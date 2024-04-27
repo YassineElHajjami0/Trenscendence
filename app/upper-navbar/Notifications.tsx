@@ -8,15 +8,13 @@ import { userToken } from "../Atoms/userToken";
 import { loggedUser } from "../Atoms/logged";
 import { io } from "socket.io-client";
 
-
-const socket = io("http://localhost:3001", { transports : ['websocket'] });
+const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
 function Notifications({ showNotif }: { showNotif: boolean }) {
   const userTok = useRecoilValue(userToken);
   const loggedU = useRecoilValue(loggedUser);
 
-  const [myNotifications, setMyNotifications] =
-    useRecoilState(userNotifications);
+  const [myNotifications, setMyNotifications] = useRecoilState(userNotifications);
 
   useEffect(() => {
     const handleReceivedNotification = (notif: any) => {
@@ -30,6 +28,7 @@ function Notifications({ showNotif }: { showNotif: boolean }) {
   }, []);
 
   const getNotifications = async () => {
+    if (loggedU === -1) return;
     try {
       const res = await fetch(
         `http://localhost:3000/notifications/${loggedU}`,
@@ -49,8 +48,6 @@ function Notifications({ showNotif }: { showNotif: boolean }) {
   useEffect(() => {
     getNotifications();
   }, []);
-
-  
 
   return (
     <div

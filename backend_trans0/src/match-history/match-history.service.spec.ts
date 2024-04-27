@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MatchHistoryService } from './match-history.service';
+import { MatchHistoryService } from './MatchHistoryService';
 
 describe('MatchHistoryService', () => {
   let service: MatchHistoryService;

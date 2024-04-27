@@ -13,8 +13,24 @@ import { PlayerInfo } from "./Interfaces/playerInfoInterface";
 import { loggedUser } from "./Atoms/logged";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
+import Cookies from 'js-cookie';
+
+interface dataInterface {
+  createdAt: string;
+  endAt: string;
+  gameMode: string;
+  loserName: string;
+  loserScore: number;
+  startAt: string;
+  winnerName: string;
+  winnerScore: number;
+  result: string;
+}
 
 export default function Home() {
+
+  console.log('3aaaaaaa=======>',Cookies.get('userData'));
+  
   const [logged, setLogged] = useRecoilState(loggedUser);
   useEffect(() => {
     const token = localStorage.getItem("loggedUser");
@@ -22,7 +38,7 @@ export default function Home() {
   }, []);
 
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(true);
+  const [data, setData] = useState<dataInterface[]>();
   const userTok = useRecoilValue(userToken);
   useEffect(() => {
     setTimeout(() => {
@@ -137,30 +153,36 @@ export default function Home() {
               </Link>
             </div>
             <div className="latests">
-              {player_data.matches.map((e) => {
-                return e.todaysMatches.map((match) => {
-                  if (flag === 3) return;
-                  flag++;
+              {data?.map((match) => {
+                if (flag === 3) return;
+                flag++;
 
-                  return (
-                    <div className="line" key={match.hour}>
-                      <div className="player">
-                        {player_data.username} <span>{match.mygoals}</span>
-                      </div>
-                      <div className="gamestatus">
-                        <div
-                          className={match.result === "WIN" ? "win" : "lose"}
-                        >
-                          {match.result}
+                return (
+                  <div className="line" key={match.createdAt}>
+                    <div className="player">
+                      {match.winnerName} <span>{match.winnerScore}</span>
+                    </div>
+                    <div className="gamestatus">
+                      <div className={match.result === "WIN" ? "win" : "lose"}>
+                        <div className="gameDate">
+                          {new Date(match.createdAt).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            }
+                          )}
                         </div>
-                      </div>
-                      <div className="opponent">
-                        <span>{match.opponentgoals}</span>
-                        {match.opponent}
+                        {match.result}
                       </div>
                     </div>
-                  );
-                });
+                    <div className="opponent">
+                      <span>{match.loserScore}</span>
+                      {match.loserName}
+                    </div>
+                  </div>
+                );
               })}
             </div>
           </div>
