@@ -33,7 +33,6 @@ export class AuthService {
 
   async signUpWith42(createUserDto: CreateUserDto) {
     let user = await this.usersService.findByEmail(createUserDto.email);
-    console.log(user);
     if (!user) {
       user = await this.signUp(createUserDto);
     }
