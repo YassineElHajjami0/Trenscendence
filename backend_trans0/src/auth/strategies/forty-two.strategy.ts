@@ -20,7 +20,7 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
   // store in req the user
   async validate(accessToken: string, refreshToken: string, profile: any) {
     const { login, email } = profile._json;
-    const user = await this.authService.signUpWith42({
+    const user = await this.authService.signUpWithProvider({
       username: login,
       email: email,
       password: this.authService.generateRandomPassword(10),

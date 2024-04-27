@@ -16,6 +16,7 @@ import { Public } from './decorators/public.decorator';
 import { FortyTwoGuard } from './guards/forty-two-auth.guard';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { CustomValidationPipe } from './pipes/user.validation.pipe';
+import { GoogleGuard } from './guards/google-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -75,6 +76,35 @@ export class AuthController {
   @Get('fortyTwo/redirect')
   @Public()
   @Redirect('http://localhost:3002/login', 302)
+  async fortyTwoAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
+    const createUserDto = {
+      username: req.user.username,
+      email: req.user.email,
+      password: req.user.password,
+    };
+
+    const cookies = await this.authService.signUpWithProvider(createUserDto);
+    // this.setCookie(res, cookies.bearer_token);
+
+    res.cookie('loggedUser', cookies.uid, { httpOnly: true });
+    res.cookie('userToken', cookies.bearer_token, { httpOnly: true });
+    return {
+      user_token: cookies.bearer_token,
+      user: cookies.uid,
+    };
+  }
+
+  @Get('google')
+  @UseGuards(GoogleGuard)
+  @Public()
+  async googleAuth() {
+    return {};
+  }
+
+  @Get('google/redirect')
+  @UseGuards(GoogleGuard)
+  @Public()
+  @Redirect('http://localhost:3002/login', 302)
   async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
     const createUserDto = {
       username: req.user.username,
@@ -82,7 +112,7 @@ export class AuthController {
       password: req.user.password,
     };
 
-    const cookies = await this.authService.signUpWith42(createUserDto);
+    const cookies = await this.authService.signUpWithProvider(createUserDto);
     // this.setCookie(res, cookies.bearer_token);
 
     res.cookie('loggedUser', cookies.uid, { httpOnly: true });
