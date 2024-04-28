@@ -74,7 +74,7 @@ export class AuthController {
   @UseGuards(FortyTwoGuard)
   @Get('fortyTwo/redirect')
   @Public()
-  @Redirect('http://localhost:5252/login', 302)
+  @Redirect('http://localhost:5252/profile', 302)
   async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
     const createUserDto = {
       username: req.user.username,
