@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUploadDto } from './dto/create-upload.dto';
 import { UpdateUploadDto } from './dto/update-upload.dto';
+import * as fs from 'fs';
+import * as path from 'path';
+import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class UploadService {
+  constructor(private readonly databaseService: DatabaseService) {}
+
   create(createUploadDto: CreateUploadDto) {
     return 'This action adds a new upload';
   }
@@ -22,5 +27,20 @@ export class UploadService {
 
   remove(id: number) {
     return `This action removes a #${id} upload`;
+  }
+
+  async saveFile(files: Array<Express.Multer.File>) {
+    try {
+      const filePath = path.join(
+        process.cwd(),
+        'public',
+        files[0].originalname,
+      );
+      await fs.promises.writeFile(filePath, files[0].buffer);
+      // await this.databaseService.item.create();
+      return 'Uploaded successfully';
+    } catch (error) {
+      return error.message;
+    }
   }
 }

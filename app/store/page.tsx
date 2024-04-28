@@ -148,6 +148,7 @@ const Store = () => {
         userId: userId,
         itemId: id,
         choosed: true,
+        oldId: choosedArticle?.id,
       }),
     })
       .then(() => {

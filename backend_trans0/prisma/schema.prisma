@@ -78,32 +78,33 @@ model Role {
 }
 
 model T_User {
-  uid              Int               @id @default(autoincrement())
-  status           String            @default("online")
-  username         String            @default("")
-  email            String            @unique
-  bio              String            @default("I am a player")
-  password         String
-  twoFA            Boolean           @default(false)
+  uid                   Int                     @id @default(autoincrement())
+  status                String                  @default("online")
+  username              String                  @default("")
+  email                 String                  @unique
+  bio                   String                  @default("I am a player")
+  password              String
+  twoFA                 Boolean                 @default(false)
   // avatar           String            @default("/default.png") // neeeeeed to be updated
-  wallet           Int               @default(0)
-  banner           String            @default("/defaultBanner.jpg") // neeeeeed to be updated
-  level            Int               @default(0)
-  points           Int               @default(0)
-  rank             String            @default("0")
-  win              Int               @default(0)
-  lose             Int               @default(0)
-  role             String            @default("User")
-  strategy         String            @default("local")
-  userItems        UserItem[]
-  usersSendThem    UserFriend[]      @relation("usersSendThem")
-  usersSendMe      UserFriend[]      @relation("usersSendMe")
-  notifications    Notification[]
-  userAchievements UserAchievement[]
-  winMatches       MatchHistory[]    @relation("winner")
-  loseMatches      MatchHistory[]    @relation("loser")
-  roles            Role[]
-  messages         Message[]
+  wallet                Int                     @default(0)
+  banner                String                  @default("/defaultBanner.jpg") // neeeeeed to be updated
+  level                 Int                     @default(0)
+  // points           Int               @default(0)
+  rank                  String                  @default("0")
+  win                   Int                     @default(0)
+  lose                  Int                     @default(0)
+  role                  String                  @default("User")
+  strategy              String                  @default("local")
+  userItems             UserItem[]
+  usersSendThem         UserFriend[]            @relation("usersSendThem")
+  usersSendMe           UserFriend[]            @relation("usersSendMe")
+  notifications         Notification[]
+  userAchievements      UserAchievement[]
+  winMatches            MatchHistory[]          @relation("winner")
+  loseMatches           MatchHistory[]          @relation("loser")
+  roles                 Role[]
+  messages              Message[]
+  UploadImageFromClient UploadImageFromClient[]
 }
 
 // Friends of a user and vise versa ############################################################
@@ -135,13 +136,22 @@ model Item {
   userItems   UserItem[]
 }
 
+// model UploadImageFromClient {
+//   imageUrl String
+//   userId   Int
+//   user     T_User @relation(fields: [userId], references: [uid])
+
+//   @@id(userId)
+// }
+
 model UserItem {
-  user     T_User  @relation(fields: [userId], references: [uid])
-  userId   Int // relation scalar field (used in the `@relation` attribute above)
-  item     Item    @relation(fields: [itemId], references: [id])
-  itemId   Int // relation scalar field (used in the `@relation` attribute above)
+  user    T_User  @relation(fields: [userId], references: [uid])
+  userId  Int // relation scalar field (used in the `@relation` attribute above)
+  item    Item    @relation(fields: [itemId], references: [id])
+  itemId  Int // relation scalar field (used in the `@relation` attribute above)
   // unlocked Boolean
-  choosed  Boolean
+  choosed Boolean
+
   @@id([userId, itemId])
 }
 

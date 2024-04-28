@@ -269,7 +269,7 @@ const Settings = () => {
       const formData = new FormData();
       formData.append("image", file);
 
-      fetch("YOUR_BACKEND_URL", {
+      fetch(`http://localhost:3000/upload?type=${ArticlesType}`, {
         method: "POST",
         body: formData,
       })
@@ -361,7 +361,7 @@ const Settings = () => {
                   id="file-upload"
                   type="file"
                   accept="image/*"
-                  onChange={handleFileUpload}
+                  onChange={hand * -leFileUpload}
                 />
                 <button
                   className="cancel"

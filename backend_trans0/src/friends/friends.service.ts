@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import { FriendDto } from './dto/friendDto';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class FriendsService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) { }
 
   async create(createFriendDto: FriendDto) {
     const { user1Id, user2Id } = createFriendDto;
@@ -30,6 +31,26 @@ export class FriendsService {
   async findAll() {
     return this.databaseService.userFriend.findMany({});
   }
+  async getChoosedAvatarOfUser(uid: number) {
+    const choosedItems = await this.databaseService.userItem.findMany({
+      select: {
+        item: true,
+      },
+      where: {
+        AND: [{ userId: uid }, { choosed: true }],
+      },
+    });
+    // console.log("choosedItems", choosedItems);
+
+    const avatar = choosedItems.filter((item: any) => {
+      if (item.item.type == 'avatar') {
+        return item.item.name;
+      }
+    });
+    const avatarValue =
+      avatar.length > 0 ? avatar[0].item.name : 'default.jpeg';
+    return avatarValue;
+  }
 
   async findOne(id: number) {
     const friends = await this.databaseService.userFriend.findMany({
@@ -38,28 +59,39 @@ export class FriendsService {
         status: 'ACCEPTED',
       },
       include: {
-        usersSendThem: true,
-        usersSendMe: true,
+        usersSendThem: {
+          include: {
+            userItems: true,
+          },
+        },
+        usersSendMe: {
+          include: {
+            userItems: true,
+          },
+        },
       },
     });
-
-    const allFriends = friends
-      .map((friend) => {
+    // ??
+    const allFriends = await Promise.all(
+      friends.map(async (friend) => {
         const friendData =
           friend.user1Id === id ? friend.usersSendMe : friend.usersSendThem;
+        const avatarFriend = await this.getChoosedAvatarOfUser(friendData.uid);
         return {
           uid: friendData.uid,
           name: friendData.username,
           email: friendData.email,
           status: friendData.status,
-          // avatar: friendData.avatar,
+          avatar: avatarFriend,
           fsStatus: friend.status,
         };
-      })
-      .sort((a, b) => {
-        const statusOrder = { online: 1, ingame: 2, offline: 3 };
-        return statusOrder[a.status] - statusOrder[b.status];
-      });
+      }),
+    );
+
+    allFriends.sort((a, b) => {
+      const statusOrder = { online: 1, ingame: 2, offline: 3 };
+      return statusOrder[a.status] - statusOrder[b.status];
+    });
 
     return allFriends;
   }
