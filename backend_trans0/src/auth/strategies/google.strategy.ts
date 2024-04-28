@@ -32,11 +32,10 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     //   strategy: 'google',
     // });
     const user = {
-        username: `${name.givenName}_${name.familyName}`,
-        email: emails[0].value,
-        password: this.authService.generateRandomPassword(10),
-        strategy: 'google',
-
+      username: `${name.givenName}_${name.familyName}`,
+      email: emails[0].value,
+      password: this.authService.generateRandomPassword(10),
+      strategy: 'google',
     }
     // done(null, user);
     return user;
