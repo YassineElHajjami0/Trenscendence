@@ -32,7 +32,10 @@ export class AuthService {
   }
 
   async signUpWithProvider(createUserDto: CreateUserDto) {
+    console.log("hhhhhhhhhhh>>>>>>>>",createUserDto.email);
+    
     let user = await this.usersService.findByEmail(createUserDto.email);
+
     if (!user) {
       user = await this.signUp(createUserDto);
     }

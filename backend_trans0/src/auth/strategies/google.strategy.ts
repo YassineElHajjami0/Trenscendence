@@ -25,14 +25,20 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   ): Promise<any> {
     const { name, emails } = profile;
 
-    const user = await this.authService.signUpWithProvider({
-      username: `${name.givenName}_${name.familyName}`,
-      email: emails[0].value,
-      password: this.authService.generateRandomPassword(10),
-      strategy: 'google',
-    });
+    // const user = await this.authService.signUpWithProvider({
+    //   username: `${name.givenName}_${name.familyName}`,
+    //   email: emails[0].value,
+    //   password: this.authService.generateRandomPassword(10),
+    //   strategy: 'google',
+    // });
+    const user = {
+        username: `${name.givenName}_${name.familyName}`,
+        email: emails[0].value,
+        password: this.authService.generateRandomPassword(10),
+        strategy: 'google',
 
-    done(null, user);
+    }
+    // done(null, user);
     return user;
   }
 }

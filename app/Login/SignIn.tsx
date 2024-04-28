@@ -23,7 +23,6 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const [err, setErr] = useState("");
   const router = useRouter();
 
-
   useEffect(() => {
     setEmail("");
     setUsername("");
@@ -56,7 +55,6 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       setUserTok(data.user_token);
       router.push("/");
     } catch (error: any) {
-
       console.log("catch error >> >", error);
     }
   };
@@ -88,7 +86,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
       router.push("/");
     } catch (error: any) {
-      console.log("catch errrrr >>>>",error);
+      console.log("catch errrrr >>>>", error);
     }
   };
   const signUpFunction = signInUp ? signup : loggin;
@@ -140,15 +138,10 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
       <h1>OR</h1>
       <div className="outher_methods">
-        <button 
-        onClick={authGoogle}
-        
-        className="other_login">
+        <button onClick={authGoogle} className="other_login">
           <Image src={ggl} width={26} height={26} alt="google auth" /> google
         </button>
-        <button
-         onClick={auth42}
-          className="other_login">
+        <button onClick={auth42} className="other_login">
           <Image src={intra} width={26} height={26} alt="42 auth" /> intra
         </button>
       </div>
