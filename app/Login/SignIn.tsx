@@ -23,16 +23,12 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const [err, setErr] = useState("");
   const router = useRouter();
 
-  const getCoo = Cookies.get("userData");
-  let parsedCoo;
-  if (getCoo) parsedCoo = JSON.parse(getCoo);
-  console.log("cooooookies>>>>>>>", parsedCoo);
 
-  // useEffect(() => {
-  //   setEmail("");
-  //   setUsername("");
-  //   setPass("");
-  // }, [signInUp]);
+  useEffect(() => {
+    setEmail("");
+    setUsername("");
+    setPass("");
+  }, [signInUp]);
 
   const signup = async (e: any) => {
     e.preventDefault();
@@ -60,7 +56,8 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       setUserTok(data.user_token);
       router.push("/");
     } catch (error: any) {
-      console.log("error >> >", error.message);
+
+      console.log("catch error >> >", error);
     }
   };
 
@@ -91,13 +88,16 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
       router.push("/");
     } catch (error: any) {
-      console.log(error.message);
+      console.log("catch errrrr >>>>",error);
     }
   };
   const signUpFunction = signInUp ? signup : loggin;
 
   const auth42 = async () => {
     router.push("http://localhost:3000/auth/login-42");
+  };
+  const authGoogle = async () => {
+    router.push("http://localhost:3000/auth/google");
   };
 
   return (
@@ -140,10 +140,15 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
       <h1>OR</h1>
       <div className="outher_methods">
-        <button className="other_login">
+        <button 
+        onClick={authGoogle}
+        
+        className="other_login">
           <Image src={ggl} width={26} height={26} alt="google auth" /> google
         </button>
-        <button onClick={auth42} className="other_login">
+        <button
+         onClick={auth42}
+          className="other_login">
           <Image src={intra} width={26} height={26} alt="42 auth" /> intra
         </button>
       </div>
