@@ -8,10 +8,11 @@ import { jwtConstants } from './enums/constants';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { FortyTwoStrategy } from './strategies/forty-two.strategy';
 import { AuthController } from './auth.controller';
+import { GoogleStrategy } from './strategies/google.strategy';
 
 @Module({
   imports: [
-    PassportModule,
+    PassportModule.register({ session: false }),
     UsersModule,
     JwtModule.register({
       secret: jwtConstants.secret,
@@ -19,7 +20,7 @@ import { AuthController } from './auth.controller';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, FortyTwoStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, FortyTwoStrategy, GoogleStrategy],
   exports: [AuthService],
 })
 export class AuthModule { }

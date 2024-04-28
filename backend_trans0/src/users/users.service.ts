@@ -57,6 +57,15 @@ export class UsersService {
   }
 
   async getChoosedAvatarOfUser(uid: number) {
+    const avatar = await this.databaseService.t_User.findUnique({
+      where: { uid },
+      select: {
+        avatar: true,
+      },
+    });
+    if (avatar.avatar.length > 0) {
+      return avatar.avatar;
+    }
     const choosedItems = await this.databaseService.userItem.findMany({
       select: {
         item: true,
@@ -67,12 +76,13 @@ export class UsersService {
     });
     // console.log("choosedItems", choosedItems);
 
-    const avatar = choosedItems.filter((item: any) => {
+    const avatarOfUser = choosedItems.filter((item: any) => {
       if (item.item.type == 'avatar') {
         return item.item.img;
       }
     });
-    const avatarValue = avatar.length > 0 ? avatar[0].item.img : 'default.jpeg';
+    const avatarValue =
+      avatarOfUser.length > 0 ? avatarOfUser[0].item.name : '/default.png';
     return avatarValue;
   }
 
@@ -222,7 +232,6 @@ export class UsersService {
       updateUserDto.confirmedPassword &&
       updateUserDto.oldPassword
     ) {
-      console.log('HERE------>>');
       const userInDb = await this.findOne(uid);
 
       const user = await this.validateUser(

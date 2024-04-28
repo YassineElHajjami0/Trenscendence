@@ -9,6 +9,31 @@
   padding: 20px;
 }
 
+.from_errors {
+  color: var(--main-red);
+
+  font-weight: 900;
+  align-self: flex-start;
+  animation: shake 0.5s ease-in-out;
+}
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .sign_in_container h1 {
   font-size: 25px;
   font-weight: 300;
@@ -28,8 +53,15 @@
   background-color: #27272a;
   outline: none;
   border: none;
+  overflow: hidden;
 }
-
+.hide_pass {
+  height: 0;
+  width: 0;
+  font-size: 0;
+  padding: 0;
+  margin: 0;
+}
 .sign_in_ships::placeholder {
   text-transform: uppercase;
   color: white;
@@ -42,7 +74,9 @@
   background-color: #1ce14e;
   font-size: 20px;
 }
-
+.lets_not_play {
+  background-color: var(--main-red);
+}
 .btn svg {
   font-size: 30px;
   animation: rightSignal 3s ease-in-out 2s infinite alternate;
@@ -78,10 +112,6 @@
 .other_login:active,
 button.sign_in_ships:active {
   scale: 0.95;
-}
-
-.hide_pass {
-  display: none;
 }
 
 @keyframes rightSignal {

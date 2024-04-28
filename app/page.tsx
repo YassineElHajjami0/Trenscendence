@@ -14,6 +14,7 @@ import { loggedUser } from "./Atoms/logged";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
 import router from "next/router";
+import Cookies from "js-cookie";
 
 interface dataInterface {
   createdAt: string;
@@ -28,6 +29,8 @@ interface dataInterface {
 }
 
 export default function Home() {
+  console.log("3aaaaaaa=======>", Cookies.get("userData"));
+
   const [logged, setLogged] = useRecoilState(loggedUser);
   useEffect(() => {
     const token = localStorage.getItem("loggedUser");
@@ -154,37 +157,40 @@ export default function Home() {
               </Link>
             </div>
             <div className="latests">
-              {data?.map((match) => {
-                if (flag === 3) return;
-                flag++;
+              {data &&
+                data?.map((match) => {
+                  if (flag === 3) return;
+                  flag++;
 
-                return (
-                  <div className="line" key={match.createdAt}>
-                    <div className="player">
-                      {match.opponent} <span>{match.opponentScore}</span>
-                    </div>
-                    <div className="gamestatus">
-                      <div className={match.result === "WIN" ? "win" : "lose"}>
-                        <div className="gameDate">
-                          {new Date(match.createdAt).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                            }
-                          )}
+                  return (
+                    <div className="line" key={match.createdAt}>
+                      <div className="player">
+                        {match.opponent} <span>{match.opponentScore}</span>
+                      </div>
+                      <div className="gamestatus">
+                        <div
+                          className={match.result === "WIN" ? "win" : "lose"}
+                        >
+                          <div className="gameDate">
+                            {new Date(match.createdAt).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                              }
+                            )}
+                          </div>
+                          {match.result}
                         </div>
-                        {match.result}
+                      </div>
+                      <div className="opponent">
+                        <span>{match.myScore}</span>
+                        {match.me}
                       </div>
                     </div>
-                    <div className="opponent">
-                      <span>{match.myScore}</span>
-                      {match.me}
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           </div>
         </main>

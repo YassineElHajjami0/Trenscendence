@@ -41,7 +41,7 @@ export default function Login() {
           </div>
           <SignIn signInUp={signInUp as boolean} />
           <h5>
-            you don't have an account?{" "}
+            you {!signInUp && "don't"}  have an account?{" "}
             <label onClick={switchSides} htmlFor="check">
               Sing {signInUp ? "In" : "Up"}.
             </label>

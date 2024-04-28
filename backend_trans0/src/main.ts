@@ -2,16 +2,21 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    origin: '*',
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-    credentials: true,
-  });
+  const corsOptions: CorsOptions = {
+    origin: '*', // Replace with your frontend domain
+    methods: ['GET', 'POST'], // Add any other methods your frontend uses
+    allowedHeaders: ['Content-Type', 'Authorization'], // Add any headers your frontend sends
+  };
+
+  // Enable CORS with the specified options
+  app.enableCors(corsOptions);
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
+
   await app.listen(3000);
 }
 

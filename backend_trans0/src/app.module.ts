@@ -28,6 +28,7 @@ import { MulterModule } from '@nestjs/platform-express';
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
+      exclude: ['/api/(.*)'],
     }),
     UsersModule,
     DatabaseModule,

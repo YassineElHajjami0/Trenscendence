@@ -22,6 +22,8 @@ enum Status {
   PENDING
   ACCEPTED
   BLOCKED
+  DENIED
+  NONE
 }
 
 enum NotificationType {
@@ -78,33 +80,46 @@ model Role {
 }
 
 model T_User {
-  uid                   Int                     @id @default(autoincrement())
-  status                String                  @default("online")
-  username              String                  @default("")
-  email                 String                  @unique
-  bio                   String                  @default("I am a player")
-  password              String
-  twoFA                 Boolean                 @default(false)
-  // avatar           String            @default("/default.png") // neeeeeed to be updated
-  wallet                Int                     @default(0)
-  banner                String                  @default("/defaultBanner.jpg") // neeeeeed to be updated
-  level                 Int                     @default(0)
+  uid              Int               @id @default(autoincrement())
+  status           String            @default("online")
+  username         String            @default("")
+  email            String            @unique
+  bio              String            @default("I am a player")
+  password         String
+  twoFA            Boolean           @default(false)
+  avatar           String            @default("")
+  wallet           Int               @default(0)
+  banner           String            @default("/defaultBanner.jpg") // neeeeeed to be updated
+  level            Int               @default(0)
   // points           Int               @default(0)
-  rank                  String                  @default("0")
-  win                   Int                     @default(0)
-  lose                  Int                     @default(0)
-  role                  String                  @default("User")
-  strategy              String                  @default("local")
-  userItems             UserItem[]
-  usersSendThem         UserFriend[]            @relation("usersSendThem")
-  usersSendMe           UserFriend[]            @relation("usersSendMe")
-  notifications         Notification[]
-  userAchievements      UserAchievement[]
-  winMatches            MatchHistory[]          @relation("winner")
-  loseMatches           MatchHistory[]          @relation("loser")
-  roles                 Role[]
-  messages              Message[]
-  UploadImageFromClient UploadImageFromClient[]
+  rank             String            @default("0")
+  win              Int               @default(0)
+  lose             Int               @default(0)
+  role             String            @default("User")
+  strategy         String            @default("local")
+  userItems        UserItem[]
+  usersSendThem    UserFriend[]      @relation("usersSendThem")
+  usersSendMe      UserFriend[]      @relation("usersSendMe")
+  renotifications  Notification[]    @relation("received")
+  senotifications  Notification[]    @relation("sended")
+  userAchievements UserAchievement[]
+  winMatches       MatchHistory[]    @relation("winner")
+  loseMatches      MatchHistory[]    @relation("loser")
+  roles            Role[]
+  messages         Message[]
+}
+
+// Notification of a user  ##########################################################################
+model Notification {
+  id        Int              @id @default(autoincrement())
+  type      NotificationType
+  content   String
+  createdAt DateTime         @default(now())
+  read      Boolean          @default(false)
+  ruser     T_User           @relation("received", fields: [ruserId], references: [uid])
+  ruserId   Int
+  suser     T_User           @relation("sended", fields: [suserId], references: [uid])
+  suserId   Int
 }
 
 // Friends of a user and vise versa ############################################################
@@ -113,7 +128,7 @@ model UserFriend {
   user1Id       Int
   usersSendMe   T_User @relation("usersSendMe", fields: [user2Id], references: [uid])
   user2Id       Int
-  status        Status @default(PENDING)
+  status        Status @default(NONE)
 
   @@id([user1Id, user2Id])
 }
@@ -153,17 +168,6 @@ model UserItem {
   choosed Boolean
 
   @@id([userId, itemId])
-}
-
-// Notification of a user  ##########################################################################
-model Notification {
-  id        Int              @id @default(autoincrement())
-  type      NotificationType
-  content   String
-  createdAt DateTime         @default(now())
-  read      Boolean          @default(false)
-  user      T_User           @relation(fields: [userId], references: [uid])
-  userId    Int
 }
 
 // User Achievement  ##########################################################################

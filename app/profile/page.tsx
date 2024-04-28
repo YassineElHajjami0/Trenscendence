@@ -68,7 +68,7 @@ const Profile = () => {
           77deg,
           rgba(0, 0, 0, 1) 30%,
           rgba(255, 255, 255, 0) 100%
-        ), url(${userData?.banner})`,
+        ), url(http://localhost:3000/bn${userData?.banner})`,
         }}
         className="user_account"
       >
@@ -78,7 +78,8 @@ const Profile = () => {
         </div>
 
         <Image
-          src={userData?.avatar}
+          src={`http://localhost:3000/av/${userData?.avatar}`}
+          // src={userData?.avatar}
           width={2000}
           height={2000}
           alt="profile_avatar"
@@ -88,7 +89,7 @@ const Profile = () => {
         <div className="profile_data">
           <h1>{userData?.username}</h1>
           <h4 className="profile_username">
-            <PiCurrencyEthFill /> {userData?.points}
+            <PiCurrencyEthFill /> {userData?.wallet}
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
           <h2 className="profile_user_lvl">

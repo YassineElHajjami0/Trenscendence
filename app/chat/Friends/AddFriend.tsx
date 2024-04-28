@@ -12,21 +12,21 @@ export default function AddFriend({ user }: { user: any }) {
   const loggedU = useRecoilValue(loggedUser);
 
   const addFriend = async () => {
-    const dataF = {
-      user1Id: loggedU,
-      user2Id: user.uid,
-      status: "ACCEPTED",
+    const notifData = {
+      type: "friendReq",
+      content: "sent you a friend request",
+      suserId: loggedU,
+      ruserId: user.uid,
     };
 
     try {
-      console.log(">>>>>>>>>>>>>>>>helloooooooooo");
-      const res = await fetch("http://localhost:3000/friends", {
+      const res = await fetch("http://localhost:3000/notifications", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userTok}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(dataF),
+        body: JSON.stringify(notifData),
       });
 
       const data = await res.json();
@@ -40,7 +40,7 @@ export default function AddFriend({ user }: { user: any }) {
     <div className="add_friend_conatiner">
       <Image
         className="add_friend_avatar"
-        src={user.avatar}
+        src={`/${user.avatar}`}
         width={1000}
         height={1000}
         alt="avatar"

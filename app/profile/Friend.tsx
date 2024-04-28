@@ -57,7 +57,8 @@ export default function Friend({ friend }: { friend: any }) {
           alt="avatar"
         />
 
-        <span
+        <label
+          htmlFor="friendProfile"
           className={`profile_name ${blocked && "blocked_friend"}  ${
             burgerM && "hideName"
           }`}
@@ -68,10 +69,11 @@ export default function Friend({ friend }: { friend: any }) {
             }`}
           ></div>
           {friend?.name}
-        </span>
+        </label>
 
         <div className={`btn_conatiner ${burgerM && "showParam"}`}>
           <button
+            id="friendProfile"
             onClick={() => setSelectedProfile(friend?.uid)}
             className="friend_component_btn view_profile"
           >

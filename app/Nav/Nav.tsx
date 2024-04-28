@@ -16,10 +16,14 @@ import nextAppLoader from "next/dist/build/webpack/loaders/next-app-loader";
 import { useRecoilState } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
+import { userNotifications } from "../Atoms/notifications";
 
 const Nav = () => {
   const [loggedU, setLoggedU] = useRecoilState(loggedUser);
   const [loggedT, setLoggedT] = useRecoilState(userToken);
+  const [myNotifications, setMyNotifications] =
+    useRecoilState(userNotifications);
+
   return (
     <div className="main-Nav">
       <div className="logo-and-links">
@@ -102,6 +106,7 @@ const Nav = () => {
               onClick={() => {
                 setLoggedU(-1);
                 setLoggedT("");
+                setMyNotifications([]);
               }}
             >
               Log-out

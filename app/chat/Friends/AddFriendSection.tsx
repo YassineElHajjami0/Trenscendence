@@ -15,7 +15,9 @@ const AddFriendSection = () => {
 
   const [input, setInput] = useState("");
   const [allUsers, setAllUsers] = useState([]);
-
+  const filteredUsers = allUsers.filter((user:any) =>
+    user?.username.toLowerCase().includes(input.toLowerCase())
+  );
   const addFriendClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
@@ -53,10 +55,13 @@ const AddFriendSection = () => {
     >
       {addFriend ? (
         <div onClick={addFriendClick} className="add_friend_container">
-          <input type="text" placeholder="Add friend" />
+          <input
+          value={input}
+          onChange={(e)=>setInput(e.target.value)}
+          type="text" placeholder="Add friend" />
 
           <div className="searchedFriends">
-            {allUsers?.map((user: any) => (
+            {filteredUsers?.map((user: any) => (
               <AddFriend key={user.uid} user={user} />
             ))}
           </div>

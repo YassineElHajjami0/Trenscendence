@@ -29,15 +29,17 @@ export class UploadService {
     return `This action removes a #${id} upload`;
   }
 
-  async saveFile(files: Array<Express.Multer.File>) {
+  async saveFile(uid: number, file: Express.Multer.File) {
     try {
-      const filePath = path.join(
-        process.cwd(),
-        'public',
-        files[0].originalname,
-      );
-      await fs.promises.writeFile(filePath, files[0].buffer);
-      // await this.databaseService.item.create();
+      const filePath = path.join(process.cwd(), 'public', file.originalname);
+      console.log(filePath);
+      await fs.promises.writeFile(filePath, file.buffer);
+      await this.databaseService.t_User.update({
+        where: { uid },
+        data: {
+          avatar: '/' + file.originalname,
+        },
+      });
       return 'Uploaded successfully';
     } catch (error) {
       return error.message;

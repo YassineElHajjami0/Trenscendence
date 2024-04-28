@@ -6,7 +6,7 @@ import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class FriendsService {
-  constructor(private readonly databaseService: DatabaseService) { }
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async create(createFriendDto: FriendDto) {
     const { user1Id, user2Id } = createFriendDto;
@@ -100,7 +100,7 @@ export class FriendsService {
     const friends = await this.databaseService.userFriend.findMany({
       where: {
         OR: [{ user1Id: userId }, { user2Id: userId }],
-        status: 'ACCEPTED',
+        NOT: { status: 'PENDING' },
       },
       select: {
         user1Id: true,
@@ -122,9 +122,15 @@ export class FriendsService {
           },
         },
       },
+      include: { userItems: { where: { choosed: true } } },
     });
 
-    return users;
+    const alteredUers = await users.map((u) => {
+      if (u.userItems.length === 0) {
+        return { ...u, avatar: 'default.png' };
+      } else return u;
+    });
+    return alteredUers;
   }
 
   async update(
