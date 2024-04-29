@@ -87,9 +87,10 @@ model T_User {
   bio              String            @default("I am a player")
   password         String
   twoFA            Boolean           @default(false)
-  avatar           String            @default("")
-  wallet           Int               @default(0)
+  avatar           String            @default("/default.png")
+  paddle           String            @default("/defaultPaddle.png")
   banner           String            @default("/defaultBanner.jpg") // neeeeeed to be updated
+  wallet           Int               @default(0)
   level            Int               @default(0)
   // points           Int               @default(0)
   rank             String            @default("0")
@@ -97,6 +98,7 @@ model T_User {
   lose             Int               @default(0)
   role             String            @default("User")
   strategy         String            @default("local")
+  twoFASecret      String            @default("")
   userItems        UserItem[]
   usersSendThem    UserFriend[]      @relation("usersSendThem")
   usersSendMe      UserFriend[]      @relation("usersSendMe")

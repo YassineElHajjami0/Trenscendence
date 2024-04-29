@@ -5,7 +5,7 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class UserItemsService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) { }
 
   async create(createUserItemDto: Prisma.UserItemCreateInput) {
     return this.databaseService.userItem.create({ data: createUserItemDto });
@@ -16,7 +16,6 @@ export class UserItemsService {
   }
 
   async findUserItems(userId: number) {
-    // console.log(userId);
     const userItems = await this.databaseService.userItem.findMany({
       where: {
         userId: userId,
@@ -44,23 +43,45 @@ export class UserItemsService {
     return this.databaseService.userItem.findMany({ where: { userId: id } });
   }
 
-  async updateOthers(body: any) {
-    const userItems = await this.databaseService.userItem.updateMany({
-      where: { userId: body.userId },
+  async updateOldItem(updateUserItemDto: any) {
+    const ids: Prisma.UserItemUserIdItemIdCompoundUniqueInput = {
+      userId: updateUserItemDto.userId,
+      itemId: updateUserItemDto.oldId,
+    };
+    return this.databaseService.userItem.update({
+      where: { userId_itemId: ids },
       data: { choosed: false },
     });
-    return userItems;
   }
 
   async update(updateUserItemDto: any) {
-    const body: Prisma.UserItemUserIdItemIdCompoundUniqueInput = {
+    console.log(updateUserItemDto);
+    const ids: Prisma.UserItemUserIdItemIdCompoundUniqueInput = {
       userId: updateUserItemDto.userId,
       itemId: updateUserItemDto.itemId,
     };
-    await this.updateOthers(body);
-    return this.databaseService.userItem.update({
-      where: { userId_itemId: body },
-      data: updateUserItemDto,
+
+    if (updateUserItemDto.oldType == updateUserItemDto.type) {
+      await this.updateOldItem(updateUserItemDto);
+    }
+    await this.databaseService.userItem.update({
+      where: { userId_itemId: ids },
+      data: { choosed: updateUserItemDto.choosed },
+    });
+
+    if (updateUserItemDto.type == 'avatar' && updateUserItemDto.avatar) {
+      await this.databaseService.t_User.update({
+        where: { uid: updateUserItemDto.userId },
+        data: { avatar: updateUserItemDto.avatar },
+      });
+    }
+  }
+
+  async updateToFalse(updateUserItemDto: any) {
+    const userId = updateUserItemDto.userId;
+    return await this.databaseService.userItem.updateMany({
+      where: { userId },
+      data: { choosed: false },
     });
   }
 

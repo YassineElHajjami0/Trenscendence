@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
-import * as bcrypt from 'bcrypt';
+import { authenticator } from 'otplib';
 
 @Injectable()
 export class AuthService {
@@ -32,8 +32,6 @@ export class AuthService {
   }
 
   async signUpWithProvider(createUserDto: CreateUserDto) {
-    console.log("hhhhhhhhhhh>>>>>>>>",createUserDto.email);
-    
     let user = await this.usersService.findByEmail(createUserDto.email);
 
     if (!user) {
@@ -65,4 +63,24 @@ export class AuthService {
     }
     return password;
   }
+
+  // async generateTwoFactorAuthenticationSecret(user: CreateUserDto) {
+  //   const secret = authenticator.generateSecret();
+
+  //   const otpAuthUrl = authenticator.keyuri(
+  //     user.email,
+  //     '',
+  //     secret,
+  //   );
+
+  //   await this.usersService.setTwoFactorAuthenticationSecret(
+  //     secret,
+  //     user.userId,
+  //   );
+
+  //   return {
+  //     secret,
+  //     otpAuthUrl,
+  //   };
+  // }
 }
