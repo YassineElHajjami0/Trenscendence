@@ -6,9 +6,12 @@ import {
   Body,
   Res,
   Req,
+  Request,
+  Response,
   Redirect,
   UsePipes,
-  Header,
+  UnauthorizedException,
+  HttpCode,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -17,10 +20,14 @@ import { FortyTwoGuard } from './guards/forty-two-auth.guard';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { CustomValidationPipe } from './pipes/user.validation.pipe';
 import { GoogleGuard } from './guards/google-auth.guard';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UsersService,
+  ) {}
 
   setCookie(@Res() res, bearer_token?: string) {
     if (!bearer_token) bearer_token = '';
@@ -98,7 +105,6 @@ export class AuthController {
     };
   }
 
-
   @Get('google')
   @UseGuards(GoogleGuard)
   @Public()
@@ -131,38 +137,6 @@ export class AuthController {
     };
   }
 
-  // @Get()
-  // async fortyTwoAuth() {
-
-  //   // send a post request
-  //   const credentials = {
-  //     grant_type: 'authorization_code',
-  //     client_id:
-  //       'u-s4t2ud-2eb7839586c2db3c5cb771db02b6ee638d6ae43d54ac0db84c2a8fdbfb61e654',
-  //     client_secret:
-  //       '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',
-  //     redirect_uri: 'http://localhost:3000/auth/fortyTwo/redirect/',
-  //     code: '2cfbc85a4606a5658c65b37a1d469a6d9b7436a45048d9f57037ac5c912159ae',
-  //   };
-  //   const response = await fetch('https://api.intra.42.fr/oauth/token/', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       // Add any other headers if needed, such as authorization headers
-  //     },
-  //     body: JSON.stringify(credentials),
-  //   });
-  //   const data = await response.json();
-  //   // Get user
-  //   const user = await fetch('https://api.intra.42.fr/v2/me/', {
-  //     headers: {
-  //       Authorization: `Bearer ${data.access_token}`,
-  //       'Content-Type': 'application/json',
-  //     },
-  //   });
-  //   return user;
-  // }
-
   @Get('tokens')
   async isTokenExpired(@Req() req) {
     console.log(req.user);
@@ -170,9 +144,45 @@ export class AuthController {
     return { expired: true };
   }
 
-  @Public()
-  @Get('test')
-  test() {
-    return { expired: true };
+  @Get('2fa/turn-on')
+  // @UseGuards(Jwt2faAuthGuard)
+  async register(@Response() response, @Request() request) {
+    const { otpAuthUrl } =
+      await this.authService.generateTwoFactorAuthenticationSecret(
+        request.user,
+      );
+
+    return response.json(
+      await this.authService.generateQrCodeDataURL(otpAuthUrl),
+    );
+  }
+
+  // @Post('2fa/turn-on')
+  // @UseGuards(Jwt2faAuthGuard)
+  // async turnOnTwoFactorAuthentication(@Req() request, @Body() body) {
+  //   const isCodeValid = this.authService.isTwoFactorCodeValid(
+  //     body.twoFactorCode,
+  //     request.user,
+  //   );
+  //   if (!isCodeValid) {
+  //     throw new UnauthorizedException('Wrong authentication code');
+  //   }
+  //   await this.userService.turnOnTwoFA(request.user.id);
+  // }
+
+  @Post('2fa/authenticate')
+  // @UseGuards(Jwt2faAuthGuard)
+  @HttpCode(200)
+  async authenticate(@Request() request, @Body() body) {
+    console.log(request.user);
+    const isCodeValid = this.authService.isTwoFactorCodeValid(
+      body.twoFactorCode,
+      request.user,
+    );
+
+    if (!isCodeValid) {
+      throw new UnauthorizedException('Wrong authentication code');
+    }
+    return this.authService.loginWith2fa(request.user);
   }
 }

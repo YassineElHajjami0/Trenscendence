@@ -41,4 +41,5 @@ export class CreateUserDto {
   strategy?: string;
   role?: string;
   wallet?: number;
+  twoFASecret?: string;
 }

@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { authenticator } from 'otplib';
+import { toDataURL } from 'qrcode';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,7 @@ export class AuthService {
 
   async validateUserId(uid: number) {
     const user = await this.usersService.validateUserId(uid);
-    return user === undefined;
+    return user;
   }
 
   async validateUser(username: string, pass: string): Promise<any> {
@@ -22,7 +23,12 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.uid, role: user.role };
+    const payload = {
+      username: user.username,
+      sub: user.uid,
+      role: user.role,
+      twoFASecret: user.twoFASecret,
+    };
     return this.jwtService.sign(payload);
   }
 
@@ -64,23 +70,51 @@ export class AuthService {
     return password;
   }
 
-  // async generateTwoFactorAuthenticationSecret(user: CreateUserDto) {
-  //   const secret = authenticator.generateSecret();
+  // Two FA Section
+  // 1
+  async generateTwoFactorAuthenticationSecret(user: CreateUserDto) {
+    const secret = authenticator.generateSecret();
 
-  //   const otpAuthUrl = authenticator.keyuri(
-  //     user.email,
-  //     '',
-  //     secret,
-  //   );
+    const otpAuthUrl = authenticator.keyuri(
+      user.email,
+      'Transcendance',
+      secret,
+    );
+    await this.usersService.setTwoFaSecret(secret, user.uid);
+    await this.usersService.turnOnTwoFA(user.uid);
 
-  //   await this.usersService.setTwoFactorAuthenticationSecret(
-  //     secret,
-  //     user.userId,
-  //   );
+    return {
+      secret,
+      otpAuthUrl,
+    };
+  }
 
-  //   return {
-  //     secret,
-  //     otpAuthUrl,
-  //   };
-  // }
+  // 2
+  async generateQrCodeDataURL(otpAuthUrl: string) {
+    return toDataURL(otpAuthUrl);
+  }
+
+  // 3
+  isTwoFactorCodeValid(twoFaCode: string, user: any) {
+    console.log(twoFaCode);
+    console.log('---> ', user.twoFASecret);
+    return authenticator.verify({
+      token: twoFaCode,
+      secret: user.twoFASecret,
+    });
+  }
+
+  // 3
+  async loginWith2fa(userWithoutPsw: Partial<CreateUserDto>) {
+    const payload = {
+      email: userWithoutPsw.email,
+      isTwoFactorAuthenticationEnabled: !!userWithoutPsw.twoFA,
+      isTwoFactorAuthenticated: true,
+    };
+
+    return {
+      email: payload.email,
+      access_token: this.jwtService.sign(payload),
+    };
+  }
 }

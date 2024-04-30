@@ -14,7 +14,7 @@ export class UsersService {
 
   async validateUserId(uid: number) {
     const user = await this.findOne(uid);
-    return user === undefined;
+    return user;
   }
 
   async validateUser(username: string, pass: string): Promise<any> {
@@ -109,7 +109,15 @@ export class UsersService {
     });
   }
 
+  async setTwoFaSecret(twoFASecret: string, uid: number) {
+    this.update(uid, { twoFASecret });
+  }
+
   async remove(uid: number) {
     return this.databaseService.t_User.delete({ where: { uid } });
+  }
+
+  async turnOnTwoFA(uid: number) {
+    this.update(uid, { twoFA: true });
   }
 }

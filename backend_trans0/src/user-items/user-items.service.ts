@@ -60,7 +60,6 @@ export class UserItemsService {
       userId: updateUserItemDto.userId,
       itemId: updateUserItemDto.itemId,
     };
-
     if (updateUserItemDto.oldType == updateUserItemDto.type) {
       await this.updateOldItem(updateUserItemDto);
     }
