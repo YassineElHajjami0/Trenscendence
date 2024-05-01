@@ -20,7 +20,7 @@ const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
       <div className="chat_list_avatar_container">
         <Image
           className="chat_list_avatar"
-          src={friendData?.avatar}
+          src={`/${friendData?.avatar}`}
           width={2000}
           height={2000}
           alt="avatar"
@@ -32,7 +32,7 @@ const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
         ></span>
       </div>
       <div className="chat_list_name">
-        <h1>{friendData?.name}</h1>
+        <h1>{friendData?.username}</h1>
         <h4>{friendData?.lastMSG}</h4>
       </div>
     </div>

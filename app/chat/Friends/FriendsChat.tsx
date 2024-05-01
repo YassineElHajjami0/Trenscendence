@@ -8,11 +8,32 @@ import { loggedUser } from "@/app/Atoms/logged";
 import { slctdFriend } from "@/app/Atoms/friendAtom";
 import { mheaders } from "@/app/util/headers";
 import { userToken } from "@/app/Atoms/userToken";
+import { socket } from "@/app/sockets/socket";
 
 export default function FriendsChat() {
   const loggedUserUID = useRecoilValue(loggedUser);
   const userTok = useRecoilValue(userToken);
-  const [myFriends, setMyFriends] = useState([]);
+  const [myFriends, setMyFriends] = useState<any[]>([]);
+
+  useEffect(() => {
+    const updateFriends = (friend: any) => {
+      const currFriend =
+        friend.usersSendThem.uid === loggedUserUID
+          ? friend.usersSendMe
+          : friend.usersSendThem;
+      if (loggedUserUID === friend.user1Id || loggedUserUID === friend.user2Id) {
+
+        setMyFriends((prev: any) => [...prev, currFriend]);
+      }
+    };
+
+    socket.on("update_friend_list", updateFriends);
+    return () => {
+      socket.off("update_friend_list");
+    };
+  }, []);
+  console.log("------->my friends", myFriends);
+
   const getMyFriends = async () => {
     try {
       const response = await fetch(
@@ -24,11 +45,7 @@ export default function FriendsChat() {
           },
         }
       );
-      if (!response) {
-        console.log("Error000");
-      }
       const data = await response.json();
-      console.log("------->my friends", data);
 
       setMyFriends(data);
     } catch (error) {

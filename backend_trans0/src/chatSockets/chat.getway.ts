@@ -24,6 +24,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   sendNotification(notification: any) {
     this.server.emit('notification', notification);
   }
+  deleteNotification(notification: any) {
+    this.server.emit('delete_notification', notification);
+  }
 
-
+  updateFriendList(friend: any) {
+    this.server.emit('update_friend_list', friend);
+  }
 }

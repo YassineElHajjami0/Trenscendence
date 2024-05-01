@@ -12,6 +12,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { BsTransparency } from "react-icons/bs";
 
 export default function Stats() {
   const player_data: any = playerData;
@@ -22,7 +23,6 @@ export default function Stats() {
   const [chartData, setChartData] = useState(() =>
     transformPlayerData(player_data)
   );
-
 
   function transformPlayerData(player_data: any) {
     const dataArray = player_data.stats.map((stat: any) => {
@@ -67,19 +67,22 @@ export default function Stats() {
     setChartData(transformPlayerData(player_data));
   }, [statsSwitch]);
 
+  const axisLineProps = { stroke: "white", opacity: "0.6" };
+  const tickProps = { fill: "white", opacity: "0.6" };
+
   return (
     <div className="stats_container">
       <ResponsiveContainer className="chart" width="100%" height="90%">
         <AreaChart data={chartData}>
           <XAxis
             dataKey="name"
-            axisLine={{ stroke: "white" }}
-            tick={{ fill: "white" }}
+            axisLine={{ stroke: "white", opacity: "0.6"}}
+            tick={{ fill: "white", opacity: "0.6"}}
           />
           <YAxis
             domain={statsSwitch.state === "w/l" ? [0, 100] : undefined}
-            axisLine={{ stroke: "white" }}
-            tick={{ fill: "white" }}
+            axisLine={{ stroke: "white", opacity: "0"}}
+            tick={{ fill: "white", opacity: "0" }}
           />
           <Tooltip />
           <defs>

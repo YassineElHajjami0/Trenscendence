@@ -44,9 +44,8 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
 
   return (
     <div className="friends_container">
-      {userFriends?.length> 0&& userFriends?.map((e: any) => (
-        <Friend friend={e} key={e.uid} />
-      ))}
+      {userFriends?.length > 0 &&
+        userFriends?.map((e: any) => <Friend friend={e} key={e.uid} />)}
     </div>
   );
 }

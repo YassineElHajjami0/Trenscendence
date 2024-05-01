@@ -10,15 +10,18 @@ import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
 import { PiCurrencyEthFill } from "react-icons/pi";
 import { selectedFriendProfile } from "../Atoms/selectedFriendProfile";
+import { BsPersonFillAdd } from "react-icons/bs";
+import axios from "axios";
 
 const Profile = () => {
   const uidRef = useRef<HTMLDivElement>(null);
+  const loggedU = useRecoilValue(loggedUser);
+  const userTok = useRecoilValue(userToken);
 
   const [selectedProfile, setSelectedProfile] = useRecoilState(
     selectedFriendProfile
   );
-  const loggedU = useRecoilValue(loggedUser);
-  const userTok = useRecoilValue(userToken);
+  const [isFriend, setIsFriend] = useState(true);
 
   const [userData, setUserData] = useState<any>({});
   // const copyUID = () => {
@@ -37,9 +40,6 @@ const Profile = () => {
   //   }
   // };
 
-  // useEffect(() => {
-  //   setSelectedProfile(-1);
-  // });
   const whichProfile = selectedProfile === -1 ? loggedU : selectedProfile;
   useEffect(() => {
     const getUserData = async () => {
@@ -60,6 +60,30 @@ const Profile = () => {
     getUserData();
   }, [whichProfile]);
 
+  const getIfFriend = async () => {
+    if (selectedProfile === -1 || selectedProfile === loggedU) return;
+
+    console.log("ana hnaaa-------------------------");
+
+    const query = {
+      friendId: selectedProfile,
+    };
+
+    const res = await axios.get(`http://localhost:3000/friends/me/${loggedU}`, {
+      params: query,
+      headers: {
+        Authorization: `Bearer ${userTok}`,
+      },
+    });
+    const data = await res.data;
+    setIsFriend(data);
+    console.log("jjjjjjjjjj>>>>>>>", data);
+  };
+
+  useEffect(() => {
+    getIfFriend();
+  }, [whichProfile]);
+
   return (
     <div className="profile_container">
       <div
@@ -72,19 +96,24 @@ const Profile = () => {
         }}
         className="user_account"
       >
-        <div className="edit_label">
-          <span>Edit</span>
-          <MdOutlineEdit />
-        </div>
+        {(selectedProfile === -1 || loggedU === selectedProfile) && (
+          <div className="edit_label">
+            <span>Edit</span>
+            <MdOutlineEdit />
+          </div>
+        )}
 
-        <Image
-          src={`http://localhost:3000/av/${userData?.avatar}`}
-          // src={userData?.avatar}
-          width={2000}
-          height={2000}
-          alt="profile_avatar"
-          className="profile_photo"
-        />
+        <div className="img_container_add">
+          <Image
+            src={`http://localhost:3000/av/${userData?.avatar}`}
+            // src={userData?.avatar}
+            width={2000}
+            height={2000}
+            alt="profile_avatar"
+            className="profile_photo"
+          />
+          {!isFriend && <BsPersonFillAdd className="add_me_if_not" />}
+        </div>
 
         <div className="profile_data">
           <h1>{userData?.username}</h1>
@@ -101,7 +130,7 @@ const Profile = () => {
           <div className="progress">
             <div
               style={{
-                width: `${userData?.level}%`,
+                width: `${userData?.level + 50}%`,
               }}
               className="pseudoProgress"
             ></div>

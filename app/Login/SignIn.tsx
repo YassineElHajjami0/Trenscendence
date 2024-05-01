@@ -12,15 +12,17 @@ import { useRouter } from "next/navigation";
 
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
-import Cookies from "js-cookie";
+import axios from "axios";
 
 export default function SignIn({ signInUp }: { signInUp: boolean }) {
+  // axios.defaults.headers.common["Content-Type"] = "application/json";
+
   const [loggedU, setLoggedU] = useRecoilState(loggedUser);
   const [userTok, setUserTok] = useRecoilState(userToken);
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [pass, setPass] = useState("");
-  const [err, setErr] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [pass, setPass] = useState<string>("");
+  const [err, setErr] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
@@ -29,67 +31,32 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     setPass("");
   }, [signInUp]);
 
-  const signup = async (e: any) => {
+  const signUpFunction = async (e: any) => {    
     e.preventDefault();
-    console.log("click>>>>>>>>>>");
-
     const Udata = {
       email: email,
       username: username,
       password: pass,
     };
+    const endpoint = signInUp ? "signup" : "login";
     try {
-      const response = await fetch(`http://localhost:3000/auth/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(Udata),
-      });
-
-      console.log("errrrrrrrrrrrrrrrrrrr");
-
-      const data = await response.json();
-      console.log("useeeeer>>>>>>>", data);
+      const response = await axios.post(
+        `http://localhost:3000/auth/${endpoint}`,
+        Udata
+      );
+      const data = await response.data;
       setLoggedU(data.user.uid);
       setUserTok(data.user_token);
       router.push("/");
     } catch (error: any) {
-      console.log("catch error >> >", error);
+      setErr(error.response.data.message);
+      setTimeout(() => {
+        setErr("");
+      }, 5000);
     }
   };
 
-  const loggin = async (e: any) => {
-    e.preventDefault();
-    console.log("click>>>>>>>>>>");
-
-    const Udata = {
-      username: username,
-      password: pass,
-    };
-    try {
-      const response = await fetch(`http://localhost:3000/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(Udata),
-      });
-
-      const data = await response.json();
-      console.log("errrrrrrrrrrrrrrrrrrr", data);
-
-      setLoggedU(data.user.uid);
-      setUserTok(data.user_token);
-
-      console.log("useeeeer>>>>>>>", data);
-
-      router.push("/");
-    } catch (error: any) {
-      console.log("catch errrrr >>>>", error);
-    }
-  };
-  const signUpFunction = signInUp ? signup : loggin;
+  
 
   const auth42 = async () => {
     router.push("http://localhost:3000/auth/login-42");
@@ -138,10 +105,10 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
       <h1>OR</h1>
       <div className="outher_methods">
-        <button onClick={authGoogle} className="other_login">
+        <button type="button" onClick={authGoogle} className="other_login">
           <Image src={ggl} width={26} height={26} alt="google auth" /> google
         </button>
-        <button onClick={auth42} className="other_login">
+        <button type="button" onClick={auth42} className="other_login">
           <Image src={intra} width={26} height={26} alt="42 auth" /> intra
         </button>
       </div>

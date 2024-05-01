@@ -18,7 +18,8 @@ import { RiEmojiStickerFill } from "react-icons/ri";
 
 import Picker from "emoji-picker-react";
 
-const socket = io("http://localhost:3001", { transports : ['websocket'] });
+import { socket } from "@/app/sockets/socket";
+
 const FriendChatList = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const loggedU = useRecoilValue(loggedUser);
@@ -40,23 +41,16 @@ const FriendChatList = () => {
   };
 
   useEffect(() => {
-
-
     const handleReceiveMessage = (message: any) => {
       if (message?.channelID === channelID)
         setFriendChat((prevMessages: any) => [...prevMessages, message]);
     };
 
-
-    
     socket.on("message", handleReceiveMessage);
     return () => {
       socket.off("message");
     };
   }, [channelID]);
-
-
-
 
   const getAllMSG = async (id: number) => {
     console.log("--------id>>>>>>>>", id);

@@ -11,20 +11,20 @@ export class NotificationsService {
   ) {}
 
   async create(createNotificationDto: Prisma.NotificationUncheckedCreateInput) {
-    const getNotificatons = await this.databaseService.notification.findMany({
+    const getNotificatons = await this.databaseService.notification.findFirst({
       where: {
         ruserId: createNotificationDto.ruserId,
         suserId: createNotificationDto.suserId,
       },
     });
 
-    if (getNotificatons.length > 0) return;
+    if (getNotificatons) return getNotificatons;
     const notification = await this.databaseService.notification.create({
       data: createNotificationDto,
       include: { suser: true },
     });
-    console.log('------------->>>>>>', notification);
-    this.chatGateway.sendNotification(createNotificationDto);
+    this.chatGateway.sendNotification(notification);
+    return notification;
   }
 
   async findAll() {
@@ -49,8 +49,9 @@ export class NotificationsService {
   }
 
   async remove(id: number) {
-    return this.databaseService.notification.delete({
+    const res = await this.databaseService.notification.delete({
       where: { id },
     });
+    this.chatGateway.deleteNotification(res);
   }
 }

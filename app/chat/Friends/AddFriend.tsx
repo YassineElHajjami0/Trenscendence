@@ -8,6 +8,8 @@ import { useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
 import { loggedUser } from "@/app/Atoms/logged";
 export default function AddFriend({ user }: { user: any }) {
+  console.log("ooooooo>>>>>>", user);
+
   const userTok = useRecoilValue(userToken);
   const loggedU = useRecoilValue(loggedUser);
 
@@ -32,7 +34,7 @@ export default function AddFriend({ user }: { user: any }) {
       const data = await res.json();
       console.log(">>>>>>>>>>>>>>>>>>>>>", data);
     } catch (error: any) {
-      console.log("error>>>", error.message);
+      console.log("error>>>", error);
     }
   };
 

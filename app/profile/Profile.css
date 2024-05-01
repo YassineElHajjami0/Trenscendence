@@ -31,7 +31,26 @@
   height: 200px;
   border-radius: 50%;
   border: 5px solid #1ce14e;
-  animation: heartbeat 3s infinite 5s ease-in-out;
+  /* animation: heartbeat 3s infinite 5s ease-in-out; */
+}
+.img_container_add {
+  position: relative;
+}
+.add_me_if_not {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  font-size: 36px;
+  background-color: var(--main-green);
+  border-radius: 50%;
+  padding: 5px;
+  overflow: visible;
+  transition: 0.4s all;
+}
+.add_me_if_not:hover {
+  scale: 1.05;
+  cursor: pointer;
+  box-shadow: 0 0 5px var(--main-green);
 }
 
 @keyframes heartbeat {

@@ -25,15 +25,15 @@ export class UsersService {
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.findUserByUsername(username);
     if (!user) {
-      throw new UnauthorizedException('Invalid Username');
+      // throw new UnauthorizedException('Invalid Username');
+      throw new HttpException('Invalid Username', HttpStatus.BAD_REQUEST);
     }
     const isMatch = await bcrypt.compare(pass, user?.password);
     if (isMatch) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
       return result;
     }
-    throw new UnauthorizedException('Invalid password');
+    throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
   }
 
   // Without<T_UserUncheckedCreateInput

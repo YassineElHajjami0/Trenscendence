@@ -35,6 +35,11 @@ export class FriendsController {
     return this.friendsService.findAllExceptFriends(+id);
   }
 
+  @Get('/me/:id')
+  findIfFriend(@Param('id') id: number, @Query('friendId') friendId: number) {
+    return this.friendsService.findIfFriedn(+id, +friendId);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,

@@ -1,7 +1,7 @@
 .notifications_container {
   position: absolute;
   background-color: #2d2d31;
-
+  
   width: 0px;
   height: 0px;
   right: 95px;
@@ -12,6 +12,7 @@
   overflow: hidden;
   transition: all 0.4s;
 }
+
 
 .show_notifications_container {
   width: 400px;

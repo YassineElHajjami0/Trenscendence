@@ -8,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const corsOptions: CorsOptions = {
     origin: '*', // Replace with your frontend domain
-    methods: ['GET', 'POST'], // Add any other methods your frontend uses
+    methods: ['GET', 'POST', 'DELETE'], // Add any other methods your frontend uses
     allowedHeaders: ['Content-Type', 'Authorization'], // Add any headers your frontend sends
   };
 
