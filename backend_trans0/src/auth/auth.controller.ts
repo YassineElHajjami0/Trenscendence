@@ -27,7 +27,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UsersService,
-  ) {}
+  ) { }
 
   setCookie(@Res() res, bearer_token?: string) {
     if (!bearer_token) bearer_token = '';
@@ -43,6 +43,9 @@ export class AuthController {
   @Post('login')
   async login(@Body() user, @Req() req, @Res({ passthrough: true }) res) {
     const bearer_token = await this.authService.login(req.user);
+    if (req.user.twoFA) {
+      return { user: req.user };
+    }
     this.setCookie(res, bearer_token);
     return {
       user_token: bearer_token,
@@ -109,6 +112,7 @@ export class AuthController {
   @UseGuards(GoogleGuard)
   @Public()
   async googleAuth() {
+    console.log('FIRST');
     return {};
   }
 
@@ -117,6 +121,7 @@ export class AuthController {
   @Public()
   @Redirect('http://localhost:5252/', 302)
   async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
+    console.log('THIRD');
     const createUserDto = {
       username: req.user.username,
       email: req.user.email,
@@ -144,45 +149,29 @@ export class AuthController {
     return { expired: true };
   }
 
-  @Get('2fa/turn-on')
+  // I need uid, email
+  @Post('2fa/turn-on')
   // @UseGuards(Jwt2faAuthGuard)
-  async register(@Response() response, @Request() request) {
+  async register(@Res({ passthrough: true }) res, @Body() body) {
     const { otpAuthUrl } =
-      await this.authService.generateTwoFactorAuthenticationSecret(
-        request.user,
-      );
+      await this.authService.generateTwoFactorAuthenticationSecret(body);
 
-    return response.json(
-      await this.authService.generateQrCodeDataURL(otpAuthUrl),
-    );
+    return res.json(await this.authService.generateQrCodeDataURL(otpAuthUrl));
   }
 
-  // @Post('2fa/turn-on')
-  // @UseGuards(Jwt2faAuthGuard)
-  // async turnOnTwoFactorAuthentication(@Req() request, @Body() body) {
-  //   const isCodeValid = this.authService.isTwoFactorCodeValid(
-  //     body.twoFactorCode,
-  //     request.user,
-  //   );
-  //   if (!isCodeValid) {
-  //     throw new UnauthorizedException('Wrong authentication code');
-  //   }
-  //   await this.userService.turnOnTwoFA(request.user.id);
-  // }
-
-  @Post('2fa/authenticate')
-  // @UseGuards(Jwt2faAuthGuard)
+  // I need the whole user in body
+  @Post('2fa')
+  @Public()
   @HttpCode(200)
-  async authenticate(@Request() request, @Body() body) {
-    console.log(request.user);
-    const isCodeValid = this.authService.isTwoFactorCodeValid(
-      body.twoFactorCode,
-      request.user,
-    );
+  async authenticate(@Res({ passthrough: true }) res, @Body() body) {
+    const isCodeValid = this.authService.isTwoFactorCodeValid(body);
 
     if (!isCodeValid) {
       throw new UnauthorizedException('Wrong authentication code');
     }
-    return this.authService.loginWith2fa(request.user);
+    const bearer_token = await this.authService.login(body.user);
+    this.setCookie(res, bearer_token);
+
+    return { userToken: bearer_token };
   }
 }

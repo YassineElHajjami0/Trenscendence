@@ -23,6 +23,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     profile: any,
     done: VerifyCallback,
   ): Promise<any> {
+    console.log('SECOND');
     const { name, emails } = profile;
 
     // const user = await this.authService.signUpWithProvider({
@@ -31,13 +32,16 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     //   password: this.authService.generateRandomPassword(10),
     //   strategy: 'google',
     // });
+
+    console.log('-------NAME', name);
+    console.log('-------EMAILS', emails);
     const user = {
       username: `${name.givenName}_${name.familyName}`,
       email: emails[0].value,
       password: this.authService.generateRandomPassword(10),
       strategy: 'google',
-    }
-    // done(null, user);
+    };
+    done(null, user);
     return user;
   }
 }

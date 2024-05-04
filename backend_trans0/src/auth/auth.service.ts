@@ -27,7 +27,6 @@ export class AuthService {
       username: user.username,
       sub: user.uid,
       role: user.role,
-      twoFASecret: user.twoFASecret,
     };
     return this.jwtService.sign(payload);
   }
@@ -72,7 +71,7 @@ export class AuthService {
 
   // Two FA Section
   // 1
-  async generateTwoFactorAuthenticationSecret(user: CreateUserDto) {
+  async generateTwoFactorAuthenticationSecret(user: any) {
     const secret = authenticator.generateSecret();
 
     const otpAuthUrl = authenticator.keyuri(
@@ -95,12 +94,10 @@ export class AuthService {
   }
 
   // 3
-  isTwoFactorCodeValid(twoFaCode: string, user: any) {
-    console.log(twoFaCode);
-    console.log('---> ', user.twoFASecret);
+  isTwoFactorCodeValid(body: any) {
     return authenticator.verify({
-      token: twoFaCode,
-      secret: user.twoFASecret,
+      token: body.twoFaCode,
+      secret: body.user.twoFASecret,
     });
   }
 
