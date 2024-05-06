@@ -57,7 +57,7 @@ export default function Friend({ friend }: { friend: any }) {
     <div className="friend_container">
       <div className="friend_name_photo">
         <Image
-          src={`/${friend?.avatar}`}
+          src={`http://localhost:3000${friend?.avatar}`}
           width={2000}
           height={2000}
           className={`friend_avatar ${blocked && "blocked_friend_avatar"}`}

@@ -8,6 +8,10 @@ import { userToken } from "@/app/Atoms/userToken";
 import AddFriend from "./AddFriend";
 import { loggedUser } from "@/app/Atoms/logged";
 
+interface AddFriendInterface {
+  className: string;
+}
+
 const AddFriendSection = () => {
   const userTok = useRecoilValue(userToken);
   const userL = useRecoilValue(loggedUser);
@@ -15,7 +19,7 @@ const AddFriendSection = () => {
 
   const [input, setInput] = useState("");
   const [allUsers, setAllUsers] = useState([]);
-  const filteredUsers = allUsers.filter((user:any) =>
+  const filteredUsers = allUsers.filter((user: any) =>
     user?.username.toLowerCase().includes(input.toLowerCase())
   );
   const addFriendClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -51,14 +55,16 @@ const AddFriendSection = () => {
   return (
     <div
       onClick={() => setAddFriend((prev) => !prev)}
-      className={`add_friend ${addFriend && `show_the_big_div`}`}
+      className={`add_friend ${addFriend && `show_the_big_div`} `}
     >
       {addFriend ? (
-        <div onClick={addFriendClick} className="add_friend_container">
+        <div onClick={addFriendClick} className={`add_friend_container`}>
           <input
-          value={input}
-          onChange={(e)=>setInput(e.target.value)}
-          type="text" placeholder="Add friend" />
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            type="text"
+            placeholder="Add friend"
+          />
 
           <div className="searchedFriends">
             {filteredUsers?.map((user: any) => (

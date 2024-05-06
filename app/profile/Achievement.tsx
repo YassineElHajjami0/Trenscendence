@@ -9,7 +9,7 @@ export default function Achievement({ achievement }) {
       !achievement.unlocked && "locked_achievement"
     }`}>
       <Image
-        src={achievement.uri}
+        src={`http://localhost:3000/${achievement.uri}`}
         width={1000}
         height={1000}
         className={`friend_achievement_badge  `}

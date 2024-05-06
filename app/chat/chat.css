@@ -351,6 +351,7 @@
 }
 
 .selectedFriendChat {
+  overflow: hidden;
   height: 100%;
   width: 100%;
 }
@@ -383,6 +384,9 @@
   height: 100%;
   margin-left: auto;
   transition: all 1s ease-in-out !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .col1 .switcher {
@@ -567,7 +571,7 @@
   height: 90%;
   border-radius: 15px;
   overflow-y: scroll;
-  padding-top:10px ;
+  padding-top: 10px;
 }
 
 /*-----------break point-----------*/

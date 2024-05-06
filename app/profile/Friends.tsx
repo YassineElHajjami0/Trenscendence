@@ -6,6 +6,8 @@ import { FriendData } from "@/app/Interfaces/friendDataInterface";
 import { useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
+import AddFriendSection from "../chat/Friends/AddFriendSection";
+import "../chat/chat.css";
 
 export default function Friends({ whichProfile }: { whichProfile: any }) {
   const loggedU = useRecoilValue(loggedUser);
@@ -44,8 +46,14 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
 
   return (
     <div className="friends_container">
-      {userFriends?.length > 0 &&
-        userFriends?.map((e: any) => <Friend friend={e} key={e.uid} />)}
+      {
+        userFriends?.length > 0 &&
+          userFriends?.map((e: any) => <Friend friend={e} key={e.uid} />)
+
+        //  : (
+        //   <AddFriendSection className='add_friend_in_profile'/>
+        // )
+      }
     </div>
   );
 }

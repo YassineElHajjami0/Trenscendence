@@ -31,8 +31,6 @@ export default function AddFriend({ user }: { user: any }) {
         body: JSON.stringify(notifData),
       });
 
-      const data = await res.json();
-      console.log(">>>>>>>>>>>>>>>>>>>>>", data);
     } catch (error: any) {
       console.log("error>>>", error);
     }

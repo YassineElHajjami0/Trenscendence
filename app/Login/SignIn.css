@@ -10,10 +10,8 @@
 }
 
 .from_errors {
-  color: var(--main-red);
-
   font-weight: 900;
-  align-self: flex-start;
+
   animation: shake 0.5s ease-in-out;
 }
 @keyframes shake {
@@ -38,7 +36,6 @@
   font-size: 25px;
   font-weight: 300;
 }
-
 .sign_in_ships {
   transition: all 0.4s;
   border-radius: 5px;
@@ -46,7 +43,6 @@
   width: 95%;
   height: 16%;
   text-align: left;
-
   color: white;
   font-size: 1.1rem;
   font-weight: 700;
@@ -55,6 +51,7 @@
   border: none;
   overflow: hidden;
 }
+
 .hide_pass {
   height: 0;
   width: 0;
@@ -62,11 +59,55 @@
   padding: 0;
   margin: 0;
 }
+
+.two_factor_auth {
+  height: 0;
+  overflow: hidden;
+  transition: all 0.4s;
+}
+
+._2fa_container {
+  height: 80%;
+}
+._2fa_header {
+  font-size: 1.2rem !important;
+  font-weight: 800 !important;
+  text-align: center;
+}
+._2fa_container_separator {
+  color: transparent;
+}
+
+.show_2fa_container {
+  width: 95%;
+  height: 20%;
+}
+
+._2fa_container_inputs {
+  width: calc(100% / 6) !important;
+  background-color: #27272a;
+  outline: none;
+  border: none;
+  user-select: none;
+  height: 70%;
+  font-size: 24px;
+  border-radius: 5px;
+  color: white;
+}
+
+._2fa_container_inputs::-webkit-inner-spin-button,
+._2fa_container_inputs::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  user-select: none;
+}
+
 .sign_in_ships::placeholder {
   text-transform: uppercase;
   color: white;
 }
 .btn {
+  text-transform: capitalize;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -134,6 +175,15 @@ button.sign_in_ships:active {
   }
   .other_login {
     height: 45%;
+  }
+  .show_2fa_container {
+    height: 40%;
+  }
+  ._2fa_container {
+    height: 40%;
+  }
+  ._2fa_header {
+    font-size: 1rem !important;
   }
 }
 

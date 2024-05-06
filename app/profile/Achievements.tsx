@@ -12,7 +12,7 @@ export default function Achievements() {
 
   return (
     <div className="achievements_container">
-      {sortedAchievements.map((e) => (
+      {sortedAchievements.map((e, i) => (
         <Achievement achievement={e} key={e.name} />
       ))}
     </div>

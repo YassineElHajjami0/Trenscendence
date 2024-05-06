@@ -12,26 +12,56 @@ import { useRouter } from "next/navigation";
 
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
+
 import axios from "axios";
+
+import OtpInput from "react-otp-input";
+import { MdError } from "react-icons/md";
 
 export default function SignIn({ signInUp }: { signInUp: boolean }) {
   // axios.defaults.headers.common["Content-Type"] = "application/json";
+  const router = useRouter();
 
   const [loggedU, setLoggedU] = useRecoilState(loggedUser);
   const [userTok, setUserTok] = useRecoilState(userToken);
-  const [email, setEmail] = useState<string>("");
+
+  const [biometric, setBiometric] = useState<string>("");
+  const [_2fa_opt, set_2fa_opt] = useState<boolean>(false);
+
   const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [pass, setPass] = useState<string>("");
   const [err, setErr] = useState<string>("");
-  const router = useRouter();
 
-  useEffect(() => {
-    setEmail("");
-    setUsername("");
-    setPass("");
-  }, [signInUp]);
+  // useEffect(() => {
+  //   setEmail("");
+  //   setUsername("");
+  //   setPass("");
+  //   setBiometric("");
+  // }, [signInUp]);
 
-  const signUpFunction = async (e: any) => {    
+  const verifyTwoFA = async () => {
+    const Udata = {
+      email: email,
+      username: username,
+      password: pass,
+    };
+    try {
+      const response = await axios.post(`http://localhost:3000/auth`, Udata);
+      const data = await response.data;
+
+      setLoggedU(data.user.uid);
+      setUserTok(data.user_token);
+      router.push("/");
+    } catch (error: any) {
+      setErr(error.response.data.message);
+      setTimeout(() => {
+        setErr("");
+      }, 5000);
+    }
+  };
+
+  const signUpFunction = async (e: any) => {
     e.preventDefault();
     const Udata = {
       email: email,
@@ -45,6 +75,10 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         Udata
       );
       const data = await response.data;
+      if (data.user.twofa) {
+        verifyTwoFA();
+        return;
+      }
       setLoggedU(data.user.uid);
       setUserTok(data.user_token);
       router.push("/");
@@ -56,8 +90,6 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     }
   };
 
-  
-
   const auth42 = async () => {
     router.push("http://localhost:3000/auth/login-42");
   };
@@ -67,14 +99,13 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
   return (
     <form onSubmit={signUpFunction} className="sign_in_container">
-      {err.length > 0 && <p className="from_errors">{err}</p>}
       <input
-        required
+        required={!_2fa_opt}
         placeholder="username"
         type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        className="sign_in_ships"
+        className={`sign_in_ships ${_2fa_opt && "hide_pass"}`}
       />
 
       <input
@@ -87,23 +118,46 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       />
 
       <input
-        required
+        required={!_2fa_opt}
         placeholder="password"
-        className="sign_in_ships"
+        className={`sign_in_ships ${_2fa_opt && "hide_pass"}`}
         type="password"
         value={pass}
         onChange={(e) => setPass(e.target.value)}
       />
 
+      <div className={`two_factor_auth && ${_2fa_opt && "show_2fa_container"}`}>
+        <h1 className="_2fa_header">2-Factor Authentication</h1>
+        <OtpInput
+          value={biometric}
+          onChange={setBiometric}
+          numInputs={6}
+          inputType="number"
+          containerStyle="_2fa_container"
+          inputStyle="_2fa_container_inputs"
+          renderSeparator={<span className="_2fa_container_separator">-</span>}
+          renderInput={(props) => <input {...props} />}
+        />
+      </div>
+
       <button
         disabled={err.length > 0}
         type="submit"
-        className={`sign_in_ships btn ${err.length > 0 && "lets_not_play"}`}
+        className={`sign_in_ships btn ${err.length && "lets_not_play"}`}
       >
-        Let's play <FaArrowRight />
+        {!err.length ? (
+          !_2fa_opt ? (
+            "Let's play"
+          ) : (
+            "verify"
+          )
+        ) : (
+          <p className="from_errors">{err}</p>
+        )}
+        {err.length ? <MdError /> : <FaArrowRight />}
       </button>
 
-      <h1>OR</h1>
+      <h1 onClick={() => set_2fa_opt((prev) => !prev)}>OR</h1>
       <div className="outher_methods">
         <button type="button" onClick={authGoogle} className="other_login">
           <Image src={ggl} width={26} height={26} alt="google auth" /> google

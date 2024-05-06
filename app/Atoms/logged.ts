@@ -2,8 +2,6 @@ import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 import Cookies from "js-cookie";
 
-
-
 const { persistAtom } = recoilPersist({
   key: "userData",
   storage: {

@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { slctdFriend } from "../../Atoms/friendAtom";
 import { useRecoilState } from "recoil";
+import { loadingMsg } from "@/app/Atoms/loadingMsg";
 
 interface FriendChatProps {
   friendData: any;
@@ -11,16 +12,20 @@ interface FriendChatProps {
 
 const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
+  const [loadingAnimation, setLoadingAnimation] = useRecoilState(loadingMsg);
 
   return (
     <div
-      onClick={() => setSelectedFriend(friendData.uid)}
+      onClick={() => {
+        setSelectedFriend(friendData.uid);
+        if (friendData.uid !== selectedFriend) setLoadingAnimation(true);
+      }}
       className="friend_chat_container"
     >
       <div className="chat_list_avatar_container">
         <Image
           className="chat_list_avatar"
-          src={`/${friendData?.avatar}`}
+          src={`http://localhost:3000/${friendData?.avatar}`}
           width={2000}
           height={2000}
           alt="avatar"

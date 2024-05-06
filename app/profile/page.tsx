@@ -84,6 +84,30 @@ const Profile = () => {
     getIfFriend();
   }, [whichProfile]);
 
+  const addFriend = async () => {
+    if (selectedProfile === -1 || selectedProfile === loggedU) return;
+
+    const notifData = {
+      type: "friendReq",
+      content: "sent you a friend request",
+      suserId: loggedU,
+      ruserId: selectedProfile,
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/notifications", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(notifData),
+      });
+    } catch (error: any) {
+      console.log("error>>>", error);
+    }
+  };
+
   return (
     <div className="profile_container">
       <div
@@ -106,13 +130,14 @@ const Profile = () => {
         <div className="img_container_add">
           <Image
             src={`http://localhost:3000/av/${userData?.avatar}`}
-            // src={userData?.avatar}
             width={2000}
             height={2000}
             alt="profile_avatar"
             className="profile_photo"
           />
-          {!isFriend && <BsPersonFillAdd className="add_me_if_not" />}
+          {!isFriend && (
+            <BsPersonFillAdd className="add_me_if_not" onClick={addFriend} />
+          )}
         </div>
 
         <div className="profile_data">

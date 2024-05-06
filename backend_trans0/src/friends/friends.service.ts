@@ -85,32 +85,29 @@ export class FriendsService {
       },
     });
     // ??
-    const allFriends = await Promise.all(
-      friends.map(async (friend) => {
+    const allFriends = await friends
+      .map((friend) => {
         const friendData =
           friend.user1Id === id ? friend.usersSendMe : friend.usersSendThem;
-        const avatarFriend = await this.getChoosedAvatarOfUser(friendData.uid);
+
         return {
           uid: friendData.uid,
           username: friendData.username,
           email: friendData.email,
           status: friendData.status,
-          avatar: avatarFriend,
+          avatar: friendData.avatar,
           fsStatus: friend.status,
         };
-      }),
-    );
-
-    allFriends.sort((a, b) => {
-      const statusOrder = { online: 1, ingame: 2, offline: 3 };
-      return statusOrder[a.status] - statusOrder[b.status];
-    });
+      })
+      .sort((a, b) => {
+        const statusOrder = { online: 1, ingame: 2, offline: 3 };
+        return statusOrder[a.status] - statusOrder[b.status];
+      });
 
     return allFriends;
   }
 
   async findIfFriedn(user1Id: number, user2Id: number) {
-    
     const friend = await this.databaseService.userFriend.findFirst({
       where: {
         OR: [

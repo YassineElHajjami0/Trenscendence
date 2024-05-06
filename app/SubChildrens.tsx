@@ -21,9 +21,7 @@ export default function SubChildrens({
     if (user === -1) {
       router.push("/login");
     }
-    if (user !== -1 && pathname === "/login" )
-    router.push("/");
-
+    if (user !== -1 && pathname === "/login") router.push("/");
   }, [user, pathname]);
 
   return (

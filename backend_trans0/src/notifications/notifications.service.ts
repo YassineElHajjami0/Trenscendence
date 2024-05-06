@@ -18,7 +18,7 @@ export class NotificationsService {
       },
     });
 
-    if (getNotificatons) return getNotificatons;
+    if (getNotificatons) return;
     const notification = await this.databaseService.notification.create({
       data: createNotificationDto,
       include: { suser: true },

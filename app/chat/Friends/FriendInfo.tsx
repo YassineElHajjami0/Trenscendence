@@ -1,20 +1,26 @@
 import React from "react";
 import "./FriendInfo.css";
 import { currentFriend } from "@/app/Atoms/currentFriend";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Image from "next/image";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import { FriendData } from "@/app/Interfaces/friendDataInterface";
+import { loadingMsg } from "@/app/Atoms/loadingMsg";
+import ProfileLoading from "./ProfileLoading";
 export const FriendInfo = () => {
   const [friend, setFriend] = useRecoilState(currentFriend);
+  const loadingAnimation = useRecoilValue(loadingMsg);
 
-  return (
+  return loadingAnimation ? (
+    <ProfileLoading />
+  ) : (
     <div className="current_friend_info_container">
       <div className="current_friend_info">
         <Image
           className="current_friend_avatar"
-          src={friend?.avatar || ""}
+          src={`http://localhost:3000${friend?.avatar}`}
+          // src={`http://localhost:3000${friend?.avatar}`}
           width={5000}
           height={5000}
           alt="avatar"
@@ -36,7 +42,7 @@ export const FriendInfo = () => {
       <div className="current_friend_achievements_container">
         <h1>achievements</h1>
         <div className="current_friend_achievements">
-          {friend?.achievements?.map((a:any) => {
+          {friend?.achievements?.map((a: any) => {
             if (a?.unlocked)
               return (
                 <div key={a?.name} className="current_friend_achievement">

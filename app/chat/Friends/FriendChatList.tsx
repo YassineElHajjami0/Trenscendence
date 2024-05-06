@@ -11,22 +11,20 @@ import { slctdFriend } from "@/app/Atoms/friendAtom";
 
 import { currentFriend } from "@/app/Atoms/currentFriend";
 import { loggedUser } from "@/app/Atoms/logged";
-import { channelId } from "@/app/Atoms/channelId";
 import { userToken } from "@/app/Atoms/userToken";
-import { io } from "socket.io-client";
+
 import { RiEmojiStickerFill } from "react-icons/ri";
 
 import Picker from "emoji-picker-react";
 
 import { socket } from "@/app/sockets/socket";
+import { loadingMsg } from "@/app/Atoms/loadingMsg";
+import ChatLoading from "./ChatLoading";
 
 const FriendChatList = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const loggedU = useRecoilValue(loggedUser);
   const userTok = useRecoilValue(userToken);
-
-  // const friends: FriendData[] = playerData;
-  // const myFriendChat: FriendChat[] = myFriendsChat;
 
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [friendChat, setFriendChat] = useState<any>([]);
@@ -34,7 +32,7 @@ const FriendChatList = () => {
   const [inputMSG, setInputMSG] = useState<string>("");
   const [channelID, setChannelID] = useState(-1);
   const [showEmoji, setShowEmoji] = useState(false);
-  // const [msgSent, setMsgSent] = useState<number>(-1);
+  const [loadingAnimation, setLoadingAnimation] = useRecoilState(loadingMsg);
 
   const onEmojiClick = (event: any) => {
     setInputMSG((prevInput) => prevInput + event.emoji);
@@ -53,8 +51,6 @@ const FriendChatList = () => {
   }, [channelID]);
 
   const getAllMSG = async (id: number) => {
-    console.log("--------id>>>>>>>>", id);
-
     if (id === -1) return;
     const selectedFriendChat = await fetch(
       `http://localhost:3000/message/${id}`,
@@ -66,9 +62,10 @@ const FriendChatList = () => {
       }
     );
     const data = await selectedFriendChat.json();
-    if (data?.statusCode) return;
-    // console.log("message=========>>>>", data);
-    setFriendChat(data);
+    setTimeout(() => {
+      setFriendChat(data);
+      setLoadingAnimation(false);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -86,8 +83,9 @@ const FriendChatList = () => {
         }
       );
       const dataF = await selectedFriendData.json();
-      //set my friend data
-      setFriend(dataF);
+      console.log("-------3aaaaaa>>>>>>", dataF);
+
+      await setFriend(dataF);
 
       /*---------------------------create a channel or get its id------------------- */
       const channelData = {
@@ -114,28 +112,21 @@ const FriendChatList = () => {
       }
 
       setChannelID(dataC);
-      console.log("=========================errr", dataC);
       getAllMSG(dataC);
       setInputMSG("");
     };
     getMyFriendData();
   }, [selectedFriend]);
 
-  // useEffect(() => {
-  //   getAllMSG(channelID);
-  // }, [msgSent]);
-
   const sendMSG = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputMSG.length === 0) return;
-    console.log("===========================channelid", channelID);
-
     const channelData = {
       userID: loggedU,
       channelID: channelID,
       content: inputMSG,
     };
-    const msg = await fetch("http://localhost:3000/message", {
+    await fetch("http://localhost:3000/message", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userTok}`,
@@ -143,9 +134,6 @@ const FriendChatList = () => {
       },
       body: JSON.stringify(channelData),
     });
-
-    // const data = await msg.json();
-
     setInputMSG("");
     setShowEmoji(false);
   };
@@ -157,46 +145,9 @@ const FriendChatList = () => {
     }
   }, [friendChat]);
 
-  const isSameDay = (date1: number, date2: number): boolean => {
-    const getFormattedDate = (timestamp: number): string => {
-      const date = new Date(timestamp);
-      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    };
-
-    return getFormattedDate(date1) === getFormattedDate(date2);
-  };
-
-  // const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   if (inputMSG.length === 0) return;
-  //   const currentDate = Date.now();
-  //   const message = {
-  //     time: Date.now() as number,
-  //     msg: inputMSG,
-  //     recipient: false,
-  //   };
-  //   const friendChatToUpdate: FriendChat = {
-  //     ...friendChat,
-  //     allmessages: friendChat?.allmessages || [],
-  //     uid: friendChat?.uid || "",
-  //   };
-  //   const lastMessage =
-  //     friendChatToUpdate?.allmessages[
-  //       friendChatToUpdate?.allmessages.length - 1
-  //     ];
-  //   if (lastMessage && isSameDay(lastMessage.date, currentDate))
-  //     lastMessage.messages.push(message);
-  //   else {
-  //     friendChatToUpdate?.allmessages.push({
-  //       date: currentDate as number,
-  //       messages: [message],
-  //     });
-  //   }
-  //   setFriendChat(friendChatToUpdate);
-  //   setInputMSG("");
-  // };
-
-  return (
+  return loadingAnimation ? (
+    <ChatLoading />
+  ) : (
     <div className="friend_chat_msg">
       <div className="friend_chat_msg_header">
         <IoArrowBackOutline
@@ -206,7 +157,7 @@ const FriendChatList = () => {
 
         <Image
           className="my_chat_msg_avatar"
-          src={friend?.avatar || "/avatar3.png"}
+          src={`http://localhost:3000/${friend?.avatar}`}
           width={2000}
           height={2000}
           alt="avatar"
@@ -252,11 +203,11 @@ const FriendChatList = () => {
             }}
           />
 
-          <input
+          <textarea
+            rows={1}
             value={inputMSG}
             onChange={(e) => setInputMSG(e.target.value)}
             className="input_msg"
-            type="text"
             placeholder={`${
               friend?.blocked ? "You blocked this friend" : "Message"
             }`}
