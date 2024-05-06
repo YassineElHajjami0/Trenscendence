@@ -85,6 +85,7 @@ export class FriendsService {
       },
     });
     // ??
+
     const allFriends = await friends
       .map((friend) => {
         const friendData =
@@ -160,7 +161,7 @@ export class FriendsService {
         return { ...u, avatar: 'default.png' };
       } else return u;
     });
-    return alteredUers;
+    return users;
   }
 
   async update(

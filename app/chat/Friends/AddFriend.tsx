@@ -30,7 +30,6 @@ export default function AddFriend({ user }: { user: any }) {
         },
         body: JSON.stringify(notifData),
       });
-
     } catch (error: any) {
       console.log("error>>>", error);
     }
@@ -40,7 +39,7 @@ export default function AddFriend({ user }: { user: any }) {
     <div className="add_friend_conatiner">
       <Image
         className="add_friend_avatar"
-        src={`/${user.avatar}`}
+        src={`http://localhost:3000${user.avatar}`}
         width={1000}
         height={1000}
         alt="avatar"
