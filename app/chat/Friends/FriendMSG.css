@@ -1,19 +1,20 @@
 .chat_msg_container {
   padding: 10px;
   width: fit-content;
-  /* max-width: 200px; */
+
   background-color: #25262b;
   margin-bottom: 10px;
   border-radius: 10px;
   max-width: 70%;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  line-height: 1.3;
+
   display: flex;
   flex-direction: column;
   margin-left: auto;
 }
-
+.chat_message {
+  overflow-wrap: break-word;
+  line-height: 1.3;
+}
 .sender {
   margin-left: 0;
   margin-right: auto;

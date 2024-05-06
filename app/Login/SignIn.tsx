@@ -32,6 +32,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const [email, setEmail] = useState<string>("");
   const [pass, setPass] = useState<string>("");
   const [err, setErr] = useState<string>("");
+  const [user, setUser] = useState<any>({});
 
   // useEffect(() => {
   //   setEmail("");
@@ -40,19 +41,26 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   //   setBiometric("");
   // }, [signInUp]);
 
-  const verifyTwoFA = async () => {
+  const verifyTwoFA = async (e: any) => {
+    e.preventDefault();
+
     const Udata = {
-      email: email,
-      username: username,
-      password: pass,
+      ...user,
+      twoFaCode: biometric,
     };
+    console.log("user>>>>>>", user);
+
     try {
-      const response = await axios.post(`http://localhost:3000/auth`, Udata);
+      const response = await axios.post(
+        `http://localhost:3000/auth/2fa`,
+        Udata
+      );
       const data = await response.data;
+      console.log("2fa data>>>>>>>>", data);
 
       setLoggedU(data.user.uid);
-      setUserTok(data.user_token);
-      router.push("/");
+      setUserTok(data.userToken);
+      // router.push("/");
     } catch (error: any) {
       setErr(error.response.data.message);
       setTimeout(() => {
@@ -75,8 +83,9 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         Udata
       );
       const data = await response.data;
-      if (data.user.twofa) {
-        verifyTwoFA();
+      if (data.user.twoFA) {
+        setUser(data.user);
+        set_2fa_opt(true);
         return;
       }
       setLoggedU(data.user.uid);
@@ -90,6 +99,8 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     }
   };
 
+  const uri = _2fa_opt ? verifyTwoFA : signUpFunction;
+
   const auth42 = async () => {
     router.push("http://localhost:3000/auth/login-42");
   };
@@ -98,7 +109,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   };
 
   return (
-    <form onSubmit={signUpFunction} className="sign_in_container">
+    <form onSubmit={uri} className="sign_in_container">
       <input
         required={!_2fa_opt}
         placeholder="username"

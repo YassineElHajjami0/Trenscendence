@@ -6,14 +6,15 @@ import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.int
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const corsOptions: CorsOptions = {
-    origin: '*', // Replace with your frontend domain
-    methods: ['GET', 'POST', 'DELETE'], // Add any other methods your frontend uses
-    allowedHeaders: ['Content-Type', 'Authorization'], // Add any headers your frontend sends
-  };
+  // const corsOptions: CorsOptions = {
+  //   origin: '*', // Replace with your frontend domain
+  //   methods: ['GET', 'POST', 'POST'], // Add any other methods your frontend uses
+  //   allowedHeaders: ['Content-Type', 'Authorization'], // Add any headers your frontend sends
+  // };
 
   // Enable CORS with the specified options
-  app.enableCors(corsOptions);
+  // app.enableCors(corsOptions);
+  app.enableCors();
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
 

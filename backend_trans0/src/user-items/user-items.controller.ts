@@ -40,6 +40,12 @@ export class UserItemsController {
     return this.userItemsService.update(updateUserItemDto);
   }
 
+  @Public()
+  @Patch('false')
+  updateToFalse(@Body() updateUserItemDto: Prisma.UserItemUpdateInput) {
+    return this.userItemsService.updateToFalse(updateUserItemDto);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userItemsService.remove(+id);
