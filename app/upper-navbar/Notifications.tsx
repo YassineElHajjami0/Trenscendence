@@ -15,7 +15,6 @@ function Notifications({ showNotif }: { showNotif: boolean }) {
   const [myNotifications, setMyNotifications] =
     useRecoilState(userNotifications);
 
-
   useEffect(() => {
     const handleReceivedNotification = (notif: any) => {
       if (notif.ruserId === loggedU)
@@ -25,28 +24,6 @@ function Notifications({ showNotif }: { showNotif: boolean }) {
     return () => {
       socket.off("notification");
     };
-  }, []);
-
-  const getNotifications = async () => {
-    if (loggedU === -1) return;
-    try {
-      const res = await fetch(
-        `http://localhost:3000/notifications/${loggedU}`,
-        {
-          headers: {
-            Authorization: `Bearer ${userTok}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await res.json();
-      setMyNotifications(data);
-    } catch (error: any) {
-      console.log("error>>>", error.message);
-    }
-  };
-  useEffect(() => {
-    getNotifications();
   }, []);
 
   return (

@@ -8,9 +8,13 @@ import { MdOutlinePersonSearch } from "react-icons/md";
 import Notifications from "./Notifications";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userNotifications } from "../Atoms/notifications";
+import { userToken } from "../Atoms/userToken";
+import { loggedUser } from "../Atoms/logged";
 
 const UpperNav = () => {
   const notificationRef = useRef<HTMLDivElement>(null);
+  const userTok = useRecoilValue(userToken);
+  const loggedU = useRecoilValue(loggedUser);
   // useEffect(() => {
   //   const handleClickOutside = (event: MouseEvent) => {
   //     if (
@@ -30,7 +34,30 @@ const UpperNav = () => {
 
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
-  const myNotifications = useRecoilValue(userNotifications);
+  const [myNotifications, setMyNotifications] =
+    useRecoilState(userNotifications);
+
+  const getNotifications = async () => {
+    if (loggedU === -1) return;
+    try {
+      const res = await fetch(
+        `http://localhost:3000/notifications/${loggedU}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await res.json();
+      setMyNotifications(data);
+    } catch (error: any) {
+      console.log("error>>>", error.message);
+    }
+  };
+  useEffect(() => {
+    getNotifications();
+  }, []);
 
   return (
     <div className="upperNav">
@@ -52,7 +79,7 @@ const UpperNav = () => {
             <div className="notif_count">{myNotifications.length}</div>
           )}
         </div>
-          <Notifications showNotif={showNotif} />
+        <Notifications showNotif={showNotif} />
         <div className="profile-picture">
           {!imageLoaded && <div className="profile-picture-white"></div>}
           <div>
