@@ -19,6 +19,7 @@ CREATE TABLE "Channel" (
     "type" "channelType" NOT NULL DEFAULT 'DM',
     "name" TEXT NOT NULL,
     "topic" TEXT NOT NULL,
+    "uri" TEXT NOT NULL DEFAULT '/channelDefaultImage.png',
 
     CONSTRAINT "Channel_pkey" PRIMARY KEY ("id")
 );
@@ -53,7 +54,7 @@ CREATE TABLE "T_User" (
     "bio" TEXT NOT NULL DEFAULT 'I am a player',
     "password" TEXT NOT NULL,
     "twoFA" BOOLEAN NOT NULL DEFAULT false,
-    "uploadedAvatar" TEXT NOT NULL DEFAULT '',
+    "avatar" TEXT NOT NULL DEFAULT '',
     "wallet" INTEGER NOT NULL DEFAULT 0,
     "banner" TEXT NOT NULL DEFAULT '/defaultBanner.jpg',
     "level" INTEGER NOT NULL DEFAULT 0,

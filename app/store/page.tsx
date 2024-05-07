@@ -44,6 +44,7 @@ const Store = () => {
   const userTok = useRecoilValue(userToken);
   const [popUpCannotBuy, setPopUpCannotBuy] = useState(false);
   const [choosedArticle, setChoosedArticle] = useState<itemsInterface>();
+  const [prevchoosedArticle, setPrevChoosedArticle] = useState<number>();
   const [items, setItems] = useState<itemsInterface[]>();
   const [selectedCategory, setselectedCategory] = useState("all");
   const [userData, setUserData] = useState<dataInterface>();
@@ -82,6 +83,9 @@ const Store = () => {
         let data: itemsInterface[] = await response.json();
         data = data.filter((e) => e.type == "paddle" || e.type == "avatar");
         setChoosedArticle(data[0]);
+        
+        let oldestChoosedArticle:itemsInterface| undefined = data.find(e => e.choosed == true)
+        setPrevChoosedArticle(oldestChoosedArticle?.id);
         console.log("_______>>>", data);
         setItems(data);
       } catch (err) {
@@ -168,6 +172,7 @@ const Store = () => {
           choosed: true,
         };
         setChoosedArticle(updatedchoosedArticle);
+        setPrevChoosedArticle(updatedchoosedArticle.id);
       })
       .catch((errorResponse) => {
         throw new Error(`Failed to POST data. Error: ${errorResponse.message}`);

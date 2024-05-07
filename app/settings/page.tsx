@@ -361,7 +361,7 @@ const Settings = () => {
                   id="file-upload"
                   type="file"
                   accept="image/*"
-                  onChange={hand * -leFileUpload}
+                  onChange={handleFileUpload}
                 />
                 <button
                   className="cancel"

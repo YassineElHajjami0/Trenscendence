@@ -44,6 +44,7 @@ model Channel {
   type     channelType @default(DM)
   name     String
   topic    String
+  uri      String      @default("/channelDefaultImage.png")
   roles    Role[]
   messages Message[]
 }

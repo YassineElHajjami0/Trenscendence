@@ -13,7 +13,8 @@ async function bootstrap() {
   };
 
   // Enable CORS with the specified options
-  app.enableCors(corsOptions);
+  // app.enableCors(corsOptions);
+  app.enableCors();
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
 
