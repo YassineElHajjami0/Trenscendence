@@ -23,6 +23,7 @@ a {
 body {
     font-family: "Cairo", sans-serif;
     background-color: var(--main-color-background);
+    color: white;
 }
 
 ul {
@@ -79,21 +80,28 @@ header .container .search input {
     width: 100%;
     background-color: #2d2d30;
     font-size: 20px;
-    color: white;
 }
 header .container .search i {
     position: absolute;
     top: 14px;
     left: 12px;
-    color: white;
+}
+
+header .container .icons {
+    transform: translateY(20%);
+    margin-left: 20px;
+}
+@media (min-width: 376px) {
+    header .container .icons {
+        transform: translateY(5%);
+    }
 }
 
 header .container .icons i {
-    color: white;
     background-color: var(--main-color);
     border-radius: 80px;
     padding: 6px 8px;
-    transform: scale(1.4);
+    transform: scale(1.2);
     margin-right: 15px;
 }
 
@@ -108,11 +116,12 @@ header .container .icons img {
     padding-top: 100px;
     padding-bottom: 50px;
 }
+
 .rank .container .leaders {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    flex-wrap: wrap;
+    background-color: red;
 }
 @media (max-width: 995px) {
     .rank .container .leaders {
@@ -122,13 +131,11 @@ header .container .icons img {
 }
 
 .rank .container .leaders .box {
-    color: white;
     background-color: #2d2d30;
     padding: 20px;
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
     border-top: 5px solid var(--main-color);
-    flex-basis: 30%;
 }
 .rank .container .leaders .box .info {
     display: flex;
@@ -136,11 +143,20 @@ header .container .icons img {
     justify-content: center;
     align-items: center;
 }
+.rank .container .leaders .box .prof-img img {
+    width: 80px;
+}
+.rank .container .leaders .box .info img {
+    width: 40px;
+}
+.rank .container .leaders .box .cup img {
+    width: 80px;
+}
+
+
 @media (max-width: 995px) {
     .rank .container .leaders .box {
         margin-bottom: 20px;
-        width: 60%;
-        min-width: 300px;
     }
 }
 .rank .container .leaders .box > :first-child {
@@ -152,7 +168,9 @@ header .container .icons img {
     display: flex;
     justify-content: space-between;
 }
-
+.rank .container .leaders > :nth-child(2) {
+    width: 30%;
+}
 .rank .container .leaders > :nth-child(2) > :first-child > :first-child {
     flex-direction: column;
     width: 60%;
@@ -162,6 +180,9 @@ header .container .icons img {
     display: inline-block;
 }
 @media (max-width: 995px) {
+    .rank .container .leaders .box {
+        width: fit-content;
+    }
     .rank .container .leaders > :nth-child(2) > :first-child > :first-child {
         flex-direction: row;
         width: fit-content;
@@ -199,12 +220,34 @@ header .container .icons img {
 /* table */
 
 .rank .container table {
+    width: 100%;
     background-color: #2d2d30;
     margin-top: 20px;
     border-radius: 20px;
-    color: white;
+    display: block;
+    border-collapse: collapse;
 }
 
+@media (min-width: 426px) {
+    .rank .container table {
+        display: table;
+    }
+}
+@media (max-width: 425px) {
+    .rank .container table {
+        font-size: 16px;
+    }
+}
+@media (max-width: 375px) {
+    .rank .container table {
+        font-size: 13px;
+    }
+}
+@media (max-width: 320px) {
+    .rank .container table {
+        font-size: 10px;
+    }
+}
 .rank .container table {
     width: 100%;
     border-collapse: collapse;
@@ -231,7 +274,16 @@ header .container .icons img {
 .rank .container table tr td:last-child img {
     margin-right: 10px;
 }
-
+@media (max-width: 425px) {
+    .rank .container table tr td:nth-child(2),
+    .rank .container table tr td:last-child {
+        flex-direction: column;
+    }
+    .rank .container table tr td:nth-child(2) img ,
+    .rank .container table tr td:last-child img {
+        margin-right: 0px;
+    }
+}
 .rank .container table td, 
 .rank .container table tr {
     text-align: center;
