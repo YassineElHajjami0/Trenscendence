@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateChannelDto } from './dto/create-channel.dto';
 import { UpdateChannelDto } from './dto/update-channel.dto';
 import { DatabaseService } from 'src/database/database.service';
 import * as fs from 'fs';
@@ -17,16 +16,33 @@ export class ChannelsService {
     const filePath = path.join(process.cwd(), 'public', file.originalname);
     createChannelDto.uri = filePath;
     await fs.promises.writeFile(filePath, file.buffer);
-    await this.databaseService.channel.create({ data: createChannelDto });
+    const imageName = path.basename(createChannelDto.uri);
+    createChannelDto.uri = imageName;
+    const createdChannel = await this.databaseService.channel.create({
+      data: createChannelDto,
+    });
+    await this.databaseService.role.create({
+      data: {
+        channelID: createdChannel.id,
+        userID: 1,
+        role: 'OWNER',
+      },
+    });
     return 'This action adds a new channel';
   }
 
-  findAll() {
-    return `This action returns all channels`;
-  }
+  findAll() {}
 
-  findOne(id: number) {
-    return `This action returns a #${id} channel`;
+  async findOne(userID: number) {
+    const roles = await this.databaseService.role.findMany({
+      where: { userID },
+      include: {
+        channels: {
+          include: { roles: true },
+        },
+      },
+    });
+    return roles;
   }
 
   update(id: number, updateChannelDto: UpdateChannelDto) {

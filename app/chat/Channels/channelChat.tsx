@@ -1,35 +1,45 @@
-import React from "react";
-import ChannelsList from "../../data/channels_list.json";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import "./channelChat.css";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
+interface channelInterface {
+  id: number;
+  name: string;
+  topic: string;
+  type: string;
+  uri: string;
+  roles: any[];
+}
+
 interface channelChatProps {
+  channels: channelInterface[] | undefined;
   setSelectedChannel: React.Dispatch<React.SetStateAction<number>>;
   setShowPopUpCreateChannel: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const channelChat: React.FC<channelChatProps> = ({
+const ChannelChat: React.FC<channelChatProps> = ({
+  channels,
   setSelectedChannel,
   setShowPopUpCreateChannel,
 }) => {
   return (
     <>
       <div className="channelsListContainer">
-        {ChannelsList.map((e) => {
+        {channels?.map((channel) => {
           return (
             <div
-              key={e.channel_id}
+              key={channel.id}
               className="channelContainer"
               onClick={() => {
-                setSelectedChannel(e.channel_id);
+                setSelectedChannel(channel.id);
               }}
             >
               <div className="imageContainer">
                 <Image
                   className="channelImage"
-                  src={e.avatar}
+                  src={`http://localhost:3000/${channel.uri}`}
                   width={80}
                   height={80}
                   alt="avatar"
@@ -37,14 +47,13 @@ const channelChat: React.FC<channelChatProps> = ({
               </div>
               <div className="name_lastmsg">
                 <p>
-                  {e.channel_name.length > 10
-                    ? `${e.channel_name.substring(0, 10)}..`
-                    : e.channel_name}
+                  {channel.name.length > 10
+                    ? `${channel.name.substring(0, 10)}..`
+                    : channel.name}
                 </p>
                 <span>
-                  {e.lastmsg.length > 10
-                    ? `${e.lastmsg.substring(0, 10)}..`
-                    : e.lastmsg}
+                  {channel.roles.length}{" "}
+                  {channel.roles.length < 2 ? "member" : "members"}{" "}
                 </span>
               </div>
             </div>
@@ -61,4 +70,4 @@ const channelChat: React.FC<channelChatProps> = ({
   );
 };
 
-export default channelChat;
+export default ChannelChat;

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./chat.css";
 import Image from "next/image";
 import { HiDotsVertical } from "react-icons/hi";
@@ -15,6 +15,18 @@ import { IoCameraReverse } from "react-icons/io5";
 import { FriendInfo } from "./Friends/FriendInfo";
 import PopupCreateChannel from "./Channels/popupCreateChannel";
 import AddFriendSection from "./Friends/AddFriendSection";
+import { loggedUser } from "../Atoms/logged";
+import { useRecoilValue } from "recoil";
+import { userToken } from "@/app/Atoms/userToken";
+
+interface channelInterface {
+  id: number;
+  name: string;
+  topic: string;
+  type: string;
+  uri: string;
+  roles: any[];
+}
 
 const Chat = () => {
   const [hide, setHide] = useState(false);
@@ -24,6 +36,35 @@ const Chat = () => {
   const [showPopUpCreateChannel, setShowPopUpCreateChannel] = useState(false);
 
   const selectedBtn = mode === "friends" ? "toleft" : "toright";
+
+  const userId = useRecoilValue(loggedUser);
+  const userTok = useRecoilValue(userToken);
+  const [channels, setChannels] = useState<channelInterface[]>();
+
+  useEffect(() => {
+    const fetchChannels = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/channelss/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response) {
+          console.log("Error");
+        }
+        const data = await response.json();
+        const channelsArr = data.map((data: any) => data.channels);
+        setChannels(channelsArr);
+      } catch (error) {
+        console.log("Error");
+      }
+    };
+    fetchChannels();
+  }, []);
 
   const preventCHilde = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -75,6 +116,7 @@ const Chat = () => {
           ) : (
             <div className="channelsList">
               <ChannelChat
+                channels={channels}
                 setSelectedChannel={setSelectedChannel}
                 setShowPopUpCreateChannel={setShowPopUpCreateChannel}
               />
@@ -94,6 +136,9 @@ const Chat = () => {
           ) : mode == "channels" && selectedChannel > 0 ? (
             <div className="selectedChannelChat">
               <SelectedChannelChat
+                userId={userId}
+                userTok={userTok}
+                channels={channels}
                 selectedChannel={selectedChannel}
                 setSelectedChannel={setSelectedChannel}
               />

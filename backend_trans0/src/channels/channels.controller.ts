@@ -7,14 +7,12 @@ import {
   Param,
   Delete,
   UseInterceptors,
-  UploadedFile,
   UploadedFiles,
+  Query,
 } from '@nestjs/common';
 import { ChannelsService } from './channels.service';
-import { CreateChannelDto } from './dto/create-channel.dto';
 import { UpdateChannelDto } from './dto/update-channel.dto';
-import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
-import { Public } from 'src/auth/decorators/public.decorator';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { Prisma } from '@prisma/client';
 
 @Controller('channelss')
@@ -30,19 +28,20 @@ export class ChannelsController {
     return this.channelsService.create(files[0], createChannelDto);
   }
 
-  // @Post()
-  // @UseInterceptors(FileInterceptor('myFile'))
-  // create(@UploadedFile() file, @Body() createChannelDto: CreateChannelDto) {
-  //   console.log(file);
-  //   return this.channelsService.create(createChannelDto);
-  // }
   @Get()
   findAll() {
     return this.channelsService.findAll();
   }
+  @Get()
+  findMessages(@Query('channelId') channelId: string) {
+    console.log('here 000000000000000000');
+
+    return this.channelsService.findOne(+channelId);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log('IM GOOD');
     return this.channelsService.findOne(+id);
   }
 
@@ -56,18 +55,3 @@ export class ChannelsController {
     return this.channelsService.remove(+id);
   }
 }
-
-// import { Body, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
-// import { FileInterceptor } from '@nestjs/platform-express';
-
-// @Controller('upload-stack-overflow')
-// export class UploadStackOverflowController {
-
-//   @Post('upload')
-//   @UseInterceptors(FileInterceptor('file'))
-//   uploadSingleFileWithPost(@UploadedFile() file, @Body() body) {
-//     console.log(file);
-//     console.log(body.firstName);
-//     console.log(body.favoriteColor);
-//   }
-// }
