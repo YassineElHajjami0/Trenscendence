@@ -121,7 +121,6 @@ header .container .icons img {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    background-color: red;
 }
 @media (max-width: 995px) {
     .rank .container .leaders {
