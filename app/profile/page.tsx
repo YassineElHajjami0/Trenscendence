@@ -5,110 +5,47 @@ import "./Profile.css";
 import { MdOutlineEdit, MdContentCopy } from "react-icons/md";
 import ProfileDetails from "./ProfileDetails";
 import Image from "next/image";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
 import { PiCurrencyEthFill } from "react-icons/pi";
-import { selectedFriendProfile } from "../Atoms/selectedFriendProfile";
-import { BsPersonFillAdd } from "react-icons/bs";
-import axios from "axios";
+import { useRouter } from "next/navigation";
+import LoadingPaddle from "../LoadingPaddle";
 
 const Profile = () => {
   const uidRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(false);
+
   const loggedU = useRecoilValue(loggedUser);
   const userTok = useRecoilValue(userToken);
-
-  const [selectedProfile, setSelectedProfile] = useRecoilState(
-    selectedFriendProfile
-  );
-  const [isFriend, setIsFriend] = useState(true);
-
+  const route = useRouter();
   const [userData, setUserData] = useState<any>({});
-  // const copyUID = () => {
-  //   return;
-  //   if (uidRef.current) {
-  //     const textToCopy = uidRef.current.textContent || "";
 
-  //     navigator.clipboard
-  //       .writeText(textToCopy)
-  //       .then(() => {
-  //         console.log("Text copied to clipboard:", textToCopy);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Unable to copy text to clipboard", error);
-  //       });
-  //   }
-  // };
-
-  const whichProfile = selectedProfile === -1 ? loggedU : selectedProfile;
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/users/${whichProfile}`, {
+        setLoading(true);
+        const res = await fetch(`http://localhost:3000/users/${loggedU}`, {
           headers: {
             Authorization: `Bearer ${userTok}`,
             "Content-Type": "application/json",
           },
         });
         const data = await res.json();
-        setUserData(data);
-        console.log("userData-->>>", data);
+        setTimeout(() => {
+          setUserData(data);
+          setLoading(false);
+        }, 1000);
       } catch (error: any) {
-        console.log("--->>>", error.message);
+        setLoading(false);
       }
     };
     getUserData();
-  }, [whichProfile]);
+  }, []);
 
-  const getIfFriend = async () => {
-    if (selectedProfile === -1 || selectedProfile === loggedU) return;
-
-    console.log("ana hnaaa-------------------------");
-
-    const query = {
-      friendId: selectedProfile,
-    };
-
-    const res = await axios.get(`http://localhost:3000/friends/me/${loggedU}`, {
-      params: query,
-      headers: {
-        Authorization: `Bearer ${userTok}`,
-      },
-    });
-    const data = await res.data;
-    setIsFriend(data);
-    console.log("jjjjjjjjjj>>>>>>>", data);
-  };
-
-  useEffect(() => {
-    getIfFriend();
-  }, [whichProfile]);
-
-  const addFriend = async () => {
-    if (selectedProfile === -1 || selectedProfile === loggedU) return;
-
-    const notifData = {
-      type: "friendReq",
-      content: "sent you a friend request",
-      suserId: loggedU,
-      ruserId: selectedProfile,
-    };
-
-    try {
-      const res = await fetch("http://localhost:3000/notifications", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${userTok}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(notifData),
-      });
-    } catch (error: any) {
-      console.log("error>>>", error);
-    }
-  };
-
-  return (
+  return loading ? (
+    <LoadingPaddle />
+  ) : (
     <div className="profile_container">
       <div
         style={{
@@ -120,12 +57,10 @@ const Profile = () => {
         }}
         className="user_account"
       >
-        {(selectedProfile === -1 || loggedU === selectedProfile) && (
-          <div className="edit_label">
-            <span>Edit</span>
-            <MdOutlineEdit />
-          </div>
-        )}
+        <div onClick={() => route.push("settings")} className="edit_label">
+          <span>Edit</span>
+          <MdOutlineEdit />
+        </div>
 
         <div className="img_container_add">
           <Image
@@ -135,9 +70,6 @@ const Profile = () => {
             alt="profile_avatar"
             className="profile_photo"
           />
-          {!isFriend && (
-            <BsPersonFillAdd className="add_me_if_not" onClick={addFriend} />
-          )}
         </div>
 
         <div className="profile_data">
@@ -172,10 +104,26 @@ const Profile = () => {
         </div>
       </div>
       <div className="profile_details">
-        <ProfileDetails whichProfile={whichProfile} />
+        <ProfileDetails whichProfile={loggedU} />
       </div>
     </div>
   );
 };
 
 export default Profile;
+
+// const copyUID = () => {
+//   return;
+//   if (uidRef.current) {
+//     const textToCopy = uidRef.current.textContent || "";
+
+//     navigator.clipboard
+//       .writeText(textToCopy)
+//       .then(() => {
+//         console.log("Text copied to clipboard:", textToCopy);
+//       })
+//       .catch((error) => {
+//         console.error("Unable to copy text to clipboard", error);
+//       });
+//   }
+// };

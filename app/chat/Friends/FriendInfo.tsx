@@ -25,7 +25,7 @@ export const FriendInfo = () => {
           height={5000}
           alt="avatar"
         />
-        <h1>{friend?.name}</h1>
+        <h1>{friend?.username}</h1>
         <h3>{friend?.bio}</h3>
       </div>
       <div className="current_friend_rank">

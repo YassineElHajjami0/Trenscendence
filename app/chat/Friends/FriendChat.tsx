@@ -17,7 +17,7 @@ const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
   return (
     <div
       onClick={() => {
-        setSelectedFriend(friendData.uid);
+        setSelectedFriend(friendData.users.uid);
         if (friendData.uid !== selectedFriend) setLoadingAnimation(true);
       }}
       className="friend_chat_container"
@@ -25,20 +25,20 @@ const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
       <div className="chat_list_avatar_container">
         <Image
           className="chat_list_avatar"
-          src={`http://localhost:3000/${friendData?.avatar}`}
+          src={`http://localhost:3000/${friendData?.users?.avatar}`}
           width={2000}
           height={2000}
           alt="avatar"
         />
         <span
           className={`status_dot ${
-            friendData?.status === "online" && "logged"
-          }  ${friendData?.status === "ingame" && "ingame"}`}
+            friendData?.users?.status === "online" && "logged"
+          }  ${friendData?.users?.status === "ingame" && "ingame"}`}
         ></span>
       </div>
       <div className="chat_list_name">
-        <h1>{friendData?.username}</h1>
-        <h4>{friendData?.lastMSG}</h4>
+        <h1>{friendData?.users?.username}</h1>
+        <h4>{friendData?.users?.lastMSG}</h4>
       </div>
     </div>
   );

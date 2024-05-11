@@ -81,7 +81,10 @@ export default function Friend({ friend }: { friend: any }) {
         <div className={`btn_conatiner ${burgerM && "showParam"}`}>
           <button
             id={friend.uid}
-            onClick={() => setSelectedProfile(friend?.uid)}
+            onClick={() => {
+              setSelectedProfile(friend?.uid);
+              route.push(`/profile/${friend?.username}`);
+            }}
             className="friend_component_btn view_profile"
           >
             <TbUserShare className="go_to_profile" />

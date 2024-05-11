@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
@@ -63,6 +64,17 @@ export class UsersService {
         confirmedPassword: '',
       };
       return finalUser;
+    }
+
+    return user;
+  }
+
+  async findOneName(username: string) {
+    const user = await this.databaseService.t_User.findFirst({
+      where: { username },
+    });
+    if (!user) {
+      throw new HttpException('no Username', HttpStatus.NOT_FOUND);
     }
     return user;
   }

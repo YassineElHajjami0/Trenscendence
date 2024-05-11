@@ -25,7 +25,7 @@
 }
 
 .friend_chat_msg_body {
-  padding: 0px 10px;
+  padding: 10px 10px 0 10px;
   transition: all 0.4s;
   overflow-y: scroll;
   scroll-behavior: smooth;

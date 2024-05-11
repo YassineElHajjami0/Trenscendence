@@ -4,12 +4,14 @@ import { DatabaseService } from 'src/database/database.service';
 import { FriendDto } from './dto/friendDto';
 import { UsersService } from 'src/users/users.service';
 import { ChatGateway } from 'src/chatSockets/chat.getway';
+import { ChannelService } from 'src/channel/channel.service';
 
 @Injectable()
 export class FriendsService {
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly chatGateway: ChatGateway,
+    private readonly channelService: ChannelService,
   ) {}
 
   async create(createFriendDto: FriendDto) {
@@ -29,8 +31,6 @@ export class FriendsService {
       },
     });
     if (!existingFriendship) {
-      console.log('llllllllllll');
-
       const friend = await this.databaseService.userFriend.create({
         data: createFriendDto,
         include: {
@@ -38,7 +38,14 @@ export class FriendsService {
           usersSendMe: true,
         },
       });
-      this.chatGateway.updateFriendList(friend);
+      const channelDto = {
+        name: '',
+        topic: '',
+        id: user1Id,
+        friendId: user2Id,
+      };
+      await this.channelService.createDM(channelDto);
+      // this.chatGateway.updateFriendList(friend);
     }
   }
 

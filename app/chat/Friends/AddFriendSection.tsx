@@ -29,7 +29,6 @@ const AddFriendSection = () => {
   const getAllusers = async () => {
     if (!addFriend) return;
     try {
-      console.log("toooooooooooooooo ====> 0000", userTok);
       const res = await fetch(
         `http://localhost:3000/friends/allusers/${userL}`,
         {

@@ -2,12 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import { ChannelDto } from './dto/channelDto';
+import { ChatGateway } from 'src/chatSockets/chat.getway';
 
 @Injectable()
 export class ChannelService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly chatGateway: ChatGateway,
+  ) {}
 
   async createDM(createChannelDto: ChannelDto) {
+    console.log('__________d5aaaaaal', createChannelDto);
+
     const { name, topic, ...rest } = createChannelDto;
     const data = { name, topic };
     const checkChannel = await this.databaseService.channel.findFirst({
@@ -27,11 +33,19 @@ export class ChannelService {
         ],
       },
     });
-    if (checkChannel) return checkChannel.id;
+    if (checkChannel) {
+      console.log('__________kayna');
 
-    const channel = await this.databaseService.channel.create({ data: data });
+      return checkChannel.id;
+    }
+
+    const channel = await this.databaseService.channel.create({
+      data: data,
+    });
+    console.log('kkkkkkkkk>>>>>', channel);
+
     if (channel) {
-      await this.databaseService.role.createMany({
+      const roles = await this.databaseService.role.createMany({
         data: [
           {
             channelID: channel.id,
@@ -43,9 +57,65 @@ export class ChannelService {
           },
         ],
       });
-      
-      return channel.id;
+      if (roles) {
+        const newChannel = await this.databaseService.channel.findUnique({
+          where: { id: channel.id },
+          include: {
+            roles: {
+              include: { user: true },
+            },
+            messages: { orderBy: { createdAT: 'desc' }, take: 1 },
+          },
+        });
+
+        const myFriend = {
+          id: newChannel.id,
+          users: newChannel.roles.map((u) => {
+            return u.user;
+          }),
+          lastMSG: newChannel.messages[0]?.content || '',
+          sendAT: newChannel.messages[0]?.createdAT,
+        };
+        this.chatGateway.updateFriendList(myFriend);
+        return myFriend;
+      }
+
+      // this.findMyFriends(channel.id);
     }
+  }
+
+  async findMyFriends(id: number) {
+    const res = await this.databaseService.channel.findMany({
+      where: {
+        AND: [
+          { type: 'DM' },
+          {
+            roles: {
+              some: { userID: id },
+            },
+          },
+        ],
+      },
+      include: {
+        roles: {
+          where: { NOT: { userID: id } },
+          include: { user: true },
+        },
+        messages: { orderBy: { createdAT: 'desc' }, take: 1 },
+      },
+    });
+
+    const myFriends = res.map((res) => {
+      return {
+        id: res.id,
+        users: res.roles[0].user,
+        lastMSG: res.messages[0]?.content || '',
+        sendAT: res.messages[0]?.createdAT,
+      };
+    });
+    // this.chatGateway.updateFriendList(myFriends);
+
+    return myFriends;
   }
 
   findAll() {

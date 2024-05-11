@@ -69,10 +69,11 @@ const FriendChatList = () => {
   };
 
   useEffect(() => {
-    //get my friend data
-    // friends.find((f) => f.uid === selectedFriend);
+    if (selectedFriend === -1) return;
+    console.log();
+
+    /*----------------------------get my friend data------------------------------- */
     const getMyFriendData = async () => {
-      /*----------------------------get my friend data------------------------------- */
       const selectedFriendData = await fetch(
         `http://localhost:3000/users/${selectedFriend}`,
         {
@@ -83,10 +84,7 @@ const FriendChatList = () => {
         }
       );
       const dataF = await selectedFriendData.json();
-      console.log("-------3aaaaaa>>>>>>", dataF);
-
-      await setFriend(dataF);
-
+      setFriend(dataF);
       /*---------------------------create a channel or get its id------------------- */
       const channelData = {
         name: "",
@@ -98,7 +96,6 @@ const FriendChatList = () => {
         "http://localhost:3000/channels/dm",
         {
           method: "POST",
-
           headers: {
             Authorization: `Bearer ${userTok}`,
             "Content-Type": "application/json",
@@ -107,10 +104,6 @@ const FriendChatList = () => {
         }
       );
       const dataC = await createOrGetChannelID.json();
-      if (dataC?.statusCode || dataC === -1) {
-        return;
-      }
-
       setChannelID(dataC);
       getAllMSG(dataC);
       setInputMSG("");

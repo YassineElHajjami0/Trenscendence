@@ -139,9 +139,7 @@ const Chat = () => {
             <HiDotsVertical className="dots_hide" />
           )}
         </div>
-        {/* {mode === "friends" && ( */}
-        <AddFriendSection />
-        {/* )} */}
+        {mode === "friends" && <AddFriendSection />}
       </div>
     </div>
   );

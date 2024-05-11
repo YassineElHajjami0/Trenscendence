@@ -5,25 +5,28 @@ import friendData from "../../data/friends.json";
 import { FriendData } from "@/app/Interfaces/friendDataInterface";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { loggedUser } from "@/app/Atoms/logged";
-import { slctdFriend } from "@/app/Atoms/friendAtom";
+
 import { mheaders } from "@/app/util/headers";
 import { userToken } from "@/app/Atoms/userToken";
 import { socket } from "@/app/sockets/socket";
 
 export default function FriendsChat() {
-  const loggedUserUID = useRecoilValue(loggedUser);
+  const UID = useRecoilValue(loggedUser);
   const userTok = useRecoilValue(userToken);
   const [myFriends, setMyFriends] = useState<any[]>([]);
 
+  myFriends.sort((a: any, b: any) => {
+    return new Date(b.sendAT).getTime() - new Date(a.sendAT).getTime();
+  });
   useEffect(() => {
     const updateFriends = (friend: any) => {
-      const currFriend =
-        friend.usersSendThem.uid === loggedUserUID
-          ? friend.usersSendMe
-          : friend.usersSendThem;
-      if (loggedUserUID === friend.user1Id || loggedUserUID === friend.user2Id) {
+      const { users, ...rest } = friend;
+      const whichUser = UID === users[0].uid ? users[1] : users[0];
 
-        setMyFriends((prev: any) => [...prev, currFriend]);
+      console.log("socket friend>>>>>", whichUser);
+      const whichUID = friend.users.some((user: any) => user.uid === UID);
+      if (whichUID) {
+        setMyFriends((prev: any) => [...prev, { users: whichUser, ...rest }]);
       }
     };
 
@@ -32,20 +35,18 @@ export default function FriendsChat() {
       socket.off("update_friend_list");
     };
   }, []);
-  console.log("------->my friends", myFriends);
+  console.log("alllll users>>>>>>>>", myFriends);
 
   const getMyFriends = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/friends/${loggedUserUID}`,
-        {
-          headers: {
-            Authorization: `Bearer ${userTok}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`http://localhost:3000/channels/dm/${UID}`, {
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
+      console.log("friends>>>>>>>", data);
 
       setMyFriends(data);
     } catch (error) {
@@ -68,7 +69,7 @@ export default function FriendsChat() {
   return (
     <div className="friends_chat_container">
       {myFriends.length > 0 &&
-        myFriends.map((f: any) => <FriendChat key={f?.uid} friendData={f} />)}
+        myFriends.map((f: any) => <FriendChat key={f?.id} friendData={f} />)}
     </div>
   );
 }

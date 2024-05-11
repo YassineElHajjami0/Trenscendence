@@ -61,6 +61,8 @@
 }
 .chat_list_avatar_container {
   position: relative;
+  width: fit-content;
+  height: fit-content;
 }
 .status_dot {
   border: 2px solid #3d3d3d;
@@ -70,8 +72,8 @@
   border-radius: 50%;
   background: #ff3355;
   filter: drop-shadow(0 0 1px #ff3355);
-  left: 5%;
-  bottom: 11%;
+  right: 10%;
+  bottom: 10%;
   transition: all 0.4s;
 }
 

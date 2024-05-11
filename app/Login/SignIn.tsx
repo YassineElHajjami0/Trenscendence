@@ -34,12 +34,12 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const [err, setErr] = useState<string>("");
   const [user, setUser] = useState<any>({});
 
-  // useEffect(() => {
-  //   setEmail("");
-  //   setUsername("");
-  //   setPass("");
-  //   setBiometric("");
-  // }, [signInUp]);
+  useEffect(() => {
+    setEmail("");
+    setUsername("");
+    setPass("");
+    setBiometric("");
+  }, [signInUp, _2fa_opt]);
 
   const verifyTwoFA = async (e: any) => {
     e.preventDefault();
@@ -56,11 +56,9 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         Udata
       );
       const data = await response.data;
-      console.log("2fa data>>>>>>>>", data);
-
       setLoggedU(data.user.uid);
       setUserTok(data.userToken);
-      // router.push("/");
+      router.push("/");
     } catch (error: any) {
       setErr(error.response.data.message);
       setTimeout(() => {
@@ -68,6 +66,12 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       }, 5000);
     }
   };
+
+  // {
+  //   headers: {
+  //     withCredentials: true,
+  //   },
+  // }
 
   const signUpFunction = async (e: any) => {
     e.preventDefault();
