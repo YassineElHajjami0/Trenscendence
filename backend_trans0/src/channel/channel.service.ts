@@ -43,7 +43,6 @@ export class ChannelService {
           },
         ],
       });
-      
       return channel.id;
     }
   }

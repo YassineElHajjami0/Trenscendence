@@ -14,6 +14,7 @@ export class MessageService {
   async create(createMessageDto: messageDto) {
     const message = await this.databaseService.message.create({
       data: createMessageDto,
+      include: { users: { select: { avatar: true } } },
     });
 
     this.chatGateway.sendMessage(message);

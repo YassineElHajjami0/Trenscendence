@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
-import * as bcrypt from 'bcrypt';
+import { authenticator } from 'otplib';
+import { toDataURL } from 'qrcode';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,7 @@ export class AuthService {
 
   async validateUserId(uid: number) {
     const user = await this.usersService.validateUserId(uid);
-    return user === undefined;
+    return user;
   }
 
   async validateUser(username: string, pass: string): Promise<any> {
@@ -22,7 +23,11 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.uid, role: user.role };
+    const payload = {
+      username: user.username,
+      sub: user.uid,
+      role: user.role,
+    };
     return this.jwtService.sign(payload);
   }
 
@@ -32,8 +37,6 @@ export class AuthService {
   }
 
   async signUpWithProvider(createUserDto: CreateUserDto) {
-    console.log("hhhhhhhhhhh>>>>>>>>",createUserDto.email);
-    
     let user = await this.usersService.findByEmail(createUserDto.email);
 
     if (!user) {
@@ -64,5 +67,51 @@ export class AuthService {
       password += charset[randomIndex];
     }
     return password;
+  }
+
+  // Two FA Section
+  // 1
+  async generateTwoFactorAuthenticationSecret(user: any) {
+    const secret = authenticator.generateSecret();
+
+    const otpAuthUrl = authenticator.keyuri(
+      user.email,
+      'Transcendance',
+      secret,
+    );
+    await this.usersService.setTwoFaSecret(secret, user.uid);
+    await this.usersService.turnOnTwoFA(user.uid);
+
+    return {
+      secret,
+      otpAuthUrl,
+    };
+  }
+
+  // 2
+  async generateQrCodeDataURL(otpAuthUrl: string) {
+    return toDataURL(otpAuthUrl);
+  }
+
+  // 3
+  isTwoFactorCodeValid(body: any) {
+    return authenticator.verify({
+      token: body.twoFaCode,
+      secret: body.user.twoFASecret,
+    });
+  }
+
+  // 3
+  async loginWith2fa(userWithoutPsw: Partial<CreateUserDto>) {
+    const payload = {
+      email: userWithoutPsw.email,
+      isTwoFactorAuthenticationEnabled: !!userWithoutPsw.twoFA,
+      isTwoFactorAuthenticated: true,
+    };
+
+    return {
+      email: payload.email,
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }

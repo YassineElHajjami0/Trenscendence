@@ -44,7 +44,6 @@ const Store = () => {
   const userTok = useRecoilValue(userToken);
   const [popUpCannotBuy, setPopUpCannotBuy] = useState(false);
   const [choosedArticle, setChoosedArticle] = useState<itemsInterface>();
-  const [prevchoosedArticle, setPrevChoosedArticle] = useState<number>();
   const [items, setItems] = useState<itemsInterface[]>();
   const [selectedCategory, setselectedCategory] = useState("all");
   const [userData, setUserData] = useState<dataInterface>();
@@ -83,8 +82,14 @@ const Store = () => {
         let data: itemsInterface[] = await response.json();
         data = data.filter((e) => e.type == "paddle" || e.type == "avatar");
         setChoosedArticle(data[0]);
-        
-        let oldestChoosedArticle:itemsInterface| undefined = data.find(e => e.choosed == true)
+        let oldestChoosedArticle: itemsInterface | undefined = data.find(
+          (e) => e.choosed == true
+        );
+        setPrevChoosedArticle(oldestChoosedArticle);
+
+        let oldestChoosedArticle: itemsInterface | undefined = data.find(
+          (e) => e.choosed == true
+        );
         setPrevChoosedArticle(oldestChoosedArticle?.id);
         console.log("_______>>>", data);
         setItems(data);
@@ -142,6 +147,7 @@ const Store = () => {
   };
 
   const handleChooseArticle = async (id: number) => {
+    console.log("choosedArticle?.name => ", prevchoosedArticle);
     const response = await fetch(`http://localhost:3000/useritems`, {
       method: "PATCH",
       headers: {
@@ -152,13 +158,16 @@ const Store = () => {
         userId: userId,
         itemId: id,
         choosed: true,
-        oldId: choosedArticle?.id,
+        oldId: prevchoosedArticle?.id || "undefined",
+        oldType: prevchoosedArticle?.type || "undefined",
+        type: choosedArticle?.type, //++
+        avatar: choosedArticle?.img, //++
       }),
     })
       .then(() => {
-        console.log(">>>>>>>>>>>>>>>baaa3>>>>>>>>>>");
+        console.log(">>>>>>>>>>>>>baaa3>>>>>>>>>>");
         const updatedItems = items?.map((item) => {
-          if (item.id === id) {
+          if (item.id === id || item.choosed == true) {
             return {
               ...item,
               choosed: true,
@@ -172,7 +181,6 @@ const Store = () => {
           choosed: true,
         };
         setChoosedArticle(updatedchoosedArticle);
-        setPrevChoosedArticle(updatedchoosedArticle.id);
       })
       .catch((errorResponse) => {
         throw new Error(`Failed to POST data. Error: ${errorResponse.message}`);

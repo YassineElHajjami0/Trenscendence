@@ -57,6 +57,7 @@ const Chat = () => {
           console.log("Error");
         }
         const data = await response.json();
+        console.log("DAAAATAAAA:", data);
         const channelsArr = data.map((data: any) => data.channels);
         setChannels(channelsArr);
       } catch (error) {
@@ -165,7 +166,12 @@ const Chat = () => {
             {mode == "friends" && selectedFriend != -1 ? (
               <FriendInfo />
             ) : mode == "channels" && selectedChannel > 0 ? (
-              <ChannelInfo selectedChannel={selectedChannel} />
+              <ChannelInfo
+                userId={userId}
+                userTok={userTok}
+                channels={channels}
+                selectedChannel={selectedChannel}
+              />
             ) : (
               ""
             )}

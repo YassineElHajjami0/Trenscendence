@@ -30,7 +30,6 @@ import { ChannelsModule } from './channels/channels.module';
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
-      exclude: ['/api/(.*)'],
     }),
     UsersModule,
     DatabaseModule,

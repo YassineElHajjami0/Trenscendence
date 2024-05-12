@@ -59,7 +59,8 @@ model Message {
   channels  Channel @relation(fields: [channelID], references: [id])
   channelID Int
 
-  content   String
+  content String
+
   createdAT DateTime @default(now())
 }
 
@@ -69,15 +70,23 @@ enum roles {
   OWNER
 }
 
+enum conditions {
+  MUTED
+  BLOCKED
+  NORMAL
+}
+
 model Role {
-  id        Int     @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   //chnnel relation
-  channels  Channel @relation(fields: [channelID], references: [id])
-  channelID Int
+  channels     Channel    @relation(fields: [channelID], references: [id])
+  channelID    Int
   //user relation
-  user      T_User  @relation(fields: [userID], references: [uid])
-  userID    Int
-  role      roles   @default(USER)
+  user         T_User     @relation(fields: [userID], references: [uid])
+  userID       Int
+  role         roles      @default(USER)
+  blockedSince DateTime   @default(now())
+  condition    conditions @default(NORMAL)
 }
 
 model T_User {
@@ -89,8 +98,9 @@ model T_User {
   password         String
   twoFA            Boolean           @default(false)
   avatar           String            @default("/default.png")
-  wallet           Int               @default(0)
+  paddle           String            @default("/defaultPaddle.png")
   banner           String            @default("/defaultBanner.jpg") // neeeeeed to be updated
+  wallet           Int               @default(0)
   level            Int               @default(0)
   // points           Int               @default(0)
   rank             String            @default("0")
@@ -98,6 +108,7 @@ model T_User {
   lose             Int               @default(0)
   role             String            @default("User")
   strategy         String            @default("local")
+  twoFASecret      String            @default("")
   userItems        UserItem[]
   usersSendThem    UserFriend[]      @relation("usersSendThem")
   usersSendMe      UserFriend[]      @relation("usersSendMe")

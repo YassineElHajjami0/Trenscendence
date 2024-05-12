@@ -1,7 +1,6 @@
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
-  SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
@@ -21,9 +20,15 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   sendMessage(message: any) {
     this.server.emit('message', message);
   }
+  updateRoles(usersRoles: any) {
+    console.log(')))))))>>>', usersRoles);
+    this.server.emit('updateRoles', usersRoles);
+  }
+  updateMessagesAfterBlock() {
+    // console.log(')))))))>>>', usersRoles);
+    this.server.emit('updateMessagesAfterBlock');
+  }
   sendNotification(notification: any) {
     this.server.emit('notification', notification);
   }
-
-
 }
