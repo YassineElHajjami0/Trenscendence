@@ -80,7 +80,8 @@
 
 .show_2fa_container {
   width: 95%;
-  height: 20%;
+  height: 25%;
+  padding: 10px 5px;
 }
 
 ._2fa_container_inputs {

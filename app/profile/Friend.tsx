@@ -21,34 +21,48 @@ import axios from "axios";
 import { userToken } from "../Atoms/userToken";
 
 export default function Friend({ friend }: { friend: any }) {
-  console.log("frieeeeeend>>>>>>", friend);
+  console.log("friend >>>>> ", friend);
 
   const loggedU = useRecoilValue(loggedUser);
+  const userTok = useRecoilValue(userToken);
 
   const [selectedProfile, setSelectedProfile] = useRecoilState(
     selectedFriendProfile
   );
+
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const route = useRouter();
 
-  const [logged, setLogged] = useState(
-    friend?.status === "online" || friend?.status === "ingame"
-  );
-  const [inGame, setInGame] = useState(friend?.status === "ingame");
-  const [blocked, setBlocked] = useState<boolean>(
-    friend?.fsStatus === "BLOCKED"
-  );
+  const [logged, setLogged] = useState(friend?.users?.status === "online");
+  const [inGame, setInGame] = useState(friend?.users?.status === "ingame");
+  const [blocked, setBlocked] = useState<boolean>(friend.blocked);
   const [burgerM, setBurgerM] = useState(false);
 
-  const handleSwitch = () => {
+  const handleSwitch = (e: any) => {
+    e.preventDefault();
     setBlocked((prev) => !prev);
+
+    const body = {
+      channelID: friend.id,
+      friendId: friend.users.uid,
+      blocked: !blocked,
+    };
+    try {
+      axios.patch("http://localhost:3000/channels/dm", body, {
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+        },
+      });
+    } catch (error) {
+      console.log("3a", error);
+    }
   };
   const handleBurgerM = () => {
     setBurgerM((prev) => !prev);
   };
 
   const test = () => {
-    setSelectedFriend(friend?.uid);
+    setSelectedFriend(friend?.users?.uid);
     route.push("/chat");
     console.log("-------->>>>>>>");
   };
@@ -57,7 +71,7 @@ export default function Friend({ friend }: { friend: any }) {
     <div className="friend_container">
       <div className="friend_name_photo">
         <Image
-          src={`http://localhost:3000${friend?.avatar}`}
+          src={`http://localhost:3000${friend?.users?.avatar}`}
           width={2000}
           height={2000}
           className={`friend_avatar ${blocked && "blocked_friend_avatar"}`}
@@ -75,15 +89,15 @@ export default function Friend({ friend }: { friend: any }) {
               logged && inGame && "ingame"
             }`}
           ></div>
-          {friend?.username}
+          {friend?.users?.username}
         </label>
 
         <div className={`btn_conatiner ${burgerM && "showParam"}`}>
           <button
             id={friend.uid}
             onClick={() => {
-              setSelectedProfile(friend?.uid);
-              route.push(`/profile/${friend?.username}`);
+              setSelectedProfile(friend?.users?.uid);
+              route.push(`/profile/${friend?.users?.username}`);
             }}
             className="friend_component_btn view_profile"
           >

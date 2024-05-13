@@ -4,3 +4,9 @@ export type ChannelDto = {
   id: number;
   friendId: number;
 };
+
+export type updateChannelDto = {
+  channelID: number;
+  friendId: number;
+  blocked: boolean;
+};

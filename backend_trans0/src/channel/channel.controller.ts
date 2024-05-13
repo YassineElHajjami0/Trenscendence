@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ChannelService } from './channel.service';
 import { Prisma } from '@prisma/client';
-import { ChannelDto } from './dto/channelDto';
+import { ChannelDto, updateChannelDto } from './dto/channelDto';
 
 @Controller('channels')
 export class ChannelController {
@@ -36,12 +36,9 @@ export class ChannelController {
     return this.channelService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateChannelDto: Prisma.ChannelUpdateInput,
-  ) {
-    return this.channelService.update(+id, updateChannelDto);
+  @Patch('/dm')
+  updateDM(@Body() updateChannelDto: updateChannelDto) {
+    return this.channelService.updateDM(updateChannelDto);
   }
 
   @Delete(':id')

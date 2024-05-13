@@ -141,10 +141,11 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         onChange={(e) => setPass(e.target.value)}
       />
 
-      <div className={`two_factor_auth && ${_2fa_opt && "show_2fa_container"}`}>
+      <div className={`two_factor_auth ${_2fa_opt && "show_2fa_container"}`}>
         <h1 className="_2fa_header">2-Factor Authentication</h1>
         <OtpInput
           value={biometric}
+          shouldAutoFocus={true}
           onChange={setBiometric}
           numInputs={6}
           inputType="number"

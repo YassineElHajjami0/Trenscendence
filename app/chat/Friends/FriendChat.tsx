@@ -13,6 +13,8 @@ interface FriendChatProps {
 }
 
 const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
+  console.log("friend data >>>>>>>>", friendData);
+
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [loadingAnimation, setLoadingAnimation] = useRecoilState(loadingMsg);
   const [friend, setFriend] = useRecoilState(currentFriend);

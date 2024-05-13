@@ -5,12 +5,13 @@ import "./Profile.css";
 import { MdOutlineEdit, MdContentCopy } from "react-icons/md";
 import ProfileDetails from "./ProfileDetails";
 import Image from "next/image";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
 import { PiCurrencyEthFill } from "react-icons/pi";
 import { useRouter } from "next/navigation";
 import LoadingPaddle from "../LoadingPaddle";
+import { selectedFriendProfile } from "../Atoms/selectedFriendProfile";
 
 const Profile = () => {
   const uidRef = useRef<HTMLDivElement>(null);
@@ -20,7 +21,13 @@ const Profile = () => {
   const userTok = useRecoilValue(userToken);
   const route = useRouter();
   const [userData, setUserData] = useState<any>({});
+  const [selectedProfile, setSelectedProfile] = useRecoilState(
+    selectedFriendProfile
+  );
 
+  /////// kyan moxkiiiiiiiil
+  //////  setSelectedProfile(-1);   <------------ gado
+  //////////////////////////
   useEffect(() => {
     const getUserData = async () => {
       try {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
-import { ChannelDto } from './dto/channelDto';
+import { ChannelDto, updateChannelDto } from './dto/channelDto';
 import { ChatGateway } from 'src/chatSockets/chat.getway';
 
 @Injectable()
@@ -16,19 +16,12 @@ export class ChannelService {
     const data = { name, topic };
     const checkChannel = await this.databaseService.channel.findFirst({
       where: {
-        AND: [
-          { type: 'DM' },
-          {
-            roles: {
-              some: { userID: rest.id },
-            },
+        type: 'DM',
+        roles: {
+          every: {
+            userID: { in: [rest.id, rest.friendId] },
           },
-          {
-            roles: {
-              some: { userID: rest.friendId },
-            },
-          },
-        ],
+        },
       },
     });
     if (checkChannel) return checkChannel.id;
@@ -77,13 +70,13 @@ export class ChannelService {
     const myFriends = res.map((res) => {
       return {
         id: res.id,
-        role: res.roles[0].role,
+        blocked: res.roles[0].blocked,
         users: res.roles[0].user,
         lastMSG: res.messages[0]?.content || '',
         sendAT: res.messages[0]?.createdAT,
       };
     });
-    // this.chatGateway.updateFriendList(myFriends);
+    this.chatGateway.updateFriendList(myFriends);
 
     return myFriends;
   }
@@ -130,8 +123,19 @@ export class ChannelService {
     this.chatGateway.updateFriendList(myFriend);
   }
 
-  update(id: number, updateChannelDto: Prisma.ChannelUpdateInput) {
-    return `This action updates a #${id} channel`;
+  async updateDM(body: updateChannelDto) {
+    const checkChannel = await this.databaseService.role.findFirst({
+      where: {
+        channelID: body.channelID,
+        userID: body.friendId,
+      },
+    });
+    if (checkChannel) {
+      await this.databaseService.role.update({
+        where: { id: checkChannel.id },
+        data: { blocked: body.blocked },
+      });
+    }
   }
 
   remove(id: number) {

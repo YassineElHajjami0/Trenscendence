@@ -66,6 +66,7 @@ enum roles {
   USER
   ADMIN
   OWNER
+  NONE
 }
 
 model Role {
@@ -76,6 +77,7 @@ model Role {
   //user relation
   user      T_User  @relation(fields: [userID], references: [uid])
   userID    Int
+  blocked   Boolean @default(false)
   role      roles   @default(USER)
 }
 

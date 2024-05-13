@@ -44,6 +44,9 @@ export default function FriendsChat() {
 
   useEffect(() => {
     const updateFriends = (friend: any) => {
+      if (friend.length === 0) return;
+      if (typeof friend.users === "undefined") return;
+
       const { users, ...rest } = friend;
       const whichUser = UID === users[0].uid ? users[1] : users[0];
       const whichUID = friend.users.some((user: any) => user.uid === UID);
@@ -56,7 +59,7 @@ export default function FriendsChat() {
     return () => {
       socket.off("update_friend_list");
     };
-  }, []);
+  });
 
   const getMyFriends = async () => {
     try {
