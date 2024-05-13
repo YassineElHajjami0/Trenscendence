@@ -5,6 +5,8 @@ import Image from "next/image";
 import { slctdFriend } from "../../Atoms/friendAtom";
 import { useRecoilState } from "recoil";
 import { loadingMsg } from "@/app/Atoms/loadingMsg";
+import { currentFriend } from "@/app/Atoms/currentFriend";
+import { channelId } from "@/app/Atoms/channelId";
 
 interface FriendChatProps {
   friendData: any;
@@ -13,12 +15,18 @@ interface FriendChatProps {
 const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [loadingAnimation, setLoadingAnimation] = useRecoilState(loadingMsg);
+  const [friend, setFriend] = useRecoilState(currentFriend);
+  const [dmID, setDMID] = useRecoilState(channelId);
 
   return (
     <div
       onClick={() => {
-        setSelectedFriend(friendData.users.uid);
-        if (friendData.uid !== selectedFriend) setLoadingAnimation(true);
+        if (friendData.users.uid !== selectedFriend) {
+          setLoadingAnimation(true);
+          setDMID(friendData.id);
+          setFriend(friendData.users);
+          setSelectedFriend(friendData.users.uid);
+        }
       }}
       className="friend_chat_container"
     >
@@ -38,7 +46,7 @@ const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
       </div>
       <div className="chat_list_name">
         <h1>{friendData?.users?.username}</h1>
-        <h4>{friendData?.users?.lastMSG}</h4>
+        <h4>{friendData?.lastMSG}</h4>
       </div>
     </div>
   );

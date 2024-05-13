@@ -15,22 +15,24 @@ import { userToken } from "@/app/Atoms/userToken";
 
 import { RiEmojiStickerFill } from "react-icons/ri";
 
-import Picker from "emoji-picker-react";
+import Picker, { SuggestionMode, Theme } from "emoji-picker-react";
 
-import { socket } from "@/app/sockets/socket";
 import { loadingMsg } from "@/app/Atoms/loadingMsg";
 import ChatLoading from "./ChatLoading";
+import { channelId } from "@/app/Atoms/channelId";
+import { chatMSG } from "@/app/Atoms/chatMSG";
 
 const FriendChatList = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const loggedU = useRecoilValue(loggedUser);
   const userTok = useRecoilValue(userToken);
+  const channelID = useRecoilValue(channelId);
+  const friend = useRecoilValue(currentFriend);
+
+  const [friendChat, setFriendChat] = useRecoilState<any[]>(chatMSG);
 
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
-  const [friendChat, setFriendChat] = useState<any>([]);
-  const [friend, setFriend] = useRecoilState(currentFriend);
   const [inputMSG, setInputMSG] = useState<string>("");
-  const [channelID, setChannelID] = useState(-1);
   const [showEmoji, setShowEmoji] = useState(false);
   const [loadingAnimation, setLoadingAnimation] = useRecoilState(loadingMsg);
 
@@ -38,22 +40,10 @@ const FriendChatList = () => {
     setInputMSG((prevInput) => prevInput + event.emoji);
   };
 
-  useEffect(() => {
-    const handleReceiveMessage = (message: any) => {
-      if (message?.channelID === channelID)
-        setFriendChat((prevMessages: any) => [...prevMessages, message]);
-    };
-
-    socket.on("message", handleReceiveMessage);
-    return () => {
-      socket.off("message");
-    };
-  }, [channelID]);
-
-  const getAllMSG = async (id: number) => {
-    if (id === -1) return;
+  const getAllMSG = async () => {
+    if (selectedFriend === -1) return;
     const selectedFriendChat = await fetch(
-      `http://localhost:3000/message/${id}`,
+      `http://localhost:3000/message/${channelID}`,
       {
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -70,45 +60,8 @@ const FriendChatList = () => {
 
   useEffect(() => {
     if (selectedFriend === -1) return;
-    console.log();
-
-    /*----------------------------get my friend data------------------------------- */
-    const getMyFriendData = async () => {
-      const selectedFriendData = await fetch(
-        `http://localhost:3000/users/${selectedFriend}`,
-        {
-          headers: {
-            Authorization: `Bearer ${userTok}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const dataF = await selectedFriendData.json();
-      setFriend(dataF);
-      /*---------------------------create a channel or get its id------------------- */
-      const channelData = {
-        name: "",
-        topic: "",
-        id: loggedU,
-        friendId: selectedFriend,
-      };
-      const createOrGetChannelID = await fetch(
-        "http://localhost:3000/channels/dm",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${userTok}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(channelData),
-        }
-      );
-      const dataC = await createOrGetChannelID.json();
-      setChannelID(dataC);
-      getAllMSG(dataC);
-      setInputMSG("");
-    };
-    getMyFriendData();
+    getAllMSG();
+    setInputMSG("");
   }, [selectedFriend]);
 
   const sendMSG = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -129,6 +82,12 @@ const FriendChatList = () => {
     });
     setInputMSG("");
     setShowEmoji(false);
+  };
+  const handleEnter = async (e: any) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMSG(e);
+    }
   };
 
   useEffect(() => {
@@ -185,12 +144,13 @@ const FriendChatList = () => {
           </div>
           <Picker
             emojiVersion="facebook"
-            theme="dark"
+            theme={Theme.DARK}
             className={`emoji_picker ${showEmoji && "show_Emoji"} `}
             searchDisabled={true}
             open={true}
             onEmojiClick={onEmojiClick}
             lazyLoadEmojis={true}
+            suggestedEmojisMode={SuggestionMode.FREQUENT}
             previewConfig={{
               showPreview: false,
             }}
@@ -199,6 +159,7 @@ const FriendChatList = () => {
           <textarea
             rows={1}
             value={inputMSG}
+            onKeyDown={handleEnter}
             onChange={(e) => setInputMSG(e.target.value)}
             className="input_msg"
             placeholder={`${

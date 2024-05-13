@@ -26,7 +26,7 @@ function Notifications({ showNotif }: { showNotif: boolean }) {
     return () => {
       socket.off("notification");
     };
-  }, []);
+  });
 
   return (
     <div

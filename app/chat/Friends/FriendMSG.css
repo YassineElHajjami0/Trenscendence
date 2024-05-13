@@ -12,6 +12,7 @@
   margin-left: auto;
 }
 .chat_message {
+  white-space: pre-line;
   overflow-wrap: break-word;
   line-height: 1.3;
 }

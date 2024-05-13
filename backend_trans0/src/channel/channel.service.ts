@@ -12,8 +12,6 @@ export class ChannelService {
   ) {}
 
   async createDM(createChannelDto: ChannelDto) {
-    console.log('__________d5aaaaaal', createChannelDto);
-
     const { name, topic, ...rest } = createChannelDto;
     const data = { name, topic };
     const checkChannel = await this.databaseService.channel.findFirst({
@@ -33,17 +31,11 @@ export class ChannelService {
         ],
       },
     });
-    if (checkChannel) {
-      console.log('__________kayna');
-
-      return checkChannel.id;
-    }
+    if (checkChannel) return checkChannel.id;
 
     const channel = await this.databaseService.channel.create({
       data: data,
     });
-    console.log('kkkkkkkkk>>>>>', channel);
-
     if (channel) {
       const roles = await this.databaseService.role.createMany({
         data: [
@@ -57,30 +49,7 @@ export class ChannelService {
           },
         ],
       });
-      if (roles) {
-        const newChannel = await this.databaseService.channel.findUnique({
-          where: { id: channel.id },
-          include: {
-            roles: {
-              include: { user: true },
-            },
-            messages: { orderBy: { createdAT: 'desc' }, take: 1 },
-          },
-        });
-
-        const myFriend = {
-          id: newChannel.id,
-          users: newChannel.roles.map((u) => {
-            return u.user;
-          }),
-          lastMSG: newChannel.messages[0]?.content || '',
-          sendAT: newChannel.messages[0]?.createdAT,
-        };
-        this.chatGateway.updateFriendList(myFriend);
-        return myFriend;
-      }
-
-      // this.findMyFriends(channel.id);
+      if (roles) this.findOne(channel.id);
     }
   }
 
@@ -108,6 +77,7 @@ export class ChannelService {
     const myFriends = res.map((res) => {
       return {
         id: res.id,
+        role: res.roles[0].role,
         users: res.roles[0].user,
         lastMSG: res.messages[0]?.content || '',
         sendAT: res.messages[0]?.createdAT,
@@ -144,27 +114,20 @@ export class ChannelService {
       where: { id: id },
       include: {
         roles: {
-          select: {
-            user: {
-              select: {
-                uid: true,
-                status: true,
-                username: true,
-                email: true,
-                bio: true,
-                // avatar: true,
-              },
-            },
-          },
+          include: { user: true },
         },
+        messages: { orderBy: { createdAT: 'desc' }, take: 1 },
       },
     });
-
-    const newRoles = channel.roles.map((user) => {
-      return user.user;
-    });
-
-    return { ...channel, roles: newRoles };
+    const myFriend = {
+      id: channel.id,
+      users: channel.roles.map((u) => {
+        return u.user;
+      }),
+      lastMSG: channel.messages[0]?.content || '',
+      sendAT: channel.messages[0]?.createdAT,
+    };
+    this.chatGateway.updateFriendList(myFriend);
   }
 
   update(id: number, updateChannelDto: Prisma.ChannelUpdateInput) {

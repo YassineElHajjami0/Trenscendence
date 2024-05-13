@@ -1,29 +1,51 @@
 import React, { useEffect, useState } from "react";
 import "./FriendsChat.css";
 import FriendChat from "./FriendChat";
-import friendData from "../../data/friends.json";
-import { FriendData } from "@/app/Interfaces/friendDataInterface";
+
 import { useRecoilState, useRecoilValue } from "recoil";
 import { loggedUser } from "@/app/Atoms/logged";
 
-import { mheaders } from "@/app/util/headers";
 import { userToken } from "@/app/Atoms/userToken";
 import { socket } from "@/app/sockets/socket";
+import { channelId } from "@/app/Atoms/channelId";
+import { chatMSG } from "@/app/Atoms/chatMSG";
 
 export default function FriendsChat() {
   const UID = useRecoilValue(loggedUser);
   const userTok = useRecoilValue(userToken);
   const [myFriends, setMyFriends] = useState<any[]>([]);
+  const channelID = useRecoilValue(channelId);
+  const [friendChat, setFriendChat] = useRecoilState<any[]>(chatMSG);
 
-  myFriends.sort((a: any, b: any) => {
-    return new Date(b.sendAT).getTime() - new Date(a.sendAT).getTime();
+  useEffect(() => {
+    const handleReceiveMessage = (message: any) => {
+      if (message?.channelID === channelID)
+        setFriendChat((prevMessages: any) => [...prevMessages, message]);
+
+      setMyFriends((prev) =>
+        prev.map((f: any) =>
+          f.id === message?.channelID
+            ? { ...f, lastMSG: message.content, sendAT: message.createdAT }
+            : f
+        )
+      );
+    };
+    socket.on("message", handleReceiveMessage);
+    return () => {
+      socket.off("message");
+    };
   });
+
+  useEffect(() => {
+    myFriends.sort((a: any, b: any) => {
+      return new Date(b.sendAT).getTime() - new Date(a.sendAT).getTime();
+    });
+  }, [myFriends]);
+
   useEffect(() => {
     const updateFriends = (friend: any) => {
       const { users, ...rest } = friend;
       const whichUser = UID === users[0].uid ? users[1] : users[0];
-
-      console.log("socket friend>>>>>", whichUser);
       const whichUID = friend.users.some((user: any) => user.uid === UID);
       if (whichUID) {
         setMyFriends((prev: any) => [...prev, { users: whichUser, ...rest }]);
@@ -35,7 +57,6 @@ export default function FriendsChat() {
       socket.off("update_friend_list");
     };
   }, []);
-  console.log("alllll users>>>>>>>>", myFriends);
 
   const getMyFriends = async () => {
     try {
@@ -69,7 +90,7 @@ export default function FriendsChat() {
   return (
     <div className="friends_chat_container">
       {myFriends.length > 0 &&
-        myFriends.map((f: any) => <FriendChat key={f?.id} friendData={f} />)}
+        myFriends.map((f: any) => <FriendChat key={f.id} friendData={f} />)}
     </div>
   );
 }
