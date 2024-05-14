@@ -14,17 +14,6 @@ export class ChannelService {
   async createDM(createChannelDto: ChannelDto) {
     const { name, topic, ...rest } = createChannelDto;
     const data = { name, topic };
-    const checkChannel = await this.databaseService.channel.findFirst({
-      where: {
-        type: 'DM',
-        roles: {
-          every: {
-            userID: { in: [rest.id, rest.friendId] },
-          },
-        },
-      },
-    });
-    if (checkChannel) return checkChannel.id;
 
     const channel = await this.databaseService.channel.create({
       data: data,
@@ -42,8 +31,37 @@ export class ChannelService {
           },
         ],
       });
-      if (roles) this.findOne(channel.id);
+      if (roles) await this.findOne(channel.id);
     }
+  }
+
+  async findOne(id: number) {
+    const res = await this.databaseService.channel.findUnique({
+      where: { id: id },
+      include: {
+        roles: {
+          include: { user: true },
+        },
+        messages: { orderBy: { createdAT: 'desc' }, take: 1 },
+      },
+    });
+
+    const channelData = {
+      id: res.id,
+      roles: [],
+      lastMSG: res.messages[0].content || '',
+      sendAT: res.messages[0].createdAT || new Date(),
+    };
+
+    res.roles.forEach((role) => {
+      const roleData = {
+        ...role.user,
+        blocked: role.blocked,
+      };
+      channelData.roles.push(roleData);
+    });
+    this.chatGateway.updateFriendList(channelData);
+    return channelData;
   }
 
   async findMyFriends(id: number) {
@@ -60,23 +78,30 @@ export class ChannelService {
       },
       include: {
         roles: {
-          where: { NOT: { userID: id } },
           include: { user: true },
         },
         messages: { orderBy: { createdAT: 'desc' }, take: 1 },
       },
     });
 
-    const myFriends = res.map((res) => {
-      return {
-        id: res.id,
-        blocked: res.roles[0].blocked,
-        users: res.roles[0].user,
-        lastMSG: res.messages[0]?.content || '',
-        sendAT: res.messages[0]?.createdAT,
+    const myFriends: any[] = [];
+    res.forEach((channel) => {
+      const channelData = {
+        id: channel.id,
+        roles: [],
+        lastMSG: channel.messages[0].content || '',
+        sendAT: channel.messages[0].createdAT || new Date(),
       };
+
+      channel.roles.forEach((role) => {
+        const roleData = {
+          ...role.user,
+          blocked: role.blocked,
+        };
+        channelData.roles.push(roleData);
+      });
+      myFriends.push(channelData);
     });
-    this.chatGateway.updateFriendList(myFriends);
 
     return myFriends;
   }
@@ -100,27 +125,6 @@ export class ChannelService {
         },
       },
     });
-  }
-
-  async findOne(id: number) {
-    const channel = await this.databaseService.channel.findUnique({
-      where: { id: id },
-      include: {
-        roles: {
-          include: { user: true },
-        },
-        messages: { orderBy: { createdAT: 'desc' }, take: 1 },
-      },
-    });
-    const myFriend = {
-      id: channel.id,
-      users: channel.roles.map((u) => {
-        return u.user;
-      }),
-      lastMSG: channel.messages[0]?.content || '',
-      sendAT: channel.messages[0]?.createdAT,
-    };
-    this.chatGateway.updateFriendList(myFriend);
   }
 
   async updateDM(body: updateChannelDto) {

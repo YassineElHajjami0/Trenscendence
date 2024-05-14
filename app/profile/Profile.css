@@ -87,11 +87,14 @@
   opacity: 1;
   transform: translate(0);
 }
+.edit_label:hover svg {
+  rotate: 180deg;
+}
 
 .edit_label {
   color: white;
   cursor: pointer;
-  font-size: 30px;
+  font-size: 25px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -110,6 +113,7 @@
   text-shadow: 0 0 10px black;
   transition: all 0.5s;
   opacity: 0;
+
   transform: translate(50%, -50%);
 }
 

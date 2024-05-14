@@ -19,7 +19,6 @@ import OtpInput from "react-otp-input";
 import { MdError } from "react-icons/md";
 
 export default function SignIn({ signInUp }: { signInUp: boolean }) {
-  // axios.defaults.headers.common["Content-Type"] = "application/json";
   const router = useRouter();
 
   const [loggedU, setLoggedU] = useRecoilState(loggedUser);
@@ -39,7 +38,8 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     setUsername("");
     setPass("");
     setBiometric("");
-  }, [signInUp, _2fa_opt]);
+    set_2fa_opt(false);
+  }, [signInUp]);
 
   const verifyTwoFA = async (e: any) => {
     e.preventDefault();

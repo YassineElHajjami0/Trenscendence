@@ -44,14 +44,14 @@ export default function FriendsChat() {
 
   useEffect(() => {
     const updateFriends = (friend: any) => {
+      console.log(">>>>>>>>>>>>>>>>>>>>>>.", friend);
+
       if (friend.length === 0) return;
       if (typeof friend.users === "undefined") return;
 
-      const { users, ...rest } = friend;
-      const whichUser = UID === users[0].uid ? users[1] : users[0];
-      const whichUID = friend.users.some((user: any) => user.uid === UID);
+      const whichUID = friend.roles.some((user: any) => user.uid === UID);
       if (whichUID) {
-        setMyFriends((prev: any) => [...prev, { users: whichUser, ...rest }]);
+        setMyFriends((prev: any) => [...prev, friend]);
       }
     };
 
@@ -59,7 +59,7 @@ export default function FriendsChat() {
     return () => {
       socket.off("update_friend_list");
     };
-  });
+  }, []);
 
   const getMyFriends = async () => {
     try {
@@ -70,7 +70,7 @@ export default function FriendsChat() {
         },
       });
       const data = await response.json();
-      console.log("friends>>>>>>>", data);
+      console.log("friendsssssss>>>>>>>", data);
 
       setMyFriends(data);
     } catch (error) {

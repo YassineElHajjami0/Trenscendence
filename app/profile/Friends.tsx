@@ -8,6 +8,7 @@ import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
 import AddFriendSection from "../chat/Friends/AddFriendSection";
 import "../chat/chat.css";
+import "../chat/Friends/AddFriend.css";
 import { socket } from "../sockets/socket";
 
 export default function Friends({ whichProfile }: { whichProfile: any }) {
@@ -18,21 +19,22 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
 
   useEffect(() => {
     const updateFriends = (friend: any) => {
+      console.log(">>>>>>>>>>>>>>>>>>>>>>.", friend);
+
       if (friend.length === 0) return;
       if (typeof friend.users === "undefined") return;
 
-      const { users, ...rest } = friend;
-      const whichUser = UID === users[0].uid ? users[1] : users[0];
-      const whichUID = friend.users.some((user: any) => user.uid === UID);
+      const whichUID = friend.roles.some((user: any) => user.uid === UID);
       if (whichUID) {
-        setUserFriends((prev: any) => [...prev, { users: whichUser, ...rest }]);
+        setUserFriends((prev: any) => [...prev, friend]);
       }
     };
+
     socket.on("update_friend_list", updateFriends);
     return () => {
       socket.off("update_friend_list");
     };
-  });
+  }, []);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -56,24 +58,15 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
     getUserData();
   }, [whichProfile]);
 
-  // const sortedFriends = friend_data.sort((a: FriendData, b: FriendData) => {
-  //   const onlineComparison =
-  //     (b.status === "online" ? 1 : 0) - (a.status === "online" ? 1 : 0);
-  //   const ingameComparison =
-  //     (b.status === "ingame" ? 1 : 0) - (a.status === "ingame" ? 1 : 0);
-  //   return onlineComparison || ingameComparison;
-  // });
-
   return (
     <div className="friends_container">
-      {
-        userFriends?.length > 0 &&
-          userFriends?.map((e: any) => <Friend friend={e} key={e.id} />)
-
-        //  : (
-        //   <AddFriendSection className='add_friend_in_profile'/>
-        // )
-      }
+      {userFriends?.length > 1 ? (
+        userFriends?.map((e: any) => (
+          <Friend whichProfile={whichProfile} friend={e} key={e.id} />
+        ))
+      ) : (
+        <AddFriendSection />
+      )}
     </div>
   );
 }
