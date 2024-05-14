@@ -32,6 +32,7 @@ export class ChannelsService {
         role: 'OWNER',
       },
     });
+    this.chatGateway.updateChannels();
     return 'This action adds a new channel';
   }
 
@@ -116,16 +117,17 @@ export class ChannelsService {
       include: { user: true },
     });
 
-    this.chatGateway.updateRoles(roles);
+    this.chatGateway.updateUsersAfterSomeoneKick(roles);
     return result;
   }
+
   async mute(channelId: number, userId: number) {
     const result = await this.databaseService.role.updateMany({
       where: {
         channelID: channelId,
         userID: userId,
       },
-      data: { condition: 'MUTED' },
+      data: { condition: 'MUTED', blockedSince: new Date() },
     });
     const roles = await this.databaseService.role.findMany({
       where: { channelID: channelId },
@@ -135,6 +137,24 @@ export class ChannelsService {
     this.chatGateway.updateRoles(roles);
     return result;
   }
+
+  async rmMute(channelId: number, userId: number) {
+    const result = await this.databaseService.role.updateMany({
+      where: {
+        channelID: channelId,
+        userID: userId,
+      },
+      data: { condition: 'NORMAL' },
+    });
+    const roles = await this.databaseService.role.findMany({
+      where: { channelID: channelId },
+      include: { user: true },
+    });
+
+    this.chatGateway.updateRoles(roles);
+    return result;
+  }
+
   async block(channelId: number, userId: number) {
     const result = await this.databaseService.role.updateMany({
       where: {

@@ -69,6 +69,13 @@ export class ChannelsController {
   Mute(@Query('channelId') channelId: string, @Query('userId') userId: string) {
     return this.channelsService.mute(+channelId, +userId);
   }
+  @Patch('rmmute')
+  rmMute(
+    @Query('channelId') channelId: string,
+    @Query('userId') userId: string,
+  ) {
+    return this.channelsService.rmMute(+channelId, +userId);
+  }
   @Patch('block')
   Block(
     @Query('channelId') channelId: string,

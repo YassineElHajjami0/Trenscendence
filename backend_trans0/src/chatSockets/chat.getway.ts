@@ -24,9 +24,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     console.log(')))))))>>>', usersRoles);
     this.server.emit('updateRoles', usersRoles);
   }
-  updateMessagesAfterBlock() {
+  updateUsersAfterSomeoneKick(usersRoles: any) {
     // console.log(')))))))>>>', usersRoles);
-    this.server.emit('updateMessagesAfterBlock');
+    this.server.emit('updateUsersAfterSomeoneKick', usersRoles);
+  }
+  updateChannels() {
+    // console.log(')))))))>>>', channels);
+    this.server.emit('updateChannels');
   }
   sendNotification(notification: any) {
     this.server.emit('notification', notification);
