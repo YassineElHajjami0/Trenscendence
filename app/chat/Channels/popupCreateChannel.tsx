@@ -21,6 +21,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
   const [name, setName] = useState("");
   const [status, setStatus] = useState("PUBLIC");
   const [topic, setTopic] = useState("");
+  const [code, setCode] = useState("");
   const [file, setFile] = useState<File | null>(null);
 
   const userTok = useRecoilValue(userToken);
@@ -30,7 +31,9 @@ const PopupCreateChannel: React.FC<popupProps> = ({
     const formData = new FormData();
     formData.append("name", name);
     formData.append("type", status);
+    formData.append("code", code);
     formData.append("topic", topic);
+    console.log("formData: ", formData);
     if (file) formData.append("uri", file);
 
     fetch(`http://localhost:3000/channelss`, {
@@ -43,8 +46,9 @@ const PopupCreateChannel: React.FC<popupProps> = ({
       setShowPopUpCreateChannel(false);
       setSelectedChannelPicture("/channelDefaultImage.png");
       setName("");
-      setStatus("");
+      setStatus("PUBLIC");
       setTopic("");
+      setCode("");
     });
   };
 
@@ -86,6 +90,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
               <IoCameraReverse />
             </label>
             <input
+              required
               type="file"
               id="file-upload"
               className="custom-file-input"
@@ -99,6 +104,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
         <div className="nameInput">
           <label htmlFor="channelName">channel name</label>
           <input
+            required
             type="text"
             name="name"
             id="channelName"
@@ -110,6 +116,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
         <div className="topicInput">
           <label htmlFor="channeltopic">channel topic</label>
           <input
+            required
             type="text"
             name="topic"
             id="channeltopic"
@@ -149,6 +156,21 @@ const PopupCreateChannel: React.FC<popupProps> = ({
             />
             <label htmlFor="protected">protected</label>
           </div>
+          {status == "PROTECTED" ? (
+            <input
+              required
+              maxLength={20}
+              minLength={1}
+              type="text"
+              name="code"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              className="protectedPassword"
+              placeholder="code"
+            />
+          ) : (
+            ""
+          )}
         </div>
         <button className="createChannelBtn" type="submit">
           create

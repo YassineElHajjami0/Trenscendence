@@ -18,7 +18,8 @@ import AddFriendSection from "./Friends/AddFriendSection";
 import { loggedUser } from "../Atoms/logged";
 import { useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
-
+import { io } from "socket.io-client";
+const socket = io("http://localhost:3001", { transports: ["websocket"] });
 interface channelInterface {
   id: number;
   name: string;
@@ -65,6 +66,12 @@ const Chat = () => {
       }
     };
     fetchChannels();
+    socket.on("updateUsersAfterSomeoneKick", fetchChannels);
+    socket.on("updateChannels", fetchChannels);
+    return () => {
+      socket.off("updateUsersAfterSomeoneKick");
+      socket.off("updateChannels");
+    };
   }, []);
 
   const preventCHilde = (e: React.MouseEvent<HTMLDivElement>) => {

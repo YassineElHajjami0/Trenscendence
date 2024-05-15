@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import ChannelData from "../../data/channels_list.json";
 import { CHANNEL_DATA } from "@/app/Interfaces/channelDataInterface";
@@ -45,6 +45,8 @@ const SelectedChannelChat = ({
   const [messages, setMessages] = useState<MessagesInterface[]>();
   const [msgContent, setMsgContent] = useState<string>("");
   const [myCondition, setMyCondition] = useState("NORMAL");
+  const chatSectionRef = useRef<HTMLDivElement>(null);
+  const mutedDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     let channelToDisplay: channelInterface | undefined = channels?.find(
       (ch) => ch.id === selectedChannel
@@ -62,7 +64,7 @@ const SelectedChannelChat = ({
           }
         );
         const data = await response.json();
-        console.log(">>>MESSAGES>>>>>", data);
+
         const req = await fetch(
           `http://localhost:3000/channelss/roles?channelId=${selectedChannel}`,
           {
@@ -79,15 +81,16 @@ const SelectedChannelChat = ({
           const filtredMessages = data.filter(
             (e: any) => e.createdAT < myCondition.blockedSince
           );
-          console.log("FILTRED MESSAGES : ", filtredMessages);
+
           setMessages(filtredMessages);
-        } else setMessages(data);
+        } else {
+          setMessages(data);
+        }
       } catch (error) {
         console.log("Error herere");
       }
     };
     fetchMessages();
-    console.log("channel to display : ", channelToDisplay);
 
     setChToDisplay(channelToDisplay);
   }, [selectedChannel]);
@@ -106,14 +109,6 @@ const SelectedChannelChat = ({
       const data = await response.json();
       const myCondition = data.find((e: any) => e.user.uid == userId);
       setMyCondition(myCondition.condition);
-      console.log(
-        "??????I WANT HERE  , my conditon:",
-        myCondition,
-        " selectedChannel: ",
-        selectedChannel,
-        "  message?: ",
-        message
-      );
       if (
         (message?.channelID === selectedChannel ||
           message?.channelID === undefined) &&
@@ -129,55 +124,30 @@ const SelectedChannelChat = ({
           }
         );
         const data = await response.json();
-        console.log("PPLLLSSS : ", data);
         setMessages(data);
       }
     };
 
-    const fetchMessageAfterRmBlock = async () => {
-      // bring all the users in that channel
-      const usersRolesInChannel = await fetch(
-        `http://localhost:3000/channelss/roles?channelId=${selectedChannel}`,
-        {
-          headers: {
-            Authorization: `Bearer ${userTok}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const resultOfUsersInChannel = await usersRolesInChannel.json();
-      const Me = resultOfUsersInChannel.find((e: any) => e.user.uid == userId);
-      var dateOfUser = new Date(Me.blockedSince);
-      var unixTimestamp = dateOfUser.getTime() / 1000;
-      var datenow = new Date().getTime();
-      console.log("unixTimestamp : ", unixTimestamp, " datenow : ", datenow);
-      if (Me.blockedSince == "BLOCKED")
-        // find myData in the channel
-        // if i was blocked then fetch all the messages to display them
-        console.log("channel to display =>", chToDisplay, "  UID : ", userId);
-      const response = await fetch(
-        `http://localhost:3000/message/${chToDisplay?.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${userTok}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      console.log(">>:>>:>>", data);
-      // setMessages(data);
-    };
-
     socket.on("message", handleReceiveMessage);
-    // socket.on("updateMessagesAfterBlock", fetchMessageAfterRmBlock);
     socket.on("updateRoles", handleReceiveMessage);
+    socket.on("updateUsersAfterSomeoneKick", (data: any) => {
+      const imIn = data.find((e: any) => e.userID == userId);
+      console.log("im In =", imIn);
+      if (!imIn) setSelectedChannel(-1);
+    });
 
     return () => {
       socket.off("message");
       socket.off("updateRoles");
+      socket.off("updateUsersAfterSomeoneKick");
     };
   }, [chToDisplay?.id]);
+
+  useEffect(() => {
+    if (chatSectionRef.current) {
+      chatSectionRef.current.scrollTop = chatSectionRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const handleSendingMessage = (
     e:
@@ -192,6 +162,67 @@ const SelectedChannelChat = ({
           content: msgContent,
         };
 
+        const userIsMuted = async (): Promise<number> => {
+          const response = await fetch(
+            `http://localhost:3000/channelss/roles?channelId=${selectedChannel}`,
+            {
+              headers: {
+                Authorization: `Bearer ${userTok}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const data = await response.json();
+          const myCondition = data.find((e: any) => e.user.uid == userId);
+          if (myCondition.condition == "MUTED") {
+            const dateWhenIGetMuted: Date = new Date(myCondition.blockedSince);
+            const currentTime = new Date();
+
+            const difference =
+              currentTime.getTime() - dateWhenIGetMuted.getTime();
+            if (difference / (1000 * 60) >= 1) {
+              console.log("IMKN hERE");
+              const patchRmMute = async () => {
+                try {
+                  const response = await fetch(
+                    `http://localhost:3000/channelss/rmmute?channelId=${selectedChannel}&userId=${userId}`,
+                    {
+                      method: "PATCH",
+                      headers: {
+                        Authorization: `Bearer ${userTok}`,
+                        "Content-Type": "application/json",
+                      },
+                    }
+                  );
+                } catch (error) {
+                  console.log("Error herere");
+                }
+              };
+              patchRmMute();
+              return 1;
+            } else {
+              if (mutedDiv.current) {
+                mutedDiv.current.innerHTML = `you are muted,<br/>wait till the 1 Min complete !`;
+                mutedDiv.current.style.display = "block";
+                mutedDiv.current.style.opacity = "1";
+                setTimeout(() => {
+                  if (mutedDiv.current) {
+                    mutedDiv.current.style.opacity = "0";
+                    mutedDiv.current.style.display = "block";
+                  }
+                }, 2000);
+              }
+              return 0;
+            }
+          }
+          return 1;
+        };
+        const isItStillMute: Promise<number> = userIsMuted();
+        const resolverNumber: number = await isItStillMute;
+        if (resolverNumber == 0) {
+          console.log("STILL MUTED");
+          return;
+        }
         const response = await fetch(`http://localhost:3000/message`, {
           method: "POST",
           headers: {
@@ -246,7 +277,10 @@ const SelectedChannelChat = ({
           </p>
         </div>
       </div>
-      <div className="channel_msg_section_chat">
+      <div className="channel_msg_section_chat" ref={chatSectionRef}>
+        <div className="mutedMsg" ref={mutedDiv}>
+          BLA
+        </div>
         {messages?.map((message) => {
           return message.userID == userId ? (
             <div className="channelMsgContainerRecipient" key={message.id}>

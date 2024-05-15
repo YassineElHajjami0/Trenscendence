@@ -7,8 +7,10 @@ import { GiCancel } from "react-icons/gi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { MdBlock } from "react-icons/md";
+import { BiSolidVolumeMute } from "react-icons/bi";
 import { io } from "socket.io-client";
 const socket = io("http://localhost:3001", { transports: ["websocket"] });
+
 type CHANNELUSER = {
   id: number;
   type: string;
@@ -148,25 +150,43 @@ const ChannelInfo = ({
     patchrmblock();
   };
   const handleMuteClick = (id: number) => {
-    // const patchmute = async () => {
-    //   try {
-    //     const response = await fetch(
-    //       `http://localhost:3000/channelss/mute?channelId=${selectedChannel}&userId=${id}`,
-    //       {
-    //         method: "PATCH",
-    //         headers: {
-    //           Authorization: `Bearer ${userTok}`,
-    //           "Content-Type": "application/json",
-    //         },
-    //       }
-    //     );
-    //   } catch (error) {
-    //     console.log("Error herere");
-    //   }
-    // };
-    // patchmute();
+    const patchmute = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/channelss/mute?channelId=${selectedChannel}&userId=${id}`,
+          {
+            method: "PATCH",
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } catch (error) {
+        console.log("Error herere");
+      }
+    };
+    patchmute();
   };
-
+  const handleRmMuteClick = (id: number) => {
+    const patchRmMute = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/channelss/rmmute?channelId=${selectedChannel}&userId=${id}`,
+          {
+            method: "PATCH",
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } catch (error) {
+        console.log("Error herere");
+      }
+    };
+    patchRmMute();
+  };
   const [MembersObj, setMemmbersObj] = useState<MembersObj>();
   const [channelData, setChannelData] = useState<channelInterface>();
 
@@ -216,8 +236,10 @@ const ChannelInfo = ({
     };
 
     socket.on("updateRoles", handleUpdateRoles);
+    socket.on("updateUsersAfterSomeoneKick", handleUpdateRoles);
     return () => {
       socket.off("updateRoles");
+      socket.off("updateUsersAfterSomeoneKick");
     };
   }, []);
 
@@ -278,6 +300,7 @@ const ChannelInfo = ({
                 <div className="name">{adminUser.user.username}</div>
                 <div className="blocked" style={{ color: "tomato" }}>
                   {adminUser.condition == "BLOCKED" ? <MdBlock /> : ""}
+                  {adminUser.condition == "MUTED" ? <BiSolidVolumeMute /> : ""}
                 </div>
               </div>
               <div className="status">
@@ -298,7 +321,7 @@ const ChannelInfo = ({
                                 handleRemoveAdminClick(adminUser.user.uid)
                               }
                             >
-                              Rm Admin
+                              RM ADMIN
                             </li>
                           ) : (
                             ""
@@ -307,7 +330,7 @@ const ChannelInfo = ({
                           <li
                             onClick={() => handleKickClick(adminUser.user.uid)}
                           >
-                            kick
+                            KICK
                           </li>
                           {adminUser.condition == "BLOCKED" ? (
                             <li
@@ -323,14 +346,26 @@ const ChannelInfo = ({
                                 handleBlockClick(adminUser.user.uid)
                               }
                             >
-                              Block
+                              BLOCK
                             </li>
                           )}
-                          <li
-                            onClick={() => handleMuteClick(adminUser.user.uid)}
-                          >
-                            Mute
-                          </li>
+                          {adminUser.condition == "MUTED" ? (
+                            <li
+                              onClick={() =>
+                                handleRmMuteClick(adminUser.user.uid)
+                              }
+                            >
+                              RM MUTE
+                            </li>
+                          ) : (
+                            <li
+                              onClick={() =>
+                                handleMuteClick(adminUser.user.uid)
+                              }
+                            >
+                              MUTE 1MIN
+                            </li>
+                          )}
                         </ul>
                       </span>
                     </span>
@@ -358,6 +393,7 @@ const ChannelInfo = ({
                 <div className="name">{normalUser.user.username}</div>
                 <div className="blocked" style={{ color: "tomato" }}>
                   {normalUser.condition == "BLOCKED" ? <MdBlock /> : ""}
+                  {normalUser.condition == "MUTED" ? <BiSolidVolumeMute /> : ""}
                 </div>
               </div>
               <div className="actionsBtn">
@@ -375,14 +411,14 @@ const ChannelInfo = ({
                         <li
                           onClick={() => handleAdminClick(normalUser.user.uid)}
                         >
-                          Admin
+                          ADMIN
                         </li>
                       ) : (
                         ""
                       )}
 
                       <li onClick={() => handleKickClick(normalUser.user.uid)}>
-                        kick
+                        KICK
                       </li>
                       {normalUser.condition == "BLOCKED" ? (
                         <li
@@ -396,12 +432,22 @@ const ChannelInfo = ({
                         <li
                           onClick={() => handleBlockClick(normalUser.user.uid)}
                         >
-                          Block
+                          BLOCK
                         </li>
                       )}
-                      <li onClick={() => handleMuteClick(normalUser.user.uid)}>
-                        Mute
-                      </li>
+                      {normalUser.condition == "MUTED" ? (
+                        <li
+                          onClick={() => handleRmMuteClick(normalUser.user.uid)}
+                        >
+                          RM MUTE
+                        </li>
+                      ) : (
+                        <li
+                          onClick={() => handleMuteClick(normalUser.user.uid)}
+                        >
+                          MUTE 1MIN
+                        </li>
+                      )}
                     </ul>
                   </span>
                 ) : (
@@ -414,8 +460,11 @@ const ChannelInfo = ({
       </div>
 
       <div className="leaveBtn">
-        <GiCancel className="cancelBtn" />
-        <p>Leave {channelData?.name}</p>
+        <GiCancel
+          className="cancelBtn"
+          onClick={() => handleKickClick(userId)}
+        />
+        <p onClick={() => handleKickClick(userId)}>Leave {channelData?.name}</p>
       </div>
     </div>
   );
