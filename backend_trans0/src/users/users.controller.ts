@@ -49,5 +49,4 @@ export class UsersController {
   }
 
   // 2FA
-  
 }
