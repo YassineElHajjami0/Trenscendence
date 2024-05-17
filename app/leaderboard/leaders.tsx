@@ -13,16 +13,19 @@ const Leaders = ({users}) => {
                     <div>
                         <div>
                             <div className="prof-leaderboard-img">
-                                <Image src={av2} alt=""/>
+                                {/* <Image src={av2} alt=""/> */}
+                                <Image height={60} width={60} src='http://localhost:3000/avatars/av-1.svg' alt=""/>
                             </div>
                             <div className="info-leaderboard">
                                 <h2>{user.username}</h2>
                                 <span>RANK: {user.rank}</span>
-                                <img src={throphy1} alt=""/>
+                                {/* <img src={throphy1} alt=""/> */}
+                                <Image height={60} width={60} src='http://localhost:3000/throphies/throphy-1.svg' alt=""/>
                             </div>
                         </div>
                         <div className="cup-leaderboard">
-                            <Image src={ cup1 } alt=""/>
+                            {/* <Image src={ cup1 } alt=""/> */}
+                            <Image height={60} width={60} src='http://localhost:3000/cups/cup-1.svg' alt=""/>
                         </div>
                     </div>
                     <div className="rate-leaderboard">
