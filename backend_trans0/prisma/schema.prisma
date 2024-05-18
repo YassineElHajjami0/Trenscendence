@@ -93,7 +93,7 @@ model T_User {
   wallet           Int               @default(0)
   level            Int               @default(0)
   // points           Int               @default(0)
-  rank             String            @default("0")
+  rank             Int               @default(autoincrement())
   win              Int               @default(0)
   lose             Int               @default(0)
   role             String            @default("User")

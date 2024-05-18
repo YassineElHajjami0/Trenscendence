@@ -8,6 +8,7 @@ import {
   Delete,
   Req,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { Roles } from '../auth/decorators/role.decorator';
 import { Role } from '../auth/enums/role.enum';
@@ -19,16 +20,21 @@ import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
+
   @Public()
   @Get()
-  findAll() {
+  findAll(@Query('order_by') order_by: string) {
+    if (order_by === 'win') {
+      console.log('ORDER_BY ', order_by);
+      return this.usersService.orderByAsc();
+    }
     return this.usersService.findAll();
   }
 
@@ -43,6 +49,10 @@ export class UsersController {
     return this.usersService.update(+id, updateUserDto);
   }
 
+  @Delete()
+  delete() {
+    return this.usersService.delete();
+  }
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);

@@ -20,6 +20,7 @@ import { join } from 'path';
 import { UploadModule } from './upload/upload.module';
 import { CustomValidationPipe } from './auth/pipes/user.validation.pipe';
 import { MulterModule } from '@nestjs/platform-express';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { MulterModule } from '@nestjs/platform-express';
     MessageModule,
     UserItemsModule,
     UploadModule,
+    ConfigModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [

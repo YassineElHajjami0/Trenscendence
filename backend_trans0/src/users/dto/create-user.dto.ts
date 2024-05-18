@@ -35,7 +35,7 @@ export class CreateUserDto {
   banner?: string;
   level?: number;
   points?: number;
-  rank?: string;
+  rank?: number;
   win?: number;
   lose?: number;
   strategy?: string;

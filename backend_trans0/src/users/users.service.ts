@@ -12,6 +12,10 @@ import { UpdateUserDto } from './dto/update-User.dto';
 export class UsersService {
   constructor(private readonly databaseService: DatabaseService) { }
 
+  async delete() {
+    return this.databaseService.t_User.deleteMany({});
+  }
+
   async validateUserId(uid: number) {
     const user = await this.findOne(uid);
     return user;
@@ -45,6 +49,16 @@ export class UsersService {
 
   async findAll() {
     const users = await this.databaseService.t_User.findMany({});
+    return users;
+  }
+
+  async orderByAsc() {
+    const users = await this.databaseService.t_User.findMany({
+      orderBy: {
+        win: 'desc',
+      },
+    });
+    console.log(users);
     return users;
   }
 
