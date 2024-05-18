@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+// import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import { ChannelDto } from './dto/channelDto';
 
@@ -8,8 +8,8 @@ export class ChannelService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async createDM(createChannelDto: ChannelDto) {
-    const { name, topic, ...rest } = createChannelDto;
-    const data = { name, topic };
+    const { name, topic, code, ...rest } = createChannelDto;
+    const data = { name, topic, code };
     const checkChannel = await this.databaseService.channel.findFirst({
       where: {
         AND: [
@@ -43,7 +43,6 @@ export class ChannelService {
           },
         ],
       });
-      
       return channel.id;
     }
   }
@@ -97,9 +96,9 @@ export class ChannelService {
     return { ...channel, roles: newRoles };
   }
 
-  update(id: number, updateChannelDto: Prisma.ChannelUpdateInput) {
-    return `This action updates a #${id} channel`;
-  }
+  // update(id: number, updateChannelDto: Prisma.ChannelUpdateInput) {
+  //   return `This action updates a #${id} channel`;
+  // }
 
   remove(id: number) {
     return `This action removes a #${id} channel`;

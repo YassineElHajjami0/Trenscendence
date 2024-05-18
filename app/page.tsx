@@ -157,7 +157,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="latests">
-              {data &&
+              {data?.length &&
                 data?.map((match) => {
                   if (flag === 3) return;
                   flag++;

@@ -37,7 +37,7 @@ export class UploadService {
       await this.databaseService.t_User.update({
         where: { uid },
         data: {
-          avatar: 'http://localhost:3000/public/' + file.originalname,
+          avatar: file.originalname,
         },
       });
       return 'Uploaded successfully';

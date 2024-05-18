@@ -1,17 +1,11 @@
 "use client";
-import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import { IoCameraReverse } from "react-icons/io5";
 import { MdOutlineCancel } from "react-icons/md";
 import "./channelChat.css";
-
-type FormFields = {
-  name: string;
-  topic: string;
-  status: string;
-  myFile: FileList | null | File;
-};
+import { useRecoilValue } from "recoil";
+import { userToken } from "@/app/Atoms/userToken";
 
 interface popupProps {
   setShowPopUpCreateChannel: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,32 +18,51 @@ const PopupCreateChannel: React.FC<popupProps> = ({
     "/channelDefaultImage.png"
   );
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<FormFields>();
+  const [name, setName] = useState("");
+  const [status, setStatus] = useState("PUBLIC");
+  const [topic, setTopic] = useState("");
+  const [code, setCode] = useState("0000");
+  const [file, setFile] = useState<File | null>(null);
 
-  const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    await new Promise((resolve) => {
-      setTimeout(resolve, 1000);
+  const userTok = useRecoilValue(userToken);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("type", status);
+    formData.append("code", code);
+    formData.append("topic", topic);
+    console.log("formData: ", formData);
+    if (file) formData.append("uri", file);
+
+    fetch(`http://localhost:3000/channelss`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${userTok}`,
+      },
+      body: formData,
+    }).then(() => {
+      setShowPopUpCreateChannel(false);
+      setSelectedChannelPicture("/channelDefaultImage.png");
+      setName("");
+      setStatus("PUBLIC");
+      setTopic("");
+      setCode("");
     });
-    setShowPopUpCreateChannel(false);
-    setSelectedChannelPicture("/channelDefaultImage.png");
-    console.log(data);
-    reset();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      let file = URL.createObjectURL(files[0]);
-      console.log("fiel>>>>>>>", file);
-
-      setSelectedChannelPicture(file);
-      reset({ myFile: files[0] });
+    const selectedFile = e.target.files?.[0];
+    setFile(selectedFile || null);
+    if (selectedFile) {
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setSelectedChannelPicture(imageUrl);
     }
+  };
+
+  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setStatus(e.target.value);
   };
 
   return (
@@ -58,13 +71,12 @@ const PopupCreateChannel: React.FC<popupProps> = ({
         className="cancelBtn"
         onClick={() => {
           setShowPopUpCreateChannel(false);
-          reset();
         }}
       >
         <MdOutlineCancel />
       </button>
       <h3>create channel</h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="imageContainer">
           <Image
             className="img"
@@ -78,59 +90,49 @@ const PopupCreateChannel: React.FC<popupProps> = ({
               <IoCameraReverse />
             </label>
             <input
+              required
               type="file"
               id="file-upload"
               className="custom-file-input"
-              accept=".jpg , .png , .jpeg"
-              {...register("myFile")}
-              onChange={(e) => handleChange(e)}
+              accept="image/*"
+              onChange={(e) => {
+                handleChange(e);
+              }}
             />
           </div>
         </div>
         <div className="nameInput">
           <label htmlFor="channelName">channel name</label>
           <input
-            {...register("name", {
-              required: "name is required",
-              minLength: {
-                value: 3,
-                message: "name must have at least 3 characters",
-              },
-              maxLength: 25,
-            })}
+            required
             type="text"
             name="name"
             id="channelName"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder="name"
           />
         </div>
-        <div className="errorMsg">{errors.name?.message}</div>
         <div className="topicInput">
           <label htmlFor="channeltopic">channel topic</label>
           <input
-            {...register("topic", {
-              required: "topic is required",
-              minLength: {
-                value: 3,
-                message: "topic must have at least 3 characters",
-              },
-              maxLength: 50,
-            })}
+            required
             type="text"
             name="topic"
             id="channeltopic"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
             placeholder="topic"
           />
         </div>
-        <div className="errorMsg">{errors.topic?.message}</div>
         <div className="channelType">
           <div>
             <input
               type="radio"
               id="public"
-              value="public"
-              {...register("status")}
-              defaultChecked
+              value="PUBLIC"
+              checked={status === "PUBLIC"}
+              onChange={handleStatusChange}
             />
             <label htmlFor="public">public</label>
           </div>
@@ -138,8 +140,9 @@ const PopupCreateChannel: React.FC<popupProps> = ({
             <input
               type="radio"
               id="private"
-              value="private"
-              {...register("status")}
+              value="PRIVATE"
+              checked={status === "PRIVATE"}
+              onChange={handleStatusChange}
             />
             <label htmlFor="private">private</label>
           </div>
@@ -147,18 +150,32 @@ const PopupCreateChannel: React.FC<popupProps> = ({
             <input
               type="radio"
               id="protected"
-              value="protected"
-              {...register("status")}
+              value="PROTECTED"
+              checked={status === "PROTECTED"}
+              onChange={handleStatusChange}
             />
             <label htmlFor="protected">protected</label>
           </div>
+          {status == "PROTECTED" ? (
+            <input
+              required
+              maxLength={4}
+              type="number"
+              name="code"
+              value={code}
+              onKeyDown={(e) => e.key === "." && e.preventDefault()}
+              onChange={(e) => {
+                if (e.target.value.length < 5) setCode(e.target.value);
+              }}
+              className="protectedPassword"
+              placeholder="code"
+            />
+          ) : (
+            ""
+          )}
         </div>
-        <button
-          className="createChannelBtn"
-          type="submit"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "creating..." : "create"}
+        <button className="createChannelBtn" type="submit">
+          create
         </button>
       </form>
     </div>

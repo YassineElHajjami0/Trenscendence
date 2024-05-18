@@ -44,6 +44,8 @@ model Channel {
   type     channelType @default(DM)
   name     String
   topic    String
+  uri      String      @default("/channelDefaultImage.png")
+  code     Int         @default(0000)
   roles    Role[]
   messages Message[]
 }
@@ -58,25 +60,35 @@ model Message {
   channels  Channel @relation(fields: [channelID], references: [id])
   channelID Int
 
-  content   String
+  content String
+
   createdAT DateTime @default(now())
 }
 
 enum roles {
-  USER
   ADMIN
+  USER
   OWNER
 }
 
+enum conditions {
+  MUTED
+  BLOCKED
+  NORMAL
+}
+
 model Role {
-  id        Int     @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
   //chnnel relation
-  channels  Channel @relation(fields: [channelID], references: [id])
-  channelID Int
+  channels   Channel    @relation(fields: [channelID], references: [id])
+  channelID  Int
   //user relation
-  user      T_User  @relation(fields: [userID], references: [uid])
-  userID    Int
-  role      roles   @default(USER)
+  user       T_User     @relation(fields: [userID], references: [uid])
+  userID     Int
+  role       roles      @default(USER)
+  mutedSince DateTime   @default(now())
+  condition  conditions @default(NORMAL)
+  updatedAt  DateTime   @default(now())
 }
 
 model T_User {

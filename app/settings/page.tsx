@@ -269,7 +269,7 @@ const Settings = () => {
       const formData = new FormData();
       formData.append("image", file);
 
-      fetch(`http://localhost:3000/upload?type=${ArticlesType}`, {
+      fetch(`http://localhost:3000/upload/${userId}?type=${ArticlesType}`, {
         method: "POST",
         body: formData,
       })
@@ -361,7 +361,7 @@ const Settings = () => {
                   id="file-upload"
                   type="file"
                   accept="image/*"
-                  onChange={hand * -leFileUpload}
+                  onChange={handleFileUpload}
                 />
                 <button
                   className="cancel"
@@ -389,8 +389,7 @@ const Settings = () => {
                     <Image
                       className="profile-image"
                       src={
-                        `http://localhost:3000/av/${data?.avatar}` ??
-                        "default.png"
+                        `http://localhost:3000/${data?.avatar}` ?? "default.png"
                       }
                       width={192}
                       height={192}

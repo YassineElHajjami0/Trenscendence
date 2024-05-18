@@ -4,24 +4,21 @@ import { DatabaseService } from 'src/database/database.service';
 import { messageDto } from './dto/messageDto';
 import { ChatGateway } from 'src/chatSockets/chat.getway';
 
-
 @Injectable()
 export class MessageService {
   constructor(
     private readonly databaseService: DatabaseService,
-    private readonly chatGateway: ChatGateway, 
-
-    ) {}
+    private readonly chatGateway: ChatGateway,
+  ) {}
 
   async create(createMessageDto: messageDto) {
-    
     const message = await this.databaseService.message.create({
       data: createMessageDto,
+      include: { users: { select: { avatar: true } } },
     });
 
-    this.chatGateway.sendMessage(message); 
-
-  } 
+    this.chatGateway.sendMessage(message);
+  }
 
   findAll() {
     return this.databaseService.message.findMany({});
@@ -30,6 +27,7 @@ export class MessageService {
   async findOne(id: number) {
     const messages = await this.databaseService.message.findMany({
       where: { channelID: id },
+      include: { users: { select: { avatar: true } } },
     });
     // const groupedMessages = {};
     // messages.forEach((message) => {
