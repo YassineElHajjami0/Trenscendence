@@ -23,6 +23,7 @@ CREATE TABLE "Channel" (
     "name" TEXT NOT NULL,
     "topic" TEXT NOT NULL,
     "uri" TEXT NOT NULL DEFAULT '/channelDefaultImage.png',
+    "code" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "Channel_pkey" PRIMARY KEY ("id")
 );
@@ -44,7 +45,7 @@ CREATE TABLE "Role" (
     "channelID" INTEGER NOT NULL,
     "userID" INTEGER NOT NULL,
     "role" "roles" NOT NULL DEFAULT 'USER',
-    "blockedSince" TIMESTAMP(3) NOT NULL,
+    "mutedSince" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "condition" "conditions" NOT NULL DEFAULT 'NORMAL',
 
     CONSTRAINT "Role_pkey" PRIMARY KEY ("id")

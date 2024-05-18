@@ -3,6 +3,7 @@ import Image from "next/image";
 import "./channelChat.css";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
+import { GrChannel } from "react-icons/gr";
 
 interface channelInterface {
   id: number;
@@ -17,12 +18,14 @@ interface channelChatProps {
   channels: channelInterface[] | undefined;
   setSelectedChannel: React.Dispatch<React.SetStateAction<number>>;
   setShowPopUpCreateChannel: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowPopUpSearchChannels: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ChannelChat: React.FC<channelChatProps> = ({
   channels,
   setSelectedChannel,
   setShowPopUpCreateChannel,
+  setShowPopUpSearchChannels,
 }) => {
   return (
     <>
@@ -52,8 +55,8 @@ const ChannelChat: React.FC<channelChatProps> = ({
                     : channel.name}
                 </p>
                 <span>
-                  {channel.roles.length}{" "}
-                  {channel.roles.length < 2 ? "member" : "members"}{" "}
+                  {channel.roles.length}
+                  {channel.roles.length < 2 ? " member" : " members"}
                 </span>
               </div>
             </div>
@@ -65,6 +68,12 @@ const ChannelChat: React.FC<channelChatProps> = ({
         onClick={() => setShowPopUpCreateChannel(true)}
       >
         <AiOutlineUsergroupAdd />
+      </div>
+      <div
+        className="searchChannelBtn"
+        onClick={() => setShowPopUpSearchChannels(true)}
+      >
+        <GrChannel />
       </div>
     </>
   );

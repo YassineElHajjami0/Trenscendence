@@ -108,6 +108,11 @@ const SelectedChannelChat = ({
       );
       const data = await response.json();
       const myCondition = data.find((e: any) => e.user.uid == userId);
+      if (!myCondition) {
+        setSelectedChannel(-1);
+        return;
+      }
+      console.log("my condition =", myCondition);
       setMyCondition(myCondition.condition);
       if (
         (message?.channelID === selectedChannel ||
@@ -175,11 +180,18 @@ const SelectedChannelChat = ({
           const data = await response.json();
           const myCondition = data.find((e: any) => e.user.uid == userId);
           if (myCondition.condition == "MUTED") {
-            const dateWhenIGetMuted: Date = new Date(myCondition.blockedSince);
+            const dateWhenIGetMuted: Date = new Date(myCondition.mutedSince);
             const currentTime = new Date();
 
             const difference =
               currentTime.getTime() - dateWhenIGetMuted.getTime();
+            console.log(
+              currentTime.getTime(),
+              " - ",
+              dateWhenIGetMuted.getTime(),
+              " = ",
+              difference
+            );
             if (difference / (1000 * 60) >= 1) {
               console.log("IMKN hERE");
               const patchRmMute = async () => {
@@ -281,17 +293,18 @@ const SelectedChannelChat = ({
         <div className="mutedMsg" ref={mutedDiv}>
           BLA
         </div>
-        {messages?.map((message) => {
-          return message.userID == userId ? (
-            <div className="channelMsgContainerRecipient" key={message.id}>
-              <div className="msgAndTime">
-                <p className="channelMsg">{message.content}</p>
-                <p className="msgTime">{returnTime(message.createdAT)}</p>
-              </div>
-            </div>
-          ) : (
-            <div className="channelMsgContainer" key={message.id}>
-              {/* <Image
+        {messages?.length && messages?.length > 0
+          ? messages?.map((message) => {
+              return message.userID == userId ? (
+                <div className="channelMsgContainerRecipient" key={message.id}>
+                  <div className="msgAndTime">
+                    <p className="channelMsg">{message.content}</p>
+                    <p className="msgTime">{returnTime(message.createdAT)}</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="channelMsgContainer" key={message.id}>
+                  {/* <Image
                 className="senderOrRecieverImage"
                 src={
                   `http://localhost:3000/${message.users.avatar}` ||
@@ -301,13 +314,14 @@ const SelectedChannelChat = ({
                 height={30}
                 alt="PIC"
               /> */}
-              <div className="msgAndTime">
-                <p className="channelMsg">{message.content}</p>
-                <p className="msgTime">{returnTime(message.createdAT)}</p>
-              </div>
-            </div>
-          );
-        })}
+                  <div className="msgAndTime">
+                    <p className="channelMsg">{message.content}</p>
+                    <p className="msgTime">{returnTime(message.createdAT)}</p>
+                  </div>
+                </div>
+              );
+            })
+          : ""}
       </div>
       <div className="channel_msg_section_input">
         <input

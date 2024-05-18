@@ -25,12 +25,14 @@ export class ChannelsController {
     @UploadedFiles() files: Array<Express.Multer.File>,
     @Body() createChannelDto: Prisma.ChannelCreateInput,
   ) {
+    createChannelDto.code = parseInt(createChannelDto.code.toString());
+    console.log('createChannelDto ==> ', createChannelDto);
     return this.channelsService.create(files[0], createChannelDto);
   }
 
   @Get()
-  findAll() {
-    return this.channelsService.findAll();
+  findAll(@Query('mustinclude') text: string) {
+    return this.channelsService.findAll(text);
   }
   @Get('messages')
   findMessages(@Query('channelId') channelId: string) {
@@ -38,12 +40,10 @@ export class ChannelsController {
   }
   @Get('roles')
   getRoles(@Query('channelId') channelId: string) {
-    console.log('IM GOOD');
     return this.channelsService.getRoles(+channelId);
   }
   @Get(':id')
   findOne(@Param('id') id: string) {
-    console.log('IM GOOD');
     return this.channelsService.findOne(+id);
   }
 
@@ -61,8 +61,23 @@ export class ChannelsController {
   ) {
     return this.channelsService.rmAdmin(+channelId, +userId);
   }
+  @Patch('joinpublic')
+  joinPublic(
+    @Query('channelID') channelId: string,
+    @Query('userID') userId: string,
+  ) {
+    return this.channelsService.joinPublic(+channelId, +userId);
+  }
+  @Patch('leave')
+  Leave(
+    @Query('channelId') channelId: string,
+    @Query('userId') userId: string,
+  ) {
+    return this.channelsService.leave(+channelId, +userId);
+  }
   @Patch('kick')
   kick(@Query('channelId') channelId: string, @Query('userId') userId: string) {
+    console.log('PLLLZZ');
     return this.channelsService.kick(+channelId, +userId);
   }
   @Patch('mute')

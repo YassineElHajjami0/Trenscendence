@@ -1,6 +1,3 @@
-import channelsData from "../../data/channels_list.json";
-import { CHANNEL_DATA } from "@/app/Interfaces/channelDataInterface";
-import PlayerData from "../../data/player-info.json";
 import Image from "next/image";
 import "./channelChat.css";
 import { GiCancel } from "react-icons/gi";
@@ -105,6 +102,56 @@ const ChannelInfo = ({
             },
           }
         );
+      } catch (error) {
+        console.log("Error herere");
+      }
+    };
+    patchKick();
+    console.log("KICKED");
+  };
+  const handleLeaveChannel = (id: number) => {
+    const patchKick = async () => {
+      try {
+        const req = await fetch(
+          `http://localhost:3000/channelss/roles?channelId=${selectedChannel}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const allRoles = await req.json();
+        const theOwner = allRoles.filter((e: any) => e.role == "OWNER");
+        console.log("theOwner=>", theOwner[0].user.uid, "  myID:", userId);
+        if (theOwner[0].user.uid == userId) {
+          if (allRoles.length > 1) {
+            const response = await fetch(
+              `http://localhost:3000/channelss/leave?channelId=${selectedChannel}&userId=${id}`,
+              {
+                method: "PATCH",
+                headers: {
+                  Authorization: `Bearer ${userTok}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+          } else {
+            handleKickClick(theOwner[0].user.uid);
+          }
+        } else {
+          console.log("HEEEEEREEE!!!");
+          const response = await fetch(
+            `http://localhost:3000/channelss/kick?channelId=${selectedChannel}&userId=${userId}`,
+            {
+              method: "PATCH",
+              headers: {
+                Authorization: `Bearer ${userTok}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        }
       } catch (error) {
         console.log("Error herere");
       }
@@ -462,9 +509,11 @@ const ChannelInfo = ({
       <div className="leaveBtn">
         <GiCancel
           className="cancelBtn"
-          onClick={() => handleKickClick(userId)}
+          onClick={() => handleLeaveChannel(userId)}
         />
-        <p onClick={() => handleKickClick(userId)}>Leave {channelData?.name}</p>
+        <p onClick={() => handleLeaveChannel(userId)}>
+          Leave {channelData?.name}
+        </p>
       </div>
     </div>
   );

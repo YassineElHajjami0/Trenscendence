@@ -36,7 +36,17 @@ export class ChannelsService {
     return 'This action adds a new channel';
   }
 
-  findAll() {}
+  async findAll(text: string) {
+    const channels = await this.databaseService.channel.findMany({
+      where: {
+        OR: [{ type: 'PUBLIC' }, { type: 'PROTECTED' }],
+        name: { contains: text },
+      },
+      take: 10,
+    });
+    console.log('TEXT =>>', channels);
+    return channels;
+  }
 
   async findOne(userID: number) {
     const roles = await this.databaseService.role.findMany({
@@ -79,7 +89,7 @@ export class ChannelsService {
         channelID: channelId,
         userID: userId,
       },
-      data: { role: 'ADMIN' },
+      data: { role: 'ADMIN', updatedAt: new Date() },
     });
     const roles = await this.databaseService.role.findMany({
       where: { channelID: channelId },
@@ -95,10 +105,29 @@ export class ChannelsService {
         channelID: channelId,
         userID: userId,
       },
-      data: { role: 'USER' },
+      data: { role: 'USER', updatedAt: new Date() },
     });
     const roles = await this.databaseService.role.findMany({
       where: { channelID: channelId },
+      include: { user: true },
+    });
+
+    this.chatGateway.updateRoles(roles);
+    return result;
+  }
+  async joinPublic(channelID: number, userID: number) {
+    const result = await this.databaseService.role.create({
+      data: {
+        channelID: channelID,
+        userID: userID,
+        role: 'USER',
+        mutedSince: new Date(),
+        condition: 'NORMAL',
+        updatedAt: new Date(),
+      },
+    });
+    const roles = await this.databaseService.role.findMany({
+      where: { channelID: channelID },
       include: { user: true },
     });
 
@@ -116,9 +145,64 @@ export class ChannelsService {
       where: { channelID: channelId },
       include: { user: true },
     });
-
+    console.log('role now:', roles);
+    if (roles.length == 0) {
+      await this.databaseService.message.deleteMany({
+        where: { channelID: channelId },
+      });
+      await this.databaseService.channel.delete({
+        where: { id: channelId },
+      });
+    }
     this.chatGateway.updateUsersAfterSomeoneKick(roles);
     return result;
+  }
+  async leave(channelId: number, userId: number) {
+    // // bring all the users of the specified channel
+    // // if the user is the owner
+    const oldestRole = await this.databaseService.role.findMany({
+      where: { channelID: channelId, role: { in: ['ADMIN', 'USER'] } },
+      include: { user: true },
+      orderBy: [
+        { role: 'desc' }, // Sort by role field in descending order (admins first, then users)
+        { updatedAt: 'asc' }, // Sort by updatedAt field in ascending order
+      ],
+      take: 1,
+    });
+    if (oldestRole) {
+      await this.databaseService.role.deleteMany({
+        where: {
+          channelID: channelId,
+          userID: userId,
+        },
+      });
+      await this.databaseService.role.updateMany({
+        where: {
+          channelID: oldestRole[0].channelID,
+          userID: oldestRole[0].userID,
+        },
+        data: { role: 'OWNER' },
+      });
+    }
+    console.log('oldestRole =', oldestRole);
+    // const result = await this.databaseService.role.deleteMany({
+    //   where: {
+    //     channelID: channelId,
+    //     userID: userId,
+    //   },
+    // });
+    // const roles = await this.databaseService.role.findMany({
+    //   where: { channelID: channelId },
+    //   include: { user: true },
+    // });
+
+    // this.chatGateway.updateUsersAfterSomeoneKick(roles);
+    // return result;
+    const roles = await this.databaseService.role.findMany({
+      where: { channelID: channelId },
+      include: { user: true },
+    });
+    this.chatGateway.updateRoles(roles);
   }
 
   async mute(channelId: number, userId: number) {
@@ -127,7 +211,7 @@ export class ChannelsService {
         channelID: channelId,
         userID: userId,
       },
-      data: { condition: 'MUTED', blockedSince: new Date() },
+      data: { condition: 'MUTED', mutedSince: new Date() },
     });
     const roles = await this.databaseService.role.findMany({
       where: { channelID: channelId },
@@ -161,7 +245,7 @@ export class ChannelsService {
         channelID: channelId,
         userID: userId,
       },
-      data: { condition: 'BLOCKED', blockedSince: new Date() },
+      data: { condition: 'BLOCKED', mutedSince: new Date() },
     });
     const roles = await this.databaseService.role.findMany({
       where: { channelID: channelId },
@@ -177,7 +261,7 @@ export class ChannelsService {
         channelID: channelId,
         userID: userId,
       },
-      data: { condition: 'NORMAL', blockedSince: new Date() },
+      data: { condition: 'NORMAL', mutedSince: new Date() },
     });
     const roles = await this.databaseService.role.findMany({
       where: { channelID: channelId },

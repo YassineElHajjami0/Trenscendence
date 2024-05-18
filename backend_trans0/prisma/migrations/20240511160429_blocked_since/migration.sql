@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Role" ALTER COLUMN "blockedSince" SET DEFAULT CURRENT_TIMESTAMP;

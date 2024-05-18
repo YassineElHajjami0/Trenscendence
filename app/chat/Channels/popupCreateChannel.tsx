@@ -21,7 +21,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
   const [name, setName] = useState("");
   const [status, setStatus] = useState("PUBLIC");
   const [topic, setTopic] = useState("");
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState("0000");
   const [file, setFile] = useState<File | null>(null);
 
   const userTok = useRecoilValue(userToken);
@@ -159,12 +159,14 @@ const PopupCreateChannel: React.FC<popupProps> = ({
           {status == "PROTECTED" ? (
             <input
               required
-              maxLength={20}
-              minLength={1}
-              type="text"
+              maxLength={4}
+              type="number"
               name="code"
               value={code}
-              onChange={(e) => setCode(e.target.value)}
+              onKeyDown={(e) => e.key === "." && e.preventDefault()}
+              onChange={(e) => {
+                if (e.target.value.length < 5) setCode(e.target.value);
+              }}
               className="protectedPassword"
               placeholder="code"
             />

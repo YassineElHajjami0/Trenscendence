@@ -3,4 +3,5 @@ export type ChannelDto = {
   topic: string;
   id: number;
   friendId: number;
+  code: number;
 };

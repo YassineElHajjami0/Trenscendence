@@ -1,13 +1,43 @@
 * {
   transition: 0.3s;
 }
+.searchingArea {
+  height: 500px;
+}
+.channelLink .nameAndCode {
+  transition: 0.3s;
+}
+.channelLink .nameAndCode input {
+  display: none;
+  opacity: 0;
+  transition: 0.3s;
+  text-align: center;
+}
+.channelLink:hover .nameAndCode input {
+  display: block;
+  opacity: 1;
+}
+/* Three dots's background */
+/* muting time */
+.searchingArea .errorMsg {
+  position: absolute;
+  top: 5%;
+  color: tomato;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  background: #dfdfdf;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
 .channelsListContainer {
   height: 100%;
   position: relative;
   overflow-y: scroll;
   scrollbar-width: none;
 }
-.addChannelBtn {
+.addChannelBtn,
+.searchChannelBtn {
   position: absolute;
 
   right: 10px;
@@ -24,10 +54,35 @@
   align-items: center;
   transition: 0.3s;
 }
-.addChannelBtn:hover {
+.searchChannelBtn {
+  right: 60px;
+}
+.searchingChannelInput {
+  padding: 15px;
+  background: #2d2d31;
+  border: none;
+  width: 100%;
+  font-size: 18px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.362);
+  outline: none;
+  color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.searchedChannelsList {
+  width: 100%;
+  height: 80%;
+  background: #36363a;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  overflow-y: scroll;
+}
+.addChannelBtn:hover,
+.searchChannelBtn:hover {
   background-color: #10a936;
 }
-.addChannelBtn:active {
+.addChannelBtn:active,
+.searchChannelBtn:active {
   scale: 0.95;
 }
 .channelsListContainer .channelContainer {
@@ -81,6 +136,9 @@
     width: 70px;
     height: 70px;
   }
+  .searchingArea {
+    height: 400px;
+  }
 }
 @media (max-width: 1024px) {
   .channelsListContainer .channelContainer .channelImage {
@@ -92,6 +150,11 @@
   .channelsListContainer .channelContainer .channelImage {
     width: 50px;
     height: 50px;
+  }
+}
+@media (max-width: 425px) {
+  .searchingArea {
+    height: 350px;
   }
 }
 /* -------selectedChannelChat---------*/
@@ -442,4 +505,53 @@
 }
 .protectedPassword::placeholder {
   color: rgb(230, 230, 230);
+}
+
+.channelLink {
+  text-align: left;
+  padding: 15px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.231);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.channelLink .imageAndName {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.channelLink:hover {
+  background-color: #303033;
+}
+.channelImage {
+  border-radius: 50%;
+}
+.joinBtn {
+  text-align: right;
+  padding: 5px 10px;
+  border: none;
+  outline: none;
+  font-size: 17px;
+  color: white;
+  background-color: #1ccc48;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.joinBtn:hover {
+  background-color: #10a936;
+}
+.channelLink input {
+  padding: 5px;
+  width: 100px;
+  border: 0.5px solid rgba(255, 255, 255, 0.74);
+  outline: none;
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+  font-size: 17px;
+}
+.channelLink p {
+  padding: 5px;
 }

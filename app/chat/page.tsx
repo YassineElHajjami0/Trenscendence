@@ -19,6 +19,7 @@ import { loggedUser } from "../Atoms/logged";
 import { useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
 import { io } from "socket.io-client";
+import PopupSearchChannels from "./Channels/popupSearchChannels";
 const socket = io("http://localhost:3001", { transports: ["websocket"] });
 interface channelInterface {
   id: number;
@@ -35,6 +36,7 @@ const Chat = () => {
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [selectedChannel, setSelectedChannel] = useState(-1);
   const [showPopUpCreateChannel, setShowPopUpCreateChannel] = useState(false);
+  const [showPopUpSearchChannels, setShowPopUpSearchChannels] = useState(false);
 
   const selectedBtn = mode === "friends" ? "toleft" : "toright";
 
@@ -68,9 +70,11 @@ const Chat = () => {
     fetchChannels();
     socket.on("updateUsersAfterSomeoneKick", fetchChannels);
     socket.on("updateChannels", fetchChannels);
+    socket.on("updateRoles", fetchChannels);
     return () => {
       socket.off("updateUsersAfterSomeoneKick");
       socket.off("updateChannels");
+      socket.off("updateRoles");
     };
   }, []);
 
@@ -92,6 +96,17 @@ const Chat = () => {
         >
           <PopupCreateChannel
             setShowPopUpCreateChannel={setShowPopUpCreateChannel}
+          />
+        </div>
+        <div
+          className={`createChannelPopup ${
+            showPopUpSearchChannels ? "showPopup" : "hidePopUp"
+          }`}
+        >
+          <PopupSearchChannels
+            setSelectedChannel={setSelectedChannel}
+            userId={userId}
+            setShowPopUpSearchChannels={setShowPopUpSearchChannels}
           />
         </div>
         <div
@@ -127,6 +142,7 @@ const Chat = () => {
                 channels={channels}
                 setSelectedChannel={setSelectedChannel}
                 setShowPopUpCreateChannel={setShowPopUpCreateChannel}
+                setShowPopUpSearchChannels={setShowPopUpSearchChannels}
               />
             </div>
           )}
