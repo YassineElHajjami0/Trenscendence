@@ -8,9 +8,31 @@ import { CgUnblock } from "react-icons/cg";
 import { FriendData } from "@/app/Interfaces/friendDataInterface";
 import { loadingMsg } from "@/app/Atoms/loadingMsg";
 import ProfileLoading from "./ProfileLoading";
+import axios from "axios";
+import { userToken } from "@/app/Atoms/userToken";
 export const FriendInfo = () => {
   const [friend, setFriend] = useRecoilState(currentFriend);
   const loadingAnimation = useRecoilValue(loadingMsg);
+  const userTok = useRecoilValue(userToken);
+
+  const handleSwitch = (e: any) => {
+    e.preventDefault();
+
+    const body = {
+      channelID: friend.id,
+      friendId: friend.uid,
+      blocked: !friend.blocked,
+    };
+    try {
+      axios.patch("http://localhost:3000/channels/dm", body, {
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+        },
+      });
+    } catch (error) {
+      console.log("3a", error);
+    }
+  };
 
   return loadingAnimation ? (
     <ProfileLoading />
@@ -19,7 +41,7 @@ export const FriendInfo = () => {
       <div className="current_friend_info">
         <Image
           className="current_friend_avatar"
-          src={`http://localhost:3000${friend?.avatar}`}
+          src={`http://localhost:3000/${friend?.avatar}`}
           // src={`http://localhost:3000${friend?.avatar}`}
           width={5000}
           height={5000}
@@ -62,20 +84,24 @@ export const FriendInfo = () => {
       </div>
       <div className="current_friend_block">
         <button
-          onClick={() =>
-            setFriend((prev: FriendData | undefined) => {
-              if (prev) {
-                return { ...prev, blocked: !prev?.blocked };
-              }
-            })
-          }
+          onClick={handleSwitch}
           className={`block_current_friend ${
-            friend?.blocked ? "block_current_friend" : "unblock_current_friend"
+            friend?.blocked && "unblock_current_friend"
           }`}
         >
-          {friend?.blocked ? <CgUnblock /> : <MdBlock />}
+          {friend?.blocked ? (
+            <>
+              <CgUnblock />
+              Unblock
+            </>
+          ) : (
+            <>
+              <MdBlock />
+              block
+            </>
+          )}{" "}
+          {friend?.username}
         </button>
-        <p>{friend?.name}</p>
       </div>
     </div>
   );

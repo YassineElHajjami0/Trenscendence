@@ -566,6 +566,10 @@
   cursor: default;
   padding: 45px 10px;
 }
+.big_one {
+  width: 80%;
+  height: 100%;
+}
 
 .add_friend_container input {
   width: 75%;
@@ -589,6 +593,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.searchedFriends::-webkit-scrollbar-track {
+  background-color: #e0e0e000 !important;
+  margin: 10px 0 !important;
+}
+
+.searchedFriends::-webkit-scrollbar {
+  width: 3px;
+}
+
+.searchedFriends::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 6px;
 }
 
 /*-----------break point-----------*/

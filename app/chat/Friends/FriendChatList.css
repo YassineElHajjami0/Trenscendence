@@ -28,6 +28,7 @@
   padding: 10px 10px 0 10px;
   transition: all 0.4s;
   overflow-y: scroll;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 
   width: 100%;

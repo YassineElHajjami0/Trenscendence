@@ -21,6 +21,7 @@ import { loadingMsg } from "@/app/Atoms/loadingMsg";
 import ChatLoading from "./ChatLoading";
 import { channelId } from "@/app/Atoms/channelId";
 import { chatMSG } from "@/app/Atoms/chatMSG";
+import { blockedMe } from "@/app/Atoms/blockedMe";
 
 const FriendChatList = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -28,6 +29,8 @@ const FriendChatList = () => {
   const userTok = useRecoilValue(userToken);
   const channelID = useRecoilValue(channelId);
   const friend = useRecoilValue(currentFriend);
+
+  const blockCheck = useRecoilValue(blockedMe);
 
   const [friendChat, setFriendChat] = useRecoilState<any[]>(chatMSG);
 
@@ -42,6 +45,7 @@ const FriendChatList = () => {
 
   const getAllMSG = async () => {
     if (selectedFriend === -1) return;
+
     const selectedFriendChat = await fetch(
       `http://localhost:3000/message/${channelID}`,
       {
@@ -52,6 +56,7 @@ const FriendChatList = () => {
       }
     );
     const data = await selectedFriendChat.json();
+
     setTimeout(() => {
       setFriendChat(data);
       setLoadingAnimation(false);
@@ -71,6 +76,7 @@ const FriendChatList = () => {
       userID: loggedU,
       channelID: channelID,
       content: inputMSG,
+      isBlocked: blockCheck,
     };
     await fetch("http://localhost:3000/message", {
       method: "POST",

@@ -45,13 +45,12 @@ function Notification({ notif }: { notif: any }) {
   };
 
   const acceptFriend = async () => {
-    
     const friendDto = {
       user1Id: notif?.ruserId,
       user2Id: notif?.suserId,
       status: "ACCEPTED",
     };
-    
+
     try {
       await fetch(`http://localhost:3000/friends`, {
         method: "POST",
@@ -61,18 +60,18 @@ function Notification({ notif }: { notif: any }) {
           "Content-Type": "application/json",
         },
       });
-      deleteNotificatio()
+      deleteNotificatio();
     } catch (error: any) {
       console.log("Error deleting notification:", error.message);
     }
-    console.log('pppppppppp');
+    console.log("pppppppppp");
   };
 
   return (
     <div className="notification_container">
       <Image
         className="notification_avatar"
-        src={notif?.suser?.avatar}
+        src={`http://localhost:3000${notif?.suser?.avatar}`}
         width={50}
         height={50}
         alt="avatar"

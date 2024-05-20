@@ -16,13 +16,35 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
 
   const userTok = useRecoilValue(userToken);
   const [userFriends, setUserFriends] = useState<any[]>([]);
+  console.log("friend array>>>", userFriends);
+
+  useEffect(() => {
+    const handleBlockedFriend = (friend: any) => {
+      setUserFriends((prev: any) => {
+        return prev.map((channel: any) => {
+          if (channel.id === friend.channelID) {
+            const updatedRoles = channel.roles.map((role: any) => {
+              if (role.uid === friend.userID) {
+                return { ...role, blocked: friend.blocked };
+              }
+              return role;
+            });
+            return { ...channel, roles: updatedRoles };
+          }
+          return channel;
+        });
+      });
+    };
+
+    socket.on("update_blocked_friend", handleBlockedFriend);
+    return () => {
+      socket.off("update_blocked_friend");
+    };
+  });
 
   useEffect(() => {
     const updateFriends = (friend: any) => {
-      console.log(">>>>>>>>>>>>>>>>>>>>>>.", friend);
-
       if (friend.length === 0) return;
-      if (typeof friend.users === "undefined") return;
 
       const whichUID = friend.roles.some((user: any) => user.uid === UID);
       if (whichUID) {
@@ -60,13 +82,11 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
 
   return (
     <div className="friends_container">
-      {userFriends?.length > 1 ? (
+      {userFriends?.length > 0 &&
         userFriends?.map((e: any) => (
           <Friend whichProfile={whichProfile} friend={e} key={e.id} />
-        ))
-      ) : (
-        <AddFriendSection />
-      )}
+        ))}
+      <AddFriendSection />
     </div>
   );
 }

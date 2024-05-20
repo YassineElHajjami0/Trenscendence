@@ -15,9 +15,12 @@ import { IoCameraReverse } from "react-icons/io5";
 import { FriendInfo } from "./Friends/FriendInfo";
 import PopupCreateChannel from "./Channels/popupCreateChannel";
 import AddFriendSection from "./Friends/AddFriendSection";
+import LoadingPaddle from "../LoadingPaddle";
 
 const Chat = () => {
   const [hide, setHide] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [mode, setMode] = useState("friends");
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [selectedChannel, setSelectedChannel] = useState(-1);
@@ -33,7 +36,12 @@ const Chat = () => {
     setHide(false);
   };
 
-  return (
+  setTimeout(() => {
+    setLoading(false);
+  }, 1500);
+  return loading ? (
+    <LoadingPaddle />
+  ) : (
     <div className="chat_channels_container">
       <div className="chat_channels_sub_container">
         <div

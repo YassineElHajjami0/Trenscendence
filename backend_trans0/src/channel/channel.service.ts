@@ -49,8 +49,8 @@ export class ChannelService {
     const channelData = {
       id: res.id,
       roles: [],
-      lastMSG: res.messages[0].content || '',
-      sendAT: res.messages[0].createdAT || new Date(),
+      lastMSG: res.messages[0]?.content || '',
+      sendAT: res.messages[0]?.createdAT || new Date(),
     };
 
     res.roles.forEach((role) => {
@@ -60,6 +60,8 @@ export class ChannelService {
       };
       channelData.roles.push(roleData);
     });
+    console.log('yeaaaaaaaaaaaaaah');
+
     this.chatGateway.updateFriendList(channelData);
     return channelData;
   }
@@ -89,8 +91,8 @@ export class ChannelService {
       const channelData = {
         id: channel.id,
         roles: [],
-        lastMSG: channel.messages[0].content || '',
-        sendAT: channel.messages[0].createdAT || new Date(),
+        lastMSG: channel.messages[0]?.content || '',
+        sendAT: channel.messages[0]?.createdAT || new Date(),
       };
 
       channel.roles.forEach((role) => {
@@ -128,17 +130,20 @@ export class ChannelService {
   }
 
   async updateDM(body: updateChannelDto) {
-    const checkChannel = await this.databaseService.role.findFirst({
+    const role = await this.databaseService.role.findFirst({
       where: {
         channelID: body.channelID,
         userID: body.friendId,
       },
     });
-    if (checkChannel) {
-      await this.databaseService.role.update({
-        where: { id: checkChannel.id },
+    if (role) {
+      const newRole = await this.databaseService.role.update({
+        where: { id: role.id },
         data: { blocked: body.blocked },
       });
+      console.log('newRole>>>', newRole);
+      this.chatGateway.updateBlockedFriend(newRole);
+      return newRole;
     }
   }
 

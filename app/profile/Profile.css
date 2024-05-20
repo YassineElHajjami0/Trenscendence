@@ -107,6 +107,7 @@
   margin-left: 10px;
   color: #1ce14e;
   filter: drop-shadow(0 0 5px #1ce14e);
+  transition: all 0.4s;
 }
 
 .edit_label span {

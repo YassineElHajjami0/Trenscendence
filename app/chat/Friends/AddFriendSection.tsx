@@ -11,8 +11,12 @@ import { loggedUser } from "@/app/Atoms/logged";
 interface AddFriendInterface {
   className: string;
 }
-
+import { usePathname } from "next/navigation";
 const AddFriendSection = () => {
+  const pathname = usePathname();
+
+  // /profile
+
   const userTok = useRecoilValue(userToken);
   const userL = useRecoilValue(loggedUser);
   const [addFriend, setAddFriend] = useState(false);
@@ -57,7 +61,12 @@ const AddFriendSection = () => {
       className={`add_friend ${addFriend && `show_the_big_div`} `}
     >
       {addFriend ? (
-        <div onClick={addFriendClick} className={`add_friend_container`}>
+        <div
+          onClick={addFriendClick}
+          className={`add_friend_container ${
+            pathname === "/profile" && "big_one"
+          }`}
+        >
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}

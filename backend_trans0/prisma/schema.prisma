@@ -58,7 +58,10 @@ model Message {
   channels  Channel @relation(fields: [channelID], references: [id])
   channelID Int
 
-  content   String
+  content String
+
+  isBlocked Boolean @default(false)
+
   createdAT DateTime @default(now())
 }
 
@@ -185,12 +188,11 @@ model Achievement {
 
 model UserAchievement {
   user         T_User      @relation(fields: [userId], references: [uid])
-  userId       Int // relation scalar field (used in the `@relation` attribute above)
+  userId       Int
   achievement  Achievement @relation(fields: [achivementId], references: [id])
-  achivementId Int // relation scalar field (used in the `@relation` attribute above)
-  date         DateTime    @default(now())
+  achivementId Int
+  createdAT    DateTime    @default(now())
   unlocked     Boolean
-  choosed      Boolean
 
   @@id([userId, achivementId])
 }

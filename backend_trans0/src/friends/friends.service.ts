@@ -44,7 +44,7 @@ export class FriendsService {
         id: user1Id,
         friendId: user2Id,
       };
-      await this.channelService.createDM(channelDto);
+      this.channelService.createDM(channelDto);
       // this.chatGateway.updateFriendList(friend);
     }
   }

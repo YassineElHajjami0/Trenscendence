@@ -21,7 +21,7 @@ export const FriendMSG = ({ message }: { message: any }) => {
   return (
     <div
       className={`chat_msg_container ${
-        message?.userID !== loggedU && "sender"
+        message?.userID !== loggedU && "sender chat_msg_container2"
       }`}
     >
       <p className="chat_message">{message?.content}</p>

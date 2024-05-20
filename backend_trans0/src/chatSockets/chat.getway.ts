@@ -31,4 +31,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   updateFriendList(friend: any) {
     this.server.emit('update_friend_list', friend);
   }
+  updateBlockedFriend(friend: any) {
+    this.server.emit('update_blocked_friend', friend);
+  }
 }

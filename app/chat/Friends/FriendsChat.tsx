@@ -22,7 +22,7 @@ export default function FriendsChat() {
       if (message?.channelID === channelID)
         setFriendChat((prevMessages: any) => [...prevMessages, message]);
 
-      setMyFriends((prev) =>
+      setMyFriends((prev: any) =>
         prev.map((f: any) =>
           f.id === message?.channelID
             ? { ...f, lastMSG: message.content, sendAT: message.createdAT }
@@ -35,6 +35,30 @@ export default function FriendsChat() {
       socket.off("message");
     };
   });
+  // newRole>>> { id: 131, channelID: 66, userID: 13, blocked: true, role: 'USER' }
+  useEffect(() => {
+    const handleBlockedFriend = (friend: any) => {
+      setMyFriends((prev: any) => {
+        return prev.map((channel: any) => {
+          if (channel.id === friend.channelID) {
+            const updatedRoles = channel.roles.map((role: any) => {
+              if (role.uid === friend.userID) {
+                return { ...role, blocked: friend.blocked };
+              }
+              return role;
+            });
+            return { ...channel, roles: updatedRoles };
+          }
+          return channel;
+        });
+      });
+    };
+
+    socket.on("update_blocked_friend", handleBlockedFriend);
+    return () => {
+      socket.off("update_blocked_friend");
+    };
+  });
 
   useEffect(() => {
     myFriends.sort((a: any, b: any) => {
@@ -44,10 +68,7 @@ export default function FriendsChat() {
 
   useEffect(() => {
     const updateFriends = (friend: any) => {
-      console.log(">>>>>>>>>>>>>>>>>>>>>>.", friend);
-
       if (friend.length === 0) return;
-      if (typeof friend.users === "undefined") return;
 
       const whichUID = friend.roles.some((user: any) => user.uid === UID);
       if (whichUID) {
@@ -59,7 +80,7 @@ export default function FriendsChat() {
     return () => {
       socket.off("update_friend_list");
     };
-  }, []);
+  });
 
   const getMyFriends = async () => {
     try {
@@ -70,8 +91,6 @@ export default function FriendsChat() {
         },
       });
       const data = await response.json();
-      console.log("friendsssssss>>>>>>>", data);
-
       setMyFriends(data);
     } catch (error) {
       console.log("Error111");

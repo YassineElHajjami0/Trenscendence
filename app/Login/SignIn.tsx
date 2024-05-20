@@ -17,6 +17,8 @@ import axios from "axios";
 
 import OtpInput from "react-otp-input";
 import { MdError } from "react-icons/md";
+import { IoIosFlashlight } from "react-icons/io";
+import { IoSunnyOutline } from "react-icons/io5";
 
 export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const router = useRouter();
@@ -26,6 +28,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
   const [biometric, setBiometric] = useState<string>("");
   const [_2fa_opt, set_2fa_opt] = useState<boolean>(false);
+  const [showPass, setShowPass] = useState<boolean>(false);
 
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -39,6 +42,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     setPass("");
     setBiometric("");
     set_2fa_opt(false);
+    setShowPass(false);
   }, [signInUp]);
 
   const verifyTwoFA = async (e: any) => {
@@ -132,14 +136,42 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         type="email"
       />
 
-      <input
-        required={!_2fa_opt}
-        placeholder="password"
-        className={`sign_in_ships ${_2fa_opt && "hide_pass"}`}
-        type="password"
-        value={pass}
-        onChange={(e) => setPass(e.target.value)}
-      />
+      <div className="password_wraper">
+        <input
+          required={!_2fa_opt}
+          placeholder="password"
+          className={`sign_in_ships for_pass_only ${_2fa_opt && "hide_pass"} ${
+            showPass && "change_pass_bg"
+          }`}
+          type={showPass ? "text" : "password"}
+          value={pass}
+          onChange={(e) => setPass(e.target.value)}
+        />
+        {/* <IoSunnyOutline
+          className={`hide_password_text ${showPass && "show_password_text"}`}
+        /> */}
+        <div className="eye_container">
+          <div
+            className="eye"
+            onClick={() => setShowPass((prev) => !prev)}
+            data-closed={showPass ? "" : null}
+          >
+            <div className="eye__base">
+              <div className="eye__base__view">
+                <div className="eye__base__view__iris"></div>
+                <div className="eye__base__view__pupil"></div>
+              </div>
+            </div>
+            <div className="eye__lid">
+              <div className="eye__lid__mask"></div>
+              <div className="eye__lid__lashes">
+                <div className="eye__lid__lashes__line"></div>
+                <div className="eye__lid__lashes__hair"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className={`two_factor_auth ${_2fa_opt && "show_2fa_container"}`}>
         <h1 className="_2fa_header">2-Factor Authentication</h1>
