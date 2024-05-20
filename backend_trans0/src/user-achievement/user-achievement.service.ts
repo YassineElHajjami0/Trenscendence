@@ -23,6 +23,7 @@ export class UserAchievementService {
         a.name,
         a.description,
         a.uri,
+        ua."createdAT",
         COALESCE(ua.unlocked, false) as unlocked
       FROM
         "Achievement" a

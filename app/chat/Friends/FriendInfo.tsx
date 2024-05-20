@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./FriendInfo.css";
 import { currentFriend } from "@/app/Atoms/currentFriend";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -14,6 +14,7 @@ export const FriendInfo = () => {
   const [friend, setFriend] = useRecoilState(currentFriend);
   const loadingAnimation = useRecoilValue(loadingMsg);
   const userTok = useRecoilValue(userToken);
+  const [userAchievement, setUserAchievement] = useState<any[]>([]);
 
   const handleSwitch = (e: any) => {
     e.preventDefault();
@@ -33,6 +34,28 @@ export const FriendInfo = () => {
       console.log("3a", error);
     }
   };
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:3000/user-achievement/${friend.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await res.json();
+        setUserAchievement(data);
+        // console.log("userData-->>>", data);
+      } catch (error: any) {
+        console.log("--->>>", error.message);
+      }
+    };
+    getUserData();
+  }, [friend.id]);
 
   return loadingAnimation ? (
     <ProfileLoading />
@@ -64,13 +87,13 @@ export const FriendInfo = () => {
       <div className="current_friend_achievements_container">
         <h1>achievements</h1>
         <div className="current_friend_achievements">
-          {friend?.achievements?.map((a: any) => {
+          {userAchievement.map((a: any) => {
             if (a?.unlocked)
               return (
                 <div key={a?.name} className="current_friend_achievement">
                   <Image
                     className="current_friend_achievement_badge"
-                    src={a?.uri || ""}
+                    src={`http://localhost:3000${a.uri}`}
                     width={5000}
                     height={5000}
                     alt="achievement_badge"

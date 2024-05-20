@@ -18,6 +18,7 @@ export class ChannelService {
     const channel = await this.databaseService.channel.create({
       data: data,
     });
+
     if (channel) {
       const roles = await this.databaseService.role.createMany({
         data: [

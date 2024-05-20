@@ -86,8 +86,9 @@
   height: 80%;
   background: #565659;
   border-radius: 10px;
-  overflow-y: scroll;
-  padding: 5px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  /* padding: 5px; */
 }
 
 .current_friend_achievement {

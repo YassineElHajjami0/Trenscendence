@@ -11,10 +11,10 @@ export default function ProfileDetails({
 }: {
   whichProfile: any;
 }) {
-  const [switchElements, setSwitchElements] = useState("stats");
+  const [switchElements, setSwitchElements] = useState("achievements");
 
   useEffect(() => {
-    setSwitchElements("stats");
+    setSwitchElements("achievements");
   }, [whichProfile]);
 
   const switchE = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -50,7 +50,9 @@ export default function ProfileDetails({
         {switchElements === "friends" && (
           <Friends whichProfile={whichProfile} />
         )}
-        {switchElements === "achievements" && <Achievements />}
+        {switchElements === "achievements" && (
+          <Achievements whichProfile={whichProfile} />
+        )}
       </div>
     </div>
   );
