@@ -71,7 +71,7 @@ function Notification({ notif }: { notif: any }) {
     <div className="notification_container">
       <Image
         className="notification_avatar"
-        src={`http://localhost:3000${notif?.suser?.avatar}`}
+        src={`http://localhost:3000/${notif?.suser?.avatar}`}
         width={50}
         height={50}
         alt="avatar"

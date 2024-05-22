@@ -44,6 +44,8 @@ model Channel {
   type     channelType @default(DM)
   name     String
   topic    String
+  uri      String      @default("http://localhost:3000/channelDefaultImage.png")
+  code     Int         @default(0000)
   roles    Role[]
   messages Message[]
 }
@@ -52,36 +54,39 @@ model Message {
   id Int @id @default(autoincrement())
 
   //user relation
-  users     T_User  @relation(fields: [userID], references: [uid])
+  users     T_User   @relation(fields: [userID], references: [uid])
   userID    Int
   //chnnel relation
-  channels  Channel @relation(fields: [channelID], references: [id])
+  channels  Channel  @relation(fields: [channelID], references: [id])
   channelID Int
-
-  content String
-
-  isBlocked Boolean @default(false)
-
+  content   String
+  isBlocked Boolean  @default(false)
   createdAT DateTime @default(now())
 }
 
 enum roles {
-  USER
   ADMIN
+  USER
   OWNER
-  NONE
+}
+
+enum conditions {
+  MUTED
+  BLOCKED
+  NORMAL
 }
 
 model Role {
-  id        Int     @id @default(autoincrement())
-  //chnnel relation
-  channels  Channel @relation(fields: [channelID], references: [id])
-  channelID Int
-  //user relation
-  user      T_User  @relation(fields: [userID], references: [uid])
-  userID    Int
-  blocked   Boolean @default(false)
-  role      roles   @default(USER)
+  id         Int        @id @default(autoincrement())
+  channels   Channel    @relation(fields: [channelID], references: [id])
+  channelID  Int
+  user       T_User     @relation(fields: [userID], references: [uid])
+  userID     Int
+  blocked    Boolean    @default(false)
+  role       roles      @default(USER)
+  mutedSince DateTime   @default(now())
+  condition  conditions @default(NORMAL)
+  updatedAt  DateTime   @default(now())
 }
 
 model T_User {
@@ -92,9 +97,9 @@ model T_User {
   bio              String            @default("I am a player")
   password         String
   twoFA            Boolean           @default(false)
-  avatar           String            @default("/default.png")
-  paddle           String            @default("/defaultPaddle.png")
-  banner           String            @default("/defaultBanner.jpg") // neeeeeed to be updated
+  avatar           String            @default("http://localhost:3000/default.png")
+  paddle           String            @default("http://localhost:3000/defaultPaddle.png")
+  banner           String            @default("http://localhost:3000/defaultBanner.jpg") // neeeeeed to be updated
   wallet           Int               @default(0)
   level            Int               @default(0)
   // points           Int               @default(0)

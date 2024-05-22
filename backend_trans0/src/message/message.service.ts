@@ -14,6 +14,7 @@ export class MessageService {
   async create(createMessageDto: messageDto) {
     const message = await this.databaseService.message.create({
       data: createMessageDto,
+      include: { users: { select: { avatar: true } } },
     });
 
     this.chatGateway.sendMessage(message);
@@ -26,6 +27,7 @@ export class MessageService {
   async findOne(id: number) {
     const messages = await this.databaseService.message.findMany({
       where: { channelID: id },
+      include: { users: { select: { avatar: true } } },
     });
     // const groupedMessages = {};
     // messages.forEach((message) => {

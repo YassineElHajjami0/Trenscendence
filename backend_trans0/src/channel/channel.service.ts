@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+// import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import { ChannelDto, updateChannelDto } from './dto/channelDto';
 import { ChatGateway } from 'src/chatSockets/chat.getway';
@@ -14,11 +14,9 @@ export class ChannelService {
   async createDM(createChannelDto: ChannelDto) {
     const { name, topic, ...rest } = createChannelDto;
     const data = { name, topic };
-
     const channel = await this.databaseService.channel.create({
       data: data,
     });
-
     if (channel) {
       const roles = await this.databaseService.role.createMany({
         data: [

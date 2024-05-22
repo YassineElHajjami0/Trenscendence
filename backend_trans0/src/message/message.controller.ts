@@ -12,17 +12,13 @@ import { Prisma } from '@prisma/client';
 
 import { messageDto } from './dto/messageDto';
 
-
 @Controller('message')
 export class MessageController {
-  constructor(
-    private readonly messageService: MessageService,
-  ) {}
+  constructor(private readonly messageService: MessageService) {}
 
   @Post()
   create(@Body() createMessageDto: messageDto) {
     const message = this.messageService.create(createMessageDto);
-
 
     return message;
   }

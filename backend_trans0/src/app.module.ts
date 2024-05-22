@@ -21,6 +21,8 @@ import { UploadModule } from './upload/upload.module';
 import { CustomValidationPipe } from './auth/pipes/user.validation.pipe';
 import { MulterModule } from '@nestjs/platform-express';
 import { UserAchievementModule } from './user-achievement/user-achievement.module';
+import { ChannelsController } from './channels/channels.controller';
+import { ChannelsModule } from './channels/channels.module';
 
 @Module({
   imports: [
@@ -29,7 +31,6 @@ import { UserAchievementModule } from './user-achievement/user-achievement.modul
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
-      exclude: ['/api/(.*)'],
     }),
     UsersModule,
     DatabaseModule,
@@ -44,6 +45,7 @@ import { UserAchievementModule } from './user-achievement/user-achievement.modul
     UserItemsModule,
     UploadModule,
     UserAchievementModule,
+    ChannelsModule,
   ],
   controllers: [AppController],
   providers: [

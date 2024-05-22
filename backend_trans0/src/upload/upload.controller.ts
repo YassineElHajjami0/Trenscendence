@@ -15,33 +15,19 @@ import { UploadService } from './upload.service';
 @Controller('upload')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
-  // @Post()
-  // @UseInterceptors(AnyFilesInterceptor())
-  // async uploadFile(@UploadedFile() file: Express.Multer.File) {
-  //   if (!file) {
-  //     throw new Error('No file uploaded');
-  //   }
-
-  //   const originalFileName = file.originalname; // Get the original file name
-
-  //   // Custom message with the original file name
-  //   const message = `File '${originalFileName}' uploaded successfully`;
-
-  //   // const message = await this.uploadService.saveFile(file);
-  //   return { message };
-  // }
 
   @Post(':uid')
   @UseInterceptors(AnyFilesInterceptor())
   async uploadFile(
     @Param('uid') uid: string,
+    @Query('type') type: string,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
     if (!files) {
       return { message: 'No file uploaded' };
     }
-    const message = await this.uploadService.saveFile(+uid, files[0]);
-    // errase the old uploaded file
-    return { message };
+
+    const value = await this.uploadService.saveFile(+uid, files[0]);
+    return this.uploadService.updateUser(+uid, type, value);
   }
 }
