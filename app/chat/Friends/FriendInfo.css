@@ -86,8 +86,9 @@
   height: 80%;
   background: #565659;
   border-radius: 10px;
-  overflow-y: scroll;
-  padding: 5px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  /* padding: 5px; */
 }
 
 .current_friend_achievement {
@@ -136,16 +137,22 @@
 
   height: 35px;
   font-size: 1.4rem;
-  color: white;
+  color: #ff3355;
+  text-transform: capitalize;
   background: transparent;
-  margin-right: 5px;
+
+  /* justify-content: flex-start; */
+  /* width: 100%; */
 }
-.block_current_friend svg {
-  /* margin-right: 5px; */
-  font-size: 1.8rem;
+.block_current_friend:hover {
+  filter: drop-shadow(0 0 5px #ff3355);
 }
 .block_current_friend:active {
   scale: 0.95;
+}
+.block_current_friend svg {
+  margin-right: 5px;
+  font-size: 1.8rem;
 }
 
 .current_friend_block p {
@@ -155,13 +162,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.block_current_friend {
-  color: #ff3355;
-}
-.block_current_friend:hover {
-  filter: drop-shadow(0 0 5px #ff3355);
 }
 
 .unblock_current_friend {
@@ -230,11 +230,10 @@
   .current_friend_info h1:hover {
     text-wrap: wrap;
   }
-    .current_friend_achievement span:hover {
-      text-wrap: wrap;
-    }
-    .current_friend_block p:hover {
-      text-wrap: wrap;
-    }
-    
+  .current_friend_achievement span:hover {
+    text-wrap: wrap;
+  }
+  .current_friend_block p:hover {
+    text-wrap: wrap;
+  }
 }

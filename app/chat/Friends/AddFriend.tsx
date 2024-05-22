@@ -8,6 +8,8 @@ import { useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
 import { loggedUser } from "@/app/Atoms/logged";
 export default function AddFriend({ user }: { user: any }) {
+  console.log("ooooooo>>>>>>", user);
+
   const userTok = useRecoilValue(userToken);
   const loggedU = useRecoilValue(loggedUser);
 
@@ -28,11 +30,8 @@ export default function AddFriend({ user }: { user: any }) {
         },
         body: JSON.stringify(notifData),
       });
-
-      const data = await res.json();
-      console.log(">>>>>>>>>>>>>>>>>>>>>", data);
     } catch (error: any) {
-      console.log("error>>>", error.message);
+      console.log("error>>>", error);
     }
   };
 
@@ -40,7 +39,7 @@ export default function AddFriend({ user }: { user: any }) {
     <div className="add_friend_conatiner">
       <Image
         className="add_friend_avatar"
-        src={`/${user.avatar}`}
+        src={`http://localhost:3000/${user.avatar}`}
         width={1000}
         height={1000}
         alt="avatar"

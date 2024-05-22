@@ -15,6 +15,7 @@ import { IoCameraReverse } from "react-icons/io5";
 import { FriendInfo } from "./Friends/FriendInfo";
 import PopupCreateChannel from "./Channels/popupCreateChannel";
 import AddFriendSection from "./Friends/AddFriendSection";
+import LoadingPaddle from "../LoadingPaddle";
 import { loggedUser } from "../Atoms/logged";
 import { useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
@@ -32,6 +33,8 @@ interface channelInterface {
 
 const Chat = () => {
   const [hide, setHide] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [mode, setMode] = useState("friends");
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [selectedChannel, setSelectedChannel] = useState(-1);
@@ -86,7 +89,12 @@ const Chat = () => {
     setHide(false);
   };
 
-  return (
+  setTimeout(() => {
+    setLoading(false);
+  }, 1500);
+  return loading ? (
+    <LoadingPaddle />
+  ) : (
     <div className="chat_channels_container">
       <div className="chat_channels_sub_container">
         <div
@@ -95,6 +103,7 @@ const Chat = () => {
           }`}
         >
           <PopupCreateChannel
+            userId={userId}
             setShowPopUpCreateChannel={setShowPopUpCreateChannel}
           />
         </div>
@@ -213,9 +222,7 @@ const Chat = () => {
             <HiDotsVertical className="dots_hide" />
           )}
         </div>
-        {/* {mode === "friends" && ( */}
-        <AddFriendSection />
-        {/* )} */}
+        {mode === "friends" && <AddFriendSection />}
       </div>
     </div>
   );

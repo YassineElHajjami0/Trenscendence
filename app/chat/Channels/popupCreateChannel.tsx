@@ -8,10 +8,12 @@ import { useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
 
 interface popupProps {
+  userId: number;
   setShowPopUpCreateChannel: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PopupCreateChannel: React.FC<popupProps> = ({
+  userId,
   setShowPopUpCreateChannel,
 }) => {
   const [selectedChannelPicture, setSelectedChannelPicture] = useState(
@@ -36,7 +38,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
     console.log("formData: ", formData);
     if (file) formData.append("uri", file);
 
-    fetch(`http://localhost:3000/channelss`, {
+    fetch(`http://localhost:3000/channelss?userId=${userId}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userTok}`,

@@ -18,7 +18,20 @@ export class AchievementsService {
 
   async findOne(id: number) {
     return this.databaseService.achievement.findFirst({
-      where: { id },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        uri: true,
+        userAchievements: {
+          where: {
+            AND: {
+              userId: id,
+              unlocked: true,
+            },
+          },
+        },
+      },
     });
   }
 

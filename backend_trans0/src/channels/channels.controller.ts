@@ -23,11 +23,12 @@ export class ChannelsController {
   @Post()
   create(
     @UploadedFiles() files: Array<Express.Multer.File>,
+    @Query('userId') userId: string,
     @Body() createChannelDto: Prisma.ChannelCreateInput,
   ) {
     createChannelDto.code = parseInt(createChannelDto.code.toString());
     console.log('createChannelDto ==> ', createChannelDto);
-    return this.channelsService.create(files[0], createChannelDto);
+    return this.channelsService.create(files[0], createChannelDto, userId);
   }
 
   @Get()

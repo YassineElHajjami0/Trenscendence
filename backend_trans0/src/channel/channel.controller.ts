@@ -3,13 +3,13 @@ import {
   Get,
   Post,
   Body,
-  // Patch,
+  Patch,
   Param,
   Delete,
 } from '@nestjs/common';
 import { ChannelService } from './channel.service';
-// import { Prisma } from '@prisma/client';
-import { ChannelDto } from './dto/channelDto';
+import { Prisma } from '@prisma/client';
+import { ChannelDto, updateChannelDto } from './dto/channelDto';
 
 @Controller('channels')
 export class ChannelController {
@@ -17,7 +17,13 @@ export class ChannelController {
 
   @Post('/dm')
   create(@Body() createChannelDto: ChannelDto) {
+    console.log('hana d5altttttt');
+
     return this.channelService.createDM(createChannelDto);
+  }
+  @Get('/dm/:id')
+  findMyFriends(@Param('id') id: string) {
+    return this.channelService.findMyFriends(+id);
   }
 
   @Get()
@@ -30,10 +36,10 @@ export class ChannelController {
     return this.channelService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateChannelDto: Prisma.ChannelUpdateInput) {
-  //   return this.channelService.update(+id, updateChannelDto);
-  // }
+  @Patch('/dm')
+  updateDM(@Body() updateChannelDto: updateChannelDto) {
+    return this.channelService.updateDM(updateChannelDto);
+  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

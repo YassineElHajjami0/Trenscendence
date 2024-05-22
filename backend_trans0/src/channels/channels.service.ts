@@ -16,19 +16,22 @@ export class ChannelsService {
   async create(
     file: Express.Multer.File,
     createChannelDto: Prisma.ChannelCreateInput,
+    userId: string,
   ) {
     const filePath = path.join(process.cwd(), 'public', file.originalname);
-    createChannelDto.uri = filePath;
+    // createChannelDto.uri = filePath;
+    // createChannelDto.uri = `http://localhost:3000/${filePath}`;
     await fs.promises.writeFile(filePath, file.buffer);
-    const imageName = path.basename(createChannelDto.uri);
-    createChannelDto.uri = imageName;
+    console.log('!!!!!!', createChannelDto);
+    const imageName = path.basename(filePath);
+    createChannelDto.uri = `http://localhost:3000/${imageName}`;
     const createdChannel = await this.databaseService.channel.create({
       data: createChannelDto,
     });
     await this.databaseService.role.create({
       data: {
         channelID: createdChannel.id,
-        userID: 1,
+        userID: parseInt(userId),
         role: 'OWNER',
       },
     });

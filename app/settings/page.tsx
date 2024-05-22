@@ -379,7 +379,7 @@ const Settings = () => {
               <div
                 className="banner"
                 style={{
-                  backgroundImage: `url('http://localhost:3000/bn/${data?.banner}')`,
+                  backgroundImage: `url('${data?.banner}')`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -388,9 +388,7 @@ const Settings = () => {
                   <div>
                     <Image
                       className="profile-image"
-                      src={
-                        `http://localhost:3000/${data?.avatar}` ?? "default.png"
-                      }
+                      src={`${data?.avatar}`}
                       width={192}
                       height={192}
                       alt="Profile Picture"

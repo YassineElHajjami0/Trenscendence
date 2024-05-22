@@ -31,8 +31,14 @@
   box-shadow: 0 0 5px black;
 }
 
+.this_friend_is_blocked {
+  text-transform: capitalize;
+  color: #ff3355 !important;
+  filter: drop-shadow(0 0 1px #ff3355);
+}
+
 .chat_list_name {
-  width: 70%;
+  width: 65%;
   height: 100%;
 
   display: flex;
@@ -61,6 +67,8 @@
 }
 .chat_list_avatar_container {
   position: relative;
+  width: fit-content;
+  height: fit-content;
 }
 .status_dot {
   border: 2px solid #3d3d3d;
@@ -70,8 +78,8 @@
   border-radius: 50%;
   background: #ff3355;
   filter: drop-shadow(0 0 1px #ff3355);
-  left: 5%;
-  bottom: 11%;
+  right: 10%;
+  bottom: 10%;
   transition: all 0.4s;
 }
 

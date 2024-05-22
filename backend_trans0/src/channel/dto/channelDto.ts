@@ -3,5 +3,10 @@ export type ChannelDto = {
   topic: string;
   id: number;
   friendId: number;
-  code: number;
+};
+
+export type updateChannelDto = {
+  channelID: number;
+  friendId: number;
+  blocked: boolean;
 };

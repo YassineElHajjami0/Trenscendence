@@ -294,10 +294,7 @@ const ChannelInfo = ({
     <div className="selectedChannelData">
       <div className="ChannelImage">
         <Image
-          src={
-            `http://localhost:3000/${channelData?.uri}` ??
-            `http://localhost:3000/default.png`
-          }
+          src={`${channelData?.uri}`}
           width={100}
           height={100}
           alt="avatar"
@@ -314,7 +311,7 @@ const ChannelInfo = ({
               <div className="userPic">
                 <Image
                   className="pic"
-                  src={`http://localhost:3000/${MembersObj?.channelOwner.user.avatar}`}
+                  src={`${MembersObj?.channelOwner.user.avatar}`}
                   width={50}
                   height={50}
                   alt="avatar"

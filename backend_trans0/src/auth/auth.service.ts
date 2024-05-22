@@ -10,7 +10,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async validateUserId(uid: number) {
     const user = await this.usersService.validateUserId(uid);
@@ -97,7 +97,7 @@ export class AuthService {
   isTwoFactorCodeValid(body: any) {
     return authenticator.verify({
       token: body.twoFaCode,
-      secret: body.user.twoFASecret,
+      secret: body.twoFASecret,
     });
   }
 

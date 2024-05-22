@@ -3,4 +3,5 @@ export class CreateChannelDto {
   type?: string;
   topic: string;
   uri?: string;
+  code: number;
 }

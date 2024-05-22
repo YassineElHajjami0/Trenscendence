@@ -10,10 +10,8 @@
 }
 
 .from_errors {
-  color: var(--main-red);
-
   font-weight: 900;
-  align-self: flex-start;
+
   animation: shake 0.5s ease-in-out;
 }
 @keyframes shake {
@@ -38,7 +36,14 @@
   font-size: 25px;
   font-weight: 300;
 }
-
+.password_wraper {
+  width: 95%;
+  height: 16%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
 .sign_in_ships {
   transition: all 0.4s;
   border-radius: 5px;
@@ -46,14 +51,28 @@
   width: 95%;
   height: 16%;
   text-align: left;
-
-  color: white;
+  color: #e6e6e6;
   font-size: 1.1rem;
   font-weight: 700;
-  background-color: #27272a;
+  background: #27272a;
+
   outline: none;
   border: none;
   overflow: hidden;
+  background-size: -500% -100%;
+}
+.change_pass_bg {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.9), #27272a);
+  background-size: 500% 100%;
+  background-position: right;
+}
+.sign_in_ships::placeholder {
+  color: rgba(255, 255, 255, 0.2) !important;
+}
+.for_pass_only {
+  padding-right: 55px;
+  width: 100%;
+  height: 100%;
 }
 .hide_pass {
   height: 0;
@@ -62,11 +81,83 @@
   padding: 0;
   margin: 0;
 }
+
+.hide_password_text {
+  transition: all 0.4s;
+  cursor: pointer;
+  position: absolute;
+  font-size: 30px;
+  right: 10px;
+
+  border-radius: 50%;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0px 15px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.hide_password_text path {
+  transition: all 0.4s;
+  stroke-width: 5px;
+}
+
+.show_password_text {
+  rotate: -90deg;
+  filter: drop-shadow(0 0 10px rgb(255, 255, 255)) !important;
+}
+.show_password_text path {
+  stroke-width: 30px;
+}
+.two_factor_auth {
+  height: 0;
+  overflow: hidden;
+  transition: all 0.4s;
+}
+
+._2fa_container {
+  height: 80%;
+}
+._2fa_header {
+  font-size: 1.2rem !important;
+  font-weight: 800 !important;
+  text-align: center;
+}
+._2fa_container_separator {
+  color: transparent;
+}
+
+.show_2fa_container {
+  width: 95%;
+  height: 25%;
+  padding: 10px 5px;
+}
+
+._2fa_container_inputs {
+  width: calc(100% / 6) !important;
+  background-color: #27272a;
+  outline: none;
+  border: none;
+  user-select: none;
+  height: 70%;
+  font-size: 24px;
+  border-radius: 5px;
+  color: white;
+}
+
+._2fa_container_inputs::-webkit-inner-spin-button,
+._2fa_container_inputs::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  user-select: none;
+}
+
 .sign_in_ships::placeholder {
   text-transform: uppercase;
   color: white;
 }
 .btn {
+  text-transform: capitalize;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -135,6 +226,154 @@ button.sign_in_ships:active {
   .other_login {
     height: 45%;
   }
+  .show_2fa_container {
+    height: 40%;
+  }
+  ._2fa_container {
+    height: 40%;
+  }
+  ._2fa_header {
+    font-size: 1rem !important;
+  }
 }
 
-/* .outher_methods */
+/* --------------------------------------eye */
+
+.eye_container {
+  position: absolute;
+  right: 10px;
+}
+
+.eye {
+  cursor: pointer;
+  --box-size: 20px;
+  --border-width: calc(var(--box-size) / 12);
+  --hair-length: calc(var(--border-width) * 2);
+  --iris-scale: 80%;
+  --pupil-scale: 35%;
+  --tansition-time: 0.15s;
+
+  width: var(--box-size);
+  height: var(--box-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.7);
+}
+
+.eye__base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: solid var(--border-width) white;
+  border-radius: 80% 0;
+  transform: rotate(45deg);
+  overflow: hidden;
+}
+
+.eye__base__view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transform: translate(15%, 20%);
+  transition: transform calc(var(--tansition-time) * 1.5) ease-out;
+}
+
+.eye[data-closed] .eye__base__view {
+  transform: translate(3%, 3%);
+}
+
+.eye__base__view__iris {
+  width: var(--iris-scale);
+  height: var(--iris-scale);
+  border: solid var(--border-width) white;
+  border-radius: 100%;
+  transform: rotate(-45deg);
+}
+
+.eye__base__view__pupil {
+  position: absolute;
+  width: var(--pupil-scale);
+  height: var(--pupil-scale);
+  border: solid var(--border-width) white;
+  border-radius: 100%;
+  transform: rotate(-45deg);
+}
+
+.eye__lid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.eye__lid__mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 80% 0;
+  transform: rotate(45deg);
+  transition: all var(--tansition-time) ease-out;
+}
+
+.eye[data-closed] .eye__lid__mask {
+  background: transparent;
+  transform: rotate(45deg) translate(-20%, -20%);
+}
+
+.eye__lid__lashes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: transform var(--tansition-time) ease-out;
+}
+
+.eye[data-closed] .eye__lid__lashes {
+  transform: rotateX(180deg);
+}
+
+.eye__lid__lashes__line {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-bottom: solid var(--border-width) white;
+  border-right: solid var(--border-width) white;
+  border-radius: 80% 0;
+  transform: rotate(45deg);
+}
+
+.eye__lid__lashes__hair {
+  position: absolute;
+  left: 50%;
+  top: 105%;
+  transform: translate(-50%, -50%);
+  width: var(--border-width);
+  height: var(--hair-length);
+  background: white;
+}
+
+.eye__lid__lashes__hair:before {
+  content: "";
+  position: absolute;
+  left: calc(var(--box-size) * -0.4);
+  top: calc(var(--box-size) * -0.07);
+  width: var(--border-width);
+  height: var(--hair-length);
+  background: white;
+  transform: rotate(20deg);
+}
+
+.eye__lid__lashes__hair:after {
+  content: "";
+  position: absolute;
+  left: calc(var(--box-size) * 0.4);
+  top: calc(var(--box-size) * -0.07);
+  width: var(--border-width);
+  height: var(--hair-length);
+  background: white;
+  transform: rotate(-20deg);
+}

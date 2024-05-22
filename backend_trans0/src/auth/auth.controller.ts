@@ -27,7 +27,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UsersService,
-  ) { }
+  ) {}
 
   setCookie(@Res() res, bearer_token?: string) {
     if (!bearer_token) bearer_token = '';
@@ -169,9 +169,9 @@ export class AuthController {
     if (!isCodeValid) {
       throw new UnauthorizedException('Wrong authentication code');
     }
-    const bearer_token = await this.authService.login(body.user);
+    const bearer_token = await this.authService.login(body);
     this.setCookie(res, bearer_token);
 
-    return { userToken: bearer_token };
+    return { userToken: bearer_token, user: body };
   }
 }

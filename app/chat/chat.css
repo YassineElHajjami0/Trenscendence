@@ -351,6 +351,7 @@
 }
 
 .selectedFriendChat {
+  overflow: hidden;
   height: 100%;
   width: 100%;
 }
@@ -383,6 +384,9 @@
   height: 100%;
   margin-left: auto;
   transition: all 1s ease-in-out !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .col1 .switcher {
@@ -516,6 +520,20 @@
   font-size: 2rem;
   bottom: 10px;
   left: 10px;
+  transition: all 0.4s;
+  animation: show 0.5s ease-in-out;
+}
+@keyframes show {
+  0% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+.show_add_friend {
+  width: 0px;
+  height: 0px;
 }
 
 .show_the_big_div {
@@ -536,7 +554,7 @@
   z-index: 12;
 }
 .add_friend_container {
-  width: 50%;
+  width: 60%;
   height: 80%;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 15px;
@@ -547,6 +565,10 @@
   align-items: center;
   cursor: default;
   padding: 45px 10px;
+}
+.big_one {
+  width: 80%;
+  height: 100%;
 }
 
 .add_friend_container input {
@@ -567,7 +589,23 @@
   height: 90%;
   border-radius: 15px;
   overflow-y: scroll;
-  padding-top:10px ;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.searchedFriends::-webkit-scrollbar-track {
+  background-color: #e0e0e000 !important;
+  margin: 10px 0 !important;
+}
+
+.searchedFriends::-webkit-scrollbar {
+  width: 3px;
+}
+
+.searchedFriends::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 6px;
 }
 
 /*-----------break point-----------*/

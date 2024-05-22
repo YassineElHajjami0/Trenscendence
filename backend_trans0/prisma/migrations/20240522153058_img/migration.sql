@@ -8,7 +8,7 @@ CREATE TYPE "NotificationType" AS ENUM ('gameReq', 'friendReq');
 CREATE TYPE "channelType" AS ENUM ('DM', 'PUBLIC', 'PRIVATE', 'PROTECTED');
 
 -- CreateEnum
-CREATE TYPE "roles" AS ENUM ('USER', 'ADMIN', 'OWNER');
+CREATE TYPE "roles" AS ENUM ('ADMIN', 'USER', 'OWNER');
 
 -- CreateEnum
 CREATE TYPE "conditions" AS ENUM ('MUTED', 'BLOCKED', 'NORMAL');
@@ -19,10 +19,11 @@ CREATE TYPE "GameMode" AS ENUM ('RANDOM', 'AGAINST_FRIEND', 'AGAINST_ROBOT');
 -- CreateTable
 CREATE TABLE "Channel" (
     "id" SERIAL NOT NULL,
+    "userID" INTEGER NOT NULL,
     "type" "channelType" NOT NULL DEFAULT 'DM',
     "name" TEXT NOT NULL,
     "topic" TEXT NOT NULL,
-    "uri" TEXT NOT NULL DEFAULT '/channelDefaultImage.png',
+    "uri" TEXT NOT NULL DEFAULT 'http://localhost:3000/channelDefaultImage.png',
     "code" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "Channel_pkey" PRIMARY KEY ("id")
@@ -34,6 +35,7 @@ CREATE TABLE "Message" (
     "userID" INTEGER NOT NULL,
     "channelID" INTEGER NOT NULL,
     "content" TEXT NOT NULL,
+    "isBlocked" BOOLEAN NOT NULL DEFAULT false,
     "createdAT" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
@@ -44,9 +46,11 @@ CREATE TABLE "Role" (
     "id" SERIAL NOT NULL,
     "channelID" INTEGER NOT NULL,
     "userID" INTEGER NOT NULL,
+    "blocked" BOOLEAN NOT NULL DEFAULT false,
     "role" "roles" NOT NULL DEFAULT 'USER',
     "mutedSince" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "condition" "conditions" NOT NULL DEFAULT 'NORMAL',
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Role_pkey" PRIMARY KEY ("id")
 );
@@ -60,9 +64,9 @@ CREATE TABLE "T_User" (
     "bio" TEXT NOT NULL DEFAULT 'I am a player',
     "password" TEXT NOT NULL,
     "twoFA" BOOLEAN NOT NULL DEFAULT false,
-    "avatar" TEXT NOT NULL DEFAULT '/default.png',
-    "paddle" TEXT NOT NULL DEFAULT '/defaultPaddle.png',
-    "banner" TEXT NOT NULL DEFAULT '/defaultBanner.jpg',
+    "avatar" TEXT NOT NULL DEFAULT 'http://localhost:3000/default.png',
+    "paddle" TEXT NOT NULL DEFAULT 'http://localhost:3000/defaultPaddle.png',
+    "banner" TEXT NOT NULL DEFAULT 'http://localhost:3000/defaultBanner.jpg',
     "wallet" INTEGER NOT NULL DEFAULT 0,
     "level" INTEGER NOT NULL DEFAULT 0,
     "rank" TEXT NOT NULL DEFAULT '0',
@@ -133,9 +137,8 @@ CREATE TABLE "Achievement" (
 CREATE TABLE "UserAchievement" (
     "userId" INTEGER NOT NULL,
     "achivementId" INTEGER NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAT" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "unlocked" BOOLEAN NOT NULL,
-    "choosed" BOOLEAN NOT NULL,
 
     CONSTRAINT "UserAchievement_pkey" PRIMARY KEY ("userId","achivementId")
 );
@@ -157,6 +160,9 @@ CREATE TABLE "MatchHistory" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "T_User_email_key" ON "T_User"("email");
+
+-- AddForeignKey
+ALTER TABLE "Channel" ADD CONSTRAINT "Channel_userID_fkey" FOREIGN KEY ("userID") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Message" ADD CONSTRAINT "Message_userID_fkey" FOREIGN KEY ("userID") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;

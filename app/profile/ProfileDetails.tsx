@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProfileDetails.css";
 import Friends from "./Friends";
 import Stats from "./Stats";
@@ -11,7 +11,11 @@ export default function ProfileDetails({
 }: {
   whichProfile: any;
 }) {
-  const [switchElements, setSwitchElements] = useState("friends");
+  const [switchElements, setSwitchElements] = useState("achievements");
+
+  useEffect(() => {
+    setSwitchElements("achievements");
+  }, [whichProfile]);
 
   const switchE = (e: React.MouseEvent<HTMLButtonElement>) => {
     setSwitchElements(e.currentTarget.textContent || "");
@@ -43,8 +47,12 @@ export default function ProfileDetails({
       </div>
       <div className="profile_details_data">
         {switchElements === "stats" && <Stats />}
-        {switchElements === "friends" && (<Friends whichProfile={whichProfile} />)}
-        {switchElements === "achievements" && <Achievements />}
+        {switchElements === "friends" && (
+          <Friends whichProfile={whichProfile} />
+        )}
+        {switchElements === "achievements" && (
+          <Achievements whichProfile={whichProfile} />
+        )}
       </div>
     </div>
   );

@@ -6,17 +6,63 @@ import { FriendData } from "@/app/Interfaces/friendDataInterface";
 import { useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
+import AddFriendSection from "../chat/Friends/AddFriendSection";
+import "../chat/chat.css";
+import "../chat/Friends/AddFriend.css";
+import { socket } from "../sockets/socket";
 
 export default function Friends({ whichProfile }: { whichProfile: any }) {
-  const loggedU = useRecoilValue(loggedUser);
+  const UID = useRecoilValue(loggedUser);
+
   const userTok = useRecoilValue(userToken);
   const [userFriends, setUserFriends] = useState<any[]>([]);
+  console.log("friend array>>>", userFriends);
+
+  useEffect(() => {
+    const handleBlockedFriend = (friend: any) => {
+      setUserFriends((prev: any) => {
+        return prev.map((channel: any) => {
+          if (channel.id === friend.channelID) {
+            const updatedRoles = channel.roles.map((role: any) => {
+              if (role.uid === friend.userID) {
+                return { ...role, blocked: friend.blocked };
+              }
+              return role;
+            });
+            return { ...channel, roles: updatedRoles };
+          }
+          return channel;
+        });
+      });
+    };
+
+    socket.on("update_blocked_friend", handleBlockedFriend);
+    return () => {
+      socket.off("update_blocked_friend");
+    };
+  });
+
+  useEffect(() => {
+    const updateFriends = (friend: any) => {
+      if (friend.length === 0) return;
+
+      const whichUID = friend.roles.some((user: any) => user.uid === UID);
+      if (whichUID) {
+        setUserFriends((prev: any) => [...prev, friend]);
+      }
+    };
+
+    socket.on("update_friend_list", updateFriends);
+    return () => {
+      socket.off("update_friend_list");
+    };
+  }, []);
 
   useEffect(() => {
     const getUserData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/friends/${whichProfile}`,
+          `http://localhost:3000/channels/dm/${whichProfile}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -26,7 +72,7 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
         );
         const data = await res.json();
         setUserFriends(data);
-        console.log("userData-->>>", data);
+        // console.log("userData-->>>", data);
       } catch (error: any) {
         console.log("--->>>", error.message);
       }
@@ -34,19 +80,13 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
     getUserData();
   }, [whichProfile]);
 
-  // const sortedFriends = friend_data.sort((a: FriendData, b: FriendData) => {
-  //   const onlineComparison =
-  //     (b.status === "online" ? 1 : 0) - (a.status === "online" ? 1 : 0);
-  //   const ingameComparison =
-  //     (b.status === "ingame" ? 1 : 0) - (a.status === "ingame" ? 1 : 0);
-  //   return onlineComparison || ingameComparison;
-  // });
-
   return (
     <div className="friends_container">
-      {userFriends?.length> 0&& userFriends?.map((e: any) => (
-        <Friend friend={e} key={e.uid} />
-      ))}
+      {userFriends?.length > 0 &&
+        userFriends?.map((e: any) => (
+          <Friend whichProfile={whichProfile} friend={e} key={e.id} />
+        ))}
+      <AddFriendSection />
     </div>
   );
 }

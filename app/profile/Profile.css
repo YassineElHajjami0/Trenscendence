@@ -31,7 +31,26 @@
   height: 200px;
   border-radius: 50%;
   border: 5px solid #1ce14e;
-  animation: heartbeat 3s infinite 5s ease-in-out;
+  /* animation: heartbeat 3s infinite 5s ease-in-out; */
+}
+.img_container_add {
+  position: relative;
+}
+.add_me_if_not {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  font-size: 36px;
+  background-color: var(--main-green);
+  border-radius: 50%;
+  padding: 5px;
+  overflow: visible;
+  transition: 0.4s all;
+}
+.add_me_if_not:hover {
+  scale: 1.05;
+  cursor: pointer;
+  box-shadow: 0 0 5px var(--main-green);
 }
 
 @keyframes heartbeat {
@@ -68,11 +87,14 @@
   opacity: 1;
   transform: translate(0);
 }
+.edit_label:hover svg {
+  rotate: 180deg;
+}
 
 .edit_label {
   color: white;
   cursor: pointer;
-  font-size: 30px;
+  font-size: 25px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -85,12 +107,14 @@
   margin-left: 10px;
   color: #1ce14e;
   filter: drop-shadow(0 0 5px #1ce14e);
+  transition: all 0.4s;
 }
 
 .edit_label span {
   text-shadow: 0 0 10px black;
   transition: all 0.5s;
   opacity: 0;
+
   transform: translate(50%, -50%);
 }
 

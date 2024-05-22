@@ -13,6 +13,14 @@
   font-family: "Poppins", sans-serif;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 body {
   background: #27272b;
   background-image: url("/background.jpeg");
@@ -33,7 +41,8 @@ nav {
 }
 
 .upperNav-children-container {
-  flex: 1;
+  width: calc(100% - 220px);
+  height: 100%;
   padding: 20px;
 
   display: flex;
@@ -169,8 +178,15 @@ nav {
   .home-page .animation-slide {
     background-position: 0cm -400px;
   }
+  .upperNav-children-container {
+    width: calc(100% - 80px);
+  }
 }
 @media (max-width: 768px) {
+  .upperNav-children-container {
+    width: calc(100% - 60px);
+  }
+
   .upperNav-children-container {
     gap: 10px;
   }
@@ -192,6 +208,10 @@ nav {
   }
 }
 @media (max-width: 425px) {
+  .upperNav-children-container {
+    width: calc(100% - 50px);
+  }
+
   .home-page .animation-slide {
     background-position: 0cm -50px;
     height: 200px;
@@ -746,3 +766,5 @@ nav {
     width: 25px;
   }
 }
+
+/* add_friend_in_profile ----------------------------*/

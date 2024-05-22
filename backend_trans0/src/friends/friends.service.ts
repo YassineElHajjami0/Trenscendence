@@ -3,10 +3,16 @@ import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import { FriendDto } from './dto/friendDto';
 import { UsersService } from 'src/users/users.service';
+import { ChatGateway } from 'src/chatSockets/chat.getway';
+import { ChannelService } from 'src/channel/channel.service';
 
 @Injectable()
 export class FriendsService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly chatGateway: ChatGateway,
+    private readonly channelService: ChannelService,
+  ) {}
 
   async create(createFriendDto: FriendDto) {
     const { user1Id, user2Id } = createFriendDto;
@@ -14,18 +20,33 @@ export class FriendsService {
       where: {
         OR: [
           {
-            user2Id: user2Id,
             user1Id: user1Id,
+            user2Id: user2Id,
           },
           {
-            user1Id: user1Id,
-            user2Id: user2Id,
+            user1Id: user2Id,
+            user2Id: user1Id,
           },
         ],
       },
     });
-    if (!existingFriendship)
-      return this.databaseService.userFriend.create({ data: createFriendDto });
+    if (!existingFriendship) {
+      const friend = await this.databaseService.userFriend.create({
+        data: createFriendDto,
+        include: {
+          usersSendThem: true,
+          usersSendMe: true,
+        },
+      });
+      const channelDto = {
+        name: '',
+        topic: '',
+        id: user1Id,
+        friendId: user2Id,
+      };
+      this.channelService.createDM(channelDto);
+      // this.chatGateway.updateFriendList(friend);
+    }
   }
 
   async findAll() {
@@ -47,8 +68,7 @@ export class FriendsService {
         return item.item.name;
       }
     });
-    const avatarValue =
-      avatar.length > 0 ? avatar[0].item.name : 'default.jpeg';
+    const avatarValue = avatar.length > 0 ? avatar[0].item.name : 'default.png';
     return avatarValue;
   }
 
@@ -72,35 +92,53 @@ export class FriendsService {
       },
     });
     // ??
-    const allFriends = await Promise.all(
-      friends.map(async (friend) => {
+
+    const allFriends = await friends
+      .map((friend) => {
         const friendData =
           friend.user1Id === id ? friend.usersSendMe : friend.usersSendThem;
-        const avatarFriend = await this.getChoosedAvatarOfUser(friendData.uid);
+
         return {
           uid: friendData.uid,
-          name: friendData.username,
+          username: friendData.username,
           email: friendData.email,
           status: friendData.status,
-          avatar: avatarFriend,
+          avatar: friendData.avatar,
           fsStatus: friend.status,
         };
-      }),
-    );
-
-    allFriends.sort((a, b) => {
-      const statusOrder = { online: 1, ingame: 2, offline: 3 };
-      return statusOrder[a.status] - statusOrder[b.status];
-    });
+      })
+      .sort((a, b) => {
+        const statusOrder = { online: 1, ingame: 2, offline: 3 };
+        return statusOrder[a.status] - statusOrder[b.status];
+      });
 
     return allFriends;
+  }
+
+  async findIfFriedn(user1Id: number, user2Id: number) {
+    const friend = await this.databaseService.userFriend.findFirst({
+      where: {
+        OR: [
+          {
+            user1Id: user1Id,
+            user2Id: user2Id,
+          },
+          {
+            user1Id: user2Id,
+            user2Id: user1Id,
+          },
+        ],
+      },
+    });
+    if (friend) return true;
+    return false;
   }
 
   async findAllExceptFriends(userId: number) {
     const friends = await this.databaseService.userFriend.findMany({
       where: {
         OR: [{ user1Id: userId }, { user2Id: userId }],
-        NOT: { status: 'PENDING' },
+        NOT: { OR: [{ status: 'PENDING' }, { status: 'NONE' }] },
       },
       select: {
         user1Id: true,
@@ -130,7 +168,7 @@ export class FriendsService {
         return { ...u, avatar: 'default.png' };
       } else return u;
     });
-    return alteredUers;
+    return users;
   }
 
   async update(

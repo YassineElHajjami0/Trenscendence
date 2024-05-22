@@ -44,7 +44,7 @@ model Channel {
   type     channelType @default(DM)
   name     String
   topic    String
-  uri      String      @default("/channelDefaultImage.png")
+  uri      String      @default("http://localhost:3000/channelDefaultImage.png")
   code     Int         @default(0000)
   roles    Role[]
   messages Message[]
@@ -54,14 +54,13 @@ model Message {
   id Int @id @default(autoincrement())
 
   //user relation
-  users     T_User  @relation(fields: [userID], references: [uid])
+  users     T_User   @relation(fields: [userID], references: [uid])
   userID    Int
   //chnnel relation
-  channels  Channel @relation(fields: [channelID], references: [id])
+  channels  Channel  @relation(fields: [channelID], references: [id])
   channelID Int
-
-  content String
-
+  content   String
+  isBlocked Boolean  @default(false)
   createdAT DateTime @default(now())
 }
 
@@ -79,12 +78,11 @@ enum conditions {
 
 model Role {
   id         Int        @id @default(autoincrement())
-  //chnnel relation
   channels   Channel    @relation(fields: [channelID], references: [id])
   channelID  Int
-  //user relation
   user       T_User     @relation(fields: [userID], references: [uid])
   userID     Int
+  blocked    Boolean    @default(false)
   role       roles      @default(USER)
   mutedSince DateTime   @default(now())
   condition  conditions @default(NORMAL)
@@ -99,9 +97,9 @@ model T_User {
   bio              String            @default("I am a player")
   password         String
   twoFA            Boolean           @default(false)
-  avatar           String            @default("/default.png")
-  paddle           String            @default("/defaultPaddle.png")
-  banner           String            @default("/defaultBanner.jpg") // neeeeeed to be updated
+  avatar           String            @default("http://localhost:3000/default.png")
+  paddle           String            @default("http://localhost:3000/defaultPaddle.png")
+  banner           String            @default("http://localhost:3000/defaultBanner.jpg") // neeeeeed to be updated
   wallet           Int               @default(0)
   level            Int               @default(0)
   // points           Int               @default(0)
@@ -195,12 +193,11 @@ model Achievement {
 
 model UserAchievement {
   user         T_User      @relation(fields: [userId], references: [uid])
-  userId       Int // relation scalar field (used in the `@relation` attribute above)
+  userId       Int
   achievement  Achievement @relation(fields: [achivementId], references: [id])
-  achivementId Int // relation scalar field (used in the `@relation` attribute above)
-  date         DateTime    @default(now())
+  achivementId Int
+  createdAT    DateTime    @default(now())
   unlocked     Boolean
-  choosed      Boolean
 
   @@id([userId, achivementId])
 }

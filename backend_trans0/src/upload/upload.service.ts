@@ -25,6 +25,17 @@ export class UploadService {
     return `This action updates a #${id} upload`;
   }
 
+  async updateUser(uid: number, type: string, value: string) {
+    const data =
+      type == 'avatar'
+        ? { avatar: `http://localhost:3000/${value}` }
+        : { banner: `http://localhost:3000/${value}` };
+    return this.databaseService.t_User.update({
+      where: { uid },
+      data,
+    });
+  }
+
   remove(id: number) {
     return `This action removes a #${id} upload`;
   }
@@ -32,15 +43,8 @@ export class UploadService {
   async saveFile(uid: number, file: Express.Multer.File) {
     try {
       const filePath = path.join(process.cwd(), 'public', file.originalname);
-      console.log(filePath);
       await fs.promises.writeFile(filePath, file.buffer);
-      await this.databaseService.t_User.update({
-        where: { uid },
-        data: {
-          avatar: file.originalname,
-        },
-      });
-      return 'Uploaded successfully';
+      return file.originalname;
     } catch (error) {
       return error.message;
     }

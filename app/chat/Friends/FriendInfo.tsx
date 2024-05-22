@@ -1,25 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./FriendInfo.css";
 import { currentFriend } from "@/app/Atoms/currentFriend";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Image from "next/image";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import { FriendData } from "@/app/Interfaces/friendDataInterface";
+import { loadingMsg } from "@/app/Atoms/loadingMsg";
+import ProfileLoading from "./ProfileLoading";
+import axios from "axios";
+import { userToken } from "@/app/Atoms/userToken";
 export const FriendInfo = () => {
   const [friend, setFriend] = useRecoilState(currentFriend);
+  const loadingAnimation = useRecoilValue(loadingMsg);
+  const userTok = useRecoilValue(userToken);
+  const [userAchievement, setUserAchievement] = useState<any[]>([]);
 
-  return (
+  const handleSwitch = (e: any) => {
+    e.preventDefault();
+
+    const body = {
+      channelID: friend.id,
+      friendId: friend.uid,
+      blocked: !friend.blocked,
+    };
+    try {
+      axios.patch("http://localhost:3000/channels/dm", body, {
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+        },
+      });
+    } catch (error) {
+      console.log("3a", error);
+    }
+  };
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:3000/user-achievement/${friend.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await res.json();
+        setUserAchievement(data);
+      } catch (error: any) {
+        console.log("--->>>", error.message);
+      }
+    };
+    getUserData();
+  }, [friend.id]);
+
+  return loadingAnimation ? (
+    <ProfileLoading />
+  ) : (
     <div className="current_friend_info_container">
       <div className="current_friend_info">
         <Image
           className="current_friend_avatar"
-          src={friend?.avatar || ""}
+          src={`http://localhost:3000/${friend?.avatar}`}
+          // src={`http://localhost:3000${friend?.avatar}`}
           width={5000}
           height={5000}
           alt="avatar"
         />
-        <h1>{friend?.name}</h1>
+        <h1>{friend?.username}</h1>
         <h3>{friend?.bio}</h3>
       </div>
       <div className="current_friend_rank">
@@ -36,13 +86,13 @@ export const FriendInfo = () => {
       <div className="current_friend_achievements_container">
         <h1>achievements</h1>
         <div className="current_friend_achievements">
-          {friend?.achievements?.map((a:any) => {
+          {userAchievement.map((a: any) => {
             if (a?.unlocked)
               return (
                 <div key={a?.name} className="current_friend_achievement">
                   <Image
                     className="current_friend_achievement_badge"
-                    src={a?.uri || ""}
+                    src={`http://localhost:3000${a.uri}`}
                     width={5000}
                     height={5000}
                     alt="achievement_badge"
@@ -56,20 +106,24 @@ export const FriendInfo = () => {
       </div>
       <div className="current_friend_block">
         <button
-          onClick={() =>
-            setFriend((prev: FriendData | undefined) => {
-              if (prev) {
-                return { ...prev, blocked: !prev?.blocked };
-              }
-            })
-          }
+          onClick={handleSwitch}
           className={`block_current_friend ${
-            friend?.blocked ? "block_current_friend" : "unblock_current_friend"
+            friend?.blocked && "unblock_current_friend"
           }`}
         >
-          {friend?.blocked ? <CgUnblock /> : <MdBlock />}
+          {friend?.blocked ? (
+            <>
+              <CgUnblock />
+              Unblock
+            </>
+          ) : (
+            <>
+              <MdBlock />
+              block
+            </>
+          )}{" "}
+          {friend?.username}
         </button>
-        <p>{friend?.name}</p>
       </div>
     </div>
   );

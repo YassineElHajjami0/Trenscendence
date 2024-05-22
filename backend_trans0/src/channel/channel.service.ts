@@ -1,37 +1,24 @@
 import { Injectable } from '@nestjs/common';
 // import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
-import { ChannelDto } from './dto/channelDto';
+import { ChannelDto, updateChannelDto } from './dto/channelDto';
+import { ChatGateway } from 'src/chatSockets/chat.getway';
 
 @Injectable()
 export class ChannelService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly chatGateway: ChatGateway,
+  ) {}
 
   async createDM(createChannelDto: ChannelDto) {
-    const { name, topic, code, ...rest } = createChannelDto;
-    const data = { name, topic, code };
-    const checkChannel = await this.databaseService.channel.findFirst({
-      where: {
-        AND: [
-          { type: 'DM' },
-          {
-            roles: {
-              some: { userID: rest.id },
-            },
-          },
-          {
-            roles: {
-              some: { userID: rest.friendId },
-            },
-          },
-        ],
-      },
+    const { name, topic, ...rest } = createChannelDto;
+    const data = { name, topic };
+    const channel = await this.databaseService.channel.create({
+      data: data,
     });
-    if (checkChannel) return checkChannel.id;
-
-    const channel = await this.databaseService.channel.create({ data: data });
     if (channel) {
-      await this.databaseService.role.createMany({
+      const roles = await this.databaseService.role.createMany({
         data: [
           {
             channelID: channel.id,
@@ -43,8 +30,81 @@ export class ChannelService {
           },
         ],
       });
-      return channel.id;
+      if (roles) await this.findOne(channel.id);
     }
+  }
+
+  async findOne(id: number) {
+    const res = await this.databaseService.channel.findUnique({
+      where: { id: id },
+      include: {
+        roles: {
+          include: { user: true },
+        },
+        messages: { orderBy: { createdAT: 'desc' }, take: 1 },
+      },
+    });
+
+    const channelData = {
+      id: res.id,
+      roles: [],
+      lastMSG: res.messages[0]?.content || '',
+      sendAT: res.messages[0]?.createdAT || new Date(),
+    };
+
+    res.roles.forEach((role) => {
+      const roleData = {
+        ...role.user,
+        blocked: role.blocked,
+      };
+      channelData.roles.push(roleData);
+    });
+    console.log('yeaaaaaaaaaaaaaah');
+
+    this.chatGateway.updateFriendList(channelData);
+    return channelData;
+  }
+
+  async findMyFriends(id: number) {
+    const res = await this.databaseService.channel.findMany({
+      where: {
+        AND: [
+          { type: 'DM' },
+          {
+            roles: {
+              some: { userID: id },
+            },
+          },
+        ],
+      },
+      include: {
+        roles: {
+          include: { user: true },
+        },
+        messages: { orderBy: { createdAT: 'desc' }, take: 1 },
+      },
+    });
+
+    const myFriends: any[] = [];
+    res.forEach((channel) => {
+      const channelData = {
+        id: channel.id,
+        roles: [],
+        lastMSG: channel.messages[0]?.content || '',
+        sendAT: channel.messages[0]?.createdAT || new Date(),
+      };
+
+      channel.roles.forEach((role) => {
+        const roleData = {
+          ...role.user,
+          blocked: role.blocked,
+        };
+        channelData.roles.push(roleData);
+      });
+      myFriends.push(channelData);
+    });
+
+    return myFriends;
   }
 
   findAll() {
@@ -68,37 +128,23 @@ export class ChannelService {
     });
   }
 
-  async findOne(id: number) {
-    const channel = await this.databaseService.channel.findUnique({
-      where: { id: id },
-      include: {
-        roles: {
-          select: {
-            user: {
-              select: {
-                uid: true,
-                status: true,
-                username: true,
-                email: true,
-                bio: true,
-                // avatar: true,
-              },
-            },
-          },
-        },
+  async updateDM(body: updateChannelDto) {
+    const role = await this.databaseService.role.findFirst({
+      where: {
+        channelID: body.channelID,
+        userID: body.friendId,
       },
     });
-
-    const newRoles = channel.roles.map((user) => {
-      return user.user;
-    });
-
-    return { ...channel, roles: newRoles };
+    if (role) {
+      const newRole = await this.databaseService.role.update({
+        where: { id: role.id },
+        data: { blocked: body.blocked },
+      });
+      console.log('newRole>>>', newRole);
+      this.chatGateway.updateBlockedFriend(newRole);
+      return newRole;
+    }
   }
-
-  // update(id: number, updateChannelDto: Prisma.ChannelUpdateInput) {
-  //   return `This action updates a #${id} channel`;
-  // }
 
   remove(id: number) {
     return `This action removes a #${id} channel`;

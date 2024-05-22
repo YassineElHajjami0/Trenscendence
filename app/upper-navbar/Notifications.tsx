@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import "./notifications.css";
 
@@ -6,18 +8,19 @@ import { userNotifications } from "../Atoms/notifications";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userToken } from "../Atoms/userToken";
 import { loggedUser } from "../Atoms/logged";
-import { io } from "socket.io-client";
-
-const socket = io("http://localhost:3001", { transports: ["websocket"] });
+import { socket } from "@/app/sockets/socket";
 
 function Notifications({ showNotif }: { showNotif: boolean }) {
   const userTok = useRecoilValue(userToken);
   const loggedU = useRecoilValue(loggedUser);
 
-  const [myNotifications, setMyNotifications] = useRecoilState(userNotifications);
+  const [myNotifications, setMyNotifications] =
+    useRecoilState(userNotifications);
 
   useEffect(() => {
     const handleReceivedNotification = (notif: any) => {
+      console.log("notif>>>>>>>>", notif);
+
       if (notif.ruserId === loggedU)
         setMyNotifications((prevNotif: any) => [...prevNotif, notif]);
     };
@@ -25,29 +28,7 @@ function Notifications({ showNotif }: { showNotif: boolean }) {
     return () => {
       socket.off("notification");
     };
-  }, []);
-
-  const getNotifications = async () => {
-    if (loggedU === -1) return;
-    try {
-      const res = await fetch(
-        `http://localhost:3000/notifications/${loggedU}`,
-        {
-          headers: {
-            Authorization: `Bearer ${userTok}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await res.json();
-      setMyNotifications(data);
-    } catch (error: any) {
-      console.log("error>>>", error.message);
-    }
-  };
-  useEffect(() => {
-    getNotifications();
-  }, []);
+  });
 
   return (
     <div
@@ -59,7 +40,7 @@ function Notifications({ showNotif }: { showNotif: boolean }) {
       <div className="notifications">
         {myNotifications.length > 0 &&
           myNotifications.map((notif: any) => (
-            <Notification key={notif?.id} notif={notif} />
+            <Notification key={notif.id} notif={notif} />
           ))}
       </div>
     </div>

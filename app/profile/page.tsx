@@ -9,58 +9,50 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
 import { PiCurrencyEthFill } from "react-icons/pi";
+import { useRouter } from "next/navigation";
+import LoadingPaddle from "../LoadingPaddle";
 import { selectedFriendProfile } from "../Atoms/selectedFriendProfile";
 
 const Profile = () => {
   const uidRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(false);
 
+  const loggedU = useRecoilValue(loggedUser);
+  const userTok = useRecoilValue(userToken);
+  const route = useRouter();
+  const [userData, setUserData] = useState<any>({});
   const [selectedProfile, setSelectedProfile] = useRecoilState(
     selectedFriendProfile
   );
-  const loggedU = useRecoilValue(loggedUser);
-  const userTok = useRecoilValue(userToken);
 
-  const [userData, setUserData] = useState<any>({});
-  // const copyUID = () => {
-  //   return;
-  //   if (uidRef.current) {
-  //     const textToCopy = uidRef.current.textContent || "";
-
-  //     navigator.clipboard
-  //       .writeText(textToCopy)
-  //       .then(() => {
-  //         console.log("Text copied to clipboard:", textToCopy);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Unable to copy text to clipboard", error);
-  //       });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   setSelectedProfile(-1);
-  // });
-  const whichProfile = selectedProfile === -1 ? loggedU : selectedProfile;
+  /////// kyan moxkiiiiiiiil
+  //////  setSelectedProfile(-1);   <------------ gado
+  //////////////////////////
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/users/${whichProfile}`, {
+        setLoading(true);
+        const res = await fetch(`http://localhost:3000/users/${loggedU}`, {
           headers: {
             Authorization: `Bearer ${userTok}`,
             "Content-Type": "application/json",
           },
         });
         const data = await res.json();
-        setUserData(data);
-        console.log("userData-->>>", data);
+        setTimeout(() => {
+          setUserData(data);
+          setLoading(false);
+        }, 1000);
       } catch (error: any) {
-        console.log("--->>>", error.message);
+        setLoading(false);
       }
     };
     getUserData();
-  }, [whichProfile]);
+  }, []);
 
-  return (
+  return loading ? (
+    <LoadingPaddle />
+  ) : (
     <div className="profile_container">
       <div
         style={{
@@ -72,19 +64,20 @@ const Profile = () => {
         }}
         className="user_account"
       >
-        <div className="edit_label">
+        <div onClick={() => route.push("settings")} className="edit_label">
           <span>Edit</span>
           <MdOutlineEdit />
         </div>
 
-        <Image
-          src={`http://localhost:3000/av/${userData?.avatar}`}
-          // src={userData?.avatar}
-          width={2000}
-          height={2000}
-          alt="profile_avatar"
-          className="profile_photo"
-        />
+        <div className="img_container_add">
+          <Image
+            src={`http://localhost:3000/av/${userData?.avatar}`}
+            width={2000}
+            height={2000}
+            alt="profile_avatar"
+            className="profile_photo"
+          />
+        </div>
 
         <div className="profile_data">
           <h1>{userData?.username}</h1>
@@ -101,7 +94,7 @@ const Profile = () => {
           <div className="progress">
             <div
               style={{
-                width: `${userData?.level}%`,
+                width: `${userData?.level + 50}%`,
               }}
               className="pseudoProgress"
             ></div>
@@ -118,10 +111,26 @@ const Profile = () => {
         </div>
       </div>
       <div className="profile_details">
-        <ProfileDetails whichProfile={whichProfile} />
+        <ProfileDetails whichProfile={loggedU} />
       </div>
     </div>
   );
 };
 
 export default Profile;
+
+// const copyUID = () => {
+//   return;
+//   if (uidRef.current) {
+//     const textToCopy = uidRef.current.textContent || "";
+
+//     navigator.clipboard
+//       .writeText(textToCopy)
+//       .then(() => {
+//         console.log("Text copied to clipboard:", textToCopy);
+//       })
+//       .catch((error) => {
+//         console.error("Unable to copy text to clipboard", error);
+//       });
+//   }
+// };

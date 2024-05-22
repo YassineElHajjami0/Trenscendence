@@ -271,10 +271,7 @@ const SelectedChannelChat = ({
         />
         <Image
           className="channel_msg_section_header_avatar"
-          src={
-            `http://localhost:3000/${chToDisplay?.uri}` ??
-            "http://localhost:3000/default.png"
-          }
+          src={`${chToDisplay?.uri}`}
           width={100}
           height={100}
           alt="avatar"

@@ -11,13 +11,13 @@
     "rankBadge": "/ranks/1.png",
 
     "achievements": [
-      {
-        "name": "Precision Paddler",
-        "description": "Win a single match with a perfect score, never missing a shot.",
-        "uri": "/Precision_Paddler.png",
-        "date": "02/22/2024",
-        "unlocked": true
-      },
+      // {
+      //   "name": "Precision Paddler",
+      //   "description": "Win a single match with a perfect score, never missing a shot.",
+      //   "uri": "/Precision_Paddler.png",
+      //   "date": "02/22/2024",
+      //   "unlocked": true
+      // },
       {
         "name": "Flawless Victory",
         "description": "Win a single match without letting your opponent score a single point.",
@@ -27,14 +27,14 @@
       },
       {
         "name": "Speed Demon",
-        "description": "Win a match with a point scored within the first 10 seconds of each game.",
+        "description": "Win a match with a point scored within the first 10 seconds of 10 games.",
         "uri": "/Speed_Demon.png",
         "date": "",
         "unlocked": true
       },
       {
         "name": "Ping Pong Pro",
-        "description": "Win 100 matches against tough opponents.",
+        "description": "Win 50 matches against tough opponents.",
         "uri": "/ping_pong_pro.png",
         "date": "",
         "unlocked": true

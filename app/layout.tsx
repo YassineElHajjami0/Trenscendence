@@ -19,6 +19,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
+        <meta charSet="UTF-8" />
+
         <link rel="icon" href="../public/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />

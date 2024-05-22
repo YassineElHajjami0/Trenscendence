@@ -1,47 +1,82 @@
 "use client";
+import "./Friend.css";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LuMessagesSquare } from "react-icons/lu";
 import { BiSolidJoystickAlt } from "react-icons/bi";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import { TbUserShare } from "react-icons/tb";
 
-import silence from "../../public/mask_avatar.png";
-
-import "./Friend.css";
 import Image from "next/image";
-import { FriendData } from "@/app/Interfaces/friendDataInterface";
+
 import { slctdFriend } from "../Atoms/friendAtom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useRouter } from "next/navigation";
 import { selectedFriendProfile } from "../Atoms/selectedFriendProfile";
+import { loggedUser } from "../Atoms/logged";
+import axios from "axios";
+import { userToken } from "../Atoms/userToken";
+import { channelId } from "../Atoms/channelId";
+import { currentFriend } from "../Atoms/currentFriend";
 
-export default function Friend({ friend }: { friend: any }) {
+export default function Friend({
+  friend,
+  whichProfile,
+}: {
+  friend: any;
+  whichProfile: any;
+}) {
+  console.log("zaaaaaaaaaaaaaaaaab", friend);
+  const route = useRouter();
+
+  const loggedU = useRecoilValue(loggedUser);
+  const userTok = useRecoilValue(userToken);
+
   const [selectedProfile, setSelectedProfile] = useRecoilState(
     selectedFriendProfile
   );
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
-  const route = useRouter();
+  const [dmID, setChannelID] = useRecoilState(channelId);
+  const [currFriend, setCurrFriend] = useRecoilState(currentFriend);
 
-  const [logged, setLogged] = useState(
-    friend?.status === "online" || friend?.status === "ingame"
-  );
-  const [inGame, setInGame] = useState(friend?.status === "ingame");
-  const [blocked, setBlocked] = useState<boolean>(
-    friend?.fsStatus === "BLOCKED"
-  );
   const [burgerM, setBurgerM] = useState(false);
 
-  const handleSwitch = () => {
-    setBlocked((prev) => !prev);
+  const UID =
+    whichProfile === -1 || whichProfile === loggedU ? loggedU : whichProfile;
+  const myFriend = friend.roles.find((role: any) => role.uid !== UID);
+
+  const logged = myFriend.status === "online";
+  const inGame = myFriend.status === "ingame";
+  const blocked = myFriend.blocked;
+
+  const handleSwitch = (e: any) => {
+    e.preventDefault();
+
+    const body = {
+      channelID: friend.id,
+      friendId: myFriend.uid,
+      blocked: !blocked,
+    };
+    try {
+      axios.patch("http://localhost:3000/channels/dm", body, {
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+        },
+      });
+    } catch (error) {
+      console.log("3a", error);
+    }
   };
+
   const handleBurgerM = () => {
     setBurgerM((prev) => !prev);
   };
 
   const test = () => {
-    setSelectedFriend(friend?.uid);
+    setSelectedFriend(myFriend?.uid);
+    setCurrFriend(myFriend);
+    setChannelID(friend.id);
     route.push("/chat");
     console.log("-------->>>>>>>");
   };
@@ -50,7 +85,7 @@ export default function Friend({ friend }: { friend: any }) {
     <div className="friend_container">
       <div className="friend_name_photo">
         <Image
-          src={friend?.avatar}
+          src={`http://localhost:3000/${myFriend?.avatar}`}
           width={2000}
           height={2000}
           className={`friend_avatar ${blocked && "blocked_friend_avatar"}`}
@@ -58,54 +93,58 @@ export default function Friend({ friend }: { friend: any }) {
         />
 
         <label
-          htmlFor="friendProfile"
+          htmlFor={myFriend?.uid}
           className={`profile_name ${blocked && "blocked_friend"}  ${
             burgerM && "hideName"
           }`}
         >
           <div
-            className={`dot ${logged && "logged"}  ${
-              logged && inGame && "ingame"
-            }`}
+            className={`dot ${logged && "logged"}  ${inGame && "ingame"}`}
           ></div>
-          {friend?.name}
+          {myFriend?.username}
         </label>
 
         <div className={`btn_conatiner ${burgerM && "showParam"}`}>
           <button
-            id="friendProfile"
-            onClick={() => setSelectedProfile(friend?.uid)}
+            id={myFriend?.uid}
+            onClick={() => {
+              setSelectedProfile(myFriend?.uid);
+              route.push(`/profile/${myFriend?.username}`);
+            }}
             className="friend_component_btn view_profile"
           >
             <TbUserShare className="go_to_profile" />
           </button>
-          <button
-            className={`friend_component_btn friend_msg ${
-              (blocked || !logged) && "disable_btns"
-            }`}
-            onClick={test}
-            disabled={blocked || !logged}
-          >
-            <LuMessagesSquare />
-          </button>
-          <button
-            className={`friend_component_btn friend_play ${
-              (blocked || !logged || (logged && inGame)) && "disable_btns"
-            }
-                    `}
-            onClick={test}
-            disabled={blocked || !logged || (logged && inGame)}
-          >
-            <BiSolidJoystickAlt />
-          </button>
-          <MdBlock
-            onClick={handleSwitch}
-            className={`friend_block  ${blocked && "hide_block"}`}
-          />
-          <CgUnblock
-            onClick={handleSwitch}
-            className={`friend_unblock  ${blocked && "show_unblock"}`}
-          />
+          {(whichProfile === -1 || whichProfile === loggedU) && (
+            <>
+              <button
+                className={`friend_component_btn friend_msg ${
+                  (blocked || !logged) && "disable_btns"
+                }`}
+                onClick={test}
+                disabled={blocked || !logged}
+              >
+                <LuMessagesSquare />
+              </button>
+              <button
+                className={`friend_component_btn friend_play ${
+                  (blocked || !logged || inGame) && "disable_btns"
+                }`}
+                onClick={test}
+                disabled={blocked || !logged || inGame}
+              >
+                <BiSolidJoystickAlt />
+              </button>
+              <MdBlock
+                onClick={handleSwitch}
+                className={`friend_block  ${blocked && "hide_block"}`}
+              />
+              <CgUnblock
+                onClick={handleSwitch}
+                className={`friend_unblock  ${blocked && "show_unblock"}`}
+              />
+            </>
+          )}
         </div>
         <div onClick={handleBurgerM} className="profile_burger_menu">
           <span> </span>
