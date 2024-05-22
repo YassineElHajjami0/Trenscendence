@@ -29,8 +29,6 @@ interface dataInterface {
 }
 
 export default function Home() {
-  console.log("3aaaaaaa=======>", Cookies.get("userData"));
-
   const [logged, setLogged] = useRecoilState(loggedUser);
   useEffect(() => {
     const token = localStorage.getItem("loggedUser");

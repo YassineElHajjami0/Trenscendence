@@ -48,7 +48,7 @@ const AddFriendSection = () => {
       console.log("all users ====> ", data);
       setAllUsers(data);
     } catch (error) {
-      console.log("3aaaaaaaaaaaa>>>>>");
+      console.log("add friend error addFriendSection.tsx");
     }
   };
   useEffect(() => {

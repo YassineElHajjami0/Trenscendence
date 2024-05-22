@@ -98,19 +98,18 @@ const Nav = () => {
               </div>
             </li>
           </Link>
-          <li style={{ cursor: "pointer" }}>
+          <li
+            onClick={() => {
+              setLoggedU(-1);
+              setLoggedT("");
+              setMyNotifications([]);
+            }}
+            style={{ cursor: "pointer" }}
+          >
             <div>
               <MdOutlineLogout className="nav-icon" />
             </div>
-            <div
-              onClick={() => {
-                setLoggedU(-1);
-                setLoggedT("");
-                setMyNotifications([]);
-              }}
-            >
-              Log-out
-            </div>
+            <div>Log-out</div>
           </li>
         </ul>
       </div>

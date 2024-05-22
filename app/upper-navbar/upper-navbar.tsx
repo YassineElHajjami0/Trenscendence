@@ -59,7 +59,7 @@ const UpperNav = () => {
   };
   useEffect(() => {
     getNotifications();
-  }, []);
+  }, [loggedU]);
 
   return (
     <div className="upperNav">

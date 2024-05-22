@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import "./notification.css";
 import Image from "next/image";
@@ -9,8 +11,6 @@ import { loggedUser } from "../Atoms/logged";
 import { socket } from "../sockets/socket";
 
 function Notification({ notif }: { notif: any }) {
-  console.log("walaaaaaa>>>>>>>>>>>>>", notif);
-
   const userTok = useRecoilValue(userToken);
   const loggedU = useRecoilValue(loggedUser);
 

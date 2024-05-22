@@ -50,6 +50,10 @@ export default function Friend({
   const inGame = myFriend.status === "ingame";
   const blocked = myFriend.blocked;
 
+  useEffect(() => {
+    setCurrFriend(myFriend);
+  }, [friend]);
+
   const handleSwitch = (e: any) => {
     e.preventDefault();
 

@@ -16,6 +16,7 @@ export default function SubChildrens({
 
   const router = useRouter();
   const pathname = usePathname();
+  console.log("path name----------------->", pathname);
 
   useEffect(() => {
     if (user === -1) {
