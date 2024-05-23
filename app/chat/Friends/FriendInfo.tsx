@@ -63,8 +63,7 @@ export const FriendInfo = () => {
       <div className="current_friend_info">
         <Image
           className="current_friend_avatar"
-          src={`http://localhost:3000/${friend?.avatar}`}
-          // src={`http://localhost:3000${friend?.avatar}`}
+          src={`${friend?.avatar}`}
           width={5000}
           height={5000}
           alt="avatar"

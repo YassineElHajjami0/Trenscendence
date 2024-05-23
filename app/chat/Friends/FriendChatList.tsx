@@ -115,7 +115,7 @@ const FriendChatList = () => {
 
         <Image
           className="my_chat_msg_avatar"
-          src={`http://localhost:3000/${friend?.avatar}`}
+          src={`${friend?.avatar}`}
           width={2000}
           height={2000}
           alt="avatar"

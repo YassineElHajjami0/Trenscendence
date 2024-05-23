@@ -39,8 +39,8 @@ const Profile = () => {
           },
         });
         const data = await res.json();
+        setUserData(data);
         setTimeout(() => {
-          setUserData(data);
           setLoading(false);
         }, 1000);
       } catch (error: any) {
@@ -71,7 +71,7 @@ const Profile = () => {
 
         <div className="img_container_add">
           <Image
-            src={`http://localhost:3000/av/${userData?.avatar}`}
+            src={`${userData.avatar || ""}`}
             width={2000}
             height={2000}
             alt="profile_avatar"

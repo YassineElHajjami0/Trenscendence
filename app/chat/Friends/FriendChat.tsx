@@ -48,7 +48,7 @@ const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
       <div className="chat_list_avatar_container">
         <Image
           className="chat_list_avatar"
-          src={`http://localhost:3000/${myFriend?.avatar}`}
+          src={`${myFriend?.avatar}`}
           width={2000}
           height={2000}
           alt="avatar"
