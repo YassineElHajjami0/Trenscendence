@@ -94,6 +94,7 @@ export class UsersService {
   }
 
   async update(uid: number, updateUserDto: UpdateUserDto) {
+    console.log('updateUserDto : ', updateUserDto);
     if (
       updateUserDto.newPassword &&
       updateUserDto.confirmedPassword &&

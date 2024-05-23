@@ -152,11 +152,13 @@ export class AuthController {
   // I need uid, email
   @Post('2fa/turn-on')
   // @UseGuards(Jwt2faAuthGuard)
-  async register(@Res({ passthrough: true }) res, @Body() body) {
+  async register(@Body() body) {
     const { otpAuthUrl } =
       await this.authService.generateTwoFactorAuthenticationSecret(body);
-
-    return res.json(await this.authService.generateQrCodeDataURL(otpAuthUrl));
+    const qrCodeDataURL =
+      await this.authService.generateQrCodeDataURL(otpAuthUrl);
+    console.log(qrCodeDataURL);
+    return qrCodeDataURL;
   }
 
   // I need the whole user in body
