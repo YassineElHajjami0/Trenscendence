@@ -13,20 +13,20 @@ export class CreateUserDto {
 
   bio?: string;
 
-  @MinLength(8)
-  @Matches(/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/)
+  // @MinLength(8)
+  // @Matches(/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/)
   password: string;
 
-  @MinLength(8)
-  @Matches(/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/)
+  // @MinLength(8)
+  // @Matches(/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/)
   newPassword?: string = 'Test1234';
 
-  @MinLength(8)
-  @Matches(/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/)
+  // @MinLength(8)
+  // @Matches(/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/)
   oldPassword?: string = 'Test1234';
 
-  @MinLength(8)
-  @Matches(/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/)
+  // @MinLength(8)
+  // @Matches(/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/)
   confirmedPassword?: string = 'Test1234';
 
   twoFA?: boolean;
