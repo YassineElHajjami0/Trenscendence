@@ -242,6 +242,7 @@ const ChannelInfo = ({
       (ch) => ch.id === selectedChannel
     );
     setChannelData(channelToDisplay);
+    console.log(">>>>??>>>>", channelToDisplay);
     const fetchMessages = async () => {
       try {
         const response = await fetch(
@@ -293,13 +294,13 @@ const ChannelInfo = ({
   return (
     <div className="selectedChannelData">
       <div className="ChannelImage">
-        <Image
+        {/* <Image
           src={`${channelData?.uri}`}
           width={100}
           height={100}
           alt="avatar"
           style={{ borderRadius: "50%" }}
-        />
+        /> */}
       </div>
       <h3 className="channelName">{channelData?.name}</h3>
       <p className="topic">{channelData?.topic}</p>
@@ -335,7 +336,7 @@ const ChannelInfo = ({
                 <div className="userPic">
                   <Image
                     className="pic"
-                    src={`http://localhost:3000/${adminUser.user.avatar}`}
+                    src={`${adminUser.user.avatar}`}
                     width={50}
                     height={50}
                     alt="avatar"
@@ -428,7 +429,7 @@ const ChannelInfo = ({
                 <div className="userPic">
                   <Image
                     className="pic"
-                    src={`http://localhost:3000/${normalUser.user.avatar}`}
+                    src={`${normalUser.user.avatar}`}
                     width={50}
                     height={50}
                     alt="avatar"

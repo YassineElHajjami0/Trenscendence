@@ -74,16 +74,16 @@ export default function Stats() {
     <div className="stats_container">
       <ResponsiveContainer className="chart" width="100%" height="90%">
         <AreaChart data={chartData}>
-          {/* <XAxis
+          <XAxis
             dataKey="name"
-            axisLine={{ stroke: "white", opacity: "0.6"}}
-            tick={{ fill: "white", opacity: "0.6"}}
+            axisLine={{ stroke: "white", opacity: "0.6" }}
+            tick={{ fill: "white", opacity: "0.6" }}
           />
           <YAxis
             domain={statsSwitch.state === "w/l" ? [0, 100] : undefined}
-            axisLine={{ stroke: "white", opacity: "0"}}
+            axisLine={{ stroke: "white", opacity: "0" }}
             tick={{ fill: "white", opacity: "0" }}
-          /> */}
+          />
           <Tooltip />
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">

@@ -51,6 +51,7 @@ const SelectedChannelChat = ({
     let channelToDisplay: channelInterface | undefined = channels?.find(
       (ch) => ch.id === selectedChannel
     );
+    console.log("MMMMMMMMMM___>>", channelToDisplay);
 
     const fetchMessages = async () => {
       try {
@@ -269,13 +270,13 @@ const SelectedChannelChat = ({
           className="arrow_back"
           onClick={() => setSelectedChannel(-1)}
         />
-        <Image
+        {/* <Image
           className="channel_msg_section_header_avatar"
           src={`${chToDisplay?.uri}`}
           width={100}
           height={100}
           alt="avatar"
-        />
+        /> */}
         <div>
           <h3 style={{ display: "block" }}>{chToDisplay?.name}</h3>
           <p>
@@ -302,15 +303,15 @@ const SelectedChannelChat = ({
               ) : (
                 <div className="channelMsgContainer" key={message.id}>
                   {/* <Image
-                className="senderOrRecieverImage"
-                src={
-                  `http://localhost:3000/${message.users.avatar}` ||
-                  "default.png"
-                }
-                width={30}
-                height={30}
-                alt="PIC"
-              /> */}
+                    className="senderOrRecieverImage"
+                    src={
+                      `http://localhost:3000/${message.users.avatar}` ||
+                      "default.png"
+                    }
+                    width={30}
+                    height={30}
+                    alt="PIC"
+                  /> */}
                   <div className="msgAndTime">
                     <p className="channelMsg">{message.content}</p>
                     <p className="msgTime">{returnTime(message.createdAT)}</p>
