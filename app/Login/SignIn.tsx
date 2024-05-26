@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./SignIn.css";
 import { FaArrowRight } from "react-icons/fa6";
 
@@ -22,6 +22,7 @@ import { IoSunnyOutline } from "react-icons/io5";
 
 export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const router = useRouter();
+  const optInputRef = useRef(null);
 
   const [loggedU, setLoggedU] = useRecoilState(loggedUser);
   const [userTok, setUserTok] = useRecoilState(userToken);
@@ -43,7 +44,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     setBiometric("");
     set_2fa_opt(false);
     setShowPass(false);
-  }, [signInUp]);
+  }, [signInUp, loggedU]);
 
   const verifyTwoFA = async (e: any) => {
     e.preventDefault();
@@ -52,7 +53,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       ...user,
       twoFaCode: biometric,
     };
-    console.log("user>>>>>>", user);
+    console.log("user>>>>>>", user, biometric);
 
     try {
       const response = await axios.post(
@@ -152,7 +153,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         /> */}
         <div className="eye_container">
           <div
-            className="eye"
+            className={`eye ${_2fa_opt && "hide_eye"}`}
             onClick={() => setShowPass((prev) => !prev)}
             data-closed={showPass ? "" : null}
           >
@@ -177,35 +178,49 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         <h1 className="_2fa_header">2-Factor Authentication</h1>
         <OtpInput
           value={biometric}
-          shouldAutoFocus={true}
+          shouldAutoFocus={_2fa_opt}
           onChange={setBiometric}
           numInputs={6}
           inputType="number"
           containerStyle="_2fa_container"
           inputStyle="_2fa_container_inputs"
           renderSeparator={<span className="_2fa_container_separator">-</span>}
-          renderInput={(props) => <input {...props} />}
+          renderInput={(props) => <input {...props} required={_2fa_opt} />}
         />
       </div>
 
-      <button
-        disabled={err.length > 0}
-        type="submit"
-        className={`sign_in_ships btn ${err.length && "lets_not_play"}`}
-      >
-        {!err.length ? (
-          !_2fa_opt ? (
-            "Let's play"
+      <div className="btn_container">
+        <div
+          onClick={() => {
+            set_2fa_opt(false);
+            setEmail("");
+            setUsername("");
+            setPass("");
+            setBiometric("");
+          }}
+          className={` cancel_opt ${_2fa_opt && "show_cancel_opt"}`}
+        >
+          cancel
+        </div>
+        <button
+          disabled={err.length > 0}
+          type="submit"
+          className={`sign_in_ships btn ${err.length && "lets_not_play"}`}
+        >
+          {!err.length ? (
+            !_2fa_opt ? (
+              "Let's play"
+            ) : (
+              "verify"
+            )
           ) : (
-            "verify"
-          )
-        ) : (
-          <p className="from_errors">{err}</p>
-        )}
-        {err.length ? <MdError /> : <FaArrowRight />}
-      </button>
+            <p className="from_errors">{err}</p>
+          )}
+          {err.length ? <MdError /> : <FaArrowRight />}
+        </button>
+      </div>
 
-      <h1 onClick={() => set_2fa_opt((prev) => !prev)}>OR</h1>
+      <h1>OR</h1>
       <div className="outher_methods">
         <button type="button" onClick={authGoogle} className="other_login">
           <Image src={ggl} width={26} height={26} alt="google auth" /> google

@@ -1,3 +1,8 @@
+.reactEcharts {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .stats_container {
   /* border: 1px solid red; */
   width: 100%;

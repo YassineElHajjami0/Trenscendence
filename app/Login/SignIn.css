@@ -156,6 +156,12 @@
   text-transform: uppercase;
   color: white;
 }
+.btn_container {
+  width: 95%;
+  height: 16%;
+  display: flex;
+  align-items: center;
+}
 .btn {
   text-transform: capitalize;
   cursor: pointer;
@@ -164,7 +170,30 @@
   justify-content: space-between;
   background-color: #1ce14e;
   font-size: 20px;
+  height: 100%;
+  flex: 3;
 }
+.cancel_opt {
+  cursor: pointer;
+  font-size: 1.1rem;
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin-right: 0;
+  border-radius: 5px;
+  display: grid;
+  place-content: center;
+  font-weight: 900;
+  text-transform: capitalize;
+  background: var(--main-red);
+  overflow: hidden;
+}
+.show_cancel_opt {
+  height: 100%;
+  flex: 1;
+  margin-right: 15px;
+}
+
 .lets_not_play {
   background-color: var(--main-red);
 }
@@ -241,7 +270,7 @@ button.sign_in_ships:active {
 
 .eye_container {
   position: absolute;
-  right: 10px;
+  right: 5px;
 }
 
 .eye {
@@ -259,6 +288,9 @@ button.sign_in_ships:active {
   align-items: center;
   justify-content: center;
   transform: scale(0.7);
+}
+.hide_eye {
+  --box-size: 0px;
 }
 
 .eye__base {

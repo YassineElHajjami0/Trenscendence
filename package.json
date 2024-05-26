@@ -11,6 +11,8 @@
   "dependencies": {
     "@types/js-cookie": "^3.0.6",
     "axios": "^1.6.8",
+    "echarts": "^5.5.0",
+    "echarts-for-react": "^3.0.2",
     "emoji-picker-react": "^4.9.2",
     "js-cookie": "^3.0.5",
     "next": "14.1.0",

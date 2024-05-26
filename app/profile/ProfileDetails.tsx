@@ -11,10 +11,10 @@ export default function ProfileDetails({
 }: {
   whichProfile: any;
 }) {
-  const [switchElements, setSwitchElements] = useState("friends");
+  const [switchElements, setSwitchElements] = useState("stats");
 
   useEffect(() => {
-    setSwitchElements("friends");
+    setSwitchElements("stats");
   }, [whichProfile]);
 
   const switchE = (e: React.MouseEvent<HTMLButtonElement>) => {

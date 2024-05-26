@@ -59,8 +59,9 @@ function Notification({ notif }: { notif: any }) {
           Authorization: `Bearer ${userTok}`,
           "Content-Type": "application/json",
         },
+      }).then((res) => {
+        deleteNotificatio();
       });
-      deleteNotificatio();
     } catch (error: any) {
       console.log("Error deleting notification:", error.message);
     }
