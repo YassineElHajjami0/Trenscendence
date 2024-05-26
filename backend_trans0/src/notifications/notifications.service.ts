@@ -27,6 +27,30 @@ export class NotificationsService {
     return notification;
   }
 
+  async createChannelNotif(
+    createNotificationDto: Prisma.NotificationUncheckedCreateInput,
+  ) {
+    console.log('createNotificationDto=>', createNotificationDto);
+    const getNotificatons = await this.databaseService.notification.findFirst({
+      where: {
+        chnnelId: createNotificationDto.chnnelId,
+        suserId: createNotificationDto.suserId,
+        ruserId: createNotificationDto.ruserId,
+      },
+    });
+
+    if (getNotificatons) {
+      console.log('DEJA VU');
+      return;
+    }
+    const notification = await this.databaseService.notification.create({
+      data: createNotificationDto,
+      include: { suser: true },
+    });
+    this.chatGateway.sendNotification(notification);
+    return notification;
+  }
+
   async findAll() {
     return this.databaseService.notification.findMany({});
   }

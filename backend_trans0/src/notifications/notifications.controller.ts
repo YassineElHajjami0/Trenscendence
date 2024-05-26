@@ -15,8 +15,16 @@ export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @Post()
-  create(@Body() createNotificationDto: Prisma.NotificationUncheckedCreateInput) {
+  create(
+    @Body() createNotificationDto: Prisma.NotificationUncheckedCreateInput,
+  ) {
     return this.notificationsService.create(createNotificationDto);
+  }
+  @Post('channelnotif')
+  createChannelNotif(
+    @Body() createNotificationDto: Prisma.NotificationUncheckedCreateInput,
+  ) {
+    return this.notificationsService.createChannelNotif(createNotificationDto);
   }
 
   @Get()

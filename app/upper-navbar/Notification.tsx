@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import "./notification.css";
 import Image from "next/image";
@@ -30,6 +30,21 @@ function Notification({ notif }: { notif: any }) {
       socket.off("delete_notification");
     };
   }, []);
+
+  const handleJoin = async (uid: number, channelId: number) => {
+    await fetch(
+      `http://localhost:3000/channelss/joinpublic?userID=${uid}&channelID=${channelId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
+        },
+      }
+    ).then(() => {
+      deleteNotificatio();
+    });
+  };
 
   const deleteNotificatio = async () => {
     try {
@@ -68,11 +83,19 @@ function Notification({ notif }: { notif: any }) {
     console.log("pppppppppp");
   };
 
+  const handdleAccept = () => {
+    if (notif.type == "channelReq") {
+      handleJoin(notif.ruserId, notif.chnnelId);
+    } else {
+      acceptFriend();
+    }
+  };
+
   return (
     <div className="notification_container">
       <Image
         className="notification_avatar"
-        src={`http://localhost:3000/${notif?.suser?.avatar}`}
+        src={`${notif?.suser?.avatar}`}
         width={50}
         height={50}
         alt="avatar"
@@ -88,7 +111,7 @@ function Notification({ notif }: { notif: any }) {
           <TimeAgo date={notif?.createdAt} />
         </span>
         <div className="notification_accept">
-          <button onClick={acceptFriend} className="notification_btns">
+          <button onClick={handdleAccept} className="notification_btns">
             accept
           </button>
           <button onClick={deleteNotificatio} className="notification_btns">

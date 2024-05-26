@@ -180,8 +180,21 @@
   padding: 20px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   background: #2d2d31;
+}
+.channel_msg_section_header .searchFriendsInPrivateMode {
+  font-size: 25px;
+  margin-right: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.channel_msg_section_header .searchFriendsInPrivateMode:hover {
+  color: #1ce14e;
+}
+.channel_msg_section_header .searchFriendsInPrivateMode:active {
+  scale: 0.9;
 }
 .channel_msg_section_header div {
   display: flex;
@@ -554,4 +567,78 @@
 }
 .channelLink p {
   padding: 5px;
+}
+/*-------*/
+.PopUpSearchFriend {
+  padding: 20px;
+  height: 100%;
+  background: #e0e0e013;
+}
+.PopUpSearchFriend .searchingArea {
+  text-align: center;
+  padding: 10px;
+  height: 100%;
+}
+.PopUpSearchFriend .searchingArea input {
+  background: #2d2e33;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 18px;
+  color: white;
+  border-radius: 5px;
+  width: 80%;
+}
+.PopUpSearchFriend .searchingArea .searchedFriendsList {
+  background: #2d2e33;
+  height: 80%;
+  margin: 20px 0;
+  border-radius: 20px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+.PopUpSearchFriend .searchingArea .searchedFriendsList div {
+  padding: 20px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.159);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.PopUpSearchFriend .searchingArea .searchedFriendsList div .imageAndusername {
+  display: flex;
+  align-items: center;
+  border: none;
+  padding: 0;
+  gap: 10px;
+}
+.PopUpSearchFriend .searchingArea .searchedFriendsList div button {
+  padding: 10px;
+  color: white;
+  background: #1ce14e;
+  border-radius: 5px;
+  font-size: 17px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.PopUpSearchFriend .searchingArea .searchedFriendsList div button:hover {
+  background: #10a936;
+}
+.PopUpSearchFriend .searchingArea .searchedFriendsList div button:active {
+  scale: 0.9;
+}
+.PopUpSearchFriend .exitBtn {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .PopUpSearchFriend {
+    padding: 5px;
+  }
+  .PopUpSearchFriend .searchingArea .searchedFriendsList div {
+    padding: 5px;
+    justify-content: space-between;
+  }
 }
