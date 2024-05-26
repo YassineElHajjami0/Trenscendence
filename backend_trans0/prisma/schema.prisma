@@ -29,6 +29,7 @@ enum Status {
 enum NotificationType {
   gameReq
   friendReq
+  channelReq
 }
 
 enum channelType {
@@ -132,6 +133,7 @@ model Notification {
   ruserId   Int
   suser     T_User           @relation("sended", fields: [suserId], references: [uid])
   suserId   Int
+  chnnelId  Int              @default(-1)
 }
 
 // Friends of a user and vise versa ############################################################

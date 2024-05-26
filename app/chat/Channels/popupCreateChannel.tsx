@@ -23,7 +23,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
   const [name, setName] = useState("");
   const [status, setStatus] = useState("PUBLIC");
   const [topic, setTopic] = useState("");
-  const [code, setCode] = useState("0000");
+  const [code, setCode] = useState("8888");
   const [file, setFile] = useState<File | null>(null);
 
   const userTok = useRecoilValue(userToken);

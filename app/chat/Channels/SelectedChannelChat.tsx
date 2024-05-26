@@ -7,6 +7,9 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { MdBlock } from "react-icons/md";
 import "./channelChat.css";
 import { io } from "socket.io-client";
+import { MdOutlinePersonSearch } from "react-icons/md";
+import PopUpSearchFriend from "./popUpSearchFriend";
+
 const socket = io("http://localhost:3001", { transports: ["websocket"] });
 console.log("MMMMMM", socket);
 interface channelInterface {
@@ -42,6 +45,8 @@ const SelectedChannelChat = ({
   const [chToDisplay, setChToDisplay] = useState<
     channelInterface | undefined
   >();
+  const [showSerachFriendPopUp, setShowSerachFriendPopUp] = useState(false);
+  const [showSearchFriend, setShowSearchFriend] = useState(false);
   const [messages, setMessages] = useState<MessagesInterface[]>();
   const [msgContent, setMsgContent] = useState<string>("");
   const [myCondition, setMyCondition] = useState("NORMAL");
@@ -51,7 +56,10 @@ const SelectedChannelChat = ({
     let channelToDisplay: channelInterface | undefined = channels?.find(
       (ch) => ch.id === selectedChannel
     );
-
+    console.log("MMMMMMMMMM___>>", channelToDisplay?.type);
+    if (channelToDisplay?.type == "PRIVATE") {
+      setShowSearchFriend(true);
+    }
     const fetchMessages = async () => {
       try {
         const response = await fetch(
@@ -261,7 +269,13 @@ const SelectedChannelChat = ({
     return date;
   };
 
-  return (
+  return showSerachFriendPopUp ? (
+    <PopUpSearchFriend
+      chToDisplay={chToDisplay}
+      setShowSerachFriendPopUp={setShowSerachFriendPopUp}
+      selectedChannel={selectedChannel}
+    />
+  ) : (
     <div className="channel_msg_section">
       <div className="channel_msg_section_header">
         <IoArrowBackOutline
@@ -269,13 +283,13 @@ const SelectedChannelChat = ({
           className="arrow_back"
           onClick={() => setSelectedChannel(-1)}
         />
-        <Image
+        {/* <Image
           className="channel_msg_section_header_avatar"
           src={`${chToDisplay?.uri}`}
           width={100}
           height={100}
           alt="avatar"
-        />
+        /> */}
         <div>
           <h3 style={{ display: "block" }}>{chToDisplay?.name}</h3>
           <p>
@@ -285,11 +299,15 @@ const SelectedChannelChat = ({
               : "members"}
           </p>
         </div>
+        {showSearchFriend && (
+          <MdOutlinePersonSearch
+            className="searchFriendsInPrivateMode"
+            onClick={() => setShowSerachFriendPopUp(true)}
+          />
+        )}
       </div>
       <div className="channel_msg_section_chat" ref={chatSectionRef}>
-        <div className="mutedMsg" ref={mutedDiv}>
-          BLA
-        </div>
+        <div className="mutedMsg" ref={mutedDiv}></div>
         {messages?.length && messages?.length > 0
           ? messages?.map((message) => {
               return message.userID == userId ? (
@@ -302,15 +320,15 @@ const SelectedChannelChat = ({
               ) : (
                 <div className="channelMsgContainer" key={message.id}>
                   {/* <Image
-                className="senderOrRecieverImage"
-                src={
-                  `http://localhost:3000/${message.users.avatar}` ||
-                  "default.png"
-                }
-                width={30}
-                height={30}
-                alt="PIC"
-              /> */}
+                    className="senderOrRecieverImage"
+                    src={
+                      `http://localhost:3000/${message.users.avatar}` ||
+                      "default.png"
+                    }
+                    width={30}
+                    height={30}
+                    alt="PIC"
+                  /> */}
                   <div className="msgAndTime">
                     <p className="channelMsg">{message.content}</p>
                     <p className="msgTime">{returnTime(message.createdAT)}</p>

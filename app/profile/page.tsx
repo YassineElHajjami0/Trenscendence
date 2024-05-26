@@ -60,7 +60,7 @@ const Profile = () => {
           77deg,
           rgba(0, 0, 0, 1) 30%,
           rgba(255, 255, 255, 0) 100%
-        ), url(http://localhost:3000/bn${userData?.banner})`,
+        ), url(${userData?.banner})`,
         }}
         className="user_account"
       >

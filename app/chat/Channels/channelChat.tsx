@@ -30,7 +30,7 @@ const ChannelChat: React.FC<channelChatProps> = ({
   return (
     <>
       <div className="channelsListContainer">
-        {channels?.map((channel) => {
+        {channels?.map((channel, index) => {
           return (
             <div
               key={channel.id}

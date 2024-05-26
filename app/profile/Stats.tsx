@@ -58,31 +58,34 @@ export default function Stats() {
     setChartData(transformPlayerData(player_data));
   }, [statsSwitch]);
 
-  const axisLineProps = { stroke: "white", opacity: "0.6" };
-  const tickProps = { fill: "white", opacity: "0.6" };
-
-  console.log("data>>>> ", chartData);
-
   const option = {
     title: {
-      text: `Your ${statsSwitch.state} over the week`,
+      text: `Your ${
+        statsSwitch.state === "w/l" ? "win-loss ratio" : statsSwitch.state
+      } over the week`,
+      textStyle: {
+        color: statsSwitch.color,
+      },
     },
     tooltip: {
+      backgroundColor: "#27272b",
+      borderWidth: 1,
       trigger: "axis",
       axisPointer: {
-        type: "cross",
+        type: "line",
         label: {
           backgroundColor: "#27272b",
         },
         lineStyle: {
-          color: "#ff0000",
+          color: "transparent",
         },
       },
     },
     grid: {
-      left: "3%",
-      right: "4%",
-      bottom: "3%",
+      left: "0%",
+      right: "0%",
+      bottom: "0%",
+
       containLabel: true,
     },
     xAxis: [
@@ -94,7 +97,15 @@ export default function Stats() {
     ],
     yAxis: [
       {
+        splitLine: {
+          show: false,
+        },
         type: "value",
+        axisLine: {
+          lineStyle: {
+            color: "transparent",
+          },
+        },
       },
     ],
     series: [
@@ -120,7 +131,7 @@ export default function Stats() {
             },
             {
               offset: 1,
-              color: "rgba(0, 0, 0,0.7)",
+              color: "#27272b",
             },
           ]),
         },

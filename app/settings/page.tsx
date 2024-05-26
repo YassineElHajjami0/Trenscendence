@@ -260,21 +260,36 @@ const Settings = () => {
     }
   };
 
-  const bringQrImage = async () => {
-    const response = await fetch(`http://localhost:3000/auth/2fa/turn-on`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${userTok}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        uid: userId,
-        email: data?.email,
-      }),
-    });
-    const data_ = await response.text();
-    setQrImage(data_);
-    console.log(data_);
+  const bringQrImage = async (type: boolean | undefined) => {
+    console.log("email   ", data?.email);
+    if (!type) {
+      const response = await fetch(`http://localhost:3000/auth/2fa/turn-on`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uid: userId,
+          email: data?.email,
+        }),
+      });
+      const data_ = await response.text();
+      setQrImage(data_);
+      console.log(data_);
+    } else {
+      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          twoFASecret: "",
+          twoFA: false,
+        }),
+      });
+    }
   };
 
   const changeImageInTheServer = async (
@@ -591,9 +606,7 @@ const Settings = () => {
                   <div>
                     {data?.twoFA == true && (
                       <Image
-                        src={
-                          "data:image/png;base64,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"
-                        }
+                        src={qrImage}
                         alt="Qr code"
                         width={200}
                         height={200}
@@ -605,7 +618,7 @@ const Settings = () => {
                           ...(data as dataInterface),
                           twoFA: !data?.twoFA,
                         }));
-                        if (data?.twoFA == false) bringQrImage();
+                        bringQrImage(data?.twoFA);
                       }}
                       className={data?.twoFA ? "redbc" : "greenbc"}
                     >

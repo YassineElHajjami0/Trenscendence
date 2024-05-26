@@ -65,6 +65,7 @@ const Chat = () => {
         const data = await response.json();
         console.log("DAAAATAAAA:", data);
         const channelsArr = data.map((data: any) => data.channels);
+        console.log("channelsArr:", channelsArr);
         setChannels(channelsArr);
       } catch (error) {
         console.log("Error");
