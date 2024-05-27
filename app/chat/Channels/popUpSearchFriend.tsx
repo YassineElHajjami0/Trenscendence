@@ -30,7 +30,7 @@ const PopUpSearchFriend = ({
   const userId = useRecoilValue(loggedUser);
 
   useEffect(() => {
-    const fetchFreshChannels = async () => {
+    const fetchFreshUsers = async () => {
       const response = await fetch(`http://localhost:3000/users`, {
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -38,22 +38,31 @@ const PopUpSearchFriend = ({
         },
       });
       const data = await response.json();
-      console.log("data is equal to :", data);
-      const excludeMe = data.filter((e: any) => e.uid != userId);
-      const filtredData = excludeMe.filter((e: any) =>
+      const fetchUsersOfThatChannel = await fetch(
+        `http://localhost:3000/channelss/roles?channelId=${selectedChannel}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const channelUsers = await fetchUsersOfThatChannel.json();
+      const channelUsersNames = channelUsers.map((e: any) => e.user.username);
+      const excludeExistingMembers = data.filter((e: any) => {
+        return !channelUsersNames.includes(e.username);
+      });
+      const filtredData = excludeExistingMembers.filter((e: any) =>
         e.username.includes(userName)
       );
+
       setUsers(filtredData);
     };
 
-    fetchFreshChannels();
+    fetchFreshUsers();
   }, [userName]);
 
-  const handleInvite = async (
-    senderName: string,
-    uid: number,
-    channelId: number
-  ) => {
+  const handleInvite = async (uid: number, channelId: number) => {
     const notifData = {
       type: "channelReq",
       content: `invitation to ${chToDisplay?.name}`,
@@ -101,11 +110,7 @@ const PopUpSearchFriend = ({
                   <Image src={e.avatar} width={50} height={50} alt="AVATAR" />
                   {e.username}
                 </div>
-                <button
-                  onClick={() =>
-                    handleInvite(e.username, e.uid, selectedChannel)
-                  }
-                >
+                <button onClick={() => handleInvite(e.uid, selectedChannel)}>
                   Invite
                 </button>
               </div>
