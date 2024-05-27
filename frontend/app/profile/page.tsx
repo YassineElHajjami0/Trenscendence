@@ -15,7 +15,7 @@ import { selectedFriendProfile } from "../Atoms/selectedFriendProfile";
 
 const Profile = () => {
   const uidRef = useRef<HTMLDivElement>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const loggedU = useRecoilValue(loggedUser);
   const userTok = useRecoilValue(userToken);

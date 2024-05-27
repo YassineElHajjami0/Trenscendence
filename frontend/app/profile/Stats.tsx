@@ -27,7 +27,6 @@ export default function Stats() {
       );
       const data = await response.json();
       setData(data);
-      console.log(data);
     } catch (err) {
       console.error(">>>>>>", err);
     }
@@ -36,22 +35,42 @@ export default function Stats() {
     fetchedData();
   }, []);
   function groupByCreatedAt() {
-    return data.reduce((acc, item) => {
-      const date = item.createdAt.split("T")[0]; // Extract the date part (YYYY-MM-DD)
+    if (!data || !data.length) return [];
 
-      // If the date key does not exist in the accumulator, create it
+    const groupedData = data.reduce((acc, item) => {
+      const date = item.createdAt.split("T")[0];
       if (!acc[date]) {
-        acc[date] = [];
+        acc[date] = { date, win: 0, lose: 0 };
       }
-
-      // Push the current item into the group
-      acc[date].push(item);
-
+      if (item.result === "WIN") {
+        acc[date].win++;
+      } else if (item.result === "LOSE") {
+        acc[date].lose++;
+      }
+      acc[date].w_l = acc[date].win / (acc[date].win + acc[date].lose);
       return acc;
     }, {});
+
+    return Object.values(groupedData);
   }
 
-  console.log("----->>>>", groupByCreatedAt());
+  const get3a = () => {
+    const resulttt = groupByCreatedAt();
+
+    return resulttt.map((e) => {
+      if (statsSwitch.state === "win") return e.win;
+      if (statsSwitch.state === "lose") return e.lose;
+      if (statsSwitch.state === "w/l") return e.w_l;
+    });
+  };
+  const get3a2 = () => {
+    const resulttt = groupByCreatedAt();
+
+    return resulttt.map((e) => {
+      return e.date;
+    });
+  };
+  console.log("3a2", get3a2());
 
   const player_data: any = playerData;
   const [statsSwitch, setStatsSwitch] = useState({
@@ -99,9 +118,10 @@ export default function Stats() {
     if (buttonText === "w/l")
       setStatsSwitch({ state: "w/l", color: "#ff7f00" });
   };
+  console.log("dataaaa>", chartData);
 
   useEffect(() => {
-    setChartData(transformPlayerData(player_data));
+    setChartData(get3a());
   }, [statsSwitch]);
 
   const option = {
@@ -138,7 +158,7 @@ export default function Stats() {
       {
         type: "category",
         boundaryGap: false,
-        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        data: get3a2(),
       },
     ],
     yAxis: [
@@ -147,11 +167,11 @@ export default function Stats() {
           show: false,
         },
         type: "value",
-        axisLine: {
-          lineStyle: {
-            color: "transparent",
-          },
-        },
+        // axisLine: {
+        //   lineStyle: {
+        //     color: "transparent",
+        //   },
+        // },
       },
     ],
     series: [
