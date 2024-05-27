@@ -5,8 +5,54 @@ import "./Stats.css";
 import playerData from "../data/player-info.json";
 import ReactECharts from "echarts-for-react";
 import * as echarts from "echarts/core";
+import { useRecoilValue } from "recoil";
+import { userToken } from "../Atoms/userToken";
+import { loggedUser } from "../Atoms/logged";
 
 export default function Stats() {
+  const [data, setData] = useState<any[]>();
+
+  const userTok = useRecoilValue(userToken);
+  const userId = useRecoilValue(loggedUser);
+  const fetchedData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/match-history?id=${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      setData(data);
+      console.log(data);
+    } catch (err) {
+      console.error(">>>>>>", err);
+    }
+  };
+  useEffect(() => {
+    fetchedData();
+  }, []);
+  function groupByCreatedAt() {
+    return data.reduce((acc, item) => {
+      const date = item.createdAt.split("T")[0]; // Extract the date part (YYYY-MM-DD)
+
+      // If the date key does not exist in the accumulator, create it
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+
+      // Push the current item into the group
+      acc[date].push(item);
+
+      return acc;
+    }, {});
+  }
+
+  console.log("----->>>>", groupByCreatedAt());
+
   const player_data: any = playerData;
   const [statsSwitch, setStatsSwitch] = useState({
     state: "win",
