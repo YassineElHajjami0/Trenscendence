@@ -159,18 +159,22 @@
   border-radius: 10px;
   position: relative;
   width: 50%;
-  height: 16px;
+  height: 20px;
   background: #868686;
 }
 .pseudoProgress {
   border-radius: 10px;
-  content: "";
+
   position: absolute;
   height: 100%;
   left: 0;
   top: 0;
   background: #1ce14e;
   box-shadow: 0 0 10px #1ce14e;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 5px;
 }
 
 .profile_details {

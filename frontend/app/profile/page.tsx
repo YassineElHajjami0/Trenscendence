@@ -21,13 +21,21 @@ const Profile = () => {
   const userTok = useRecoilValue(userToken);
   const route = useRouter();
   const [userData, setUserData] = useState<any>({});
-  const [selectedProfile, setSelectedProfile] = useRecoilState(
-    selectedFriendProfile
-  );
 
   /////// kyan moxkiiiiiiiil
   //////  setSelectedProfile(-1);   <------------ gado
   //////////////////////////
+
+  const getRank = () => {
+    const xp = userData?.level;
+    if (xp >= 0 && xp <= 100) return "Beginner";
+    if (xp > 100 && xp <= 200) return "Intermediate";
+    if (xp > 200 && xp <= 300) return "Expert";
+    if (xp > 300 && xp <= 400) return "Master";
+    if (xp > 400 && xp <= 500) return "Grandmaster";
+    if (xp > 500) return "Apex";
+  };
+
   useEffect(() => {
     const getUserData = async () => {
       try {
@@ -86,7 +94,8 @@ const Profile = () => {
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
           <h2 className="profile_user_lvl">
-            LVL <span>{userData?.level}</span>
+            {getRank()}
+            {/* <span>{getRank()}</span> */}
           </h2>
         </div>
 
@@ -97,7 +106,9 @@ const Profile = () => {
                 width: `${userData?.level + 50}%`,
               }}
               className="pseudoProgress"
-            ></div>
+            >
+              {userData?.level + 50}%
+            </div>
           </div>
           <div
             //  onClick={copyUID}
