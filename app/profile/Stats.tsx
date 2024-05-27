@@ -83,7 +83,7 @@ export default function Stats() {
     },
     grid: {
       left: "0%",
-      right: "0%",
+      right: "2%",
       bottom: "0%",
 
       containLabel: true,
