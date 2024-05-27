@@ -39,7 +39,7 @@ export default function AddFriend({ user }: { user: any }) {
     <div className="add_friend_conatiner">
       <Image
         className="add_friend_avatar"
-        src={`http://localhost:3000/${user.avatar}`}
+        src={user.avatar}
         width={1000}
         height={1000}
         alt="avatar"
