@@ -8,7 +8,7 @@ CREATE TYPE "NotificationType" AS ENUM ('gameReq', 'friendReq');
 CREATE TYPE "channelType" AS ENUM ('DM', 'PUBLIC', 'PRIVATE', 'PROTECTED');
 
 -- CreateEnum
-CREATE TYPE "roles" AS ENUM ('USER', 'ADMIN', 'OWNER');
+CREATE TYPE "roles" AS ENUM ('ADMIN', 'USER', 'OWNER');
 
 -- CreateEnum
 CREATE TYPE "conditions" AS ENUM ('MUTED', 'BLOCKED', 'NORMAL');
@@ -47,6 +47,7 @@ CREATE TABLE "Role" (
     "role" "roles" NOT NULL DEFAULT 'USER',
     "mutedSince" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "condition" "conditions" NOT NULL DEFAULT 'NORMAL',
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Role_pkey" PRIMARY KEY ("id")
 );
@@ -55,7 +56,7 @@ CREATE TABLE "Role" (
 CREATE TABLE "T_User" (
     "uid" SERIAL NOT NULL,
     "status" TEXT NOT NULL DEFAULT 'online',
-    "username" TEXT NOT NULL DEFAULT '',
+    "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "bio" TEXT NOT NULL DEFAULT 'I am a player',
     "password" TEXT NOT NULL,
@@ -65,7 +66,7 @@ CREATE TABLE "T_User" (
     "banner" TEXT NOT NULL DEFAULT '/defaultBanner.jpg',
     "wallet" INTEGER NOT NULL DEFAULT 0,
     "level" INTEGER NOT NULL DEFAULT 0,
-    "rank" TEXT NOT NULL DEFAULT '0',
+    "rank" SERIAL NOT NULL,
     "win" INTEGER NOT NULL DEFAULT 0,
     "lose" INTEGER NOT NULL DEFAULT 0,
     "role" TEXT NOT NULL DEFAULT 'User',
@@ -154,6 +155,9 @@ CREATE TABLE "MatchHistory" (
 
     CONSTRAINT "MatchHistory_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "T_User_username_key" ON "T_User"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "T_User_email_key" ON "T_User"("email");

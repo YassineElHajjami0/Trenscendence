@@ -1,12 +1,10 @@
 import { IsEmail, MinLength, Matches } from 'class-validator';
 
 export class CreateUserDto {
-  uid?: number;
-
   status?: string;
 
   @MinLength(5)
-  username?: string;
+  username: string;
 
   @IsEmail()
   email: string;

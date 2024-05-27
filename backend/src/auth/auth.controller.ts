@@ -6,8 +6,6 @@ import {
   Body,
   Res,
   Req,
-  Request,
-  Response,
   Redirect,
   UsePipes,
   UnauthorizedException,
@@ -90,7 +88,7 @@ export class AuthController {
     const createUserDto = {
       username: req.user.username,
       email: req.user.email,
-      password: req.user.password,
+      password: this.authService.generateRandomPassword(10),
     };
 
     const cookies = await this.authService.signUpWithProvider(createUserDto);
@@ -112,22 +110,22 @@ export class AuthController {
   @UseGuards(GoogleGuard)
   @Public()
   async googleAuth() {
-    console.log('FIRST');
     return {};
   }
 
+  @Public()
   @Get('google/redirect')
   @UseGuards(GoogleGuard)
-  @Public()
   @Redirect('http://localhost:5252/', 302)
   async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
-    console.log('THIRD');
+    if (!req.user) {
+      return {};
+    }
     const createUserDto = {
       username: req.user.username,
       email: req.user.email,
       password: req.user.password,
     };
-
     const cookies = await this.authService.signUpWithProvider(createUserDto);
     // this.setCookie(res, cookies.bearer_token);
     const userData = {

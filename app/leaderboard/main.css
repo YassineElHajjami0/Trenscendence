@@ -32,20 +32,21 @@ ul {
     padding: 0;
 }
 
-.container-leaderboard {
-    /* padding-right: 15px;
-    padding-left: 15px; */
+/* .container-leaderboard {
+    padding-right: 15px;
+    padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
-}
+} */
 
-@media (max-width: 620px) {
+/* @media (max-width: 620px) {
     .container-leaderboard {
         padding: 0;
     }
-}
-/* rank */
+} */
 
+
+/* rank */
 .leaders-leaderboard {
     display: flex;
     justify-content: space-between;
@@ -53,6 +54,7 @@ ul {
 }
 
 .leaders-leaderboard .box-leaderboard {
+    max-width: 30%;
     width: 30%;
     background-color: #262629;
     padding: 20px;
@@ -70,17 +72,48 @@ ul {
     justify-content: center;
 }
 
-.leaders-leaderboard .box-leaderboard .prof-leaderboard  {
+.leaders-leaderboard .box-leaderboard .prof-leaderboard {
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 300px;
+}
+
+.leaders-leaderboard .box-leaderboard .prof-leaderboard span {
+    display: block;
 }
 
 .leaders-leaderboard .box-leaderboard .prof-leaderboard > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    max-width: 100%;
 }
 
+.leaders-leaderboard .box-leaderboard .prof-leaderboard > div * {
+    max-width: 100%;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Ensure content does not overflow the h2 */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
+    margin: 0;
+}
+
+
+@keyframes move_right {
+    0% {
+        transform: translateX(-100px);
+    }
+    25% {
+        transform: translateX(0px);
+    }
+    50% {
+        transform: translateX(100px);
+    }
+    75% {
+        transform: translateX(200px);
+    }
+    100% {
+        transform: translateX(300px);
+    }
+}
 .leaders-leaderboard .box-leaderboard .prof-img img {
     width: 120px;
     height: 120px;
@@ -99,19 +132,16 @@ ul {
     height: 190px;
 }
 
+
 @media (max-width: 1024px) {
-    .leaders-leaderboard {
-        background-color: red;
-        width: 90%;
-        /* margin: auto; */
-    }
-    .leaders-leaderboard .box-leaderboard {
-        width: 32%;
+    .leaders-leaderboard .box-leaderboard .prof-leaderboard {
+        flex-direction: column;
     }
     .leaders-leaderboard .box-leaderboard .prof-leaderboard img {
         width: 40px;
         height: 40px;
     }
+    
     .leaders-leaderboard .box-leaderboard .prof-leaderboard > div img  {
         width: 40px;
         height: 40px;
@@ -126,13 +156,120 @@ ul {
     }
 }
 
+@media (max-width: 768px) {
+    .leaders-leaderboard {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .leaders-leaderboard .box-leaderboard {
+        max-width: 100%;
+        width: 70%;
+    }
+    .leaders-leaderboard .box-leaderboard .prof-leaderboard  {
+        max-width: 500px;
+        width: 500%;
+    }
+    .leaders-leaderboard .box-leaderboard .prof-leaderboard > div img  {
+        width: 60px;
+        height: 60px;
+    }
+    .leaders-leaderboard .box-leaderboard .cup-leaderboard img {
+        width: 120px;
+        height: 120px;
+    }
+    .leaders-leaderboard > :first-child .cup-leaderboard img {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 425px) {
+    .leaders-leaderboard .box-leaderboard {
+        width: 80%;
+    }
+    .leaders-leaderboard .box-leaderboard .prof-leaderboard  {
+        width: 200px;
+    }
+    .leaders-leaderboard .box-leaderboard .prof-leaderboard > div img  {
+        width: 40px;
+        height: 40px;
+    }
+    .leaders-leaderboard .box-leaderboard .cup-leaderboard img {
+        width: 70px;
+        height: 70px;
+    }
+    .leaders-leaderboard > :first-child .cup-leaderboard img {
+        width: 80px;
+        height: 80px;
+    }
+    .leaders-leaderboard .box-leaderboard .prof-leaderboard h2 {
+        font-size: 15px;
+    }
+    .leaders-leaderboard .box-leaderboard .prof-leaderboard span {
+        font-size: 10px;
+    }
+    .leaders-leaderboard .box-leaderboard .rate-leaderboard {
+        font-size: 10px;
+    }
+}
 
 .leaders-leaderboard .rate-leaderboard {
     margin-top: 30px;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    max-width: 300px;
+    margin: auto;
 }
+
+.leaders-leaderboard .rate-leaderboard > div {
+    max-width: 30%;
+}
+
+.leaders-leaderboard .rate-leaderboard > div * {
+    display: block;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Ensure content does not overflow the h2 */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
+    margin: 0;
+}
+
+@media (max-width: 320px) {
+    .leaders-leaderboard .box-leaderboard .prof-leaderboard > div img  {
+        width: 20px;
+        height: 20px;
+    }
+    .leaders-leaderboard .box-leaderboard .cup-leaderboard img {
+        width: 50px;
+        height: 50px;
+    }
+    .leaders-leaderboard > :first-child .cup-leaderboard img {
+        width: 60px;
+        height: 60px;
+    }
+    .leaders-leaderboard .rate-leaderboard {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+        margin: auto;
+        gap: 5px;
+    }
+    .leaders-leaderboard .box-leaderboard {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .leaders-leaderboard .box-leaderboard .prof-leaderboard {
+        justify-content: flex-end;
+        width: 100px;
+    }
+    .leaders-leaderboard .rate-leaderboard > div {
+        max-width: 100%;
+    }
+
+}
+
+
 
 
 /* table */
@@ -172,13 +309,26 @@ ul {
 .rank-leaderboard table th ,
 .rank-leaderboard table td {
     padding: 10px;
+    max-width: 200px;
+    margin: auto;
+}
+
+
+.rank-leaderboard table td  *{
+    max-width: 100%;
+    display: block;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Ensure content does not overflow the h2 */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
 }
 
 .rank-leaderboard table tr td:nth-child(2),
 .rank-leaderboard table tr td:last-child {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .rank-leaderboard table tr td:nth-child(2) img ,
@@ -189,7 +339,6 @@ ul {
 @media (max-width: 1024px) {
     .rank-leaderboard table tr td:nth-child(2),
     .rank-leaderboard table tr td:last-child {
-        flex-direction: column;
         font-size: 13px;
     }
     .rank-leaderboard table tr td:nth-child(2) img ,

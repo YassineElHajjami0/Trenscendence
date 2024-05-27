@@ -27,7 +27,6 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-
   @Public()
   @Get()
   findAll(@Query('order_by') order_by: string) {
@@ -46,6 +45,7 @@ export class UsersController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    console.log('PATCH');
     return this.usersService.update(+id, updateUserDto);
   }
 

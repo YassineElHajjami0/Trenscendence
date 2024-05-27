@@ -38,6 +38,19 @@ interface itemsInterface {
   choosed: boolean;
   owned: boolean;
 }
+
+interface User {
+  avatar?: string;
+  banner?: string;
+  username?: string;
+  email?: string;
+  bio?: string;
+  twoFA?: boolean;
+  oldPassword?: string;
+  newPassword?: string;
+  confirmedPassword?: string;
+}
+
 //http://localhost:3000/image.jpeg
 const Settings = () => {
   const [ArticlesType, setArticlesType] = useState("");
@@ -158,23 +171,28 @@ const Settings = () => {
         }
       }
 
+      const body: Partial<User> = {
+        avatar: data?.avatar,
+        banner: data?.banner,
+        username: data?.username,
+        email: data?.email,
+        bio: data?.bio,
+        twoFA: data?.twoFA,
+      };
+      
+      if (data?.oldPassword && data.oldPassword !== '') {
+          body.oldPassword = data.oldPassword;
+          body.newPassword = data.newPassword;
+          body.confirmedPassword = data.confirmedPassword;
+      }
+      console.log(body);
       const response = await fetch(`http://localhost:3000/users/${userId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${userTok}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          avatar: data?.avatar,
-          banner: data?.banner,
-          username: data?.username,
-          email: data?.email,
-          oldPassword: data?.oldPassword,
-          newPassword: data?.newPassword,
-          confirmedPassword: data?.confirmedPassword,
-          bio: data?.bio,
-          twoFA: data?.twoFA,
-        }),
+        body: JSON.stringify({...body}),
       });
 
       if (!response.ok) {
@@ -229,27 +247,27 @@ const Settings = () => {
       const response =
         type == "avatar"
           ? await fetch(`http://localhost:3000/useritems`, {
-              method: "PATCH",
-              headers: {
-                Authorization: `Bearer ${userTok}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                itemId: id,
-                userId: userId,
-                choosed: true,
-              }),
-            })
+            method: "PATCH",
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              itemId: id,
+              userId: userId,
+              choosed: true,
+            }),
+          })
           : await fetch(`http://localhost:3000/users/${userId}`, {
-              method: "PATCH",
-              headers: {
-                Authorization: `Bearer ${userTok}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                banner: img,
-              }),
-            });
+            method: "PATCH",
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              banner: img,
+            }),
+          });
       if (!response.ok) {
         const errorResponse = await response.json();
         setErrors("Something went wrong !");
@@ -273,7 +291,7 @@ const Settings = () => {
         method: "POST",
         body: formData,
       })
-        .then((res) => {})
+        .then((res) => { })
         .catch((error) => {
           setErrors("something went wrong ! try again.");
         });

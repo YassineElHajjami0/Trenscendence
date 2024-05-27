@@ -30,3 +30,8 @@
     "error": "Unauthorized",
     "statusCode": 401
 }
+
+
+
+// list files what copies
+// verify bcrypt exist and see it version
