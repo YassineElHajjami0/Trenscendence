@@ -1,3 +1,0 @@
-psql -U amentag -d ft_transcendance
-
-select * from "T_User";
