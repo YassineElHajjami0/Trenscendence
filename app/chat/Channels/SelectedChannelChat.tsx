@@ -50,13 +50,14 @@ const SelectedChannelChat = ({
   const [messages, setMessages] = useState<MessagesInterface[]>();
   const [msgContent, setMsgContent] = useState<string>("");
   const [myCondition, setMyCondition] = useState("NORMAL");
+  const [myRole, setMyRole] = useState("USER");
   const chatSectionRef = useRef<HTMLDivElement>(null);
   const mutedDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     let channelToDisplay: channelInterface | undefined = channels?.find(
       (ch) => ch.id === selectedChannel
     );
-    console.log("MMMMMMMMMM___>>", channelToDisplay?.type);
+    console.log("MMMMMMMMMM___>>", channelToDisplay);
     if (channelToDisplay?.type == "PRIVATE") {
       setShowSearchFriend(true);
     }
@@ -85,6 +86,7 @@ const SelectedChannelChat = ({
         const myData = await req.json();
         const myCondition: any = myData.find((e: any) => e.user.uid == userId);
         setMyCondition(myCondition.condition);
+        setMyRole(myCondition.role);
         if (myCondition.condition == "BLOCKED") {
           const filtredMessages = data.filter(
             (e: any) => e.createdAT < myCondition.blockedSince
@@ -122,6 +124,8 @@ const SelectedChannelChat = ({
       }
       console.log("my condition =", myCondition);
       setMyCondition(myCondition.condition);
+      setMyRole(myCondition.role);
+
       if (
         (message?.channelID === selectedChannel ||
           message?.channelID === undefined) &&
@@ -292,14 +296,14 @@ const SelectedChannelChat = ({
         /> */}
         <div>
           <h3 style={{ display: "block" }}>{chToDisplay?.name}</h3>
-          <p>
+          {/* <p>
             {chToDisplay?.roles.length}{" "}
             {chToDisplay?.roles.length && chToDisplay?.roles.length < 2
               ? "member"
               : "members"}
-          </p>
+          </p> */}
         </div>
-        {showSearchFriend && (
+        {showSearchFriend && myRole != "USER" && (
           <MdOutlinePersonSearch
             className="searchFriendsInPrivateMode"
             onClick={() => setShowSerachFriendPopUp(true)}
