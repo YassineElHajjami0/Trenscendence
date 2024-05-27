@@ -23,6 +23,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { UserAchievementModule } from './user-achievement/user-achievement.module';
 import { ChannelsController } from './channels/channels.controller';
 import { ChannelsModule } from './channels/channels.module';
+import { GameModule } from './game/game.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { ChannelsModule } from './channels/channels.module';
     UploadModule,
     UserAchievementModule,
     ChannelsModule,
+    GameModule,
   ],
   controllers: [AppController],
   providers: [
