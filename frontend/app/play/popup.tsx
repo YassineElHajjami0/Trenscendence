@@ -317,7 +317,7 @@ export default function Popup({ setShowPopup }: any) {
 			socket.off('go_to_game');
 		};
 	}, []);
-	
+
 	return (
 		<>
 			<ToestContainer ref={teastRef}> 
@@ -338,12 +338,12 @@ export default function Popup({ setShowPopup }: any) {
 				<PopupCard ref={popupRef}>
 					<h2>Available Friends</h2>
 					<FriendList>{
-						onlineFriends.map((friend: {uid: number, avatar: string, name: string}, index: number) => {
+						onlineFriends.map((friend: {uid: number, avatar: string, username: string}, index: number) => {
 							return (
 							<Friend key={friend.uid}>
 								<FriendLeftSide>
 									<FriendImg src={friend.avatar} alt=""/>
-									<p>{friend.name}</p>
+									<p>{friend.username}</p>
 									</FriendLeftSide>
 									<FriendButton onClick={() => {sendGameReq(friend.uid, index)}}>
 										{loadingStates[index] ?

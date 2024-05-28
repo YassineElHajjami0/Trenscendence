@@ -123,7 +123,7 @@ export default function SubChildrens({
       setGameRequestQueue((prevQueue) => prevQueue.slice(1)); // Remove the current request from the queue
       if (accepted) {
         setGameRequestQueue([]); // remove all other requests from the queue
-        // router.push('/play/against-friend');
+        router.push('/play');
         // setGameMode('friend');
         socket.emit("go_to_game", {
           userId: user,

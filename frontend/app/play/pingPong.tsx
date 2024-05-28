@@ -189,7 +189,7 @@ export function PingPong() {
 				message.innerHTML = `Going back in ${count} seconds...`;
 				if (count === 0) {
 					clearInterval(interval);
-					// setGameMode('');
+					setGameMode('');
 					setLeftScore(0);
 					setRightScore(0);
 					setLeftFace('/game/happy.png');
@@ -279,7 +279,6 @@ export function PingPong() {
 				scoreContainer!.style.display = 'flex';
 				controlButtons!.style.display = 'flex';
 			} else {
-				scoreContainer!.style.display = 'none';
 				controlButtons!.style.display = 'none';
 			}
 		}
@@ -287,7 +286,6 @@ export function PingPong() {
 
 	useEffect(() => {
 		if (gameStarted) {
-
 			const keyState: { [key: string]: boolean } = {};
 			
 			// window.addEventListener('keydown', (event) => {
