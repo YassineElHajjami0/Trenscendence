@@ -63,6 +63,7 @@
 .current_friend_rank_badge {
   width: 100px;
   height: 100px;
+  filter: drop-shadow(0 0 50px #1ce14d40);
 }
 .current_friend_rank h3 {
   color: #1ce14e;

@@ -10,14 +10,14 @@ import { userToken } from "../Atoms/userToken";
 import { loggedUser } from "../Atoms/logged";
 
 export default function Stats() {
-  const [data, setData] = useState<any[]>();
+  const [data, setData] = useState<any[]>([]);
 
   const userTok = useRecoilValue(userToken);
   const userId = useRecoilValue(loggedUser);
   const fetchedData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/match-history?id=${userId}`,
+        `http://localhost:3000/match-history/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${userTok}`,
@@ -34,95 +34,38 @@ export default function Stats() {
   useEffect(() => {
     fetchedData();
   }, []);
-  function groupByCreatedAt() {
-    if (!data || !data.length) return [];
 
-    const groupedData = data.reduce((acc, item) => {
-      const date = item.createdAt.split("T")[0];
-      if (!acc[date]) {
-        acc[date] = { date, win: 0, lose: 0 };
-      }
-      if (item.result === "WIN") {
-        acc[date].win++;
-      } else if (item.result === "LOSE") {
-        acc[date].lose++;
-      }
-      acc[date].w_l = acc[date].win / (acc[date].win + acc[date].lose);
-      return acc;
-    }, {});
+  const [statsSwitch, setStatsSwitch] = useState({
+    state: "win",
+    color: "#1ce14e",
+  });
 
-    return Object.values(groupedData);
-  }
-
-  const get3a = () => {
-    const resulttt = groupByCreatedAt();
-
-    return resulttt.map((e) => {
+  
+  const [chartData, setChartData] = useState();
+  
+  const switchStats = (e: any) => {
+    const buttonText = e.target.textContent;
+    
+    if (buttonText === "win")
+      setStatsSwitch({ state: "win", color: "#1ce14e" });
+    
+    if (buttonText === "lose")
+      setStatsSwitch({ state: "lose", color: "#ff3355" });
+    
+    if (buttonText === "w/l")
+      setStatsSwitch({ state: "w/l", color: "#ff7f00" });
+  };
+  const getStats = () => {
+    return data.map((e) => {
       if (statsSwitch.state === "win") return e.win;
       if (statsSwitch.state === "lose") return e.lose;
       if (statsSwitch.state === "w/l") return e.w_l;
     });
   };
-  const get3a2 = () => {
-    const resulttt = groupByCreatedAt();
-
-    return resulttt.map((e) => {
-      return e.date;
-    });
-  };
-  console.log("3a2", get3a2());
-
-  const player_data: any = playerData;
-  const [statsSwitch, setStatsSwitch] = useState({
-    state: "win",
-    color: "#1ce14e",
-  });
-  const [chartData, setChartData] = useState(() =>
-    transformPlayerData(player_data)
-  );
-
-  function transformPlayerData(player_data: any) {
-    const dataArray = player_data.stats.map((stat: any) => {
-      const [month, year] = stat.date.split("/");
-      if (statsSwitch.state === "win") return parseInt(stat.win);
-      //  {
-      //     [statsSwitch.state]:
-      //     name: `${month}/${year.slice(-2)}`,
-      //   };
-      if (statsSwitch.state === "lose") return parseInt(stat.lose);
-      // {
-      //     [statsSwitch.state]:
-      //     // name: `${month}/${year.slice(-2)}`,
-      //   };
-      if (statsSwitch.state === "w/l") {
-        const wl =
-          (parseInt(stat.win) / (parseInt(stat.win) + parseInt(stat.lose))) *
-          100;
-        return wl.toFixed(2);
-        // [statsSwitch.state]:
-        // name: `${month}/${year.slice(-2)}`,
-      }
-    });
-    return dataArray;
-  }
-
-  const switchStats = (e: any) => {
-    const buttonText = e.target.textContent;
-
-    if (buttonText === "win")
-      setStatsSwitch({ state: "win", color: "#1ce14e" });
-
-    if (buttonText === "lose")
-      setStatsSwitch({ state: "lose", color: "#ff3355" });
-
-    if (buttonText === "w/l")
-      setStatsSwitch({ state: "w/l", color: "#ff7f00" });
-  };
-  console.log("dataaaa>", chartData);
 
   useEffect(() => {
-    setChartData(get3a());
-  }, [statsSwitch]);
+    setChartData(getStats());
+  }, [statsSwitch,data]);
 
   const option = {
     title: {
@@ -158,7 +101,9 @@ export default function Stats() {
       {
         type: "category",
         boundaryGap: false,
-        data: get3a2(),
+        data: data.map((e) => {
+          return e.date;
+        }),
       },
     ],
     yAxis: [

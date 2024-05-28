@@ -10,6 +10,7 @@ import { loadingMsg } from "@/app/Atoms/loadingMsg";
 import ProfileLoading from "./ProfileLoading";
 import axios from "axios";
 import { userToken } from "@/app/Atoms/userToken";
+import { getRank } from "@/app/util/headers";
 export const FriendInfo = () => {
   const [friend, setFriend] = useRecoilState(currentFriend);
   const loadingAnimation = useRecoilValue(loadingMsg);
@@ -56,6 +57,9 @@ export const FriendInfo = () => {
     getUserData();
   }, [friend.id]);
 
+  const rank = getRank(friend.level +302);
+
+
   return loadingAnimation ? (
     <ProfileLoading />
   ) : (
@@ -75,12 +79,12 @@ export const FriendInfo = () => {
         <h1>rank</h1>
         <Image
           className="current_friend_rank_badge"
-          src={friend?.rankBadge || ""}
+          src={`/ranks/${rank}.png`}
           width={5000}
           height={5000}
           alt="rank_badge"
         />
-        <h3> {friend?.rank} </h3>
+        <h3> {rank} </h3>
       </div>
       <div className="current_friend_achievements_container">
         <h1>achievements</h1>

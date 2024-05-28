@@ -124,10 +124,39 @@ export class MatchHistoryService {
   }
 
   async findOne(id: number) {
-    const match = await this.databaseService.matchHistory.findUnique({
-      where: { id },
+    const match = await this.databaseService.matchHistory.findMany({
+      where: {
+        OR: [
+          {
+            winner: id,
+          },
+          {
+            loser: id,
+          },
+        ],
+      },
     });
-    return match;
+
+    if (!match || !match.length) return [];
+
+    const groupedData = match.reduce((acc, item) => {
+      const date = item.createdAt.toISOString().split('T')[0];
+      if (!acc[date]) {
+        acc[date] = { date, win: 0, lose: 0, w_l: 0 };
+      }
+      if (id === item.winner) {
+        acc[date].win++;
+      } else if (id === item.loser) {
+        acc[date].lose++;
+      }
+      acc[date].w_l = (
+        (acc[date].win / (acc[date].win + acc[date].lose)) *
+        100
+      ).toExponential(2);
+      return acc;
+    }, {});
+
+    return Object.values(groupedData);
   }
 
   async update(

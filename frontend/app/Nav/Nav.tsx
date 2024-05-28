@@ -101,6 +101,7 @@ const Nav = () => {
           <li
             onClick={() => {
               setLoggedU(-1);
+
               setLoggedT("");
               setMyNotifications([]);
             }}

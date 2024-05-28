@@ -12,6 +12,7 @@ import { PiCurrencyEthFill } from "react-icons/pi";
 import { useRouter } from "next/navigation";
 import LoadingPaddle from "../LoadingPaddle";
 import { selectedFriendProfile } from "../Atoms/selectedFriendProfile";
+import { getRank } from "../util/headers";
 
 const Profile = () => {
   const uidRef = useRef<HTMLDivElement>(null);
@@ -25,16 +26,6 @@ const Profile = () => {
   /////// kyan moxkiiiiiiiil
   //////  setSelectedProfile(-1);   <------------ gado
   //////////////////////////
-
-  const getRank = () => {
-    const xp = userData?.level;
-    if (xp >= 0 && xp <= 100) return "Beginner";
-    if (xp > 100 && xp <= 200) return "Intermediate";
-    if (xp > 200 && xp <= 300) return "Expert";
-    if (xp > 300 && xp <= 400) return "Master";
-    if (xp > 400 && xp <= 500) return "Grandmaster";
-    if (xp > 500) return "Apex";
-  };
 
   useEffect(() => {
     const getUserData = async () => {
@@ -94,7 +85,7 @@ const Profile = () => {
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
           <h2 className="profile_user_lvl">
-            {getRank()}
+            {getRank(userData?.level)}
             {/* <span>{getRank()}</span> */}
           </h2>
         </div>
@@ -103,14 +94,13 @@ const Profile = () => {
           <div className="progress">
             <div
               style={{
-                width: `${userData?.level + 50}%`,
+                width: `${(userData?.level % 100) + 42}%`,
               }}
               className="pseudoProgress"
-            >
-              {userData?.level + 50}%
-            </div>
+            ></div>
           </div>
-          <div
+          {(userData?.level % 100) + 42}%
+          {/* <div
             //  onClick={copyUID}
 
             ref={uidRef}
@@ -118,7 +108,7 @@ const Profile = () => {
           >
             {userData?.uid}
             <MdContentCopy />
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="profile_details">

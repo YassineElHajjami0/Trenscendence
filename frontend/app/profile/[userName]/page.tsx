@@ -33,7 +33,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
     selectedFriendProfile
   );
   const [isFriend, setIsFriend] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [userData, setUserData] = useState<any>({});
 
@@ -53,6 +53,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
         const data = await res.data;
         setSelectedProfile(data.uid);
         setUserData(data);
+        
       } catch (error: any) {
         setLoading(false);
         route.push("/profile/404");
@@ -119,13 +120,13 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
           77deg,
           rgba(0, 0, 0, 1) 30%,
           rgba(255, 255, 255, 0) 100%
-        ), url(http://localhost:3000/bn${userData?.banner})`,
+        ), url(${userData?.banner})`,
         }}
         className="user_account"
       >
         <div className="img_container_add">
           <Image
-            src={`http://localhost:3000/av/${userData?.avatar}`}
+            src={`${userData?.avatar}`}
             width={2000}
             height={2000}
             alt="profile_avatar"
