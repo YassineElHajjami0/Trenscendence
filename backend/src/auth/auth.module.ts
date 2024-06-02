@@ -9,6 +9,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { FortyTwoStrategy } from './strategies/forty-two.strategy';
 import { AuthController } from './auth.controller';
 import { GoogleStrategy } from './strategies/google.strategy';
+import { GoogleGuard } from './guards/google-auth.guard';
 
 @Module({
   imports: [
@@ -20,7 +21,14 @@ import { GoogleStrategy } from './strategies/google.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, FortyTwoStrategy, GoogleStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    FortyTwoStrategy,
+    GoogleStrategy,
+    GoogleGuard,
+  ],
   exports: [AuthService],
 })
 export class AuthModule { }

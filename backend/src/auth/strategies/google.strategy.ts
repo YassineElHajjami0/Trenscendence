@@ -9,39 +9,53 @@ import { AuthService } from '../auth.service';
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(private readonly authService: AuthService) {
     super({
-      clientID:
-        '93931900633-fh47s9vlc3kgr0v235u6baudv916h2pc.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientID: process.env.CLIENT_ID_GOOGLE,
+      clientSecret: process.env.CLIENT_SECRET_GOOGLE,
       callbackURL: 'http://localhost:3000/auth/google/redirect',
       scope: ['profile', 'email'],
     });
   }
 
+  // async validate(
+  //   _accessToken: string,
+  //   _refreshToken: string,
+  //   profile: any,
+  //   done: VerifyCallback,
+  // ): Promise<any> {
+  //   const { name, emails } = profile;
+  //   console.log('HELLO WORLD');
+  //   // const user = await this.authService.signUpWithProvider({
+  //   //   username: `${name.givenName}_${name.familyName}`,
+  //   //   email: emails[0].value,
+  //   //   password: this.authService.generateRandomPassword(10),
+  //   //   strategy: 'google',
+  //   // });
+
+  //   const user = {
+  //     username: `${name.givenName}_${name.familyName}`,
+  //     email: emails[0].value,
+  //     password: this.authService.generateRandomPassword(10),
+  //     strategy: 'google',
+  //   };
+  //   done(null, user);
+  //   return user;
+  // }
+
   async validate(
-    _accessToken: string,
-    _refreshToken: string,
+    accessToken: string,
+    refreshToken: string,
     profile: any,
     done: VerifyCallback,
   ): Promise<any> {
-    console.log('SECOND');
-    const { name, emails } = profile;
-
-    // const user = await this.authService.signUpWithProvider({
-    //   username: `${name.givenName}_${name.familyName}`,
-    //   email: emails[0].value,
-    //   password: this.authService.generateRandomPassword(10),
-    //   strategy: 'google',
-    // });
-
-    console.log('-------NAME', name);
-    console.log('-------EMAILS', emails);
+    console.log('VALIDATE');
+    const { name, emails, photos } = profile;
     const user = {
-      username: `${name.givenName}_${name.familyName}`,
       email: emails[0].value,
+      username: `${name.givenName}_${name.familyName}`,
       password: this.authService.generateRandomPassword(10),
-      strategy: 'google',
+      picture: photos[0].value,
+      accessToken,
     };
     done(null, user);
-    return user;
   }
 }

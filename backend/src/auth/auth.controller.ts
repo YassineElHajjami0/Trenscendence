@@ -6,8 +6,6 @@ import {
   Body,
   Res,
   Req,
-  Request,
-  Response,
   Redirect,
   UsePipes,
   UnauthorizedException,
@@ -27,7 +25,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UsersService,
-  ) {}
+  ) { }
 
   setCookie(@Res() res, bearer_token?: string) {
     if (!bearer_token) bearer_token = '';
@@ -90,7 +88,7 @@ export class AuthController {
     const createUserDto = {
       username: req.user.username,
       email: req.user.email,
-      password: req.user.password,
+      password: this.authService.generateRandomPassword(10),
     };
 
     const cookies = await this.authService.signUpWithProvider(createUserDto);
@@ -112,22 +110,22 @@ export class AuthController {
   @UseGuards(GoogleGuard)
   @Public()
   async googleAuth() {
-    console.log('FIRST');
     return {};
   }
 
+  @Public()
   @Get('google/redirect')
   @UseGuards(GoogleGuard)
-  @Public()
   @Redirect('http://localhost:5252/', 302)
   async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
-    console.log('THIRD');
+    if (!req.user) {
+      return {};
+    }
     const createUserDto = {
       username: req.user.username,
       email: req.user.email,
       password: req.user.password,
     };
-
     const cookies = await this.authService.signUpWithProvider(createUserDto);
     // this.setCookie(res, cookies.bearer_token);
     const userData = {
@@ -152,13 +150,11 @@ export class AuthController {
   // I need uid, email
   @Post('2fa/turn-on')
   // @UseGuards(Jwt2faAuthGuard)
-  async register(@Body() body) {
+  async register(@Res({ passthrough: true }) res, @Body() body) {
     const { otpAuthUrl } =
       await this.authService.generateTwoFactorAuthenticationSecret(body);
-    const qrCodeDataURL =
-      await this.authService.generateQrCodeDataURL(otpAuthUrl);
-    console.log(qrCodeDataURL);
-    return qrCodeDataURL;
+
+    return res.json(await this.authService.generateQrCodeDataURL(otpAuthUrl));
   }
 
   // I need the whole user in body
@@ -171,9 +167,9 @@ export class AuthController {
     if (!isCodeValid) {
       throw new UnauthorizedException('Wrong authentication code');
     }
-    const bearer_token = await this.authService.login(body);
+    const bearer_token = await this.authService.login(body.user);
     this.setCookie(res, bearer_token);
 
-    return { userToken: bearer_token, user: body };
+    return { userToken: bearer_token };
   }
 }

@@ -1,8 +1,9 @@
 import React from 'react'
+import Rank from './rank'
 
 const Leaderboard = () => {
   return (
-    <div>Leaderboard</div>
+    <Rank />
   )
 }
 
