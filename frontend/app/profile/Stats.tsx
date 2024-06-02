@@ -8,9 +8,11 @@ import * as echarts from "echarts/core";
 import { useRecoilValue } from "recoil";
 import { userToken } from "../Atoms/userToken";
 import { loggedUser } from "../Atoms/logged";
+import { useRouter } from "next/navigation";
 
 export default function Stats() {
   const [data, setData] = useState<any[]>([]);
+  const router = useRouter();
 
   const userTok = useRecoilValue(userToken);
   const userId = useRecoilValue(loggedUser);
@@ -40,18 +42,19 @@ export default function Stats() {
     color: "#1ce14e",
   });
 
-  
   const [chartData, setChartData] = useState();
-  
+
   const switchStats = (e: any) => {
-    const buttonText = e.target.textContent;
-    
+    const buttonText = e.target.value;
+
+    if (buttonText === "see all") router.push("/latest-games");
+
     if (buttonText === "win")
       setStatsSwitch({ state: "win", color: "#1ce14e" });
-    
+
     if (buttonText === "lose")
       setStatsSwitch({ state: "lose", color: "#ff3355" });
-    
+
     if (buttonText === "w/l")
       setStatsSwitch({ state: "w/l", color: "#ff7f00" });
   };
@@ -65,7 +68,7 @@ export default function Stats() {
 
   useEffect(() => {
     setChartData(getStats());
-  }, [statsSwitch,data]);
+  }, [statsSwitch, data]);
 
   const option = {
     title: {
@@ -91,9 +94,9 @@ export default function Stats() {
       },
     },
     grid: {
-      left: "0%",
-      right: "2%",
-      bottom: "0%",
+      left: "2%",
+      right: "5%",
+      bottom: "2%",
 
       containLabel: true,
     },
@@ -102,7 +105,8 @@ export default function Stats() {
         type: "category",
         boundaryGap: false,
         data: data.map((e) => {
-          return e.date;
+          const date = e.date.split("-");
+          return date[1] + "/" + date[2];
         }),
       },
     ],
@@ -154,26 +158,20 @@ export default function Stats() {
   return (
     <div className="stats_container">
       <ReactECharts className="reactEcharts" option={option} />
-      <div className="stat_btn_switch">
-        <button
-          className={`${statsSwitch.state === "win" && "btn_win"}`}
-          onClick={switchStats}
-        >
-          win
-        </button>
-        <button
-          className={`${statsSwitch.state === "lose" && "btn_lose"}`}
-          onClick={switchStats}
-        >
-          lose
-        </button>
-        <button
-          className={`${statsSwitch.state === "w/l" && "btn_wl"}`}
-          onClick={switchStats}
-        >
-          w/l
-        </button>
-      </div>
+      <select
+        value={statsSwitch.state}
+        onChange={switchStats}
+        className="select_stats"
+        style={{
+          color: statsSwitch.color,
+          background: statsSwitch.color + "10",
+        }}
+      >
+        <option value="win">win</option>
+        <option value="lose">lose</option>
+        <option value="w/l">w/l</option>
+        <option value="see all">see all</option>
+      </select>
     </div>
   );
 }

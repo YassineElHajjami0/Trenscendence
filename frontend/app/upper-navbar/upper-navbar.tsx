@@ -15,22 +15,21 @@ const UpperNav = () => {
   const notificationRef = useRef<HTMLDivElement>(null);
   const userTok = useRecoilValue(userToken);
   const loggedU = useRecoilValue(loggedUser);
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (
-  //       notificationRef.current &&
-  //       !notificationRef.current.contains(event.target as Node)
-  //     ) {
-  //       setShowNotif(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target as Node)
+      )
+        setShowNotif(false);
+    };
 
-  //   document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [notificationRef]);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [notificationRef]);
 
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
@@ -69,11 +68,10 @@ const UpperNav = () => {
         </div>
         <input placeholder="search player" type="text" />
       </div>
-      <div className="notif-and-profilePic">
+      <div ref={notificationRef} className="notif-and-profilePic">
         <div
           onClick={() => setShowNotif((prev) => !prev)}
           className="notif-icon"
-          ref={notificationRef}
         >
           <IoMdNotificationsOutline />
 
