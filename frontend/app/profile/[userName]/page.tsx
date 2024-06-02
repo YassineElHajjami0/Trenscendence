@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../Profile.css";
 
-import { MdOutlineEdit, MdContentCopy } from "react-icons/md";
+import { MdContentCopy } from "react-icons/md";
 
 import Image from "next/image";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -53,7 +53,6 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
         const data = await res.data;
         setSelectedProfile(data.uid);
         setUserData(data);
-        
       } catch (error: any) {
         setLoading(false);
         route.push("/profile/404");
