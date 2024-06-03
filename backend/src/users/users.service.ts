@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  HttpException,
+  HttpStatus,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -61,7 +63,15 @@ export class UsersService {
     console.log(users);
     return users;
   }
-
+  async findOneName(username: string) {
+    const user = await this.databaseService.t_User.findFirst({
+      where: { username },
+    });
+    if (!user) {
+      throw new HttpException('no Username', HttpStatus.NOT_FOUND);
+    }
+    return user;
+  }
   async findOne(uid: number) {
     const user = await this.databaseService.t_User.findFirst({
       where: { uid },

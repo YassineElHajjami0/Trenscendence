@@ -125,7 +125,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
       >
         <div className="img_container_add">
           <Image
-            src={`${userData?.avatar}`}
+            src={userData?.avatar}
             width={2000}
             height={2000}
             alt="profile_avatar"
@@ -143,7 +143,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
           <h2 className="profile_user_lvl">
-            LVL <span>{userData?.level}</span>
+            LVL <span>{userData?.xp}</span>
           </h2>
         </div>
 
@@ -151,7 +151,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
           <div className="progress">
             <div
               style={{
-                width: `${userData?.level + 50}%`,
+                width: `${userData?.xp + 50}%`,
               }}
               className="pseudoProgress"
             ></div>

@@ -57,8 +57,7 @@ export const FriendInfo = () => {
     getUserData();
   }, [friend.id]);
 
-  const rank = getRank(friend.level +302);
-
+  const rank = getRank(friend.xp + 302);
 
   return loadingAnimation ? (
     <ProfileLoading />

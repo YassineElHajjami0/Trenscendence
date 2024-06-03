@@ -85,7 +85,7 @@ const Profile = () => {
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
           <h2 className="profile_user_lvl">
-            {getRank(userData?.level)}
+            {getRank(userData?.xp)}
             {/* <span>{getRank()}</span> */}
           </h2>
         </div>
@@ -94,12 +94,12 @@ const Profile = () => {
           <div className="progress">
             <div
               style={{
-                width: `${(userData?.level % 100) + 42}%`,
+                width: `${(userData?.xp % 100) + 42}%`,
               }}
               className="pseudoProgress"
             ></div>
           </div>
-          {(userData?.level % 100) + 42}%
+          {(userData?.xp % 100) + 42}%
           {/* <div
             //  onClick={copyUID}
 
