@@ -18,7 +18,7 @@ const Rank = () => {
                 {/* {err && <div>{err}</div>} */}
                 {data && <Leaders users={data.slice(0, 3)}></Leaders>}
                 {/* <div className="test"></div> */}
-                {data&& <RankTable users={data.length >= 3 ? data.slice(3, data.length) : data}></RankTable>}
+                {data&& <RankTable users={data}></RankTable>}
             </div>
         </section>
     );
