@@ -90,6 +90,15 @@ model Role {
   updatedAt  DateTime   @default(now())
 }
 
+enum Ranks {
+  Beginner
+  Intermediate
+  Expert
+  Master
+  Grandmaster
+  Apex
+}
+
 model T_User {
   uid              Int               @id @default(autoincrement())
   status           String            @default("online")
@@ -102,9 +111,8 @@ model T_User {
   paddle           String            @default("http://localhost:3000/defaultPaddle.png")
   banner           String            @default("http://localhost:3000/defaultBanner.jpg") // neeeeeed to be updated
   wallet           Int               @default(0)
-  level            Int               @default(0)
-  // points           Int               @default(0)
-  rank             String            @default("0")
+  xp               Int               @default(0)
+  rank             Ranks             @default(Beginner)
   win              Int               @default(0)
   lose             Int               @default(0)
   role             String            @default("User")
@@ -187,21 +195,21 @@ model UserItem {
 // User Achievement  ##########################################################################
 model Achievement {
   id               Int               @id @default(autoincrement())
-  name             String
+  name             String            @unique
   description      String
   uri              String
   userAchievements UserAchievement[]
 }
 
 model UserAchievement {
-  user         T_User      @relation(fields: [userId], references: [uid])
-  userId       Int
-  achievement  Achievement @relation(fields: [achivementId], references: [id])
-  achivementId Int
-  createdAT    DateTime    @default(now())
-  unlocked     Boolean
+  user           T_User      @relation(fields: [userId], references: [uid])
+  userId         Int
+  achievement    Achievement @relation(fields: [achivementName], references: [name])
+  achivementName String
+  createdAT      DateTime    @default(now())
+  unlocked       Boolean
 
-  @@id([userId, achivementId])
+  @@id([userId, achivementName])
 }
 
 // Match History ##########################################################################
@@ -209,7 +217,6 @@ model UserAchievement {
 enum GameMode {
   RANDOM
   AGAINST_FRIEND
-  AGAINST_ROBOT
 }
 
 model MatchHistory {

@@ -11,13 +11,20 @@
     "rankBadge": "/ranks/1.png",
 
     "achievements": [
-      // {
-      //   "name": "Precision Paddler",
-      //   "description": "Win a single match with a perfect score, never missing a shot.",
-      //   "uri": "/Precision_Paddler.png",
-      //   "date": "02/22/2024",
-      //   "unlocked": true
-      // },
+      {
+        "name": "First Win",
+        "description": "Win your first match",
+        "uri": "/Precision_Paddler.png",
+        "date": "02/22/2024",
+        "unlocked": true
+      },
+      {
+        "name": "First Defeat",
+        "description": "You've faced your first defeat. Rise and fight again!",
+        "uri": "/first_defeat.png",
+        "date": "02/22/2024",
+        "unlocked": true
+      },
       {
         "name": "Flawless Victory",
         "description": "Win a single match without letting your opponent score a single point.",
@@ -26,8 +33,8 @@
         "unlocked": true
       },
       {
-        "name": "Speed Demon",
-        "description": "Win a match with a point scored within the first 10 seconds of 10 games.",
+        "name": "Marathon Match",
+        "description": "You’ve shown true stamina by completing a match that lasted over 5 minutes.",
         "uri": "/Speed_Demon.png",
         "date": "",
         "unlocked": true

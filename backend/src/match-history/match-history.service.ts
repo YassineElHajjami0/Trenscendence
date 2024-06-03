@@ -11,6 +11,10 @@ export class MatchHistoryService {
     const matchHistory = await this.databaseService.matchHistory.create({
       data: createMatchHistoryDto,
     });
+
+    
+    // check count dyal wins or lose
+
     return matchHistory;
   }
 
