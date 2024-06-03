@@ -4,10 +4,11 @@ import { GameService } from './game.service';
 import { GameGateway } from './game.gateway';
 import { MatchHistoryModule } from 'src/match-history/match-history.module';
 import { MatchHistoryService } from 'src/match-history/match-history.service';
+import { UserAchievementService } from 'src/user-achievement/user-achievement.service';
 
 @Module({
   controllers: [GameController],
-  providers: [GameService, GameGateway, MatchHistoryService],
+  providers: [GameService, GameGateway, MatchHistoryService, UserAchievementService],
   // imports: [MatchHistoryModule],
 })
 export class GameModule {}

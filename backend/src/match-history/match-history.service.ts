@@ -1,20 +1,83 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
+import { UserAchievementService } from 'src/user-achievement/user-achievement.service';
 
 @Injectable()
 export class MatchHistoryService {
-  constructor(private databaseService: DatabaseService) {}
+  constructor(private databaseService: DatabaseService, private userAchievementService: UserAchievementService) {}
 
   async create(createMatchHistoryDto: Prisma.MatchHistoryCreateInput) {
-    console.log('datat ', createMatchHistoryDto);
     const matchHistory = await this.databaseService.matchHistory.create({
       data: createMatchHistoryDto,
     });
 
-    
-    // check count dyal wins or lose
+    const winnerMatchHistory = await this.findOne(matchHistory.winner) as any[] || [];
+    const loserMatchHistory = await this.findOne(matchHistory.loser) as any[] || [];
 
+    // await this.databaseService.userAchievement.create({
+    //   data: {
+    //     userId: matchHistory.winner,
+    //     achivementName: 'First Win',
+    //     createdAT: new Date(),
+    //     unlocked: true,
+    //   },
+    // });
+
+    if (winnerMatchHistory && winnerMatchHistory[0].win === 1) {
+      await this.userAchievementService.create({
+        userId: matchHistory.winner,
+        achivementName: 'First Win',
+        createdAT: new Date(),
+        unlocked: true,
+      });
+    }
+    if (loserMatchHistory && loserMatchHistory[0].lose === 1) {
+      await this.userAchievementService.create({
+        userId: matchHistory.loser,
+        achivementName: 'First Defeat',
+        createdAT: new Date(),
+        unlocked: true,
+      });
+    }
+
+    if (winnerMatchHistory && matchHistory.loserScore === 0) {
+      await this.userAchievementService.create({
+        userId: matchHistory.winner,
+        achivementName: 'Flawless Victory',
+        createdAT: new Date(),
+        unlocked: true,
+      });
+    }
+
+    if (winnerMatchHistory && winnerMatchHistory[0].win === 50) {
+      await this.userAchievementService.create({
+        userId: matchHistory.winner,
+        achivementName: 'Ping Pong Pro',
+        createdAT: new Date(),
+        unlocked: true,
+      });
+    }
+
+    const matchDurationInMinutes = (matchHistory.endAt.getTime() - matchHistory.startAt.getTime()) / 1000 / 60;
+    if (matchDurationInMinutes >= 5) {
+      await this.userAchievementService.create({
+        userId: matchHistory.winner,
+        achivementName: 'Marathon Match',
+        createdAT: new Date(),
+        unlocked: true,
+      });
+      await this.userAchievementService.create({
+        userId: matchHistory.loser,
+        achivementName: 'Marathon Match',
+        createdAT: new Date(),
+        unlocked: true,
+      });
+    }
+
+    // log achievements for both players after adding them
+    console.log(await this.userAchievementService.findOne(matchHistory.winner));
+    console.log(await this.userAchievementService.findOne(matchHistory.loser));
     return matchHistory;
   }
 

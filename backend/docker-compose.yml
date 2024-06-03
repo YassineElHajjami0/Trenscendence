@@ -7,5 +7,5 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - /Users/amentag/Desktop/T_DB:/var/lib/postgresql/data
+      - /Users/$USER/Desktop/T_DB:/var/lib/postgresql/data
     restart: unless-stopped

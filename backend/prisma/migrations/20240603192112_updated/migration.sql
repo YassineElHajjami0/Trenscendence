@@ -2,7 +2,7 @@
 CREATE TYPE "Status" AS ENUM ('PENDING', 'ACCEPTED', 'BLOCKED', 'DENIED', 'NONE');
 
 -- CreateEnum
-CREATE TYPE "NotificationType" AS ENUM ('gameReq', 'friendReq');
+CREATE TYPE "NotificationType" AS ENUM ('gameReq', 'friendReq', 'channelReq');
 
 -- CreateEnum
 CREATE TYPE "channelType" AS ENUM ('DM', 'PUBLIC', 'PRIVATE', 'PROTECTED');
@@ -14,12 +14,14 @@ CREATE TYPE "roles" AS ENUM ('ADMIN', 'USER', 'OWNER');
 CREATE TYPE "conditions" AS ENUM ('MUTED', 'BLOCKED', 'NORMAL');
 
 -- CreateEnum
-CREATE TYPE "GameMode" AS ENUM ('RANDOM', 'AGAINST_FRIEND', 'AGAINST_ROBOT');
+CREATE TYPE "Ranks" AS ENUM ('Beginner', 'Intermediate', 'Expert', 'Master', 'Grandmaster', 'Apex');
+
+-- CreateEnum
+CREATE TYPE "GameMode" AS ENUM ('RANDOM', 'AGAINST_FRIEND');
 
 -- CreateTable
 CREATE TABLE "Channel" (
     "id" SERIAL NOT NULL,
-    "userID" INTEGER NOT NULL,
     "type" "channelType" NOT NULL DEFAULT 'DM',
     "name" TEXT NOT NULL,
     "topic" TEXT NOT NULL,
@@ -68,8 +70,8 @@ CREATE TABLE "T_User" (
     "paddle" TEXT NOT NULL DEFAULT 'http://localhost:3000/defaultPaddle.png',
     "banner" TEXT NOT NULL DEFAULT 'http://localhost:3000/defaultBanner.jpg',
     "wallet" INTEGER NOT NULL DEFAULT 0,
-    "level" INTEGER NOT NULL DEFAULT 0,
-    "rank" TEXT NOT NULL DEFAULT '0',
+    "xp" INTEGER NOT NULL DEFAULT 0,
+    "rank" "Ranks" NOT NULL DEFAULT 'Beginner',
     "win" INTEGER NOT NULL DEFAULT 0,
     "lose" INTEGER NOT NULL DEFAULT 0,
     "role" TEXT NOT NULL DEFAULT 'User',
@@ -88,6 +90,7 @@ CREATE TABLE "Notification" (
     "read" BOOLEAN NOT NULL DEFAULT false,
     "ruserId" INTEGER NOT NULL,
     "suserId" INTEGER NOT NULL,
+    "chnnelId" INTEGER NOT NULL DEFAULT -1,
 
     CONSTRAINT "Notification_pkey" PRIMARY KEY ("id")
 );
@@ -136,11 +139,11 @@ CREATE TABLE "Achievement" (
 -- CreateTable
 CREATE TABLE "UserAchievement" (
     "userId" INTEGER NOT NULL,
-    "achivementId" INTEGER NOT NULL,
+    "achivementName" TEXT NOT NULL,
     "createdAT" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "unlocked" BOOLEAN NOT NULL,
 
-    CONSTRAINT "UserAchievement_pkey" PRIMARY KEY ("userId","achivementId")
+    CONSTRAINT "UserAchievement_pkey" PRIMARY KEY ("userId","achivementName")
 );
 
 -- CreateTable
@@ -161,8 +164,8 @@ CREATE TABLE "MatchHistory" (
 -- CreateIndex
 CREATE UNIQUE INDEX "T_User_email_key" ON "T_User"("email");
 
--- AddForeignKey
-ALTER TABLE "Channel" ADD CONSTRAINT "Channel_userID_fkey" FOREIGN KEY ("userID") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "Achievement_name_key" ON "Achievement"("name");
 
 -- AddForeignKey
 ALTER TABLE "Message" ADD CONSTRAINT "Message_userID_fkey" FOREIGN KEY ("userID") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -198,7 +201,7 @@ ALTER TABLE "UserItem" ADD CONSTRAINT "UserItem_itemId_fkey" FOREIGN KEY ("itemI
 ALTER TABLE "UserAchievement" ADD CONSTRAINT "UserAchievement_userId_fkey" FOREIGN KEY ("userId") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserAchievement" ADD CONSTRAINT "UserAchievement_achivementId_fkey" FOREIGN KEY ("achivementId") REFERENCES "Achievement"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "UserAchievement" ADD CONSTRAINT "UserAchievement_achivementName_fkey" FOREIGN KEY ("achivementName") REFERENCES "Achievement"("name") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "MatchHistory" ADD CONSTRAINT "MatchHistory_winner_fkey" FOREIGN KEY ("winner") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
