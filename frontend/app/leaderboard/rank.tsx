@@ -8,9 +8,9 @@ import "./normalize.css";
 
 const Rank = () => {
     const { data, isPending, err } = useFetch('http://localhost:3000/users?order_by=win');
-    return ( 
-        <section className="rank-leaderboard">
 
+    return (
+        <section className="rank-leaderboard">
             <div className="test">
             </div>
             <div className="container-leaderboard">
@@ -18,7 +18,7 @@ const Rank = () => {
                 {/* {err && <div>{err}</div>} */}
                 {data && <Leaders users={data.slice(0, 3)}></Leaders>}
                 {/* <div className="test"></div> */}
-                {data&& <RankTable users={data.slice(3, data.length)}></RankTable>}
+                {data&& <RankTable users={data.length >= 3 ? data.slice(3, data.length) : data}></RankTable>}
             </div>
         </section>
     );

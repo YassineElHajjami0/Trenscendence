@@ -5,8 +5,8 @@ import Image from 'next/image'
 import Box from './Box'
 
 const Leaders = ({users}) => {
-    let cups = ['http://localhost:3000/cups/1.svg', 'http://localhost:3000/cups/2.svg', 'http://localhost:3000/cups/3.svg'];
-    let throphies = ['http://localhost:3000/throphies/1.svg', 'http://localhost:3000/throphies/2.svg', 'http://localhost:3000/throphies/3.svg'];
+    let cups = ['http://localhost:3000/cups/cup-1.svg', 'http://localhost:3000/cups/cup-2.svg', 'http://localhost:3000/cups/cup-3.svg'];
+    let throphies = ['http://localhost:3000/throphies/throphy-1.svg', 'http://localhost:3000/throphies/throphy-2.svg', 'http://localhost:3000/throphies/throphy-3.svg'];
     if (users.length < 3)
         return (<div className="leaders-leaderboard"></div>);
     return (
@@ -15,7 +15,7 @@ const Leaders = ({users}) => {
                 <div key={user.uid} className="box-leaderboard">
                     <div>
                         <div className="prof-leaderboard">
-                            <Image height={60} width={60} src='http://localhost:3000/avatars/av-1.svg' alt=""/>
+                            <Image height={60} width={60} src={user.avatar} alt=""/>
                             <div>
                                 <h2>{user.username}</h2>
                                 <span>RANK: {index + 1}</span>
