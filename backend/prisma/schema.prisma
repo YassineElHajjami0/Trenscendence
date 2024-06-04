@@ -102,7 +102,7 @@ enum Ranks {
 model T_User {
   uid              Int               @id @default(autoincrement())
   status           String            @default("online")
-  username         String            @default("")
+  username         String            @unique
   email            String            @unique
   bio              String            @default("I am a player")
   password         String
