@@ -19,8 +19,6 @@ function Notifications({ showNotif }: { showNotif: boolean }) {
 
   useEffect(() => {
     const handleReceivedNotification = (notif: any) => {
-      console.log("notif>>>>>>>>", notif);
-
       if (notif.ruserId === loggedU)
         setMyNotifications((prevNotif: any) => [...prevNotif, notif]);
     };

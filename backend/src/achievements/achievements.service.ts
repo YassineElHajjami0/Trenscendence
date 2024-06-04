@@ -12,6 +12,12 @@ export class AchievementsService {
     });
   }
 
+  createMany(createManyDto:Prisma.AchievementUncheckedCreateInput){
+    return this.databaseService.achievement.createMany({
+      data:createManyDto
+    })
+  }
+
   async findAll() {
     return this.databaseService.achievement.findMany({});
   }

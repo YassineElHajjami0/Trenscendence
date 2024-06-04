@@ -5,6 +5,7 @@ import "./ProfileDetails.css";
 import Friends from "./Friends";
 import Stats from "./Stats";
 import Achievements from "./Achievements";
+import AddFriendSection from "../chat/Friends/AddFriendSection";
 
 export default function ProfileDetails({
   whichProfile,
@@ -48,7 +49,10 @@ export default function ProfileDetails({
       <div className="profile_details_data">
         {switchElements === "stats" && <Stats />}
         {switchElements === "friends" && (
-          <Friends whichProfile={whichProfile} />
+          <>
+            <Friends whichProfile={whichProfile} />
+            <AddFriendSection />
+          </>
         )}
         {switchElements === "achievements" && (
           <Achievements whichProfile={whichProfile} />

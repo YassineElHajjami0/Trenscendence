@@ -5,6 +5,9 @@ import { DatabaseService } from 'src/database/database.service';
 @Injectable()
 export class UserAchievementService {
   constructor(private readonly databaseService: DatabaseService) {}
+
+  
+
   create(createUserAchievementDto: Prisma.UserAchievementUncheckedCreateInput) {
     return this.databaseService.userAchievement.create({
       data: createUserAchievementDto,

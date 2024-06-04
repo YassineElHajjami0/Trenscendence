@@ -17,6 +17,7 @@ import { selectedFriendProfile } from "@/app/Atoms/selectedFriendProfile";
 import ProfileDetails from "../ProfileDetails";
 import { notFound, useRouter } from "next/navigation";
 import LoadingPaddle from "@/app/LoadingPaddle";
+import { getRank } from "@/app/util/headers";
 
 interface OtherProfileProps {
   params: {
@@ -142,21 +143,20 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
             <PiCurrencyEthFill /> {userData?.wallet}
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
-          <h2 className="profile_user_lvl">
-            LVL <span>{userData?.xp}</span>
-          </h2>
+          <h2 className="profile_user_lvl">{getRank(userData?.xp)}</h2>
         </div>
 
         <div className="profile_progress">
           <div className="progress">
             <div
               style={{
-                width: `${userData?.xp + 50}%`,
+                width: `${(userData?.xp % 100) + 42}%`,
               }}
               className="pseudoProgress"
             ></div>
           </div>
-          <div
+          {(userData?.xp % 100) + 42}%
+          {/* <div
             //  onClick={copyUID}
 
             ref={uidRef}
@@ -164,7 +164,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
           >
             {userData?.uid}
             <MdContentCopy />
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="profile_details">

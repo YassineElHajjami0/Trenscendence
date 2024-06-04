@@ -86,7 +86,6 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
         userFriends?.map((e: any) => (
           <Friend whichProfile={whichProfile} friend={e} key={e.id} />
         ))}
-      <AddFriendSection />
     </div>
   );
 }

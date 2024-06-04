@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { TiUserAdd } from "react-icons/ti";
 import { useRecoilValue } from "recoil";
@@ -14,12 +14,29 @@ interface AddFriendInterface {
 import { usePathname } from "next/navigation";
 const AddFriendSection = () => {
   const pathname = usePathname();
+  const [addFriend, setAddFriend] = useState(false);
+
+  const addFriendsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        addFriendsRef.current &&
+        !addFriendsRef.current.contains(event.target as Node)
+      )
+        setAddFriend(false);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [addFriendsRef]);
 
   // /profile
 
   const userTok = useRecoilValue(userToken);
   const userL = useRecoilValue(loggedUser);
-  const [addFriend, setAddFriend] = useState(false);
 
   const [input, setInput] = useState("");
   const [allUsers, setAllUsers] = useState([]);
@@ -57,6 +74,7 @@ const AddFriendSection = () => {
 
   return (
     <div
+      ref={addFriendsRef}
       onClick={() => setAddFriend((prev) => !prev)}
       className={`add_friend ${addFriend && `show_the_big_div`} `}
     >

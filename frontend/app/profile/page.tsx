@@ -84,10 +84,7 @@ const Profile = () => {
             <PiCurrencyEthFill /> {userData?.wallet}
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
-          <h2 className="profile_user_lvl">
-            {getRank(userData?.xp)}
-            {/* <span>{getRank()}</span> */}
-          </h2>
+          <h2 className="profile_user_lvl">{getRank(userData?.xp)}</h2>
         </div>
 
         <div className="profile_progress">

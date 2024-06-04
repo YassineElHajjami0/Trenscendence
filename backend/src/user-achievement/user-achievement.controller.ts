@@ -23,6 +23,7 @@ export class UserAchievementController {
   ) {
     return this.userAchievementService.create(createUserAchievementDto);
   }
+ 
 
   @Get()
   findAll() {

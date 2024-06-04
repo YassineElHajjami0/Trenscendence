@@ -18,7 +18,13 @@ export class AchievementsController {
   create(@Body() createAchievementDto: Prisma.AchievementCreateInput) {
     return this.achievementsService.create(createAchievementDto);
   }
-
+  @Post('/createall')
+  createMany(
+    @Body()
+    createAllAchievementDto: Prisma.AchievementUncheckedCreateInput,
+  ) {
+    return this.achievementsService.createMany(createAllAchievementDto);
+  }
   @Get()
   findAll() {
     return this.achievementsService.findAll();

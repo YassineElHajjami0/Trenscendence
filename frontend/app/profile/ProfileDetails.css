@@ -60,6 +60,7 @@
   height: 70%;
   width: 80%;
   color: white;
+  position: relative;
 }
 
 @media (max-width: 768px) {
