@@ -15,20 +15,10 @@ export class MatchHistoryService {
     const winnerMatchHistory = await this.findOne(matchHistory.winner) as any[] || [];
     const loserMatchHistory = await this.findOne(matchHistory.loser) as any[] || [];
 
-    // await this.databaseService.userAchievement.create({
-    //   data: {
-    //     userId: matchHistory.winner,
-    //     achivementName: 'First Win',
-    //     createdAT: new Date(),
-    //     unlocked: true,
-    //   },
-    // });
-
     if (winnerMatchHistory && winnerMatchHistory[0].win === 1) {
       await this.userAchievementService.create({
         userId: matchHistory.winner,
         achivementName: 'First Win',
-        createdAT: new Date(),
         unlocked: true,
       });
     }
@@ -36,7 +26,6 @@ export class MatchHistoryService {
       await this.userAchievementService.create({
         userId: matchHistory.loser,
         achivementName: 'First Defeat',
-        createdAT: new Date(),
         unlocked: true,
       });
     }
@@ -45,7 +34,6 @@ export class MatchHistoryService {
       await this.userAchievementService.create({
         userId: matchHistory.winner,
         achivementName: 'Flawless Victory',
-        createdAT: new Date(),
         unlocked: true,
       });
     }
@@ -54,7 +42,6 @@ export class MatchHistoryService {
       await this.userAchievementService.create({
         userId: matchHistory.winner,
         achivementName: 'Ping Pong Pro',
-        createdAT: new Date(),
         unlocked: true,
       });
     }
@@ -64,20 +51,17 @@ export class MatchHistoryService {
       await this.userAchievementService.create({
         userId: matchHistory.winner,
         achivementName: 'Marathon Match',
-        createdAT: new Date(),
         unlocked: true,
       });
       await this.userAchievementService.create({
         userId: matchHistory.loser,
         achivementName: 'Marathon Match',
-        createdAT: new Date(),
         unlocked: true,
       });
     }
 
-    // log achievements for both players after adding them
-    console.log(await this.userAchievementService.findOne(matchHistory.winner));
-    console.log(await this.userAchievementService.findOne(matchHistory.loser));
+    console.log(await this.userAchievementService.findAll());
+
     return matchHistory;
   }
 
