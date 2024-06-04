@@ -12,55 +12,68 @@ export class MatchHistoryService {
       data: createMatchHistoryDto,
     });
 
-    const winnerMatchHistory = await this.findOne(matchHistory.winner) as any[] || [];
-    const loserMatchHistory = await this.findOne(matchHistory.loser) as any[] || [];
+    const winnerWinnedMatches = await this.findwinnedMatches(matchHistory.winner) as Array<{}>;
+    const loserLostMatches = await this.findLostMatches(matchHistory.loser) as Array<{}>;
 
-    if (winnerMatchHistory && winnerMatchHistory[0].win === 1) {
-      await this.userAchievementService.create({
-        userId: matchHistory.winner,
-        achivementName: 'First Win',
-        unlocked: true,
-      });
+    const winnerAchievements = await this.userAchievementService.findOne(matchHistory.winner) as Array<{name, unlocked}>;
+    const loserAchievements = await this.userAchievementService.findOne(matchHistory.loser) as Array<{name, unlocked}>;
+
+    if (winnerWinnedMatches && winnerWinnedMatches.length === 1) {
+      if (winnerAchievements.find((a) => a.name === 'First Win').unlocked === false) {
+        await this.userAchievementService.create({
+          userId: matchHistory.winner,
+          achivementName: 'First Win',
+          unlocked: true,
+        });
+      }
     }
-    if (loserMatchHistory && loserMatchHistory[0].lose === 1) {
-      await this.userAchievementService.create({
-        userId: matchHistory.loser,
-        achivementName: 'First Defeat',
-        unlocked: true,
-      });
+    if (loserLostMatches && loserLostMatches.length === 1) {
+        if (loserAchievements.find((a) => a.name === 'First Defeat').unlocked === false) {
+          await this.userAchievementService.create({
+            userId: matchHistory.loser,
+            achivementName: 'First Defeat',
+            unlocked: true,
+          });
+        }
     }
 
-    if (winnerMatchHistory && matchHistory.loserScore === 0) {
-      await this.userAchievementService.create({
-        userId: matchHistory.winner,
-        achivementName: 'Flawless Victory',
-        unlocked: true,
-      });
+    if (matchHistory.loserScore === 0) {
+      if (winnerAchievements.find((a) => a.name === 'Flawless Victory').unlocked === false) {
+        await this.userAchievementService.create({
+          userId: matchHistory.winner,
+          achivementName: 'Flawless Victory',
+          unlocked: true,
+        });
+      }
     }
 
-    if (winnerMatchHistory && winnerMatchHistory[0].win === 50) {
-      await this.userAchievementService.create({
-        userId: matchHistory.winner,
-        achivementName: 'Ping Pong Pro',
-        unlocked: true,
-      });
+    if (winnerWinnedMatches && winnerWinnedMatches.length === 50) {
+      if (winnerAchievements.find((a) => a.name === 'Ping Pong Pro').unlocked === false) {
+        await this.userAchievementService.create({
+          userId: matchHistory.winner,
+          achivementName: 'Ping Pong Pro',
+          unlocked: true,
+        });
+      }
     }
 
     const matchDurationInMinutes = (matchHistory.endAt.getTime() - matchHistory.startAt.getTime()) / 1000 / 60;
     if (matchDurationInMinutes >= 5) {
-      await this.userAchievementService.create({
-        userId: matchHistory.winner,
-        achivementName: 'Marathon Match',
-        unlocked: true,
-      });
-      await this.userAchievementService.create({
-        userId: matchHistory.loser,
-        achivementName: 'Marathon Match',
-        unlocked: true,
-      });
+      if (winnerAchievements.find((a) => a.name === 'Marathon Match').unlocked === false) {
+        await this.userAchievementService.create({
+          userId: matchHistory.winner,
+          achivementName: 'Marathon Match',
+          unlocked: true,
+        });
+      }
+      if (!loserAchievements.find((a) => a.name === 'Marathon Match')) {
+        await this.userAchievementService.create({
+          userId: matchHistory.loser,
+          achivementName: 'Marathon Match',
+          unlocked: true,
+        });
+      }
     }
-
-    console.log(await this.userAchievementService.findAll());
 
     return matchHistory;
   }
@@ -174,6 +187,24 @@ export class MatchHistoryService {
     return matches_two;
   }
 
+  async findwinnedMatches(userId: number) {
+    const winnnedMatches = await this.databaseService.matchHistory.findMany({
+      where: {
+        winner: userId,
+      },
+    });
+    return winnnedMatches;
+  }
+
+  async findLostMatches(userId: number) {
+    const lostMatches = await this.databaseService.matchHistory.findMany({
+      where: {
+        loser: userId,
+      },
+    });
+    return lostMatches;
+  }
+
   async findOne(id: number) {
     const match = await this.databaseService.matchHistory.findMany({
       where: {
@@ -187,9 +218,7 @@ export class MatchHistoryService {
         ],
       },
     });
-
     if (!match || !match.length) return [];
-
     const groupedData = match.reduce((acc, item) => {
       const date = item.createdAt.toISOString().split('T')[0];
       if (!acc[date]) {

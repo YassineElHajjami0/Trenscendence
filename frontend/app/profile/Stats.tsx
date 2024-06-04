@@ -58,6 +58,8 @@ export default function Stats() {
     if (buttonText === "w/l")
       setStatsSwitch({ state: "w/l", color: "#ff7f00" });
   };
+
+  // hada lik a mimoun
   const getStats = () => {
     return data.map((e) => {
       if (statsSwitch.state === "win") return e.win;

@@ -19,21 +19,21 @@ export class UserAchievementService {
     // });
 
     ///////////////           change it  <-----------------------------------
-    // const res = await this.databaseService.$queryRaw`
-    //   SELECT
-    //     a.name,
-    //     a.description,
-    //     a.uri,
-    //     ua."createdAT",
-    //     COALESCE(ua.unlocked, false) as unlocked
-    //   FROM
-    //     "Achievement" a
-    //   LEFT JOIN
-    //   "UserAchievement" ua
-    //   ON
-    //     a.id = ua."achivementId" AND ua."userId" = ${id}
-    // `;
-    // return res;
+    const res = await this.databaseService.$queryRaw`
+      SELECT
+        a.name,
+        a.description,
+        a.uri,
+        ua."createdAT",
+        COALESCE(ua.unlocked, false) as unlocked
+      FROM
+        "Achievement" a
+      LEFT JOIN
+      "UserAchievement" ua
+      ON
+        a.name = ua."achivementName" AND ua."userId" = ${id}
+    `;
+    return res;
   }
 
   findAll() {
