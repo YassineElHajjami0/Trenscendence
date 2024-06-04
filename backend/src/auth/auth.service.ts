@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
@@ -32,13 +32,19 @@ export class AuthService {
   }
 
   async signUp(createUserDto: CreateUserDto) {
-    const user = await this.usersService.create(createUserDto);
+    let user;
+    try {
+      user = await this.usersService.create(createUserDto);
+    } catch (err: any) {
+      throw new UnauthorizedException(err.message);
+    }
     return user;
   }
 
   async signUpWithProvider(createUserDto: CreateUserDto) {
     let user = await this.usersService.findByEmail(createUserDto.email);
     if (!user) {
+      createUserDto.username += this.generateRandomChars(5);
       user = await this.signUp(createUserDto);
     }
     const bearer_token = await this.login(user);
@@ -56,16 +62,16 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  generateRandomPassword(length: number): string {
+  generateRandomChars(length: number): string {
     const charset =
       'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?';
-    let password = '';
+    let str = '';
 
     for (let i = 0; i < length; i++) {
       const randomIndex = Math.floor(Math.random() * charset.length);
-      password += charset[randomIndex];
+      str += charset[randomIndex];
     }
-    return password;
+    return str;
   }
 
   // Two FA Section
