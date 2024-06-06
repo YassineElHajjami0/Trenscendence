@@ -1,8 +1,64 @@
-# script path: backend/script.sh
+#/bin/bash
 
-# first run the docker then execute the script (sdocker)
-npm install
-cp -rf ~/.env .
-docker-compose -f ./docker-compose.yml up -d --build
-npx prisma migrate dev --name "new db"
+# Wait for PostgreSQL to be ready
+until pg_isready -h postgres -p 5432 -U $POSTGRES_USER; do
+  echo "Waiting for PostgreSQL to be ready..."
+  sleep 2
+done
+
+
+npx --yes prisma migrate dev --name init
+
+# Connect to the database and create tables
+# psql -h postgres -U $POSTGRES_USER -d $POSTGRES_DB << EOF
+
+PGPASSWORD=$POSTGRES_PASSWORD psql -h postgres -U $POSTGRES_USER -d $POSTGRES_DB << EOF 
+
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/pd1.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/pd2.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/pd3.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/pd4.png', 'test name', 'test description', 10, 'Type', 'Power');
+
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/bn1.jpeg', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/bn2.jpg', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/bn3.jpg', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/defaultBanner.jpg', 'test name', 'test description', 10, 'Type', 'Power');
+
+
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/av1.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/av10.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/av2.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/av3.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/av4.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/av5.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/av6.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/av7.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/av8.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/av9.png', 'test name', 'test description', 10, 'Type', 'Power');
+INSERT INTO "Item" ("img" , "name" , "description" , "price" , "type" , "power")
+VALUES ('http://localhost:3000/default.png', 'test name', 'test description', 10, 'Type', 'Power');
+
+
+EOF
+
+echo "Data inserted successfully."
+
 npm run start:dev

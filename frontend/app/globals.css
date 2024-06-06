@@ -160,9 +160,14 @@ nav {
   }
 
   .home-page .animation-slide {
+    margin-top: 20px;
     background-position: 0cm -700px;
     width: 100%;
     height: 190px;
+  }
+  .home-page .animation-slide .player-image {
+    width: 250px;
+    height: 250px;
   }
 
   @keyframes ball-moves {
@@ -192,12 +197,15 @@ nav {
   }
 
   .home-page .animation-slide {
-    background-position: 0cm -300px;
+    background-position: 0cm -350px;
+
+    height: 170px;
   }
   .home-page .animation-slide .player-image {
-    width: 320px;
-    height: 320px;
+    width: 200px;
+    height: 200px;
   }
+
   @keyframes ball-moves {
     50% {
       left: 96%;
@@ -207,6 +215,7 @@ nav {
     }
   }
 }
+
 @media (max-width: 425px) {
   .upperNav-children-container {
     width: calc(100% - 50px);
@@ -214,20 +223,17 @@ nav {
 
   .home-page .animation-slide {
     background-position: 0cm -50px;
-    height: 200px;
+    height: 120px;
   }
 
   .home-page .animation-slide .blur-effect {
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
   }
+
   .home-page .animation-slide .player-image {
-    width: 320px;
-    height: 320px;
-  }
-  .home-page .animation-slide .player-image {
-    width: 200px;
-    height: 200px;
+    width: 120px;
+    height: 120px;
   }
   .home-page .animation-slide .ball {
     width: 15px;
@@ -383,11 +389,6 @@ nav {
   .store-container .store {
     justify-content: space-between;
   }
-}
-@media (max-width: 1024px) {
-  .store-container .store {
-    justify-content: space-between;
-  }
   .store-container .store .buy-avatar .avatars_chess {
     width: 200px;
     height: 200px;
@@ -396,17 +397,53 @@ nav {
     width: 200px;
     height: 200px;
   }
+  .store-container .store .avatar-for-store-slide {
+    width: 280px;
+    height: 280px;
+  }
+}
+@media (max-width: 1024px) {
+  .store-container h2 {
+    font-size: 20px;
+  }
+  .store-container h2 .store-icon {
+    font-size: 25px;
+  }
+  .store-container .store {
+    justify-content: space-between;
+  }
+  .store-container .store .buy-avatar .avatars_chess {
+    width: 150px;
+    height: 150px;
+  }
+  .store-container .store .buy-paddle .paddles_chess {
+    width: 150px;
+    height: 150px;
+  }
 }
 @media (max-width: 768px) {
   .store-container .store .avatar-for-store-slide {
     width: 250px;
     height: 250px;
   }
+  .store-container .store .buy-avatar .avatars_chess {
+    width: 150px;
+    height: 150px;
+  }
+  .store-container .store .buy-paddle .paddles_chess {
+    width: 150px;
+    height: 150px;
+  }
   .store-container h2 {
     font-size: 20px;
   }
   .store-container h2 .store-icon {
     font-size: 25px;
+  }
+  .store-container .store .buy-paddle .buy-paddle-btn,
+  .store-container .store .buy-avatar .buy-avatar-btn {
+    font-size: 16px;
+    padding: 5px 15px;
   }
   .store-container .store .shape1,
   .store-container .store .shape2,
@@ -617,6 +654,9 @@ nav {
 }
 
 @media (max-width: 1440px) {
+  .latest-games .header {
+    padding: 10px 90px;
+  }
   .latest-games .latests .line {
     padding: 30px 100px;
   }
@@ -636,6 +676,8 @@ nav {
     padding: 10px 20px;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
+    font-size: 13px;
+    font-weight: normal;
   }
   .latest-games .latests .line {
     background-color: #2d2d31;

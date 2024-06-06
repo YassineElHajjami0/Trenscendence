@@ -13,7 +13,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   // url      = env("DATABASE_URL")
-  url      = "postgresql://yel-hajj:1337@localhost:3002/ft_transcendance"
+  url      = "postgresql://yel-hajj:1337@postgres:5432/ft_transcendance"
   // url = "postgresql://amentag:1337@localhost:5432/ft_transcendance"
   // uncomment next line if you use Prisma <5.10
   // directUrl = env("DATABASE_URL_UNPOOLED")
@@ -165,7 +165,7 @@ model UserFriend {
 model Item {
   id          Int        @id @default(autoincrement())
   img         String
-  name        String
+  name        String     @unique()
   description String
   price       Int
   // is_avatar   Boolean
