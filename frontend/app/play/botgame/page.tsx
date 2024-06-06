@@ -20,7 +20,7 @@ const BALL_DY = 5;
 const PADDLE_WIDTH = 20;
 const PADDLE_HEIGHT = 150;
 const PADDLE_SPEED = 10;
-const WINNER_SCORE = 5;
+const WINNER_SCORE = 1;
 
 function RobotGame() {
 	const canvasRef = useRef(null);
@@ -46,6 +46,33 @@ function RobotGame() {
 
 	const leftArrowRef = useRef<HTMLButtonElement | null>(null);
 	const rightArrowRef = useRef<HTMLButtonElement | null>(null);
+
+	const addAchievement = async () => {
+		const getedAchievements = await fetch(`http://localhost:3000/user-achievement/${userId}`, {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${userTok}`,
+				"Content-Type": "application/json",
+			},
+		});
+		const achievements = await getedAchievements.json();
+
+		const botAchievement = achievements.find((a: any) => a.name === 'AI Conqueror');
+		if (botAchievement && botAchievement.unlocked === false) {
+			await fetch(`http://localhost:3000/user-achievement/`, {
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${userTok}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					userId: userId,
+					achivementName: 'AI Conqueror',
+					unlocked: true,
+				}),
+			});
+		}
+	};
 
 	const fetchUserDatas = async (userId: number) => {
 		const res = await fetch(`http://localhost:3000/users/${userId}`, {
@@ -238,6 +265,8 @@ function RobotGame() {
 						}
 						timer--;
 					}, 1000);
+					// if (hardLevel)
+						addAchievement();
 				}
 			}
 
@@ -343,6 +372,11 @@ function RobotGame() {
 		setUsername(userData?.username);
 	}, [userData]);
 
+	const [hardLevel, setHardLevel] = useState(false);
+	useEffect(() => {
+
+	}, [hardLevel]);
+
 	useEffect(() => {
 		const handleLevelChange = (e: MouseEvent) => {
 			const target = e.target as HTMLButtonElement;
@@ -352,6 +386,7 @@ function RobotGame() {
 				setBotPaddleSpeed(2);
 			} else if (target.classList.contains('hard-level-button')) {
 				setBotPaddleSpeed(4);
+				setHardLevel(true);
 			}
 		}
 
