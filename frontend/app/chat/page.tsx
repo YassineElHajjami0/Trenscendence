@@ -37,7 +37,7 @@ const Chat = () => {
 
   const [mode, setMode] = useState("friends");
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
-  const [selectedChannel, setSelectedChannel] = useState(-1);
+  const [selectedChannel, setSelectedChannel] = useState<number>(-1);
   const [showPopUpCreateChannel, setShowPopUpCreateChannel] = useState(false);
   const [showPopUpSearchChannels, setShowPopUpSearchChannels] = useState(false);
 

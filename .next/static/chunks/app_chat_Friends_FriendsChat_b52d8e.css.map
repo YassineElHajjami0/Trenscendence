@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/chat/Friends/FriendsChat.css"],"sourcesContent":[".friends_chat_container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  overflow-y: scroll;\n}\n\n.friends_chat_container::-webkit-scrollbar-track {\n  background-color: #e0e0e000 !important;\n}\n\n.friends_chat_container::-webkit-scrollbar {\n  width: 3px;\n}\n\n.friends_chat_container::-webkit-scrollbar-thumb {\n  background-color: #4caf50;\n  border-radius: 6px;\n}\n\n/*# sourceMappingURL=FriendsChat.css.map */"],"names":[],"mappings":"AAAA,CAAC,sBAAsB,CAAC,CAAC;EACvB,KAAK,EAAE,GAAG,CAAC;EACX,MAAM,EAAE,GAAG,CAAC;EACZ,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;EACtB,UAAU,EAAE,MAAM;AACpB,CAAC;AAED,CAAC,sBAAsB,CAAC,AAAD,CAAE,uBAAuB,CAAC,CAAC;EAChD,gBAAgB,EAAE,SAAS,CAAC,CAAC,SAAS;AACxC,CAAC;AAED,CAAC,sBAAsB,CAAC,AAAD,CAAE,iBAAiB,CAAC,CAAC;EAC1C,KAAK,EAAE,CAAC,EAAE;AACZ,CAAC;AAED,CAAC,sBAAsB,CAAC,AAAD,CAAE,uBAAuB,CAAC,CAAC;EAChD,gBAAgB,EAAE,OAAO;EACzB,aAAa,EAAE,CAAC,EAAE;AACpB,CAAC"}},
+    {"offset": {"line": 17, "column": 1}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/profile/Friends.css"],"sourcesContent":[".friends_container {\n  width: 100%;\n  height: 100%;\n  overflow-y: scroll;\n  padding: 10px 30px 0 15px;\n  position: relative;\n  /* box-shadow: 0 0  5px 5px #1ce14e; */\n}\n\n.friends_container::-webkit-scrollbar {\n  width: 10px;\n}\n\n.friends_container::-webkit-scrollbar-thumb {\n  background-color: #4caf50;\n  border-radius: 6px;\n}\n\n.friends_container::-webkit-scrollbar-track {\n  background-color: #e0e0e000;\n}\n\n/*# sourceMappingURL=Friends.css.map */"],"names":[],"mappings":"AAAA,CAAC,iBAAiB,CAAC,CAAC;EAClB,KAAK,EAAE,GAAG,CAAC;EACX,MAAM,EAAE,GAAG,CAAC;EACZ,UAAU,EAAE,MAAM;EAClB,OAAO,EAAE,EAAE,EAAE,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,EAAE,EAAE;EACzB,QAAQ,EAAE,QAAQ;AAEpB,CAAC;AAED,CAAC,iBAAiB,CAAC,AAAD,CAAE,iBAAiB,CAAC,CAAC;EACrC,KAAK,EAAE,EAAE,EAAE;AACb,CAAC;AAED,CAAC,iBAAiB,CAAC,AAAD,CAAE,uBAAuB,CAAC,CAAC;EAC3C,gBAAgB,EAAE,OAAO;EACzB,aAAa,EAAE,CAAC,EAAE;AACpB,CAAC;AAED,CAAC,iBAAiB,CAAC,AAAD,CAAE,uBAAuB,CAAC,CAAC;EAC3C,gBAAgB,EAAE,SAAS;AAC7B,CAAC"}},
+    {"offset": {"line": 17, "column": 1}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

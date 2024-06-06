@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/chat/Friends/ChatContainer.css"],"sourcesContent":[".chat_container {\n  width: 100%;\n  /* margin: 20px 0; */\n}\n\n.chat_todays_date {\n  text-align: center;\n  padding: 5px;\n  font-size: 14px;\n  font-weight: 300;\n}\n\n/*# sourceMappingURL=ChatContainer.css.map */"],"names":[],"mappings":"AAAA,CAAC,cAAc,CAAC,CAAC;EACf,KAAK,EAAE,GAAG,CAAC;AAEb,CAAC;AAED,CAAC,gBAAgB,CAAC,CAAC;EACjB,UAAU,EAAE,MAAM;EAClB,OAAO,EAAE,CAAC,EAAE;EACZ,SAAS,EAAE,EAAE,EAAE;EACf,WAAW,EAAE,GAAG;AAClB,CAAC"}},
+    {"offset": {"line": 9, "column": 1}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

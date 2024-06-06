@@ -80,9 +80,13 @@ const PopUpSearchFriend = ({
         },
         body: JSON.stringify(notifData),
       }
-    ).catch((err) => {
-      console.error(err);
-    });
+    )
+      .then(() => {
+        setShowSerachFriendPopUp(false);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
   return (
     <div className="PopUpSearchFriend">
@@ -107,7 +111,13 @@ const PopUpSearchFriend = ({
             return (
               <div key={index}>
                 <div className="imageAndusername">
-                  <Image src={e.avatar} width={50} height={50} alt="AVATAR" />
+                  <Image
+                    src={e.avatar}
+                    width={50}
+                    height={50}
+                    alt="AVATAR"
+                    style={{ borderRadius: "50%" }}
+                  />
                   {e.username}
                 </div>
                 <button onClick={() => handleInvite(e.uid, selectedChannel)}>

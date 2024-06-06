@@ -36,7 +36,9 @@ const ChannelChat: React.FC<channelChatProps> = ({
               key={channel.id}
               className="channelContainer"
               onClick={() => {
+                console.log(">>>>>>>>>>>>>>>>", channel.uri);
                 setSelectedChannel(channel.id);
+                console.log("<<<<<<<<<<<<<<<<", channel.uri);
               }}
             >
               <div className="imageContainer">

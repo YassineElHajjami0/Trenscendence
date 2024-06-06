@@ -74,6 +74,7 @@ const SelectedChannelChat = ({
         );
         const data = await response.json();
 
+        console.log("?????????????? ", selectedChannel);
         const req = await fetch(
           `http://localhost:3000/channelss/roles?channelId=${selectedChannel}`,
           {
@@ -287,9 +288,13 @@ const SelectedChannelChat = ({
           className="arrow_back"
           onClick={() => setSelectedChannel(-1)}
         />
+        {chToDisplay?.uri}
         {/* <Image
           className="channel_msg_section_header_avatar"
-          src={`${chToDisplay?.uri}`}
+          src={
+            `${chToDisplay?.uri}` ||
+            "http://localhost:3000/channelDefaultImage.png"
+          }
           width={100}
           height={100}
           alt="avatar"
@@ -323,16 +328,13 @@ const SelectedChannelChat = ({
                 </div>
               ) : (
                 <div className="channelMsgContainer" key={message.id}>
-                  {/* <Image
+                  <Image
                     className="senderOrRecieverImage"
-                    src={
-                      `http://localhost:3000/${message.users.avatar}` ||
-                      "default.png"
-                    }
+                    src={`${message.users.avatar}` || "default.png"}
                     width={30}
                     height={30}
                     alt="PIC"
-                  /> */}
+                  />
                   <div className="msgAndTime">
                     <p className="channelMsg">{message.content}</p>
                     <p className="msgTime">{returnTime(message.createdAT)}</p>

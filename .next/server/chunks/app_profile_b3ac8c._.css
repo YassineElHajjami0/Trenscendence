@@ -1,0 +1,693 @@
+/* [project]/app/profile/Profile.css [app-ssr] (css) */
+.profile_container {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.user_account {
+  position: relative;
+  color: white;
+  max-width: 1024px;
+  border-radius: 15px;
+  width: 80%;
+  height: 30%;
+  background: #2d2d31;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 20px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+.profile_photo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 5px solid #1ce14e;
+  animation: heartbeat 3s infinite 5s ease-in-out;
+}
+@keyframes heartbeat {
+  0% {
+    box-shadow: 0 0 10px #1ce14e;
+  }
+  50% {
+    box-shadow: 0 0 25px 1px #1ce14e;
+  }
+  100% {
+    box-shadow: 0 0 10px #1ce14e;
+  }
+}
+.profile_data {
+  width: 60%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.profile_data h1 {
+  color: white;
+  margin-right: auto;
+}
+.profile_data h4, 
+.profile_data h2 {
+  color: #919191;
+}
+.edit_label:hover span {
+  opacity: 1;
+  transform: translate(0);
+}
+.edit_label {
+  color: white;
+  cursor: pointer;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: absolute;
+  top: 3%;
+  right: 3%;
+}
+.edit_label svg {
+  margin-left: 10px;
+  color: #1ce14e;
+  filter: drop-shadow(0 0 5px #1ce14e);
+}
+.edit_label span {
+  text-shadow: 0 0 10px black;
+  transition: all 0.5s;
+  opacity: 0;
+  transform: translate(50%, -50%);
+}
+.profile_user_lvl span {
+  color: white;
+}
+.profile_progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60%;
+  position: absolute;
+  bottom: 8%;
+  right: 3%;
+}
+.profile_uid {
+  text-align: right;
+  width: 50%;
+  cursor: pointer;
+  text-shadow: 0 0 10px rgb(0, 0, 0);
+}
+.profile_username {
+  display: flex;
+  align-items: center;
+}
+.profile_username svg {
+  margin-right: 10px;
+}
+.profile_uid svg {
+  margin-left: 10px;
+}
+.profile_uid svg:hover {
+  filter: drop-shadow(0 0 5px #1ce14e);
+  color: #1ce14e;
+}
+.progress {
+  border-radius: 10px;
+  position: relative;
+  width: 50%;
+  height: 16px;
+  background: #868686;
+}
+.pseudoProgress {
+  border-radius: 10px;
+  content: "";
+  position: absolute;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: #1ce14e;
+  box-shadow: 0 0 10px #1ce14e;
+}
+.profile_details {
+  max-width: 1024px;
+  width: 80%;
+  height: 60%;
+}
+@media (max-width: 768px) {
+  .user_account {
+    width: 100%;
+    padding: 0 10px;
+  }
+  .profile_details {
+    width: 100%;
+  }
+}
+@media (max-width: 425px) {
+  .user_account {
+    height: 25%;
+  }
+  .profile_photo {
+    width: 100px;
+    height: 100px;
+  }
+  .profile_data {
+    width: 50%;
+    height: 50%;
+  }
+  .profile_data * {
+    font-size: 1rem;
+    text-shadow: 0 0 10px black;
+  }
+  .profile_progress {
+    width: 90%;
+  }
+}
+@media (max-width: 375px) {
+  .profile_data {
+    width: 50%;
+    height: 45%;
+  }
+  .profile_data * {
+    font-size: 0.9rem;
+  }
+  .profile_progress {
+    width: 90%;
+    font-size: 0.8rem;
+  }
+}
+
+/* [project]/app/profile/ProfileDetails.css [app-ssr] (css) */
+.profile_details_container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background: #2d2d31;
+  border-radius: 15px;
+}
+.profile_details_header {
+  color: white;
+  height: 10%;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-transform: capitalize;
+  font-size: 1.3rem;
+}
+.profile_details_header button {
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  color: white;
+  font-size: 1.35rem;
+  text-transform: capitalize;
+  padding-bottom: 5px;
+}
+.profile_details_header button::before {
+  transition: all 0.4s;
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  border-radius: 5px;
+  background: #1ce14e;
+  box-shadow: 0 0 10px #1ce14e;
+  left: 50%;
+  transform-origin: center;
+  transform: translateX(-50%);
+}
+.underline_animation::before {
+  width: 100% !important;
+}
+.profile_details_data {
+  height: 70%;
+  width: 80%;
+  color: white;
+}
+@media (max-width: 768px) {
+  .profile_details_header, 
+  .profile_details_data {
+    width: 100%;
+  }
+}
+@media (max-width: 375px) {
+  .profile_details_header button {
+    font-size: 1rem;
+  }
+}
+
+/* [project]/app/profile/Friends.css [app-ssr] (css) */
+.friends_container {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  padding: 10px 30px 0 15px;
+}
+.friends_container::-webkit-scrollbar {
+  width: 10px;
+}
+.friends_container::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 6px;
+}
+.friends_container::-webkit-scrollbar-track {
+  background-color: #e0e0e000;
+}
+
+/* [project]/app/profile/Friend.css [app-ssr] (css) */
+.friend_container {
+  width: 100%;
+  height: 70px;
+  box-shadow: 0 0 5px #000;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  padding: 0 2rem;
+}
+.profile_name {
+  margin-right: auto;
+  margin-left: 8%;
+  font-size: 22px;
+  position: relative;
+  cursor: pointer;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  width: -moz-fit-content;
+  width: fit-content;
+  text-transform: capitalize;
+}
+.profile_name:hover {
+  padding-bottom: 5px;
+}
+.profile_name:hover > .dot {
+  border-radius: 5px;
+  transform: translate(0, 0);
+  width: 100%;
+  height: 2px;
+  left: 0;
+  bottom: 0;
+}
+.dot {
+  z-index: -1;
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff3355;
+  filter: drop-shadow(0 0 1px #ff3355);
+  left: -20px;
+  bottom: 50%;
+  transform: translate(50%, 50%);
+  transition: all 0.4s;
+  animation: redGlow 3s infinite ease-in-out;
+}
+@keyframes redGlow {
+  50% {
+    filter: drop-shadow(0 0 5px #ff3355);
+  }
+}
+.logged {
+  background: #1ce14e;
+  filter: drop-shadow(0 0 1px #1ce14e);
+  animation: greenGlow 3s infinite ease-in-out;
+}
+@keyframes greenGlow {
+  50% {
+    filter: drop-shadow(0 0 5px #1ce14e);
+  }
+}
+.ingame {
+  background: #ff7f00;
+  filter: drop-shadow(0 0 1px #ff7f00);
+  animation: orangeGlow 3s infinite ease-in-out;
+}
+@keyframes orangeGlow {
+  50% {
+    filter: drop-shadow(0 0 5px #ff7f00);
+  }
+}
+.friend_container span {
+  transition: all 0.4s;
+}
+.btn_conatiner svg {
+  font-size: 1.3rem;
+  transition: all 0.4s;
+}
+.friend_msg:hover > svg {
+  color: #1ce14e !important;
+  filter: drop-shadow(0 0 5px #1ce14e);
+}
+.friend_play:hover > svg {
+  color: #ff7f00 !important;
+  filter: drop-shadow(0 0 5px #ff7f00);
+}
+.friend_block:hover {
+  color: #ff3355;
+  filter: drop-shadow(0 0 5px #ff3355);
+}
+.friend_unblock:hover {
+  color: #1ce14e;
+  filter: drop-shadow(0 0 5px #1ce14e);
+}
+.view_profile:hover {
+  color: #fff;
+  filter: drop-shadow(0 0 5px #fff);
+}
+.blocked_friend {
+  color: gray;
+}
+.blocked_friend_avatar {
+  filter: grayscale(1);
+}
+.hide_block {
+  display: none;
+}
+.friend_unblock {
+  cursor: pointer;
+  transition: all 4s;
+  display: none;
+}
+.friend_block {
+  cursor: pointer;
+  transition: all 4s;
+}
+.show_unblock {
+  display: block;
+}
+.friend_component_btn {
+  outline: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+.friend_component_btn svg {
+  color: #fff;
+}
+.disable_btns {
+  cursor: not-allowed !important;
+}
+.disable_btns svg {
+  color: gray;
+}
+.disable_btns:hover > svg {
+  color: gray !important;
+  filter: drop-shadow(0 0 5px gray);
+}
+.friend_name_photo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+}
+.friend_avatar {
+  border-radius: 50%;
+  height: 55px;
+  width: 55px;
+  -o-object-fit: contain;
+  object-fit: contain;
+  cursor: pointer;
+}
+.btn_conatiner {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.profile_burger_menu {
+  display: none;
+  width: 20px;
+  height: 25px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.profile_burger_menu span {
+  background-color: white;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+}
+.hideName {
+  display: none;
+}
+.showParam {
+  display: flex !important;
+}
+.go_to_profile {
+  overflow: visible !important;
+}
+.go_to_profile path:last-child, 
+.go_to_profile path:nth-last-child(2) {
+  animation: levitation 3s infinite ease-in-out;
+}
+@keyframes levitation {
+  50% {
+    transform: translate(2px, -2px);
+  }
+}
+@media (max-width: 768px) {
+  .profile_name {
+    font-size: 22px !important;
+  }
+  .profile_burger_menu {
+    display: flex;
+  }
+  .btn_conatiner {
+    display: none;
+  }
+  #burger_menu:checked ~ .btn_conatiner {
+    display: flex;
+    width: 100%;
+  }
+  .friend_container {
+    padding: 0 5px;
+    height: 60px;
+  }
+  .friend_avatar {
+    height: 50px;
+    width: 50px;
+  }
+  .friend_name_photo span {
+    font-size: 16px;
+  }
+  .showParam {
+    width: 60%;
+  }
+}
+@media (max-width: 425px) {
+  .showParam {
+    width: 200%;
+  }
+  .btn_conatiner svg {
+    width: 24px;
+    height: 24px;
+  }
+  .profile_name {
+    font-size: 18px !important;
+  }
+}
+@media (max-width: 375px) {
+  .profile_name {
+    font-size: 16px !important;
+  }
+  .btn_conatiner svg {
+    width: 20px;
+    height: 20px;
+  }
+  .friend_name_photo span {
+    font-size: 14px;
+  }
+  .friend_avatar {
+    height: 40px;
+    width: 40px;
+  }
+}
+@media (max-width: 320px) {
+  .profile_name {
+    font-size: 14px !important;
+  }
+}
+
+/* [project]/app/profile/Stats.css [app-ssr] (css) */
+.stats_container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.stat_btn_switch {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stat_btn_switch button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 18px;
+  text-transform: capitalize;
+  border: 1px solid white;
+  color: gray;
+  padding: 4px 24px;
+  cursor: pointer;
+  transition: all 0.4s;
+  border-radius: 8px;
+}
+.stat_btn_switch button:active {
+  scale: 0.95;
+}
+.chart {
+  filter: drop-shadow(0 0 5px #000000);
+  cursor: pointer;
+}
+.recharts-default-tooltip {
+  background-color: #27272b !important;
+  border-radius: 10px !important;
+  border: none !important;
+}
+.btn_win {
+  color: #1ce14e !important;
+  filter: drop-shadow(0 0 5px #1ce14e);
+}
+.btn_win:hover {
+  filter: drop-shadow(0 0 10px #1ce14e);
+}
+.btn_lose {
+  color: #ff3355 !important;
+  filter: drop-shadow(0 0 5px #ff3355);
+}
+.btn_lose:hover {
+  filter: drop-shadow(0 0 10px #ff3355);
+}
+.btn_wl {
+  color: #ff7f00 !important;
+  filter: drop-shadow(0 0 5px #ff7f00);
+}
+.btn_wl:hover {
+  filter: drop-shadow(0 0 10px #ff7f00);
+}
+@media (max-width: 425px) {
+  .stat_btn_switch {
+    width: 85%;
+  }
+  .chart {
+    margin-right: 15% !important;
+  }
+}
+@media (max-width: 375px) {
+  .stat_btn_switch button {
+    padding: 4px 16px;
+  }
+}
+
+/* [project]/app/profile/Achievement.css [app-ssr] (css) */
+.achievement_container {
+  width: 100%;
+  height: 70px;
+  box-shadow: 0 0 5px #000;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  padding: 0 2rem;
+}
+.friend_achievement_badge {
+  width: 60px;
+  height: 60px;
+}
+.achievement_name {
+  width: 88%;
+}
+.achievement_name h1 {
+  font-size: 1.2rem;
+  padding-bottom: 5px;
+}
+.achievement_name h5 {
+  font-size: 0.75rem;
+  color: gray;
+}
+.achievement_name h4 {
+  font-size: 0.8rem;
+}
+.achievement_desc {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.locked_achievement {
+  filter: grayscale(1);
+}
+@media (max-width: 1024px) {
+  .achievement_name {
+    width: 80%;
+  }
+}
+@media (max-width: 425px) {
+  .achievement_container {
+    height: 100px;
+    padding: 0 0.4rem;
+  }
+  .achievement_name {
+    width: 70%;
+  }
+  .achievement_desc {
+    flex-direction: column-reverse;
+    align-items: start;
+    justify-content: center;
+  }
+  .achievement_desc h4 {
+    margin-left: auto;
+  }
+}
+@media (max-width: 375px) {
+  .achievement_container {
+    height: 130px;
+  }
+  .achievement_desc h1 {
+    font-size: 1rem;
+  }
+}
+
+/* [project]/app/profile/Achievements.css [app-ssr] (css) */
+.achievements_container {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  padding: 10px 30px 0 15px;
+}
+.achievements_container::-webkit-scrollbar {
+  width: 10px;
+}
+.achievements_container::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 6px;
+}
+.achievements_container::-webkit-scrollbar-track {
+  background-color: #e0e0e000;
+}
+
+/*# sourceMappingURL=app_profile_b3ac8c._.css.map*/

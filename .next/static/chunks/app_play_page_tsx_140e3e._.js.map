@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sections": [
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/play/page.tsx"],"sourcesContent":["\"use client\";\nimport { useState } from \"react\";\n\n// import Login from \"../Login/Login\";\n\nconst Play = () => {\n  // const [logged, setLogged] = useState(false);\n  // return logged ? <div>Play</div> : <Login />;\n  return <div></div>;\n};\n\nexport default Play;\n"],"names":[],"mappings":";;;;;AAAA;;AAGA,sCAAsC;AAEtC,MAAM,OAAO;IACX,+CAA+C;IAC/C,+CAA+C;IAC/C,qBAAO,wLAAC;;;;;AACV;KAJM;uCAMS"}},
+    {"offset": {"line": 26, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

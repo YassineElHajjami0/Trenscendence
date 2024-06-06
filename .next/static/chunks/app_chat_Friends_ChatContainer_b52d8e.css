@@ -1,0 +1,11 @@
+/* [project]/app/chat/Friends/ChatContainer.css [app-client] (css) */
+.chat_container {
+  width: 100%;
+}
+.chat_todays_date {
+  text-align: center;
+  padding: 5px;
+  font-size: 14px;
+  font-weight: 300;
+}
+/*# sourceMappingURL=app_chat_Friends_ChatContainer_b52d8e.css.map*/

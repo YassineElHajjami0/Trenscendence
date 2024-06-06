@@ -17,7 +17,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
   setShowPopUpCreateChannel,
 }) => {
   const [selectedChannelPicture, setSelectedChannelPicture] = useState(
-    "/channelDefaultImage.png"
+    "http://localhost:3000/channelDefaultImage.png"
   );
 
   const [name, setName] = useState("");

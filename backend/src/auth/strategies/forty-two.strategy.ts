@@ -7,8 +7,12 @@ import { AuthService } from '../auth.service';
 export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
   constructor(private readonly authService: AuthService) {
     super({
-      clientID: process.env.CLIENT_ID_FORTY_TWO,
-      clientSecret: process.env.CLIENT_SECRET_FORTY_TWO,
+      // clientID: process.env.CLIENT_ID_FORTY_TWO,
+      // clientSecret: process.env.CLIENT_SECRET_FORTY_TWO,
+      clientID:
+        'u-s4t2ud-2eb7839586c2db3c5cb771db02b6ee638d6ae43d54ac0db84c2a8fdbfb61e654',
+      clientSecret:
+        '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',
       callbackURL: 'http://localhost:3000/auth/fortyTwo/redirect/',
       Scope: ['profile'],
     });
@@ -29,7 +33,7 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
       email: email,
       password: this.authService.generateRandomPassword(10),
       strategy: '42',
-    }
+    };
     // done(null, user);
     return user;
   }

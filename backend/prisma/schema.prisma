@@ -12,7 +12,8 @@ generator client {
 // prisma/schema.prisma
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  // url      = env("DATABASE_URL")
+  url      = "postgresql://yel-hajj:1337@localhost:3002/ft_transcendance"
   // url = "postgresql://amentag:1337@localhost:5432/ft_transcendance"
   // uncomment next line if you use Prisma <5.10
   // directUrl = env("DATABASE_URL_UNPOOLED")

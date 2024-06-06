@@ -1,0 +1,403 @@
+/* [project]/app/upper-navbar/upper-navbar.css [app-ssr] (css) */
+.upperNav {
+  color: white;
+  position: sticky;
+  top: 0px;
+  padding: 10px 0;
+  z-index: 10000000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #27272b00;
+}
+.upperNav input::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.68);
+}
+.upperNav input::placeholder {
+  color: rgba(255, 255, 255, 0.68);
+}
+.upperNav input {
+  font-weight: lighter;
+  background-color: #2d2d31;
+  padding: 10px;
+  padding-left: 60px;
+  font-size: 25px;
+  border-radius: 10px;
+  width: 400px;
+  border: none;
+  outline: none;
+  color: white;
+}
+.upperNav div:first-child {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.upperNav div:first-child .search-icon {
+  position: absolute;
+  font-size: 40px;
+  left: 10px;
+}
+.notif-and-profilePic {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.notif-and-profilePic .notif-icon {
+  width: 50px;
+  height: 50px;
+  background: #2d2d31;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  z-index: 2;
+  position: relative;
+}
+.notif_count {
+  position: absolute;
+  top: -10px;
+  right: -5px;
+  font-size: 18px;
+  color: white;
+  text-shadow: 0 0 2px white;
+  font-weight: 900;
+  background-color: #161618;
+  width: 20px;
+  height: 20px;
+  padding: 12px;
+  display: grid;
+  place-content: center;
+  border-radius: 50%;
+}
+.notif-and-profilePic .profile-picture {
+  position: relative;
+}
+.notif-and-profilePic .profile-picture .profile-picture-white {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+}
+.notif-and-profilePic .profile-picture img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+.notif-and-profilePic .notif-icon:hover {
+  transition: 0.3s;
+  cursor: pointer;
+  background-color: #1ce14e;
+}
+@media (max-width: 425px) {
+  .upperNav input {
+    width: 200px;
+    padding: 5px;
+    padding-left: 40px;
+    font-size: 16px;
+  }
+  .notif-and-profilePic {
+    gap: 10px;
+  }
+  .upperNav div:first-child .search-icon {
+    font-size: 25px;
+  }
+  .notif-and-profilePic .notif-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+  }
+  .notif-and-profilePic .profile-picture img {
+    width: 40px;
+    height: 40px;
+  }
+}
+@media (max-width: 375px) {
+  .upperNav input {
+    width: 160px;
+    padding: 5px;
+    padding-left: 40px;
+    font-size: 16px;
+  }
+  .notif-and-profilePic {
+    gap: 10px;
+  }
+  .upperNav div:first-child .search-icon {
+    font-size: 25px;
+  }
+  .notif-and-profilePic .notif-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+  }
+  .notif-and-profilePic .profile-picture img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* [project]/app/upper-navbar/notifications.css [app-ssr] (css) */
+.notifications_container {
+  position: absolute;
+  background-color: #2d2d31;
+  width: 0px;
+  height: 0px;
+  right: 95px;
+  bottom: 0;
+  border-radius: 5px;
+  clip-path: polygon(0 5%, 95% 5%, 100% 0, 100% 5%, 100% 100%, 0 100%);
+  padding-top: 20px;
+  overflow: hidden;
+  transition: all 0.4s;
+}
+.show_notifications_container {
+  width: 400px;
+  height: 400px;
+  bottom: -400px;
+}
+.notifications_container_header {
+  height: 10%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #2d2d31;
+  padding: 0 10px;
+}
+.notifications {
+  height: 90%;
+  width: 100%;
+  border-radius: inherit;
+  overflow-y: scroll;
+}
+.notifications::-webkit-scrollbar {
+  width: 3px;
+}
+.notifications::-webkit-scrollbar-thumb {
+  background-color: var(--main-green);
+  border-radius: 10px;
+}
+
+/* [project]/app/upper-navbar/notification.css [app-ssr] (css) */
+.notification_container {
+  width: 100%;
+  margin-bottom: 1px;
+  background-color: #181818;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+.notification_container:not(:last-child) {
+  margin-bottom: 2px;
+}
+.notification_section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: 1.1rem;
+}
+.notification_avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.time_ago {
+  font-size: 0.8rem;
+  color: gray;
+}
+.notification_btns {
+  padding: 5px;
+  text-transform: capitalize;
+  outline: none;
+  border: none;
+  margin-right: 5px;
+  border-radius: 5px;
+  background-color: #80808066;
+  color: white;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+.notification_btns:active {
+  scale: 0.95;
+}
+.notification_btns:first-child {
+  background-color: var(--main-green);
+}
+.notification_frind_name {
+  margin-right: 5px;
+  font-weight: 900;
+  text-transform: capitalize;
+}
+
+/* [project]/app/Nav/Nav.css [app-ssr] (css) */
+.main-Nav {
+  color: white;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100vh;
+  background: #2d2d31a5;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+.link {
+  color: white;
+  text-decoration: none;
+}
+.main-Nav .logo-and-links, 
+.main-Nav .settings-logout {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.main-Nav .logo-and-links .logo .link {
+  display: flex;
+  align-items: center;
+}
+.logo-and-links ul li, 
+.settings-logout ul li {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  list-style: none;
+  text-decoration: none;
+  font-size: 25px;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+.logo-and-links ul .link:hover li div:last-child, 
+.settings-logout ul li:hover div:last-child, 
+.settings-logout ul li:hover div:last-child {
+  transition: 0.3s;
+  color: #72ed8b;
+}
+.settings-logout ul li {
+  margin-bottom: 10px;
+}
+.logo-and-links ul .link li div:last-child, 
+.settings-logout ul li div:last-child {
+  position: relative;
+}
+.logo-and-links ul .link li div:last-child .hover-line, 
+.settings-logout ul .link li div:last-child .hover-line {
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: #72ed8b;
+  bottom: 0;
+  left: 0;
+}
+.logo-and-links ul .link:hover li div:last-child .hover-line, 
+.settings-logout ul .link:hover li div:last-child .hover-line {
+  transition: 0.3s;
+  width: 100%;
+  background-color: #72ed8b;
+  text-shadow: 0 0 5em 0 #1ce14e;
+  box-shadow: 0 0 10px 1px #1ce14e;
+}
+.logo-and-links ul .link:hover li div:last-child, 
+.settings-logout ul .link:hover li div:last-child, 
+.settings-logout ul li:hover div:last-child {
+  text-shadow: 0 0 0.09em #1ce14e;
+}
+@media (max-width: 1440px) {
+  .main-Nav {
+    width: 220px;
+    padding: 10px;
+  }
+  .logo-and-links ul li, 
+  .settings-logout ul li {
+    font-size: 25px;
+    margin-bottom: 30px;
+    font-weight: 600;
+    gap: 8px;
+  }
+  .logo-and-links ul li div:first-child, 
+  .settings-logout ul li div:first-child {
+    font-size: 25px;
+  }
+  .main-Nav .logo-and-links .image-logo {
+    width: 90px;
+    height: 90px;
+  }
+  .main-Nav .logo-and-links .apb-logo {
+    width: 80px;
+    height: 80px;
+  }
+}
+@media (max-width: 1024px) {
+  .main-Nav {
+    width: 80px;
+    padding: 10px;
+  }
+  .logo-and-links, 
+  .settings-logout {
+    align-items: center;
+  }
+  .logo-and-links ul li div:last-child, 
+  .settings-logout ul li div:last-child {
+    display: none;
+  }
+  .logo-and-links ul li div:first-child, 
+  .settings-logout ul li div:first-child {
+    font-size: 35px;
+  }
+  .logo-and-links ul li div:first-child:hover {
+    transition: 0.3s ease-out;
+    scale: 1.1;
+  }
+  .logo-and-links ul li div:first-child:active {
+    transition: 0.3s ease-out;
+    scale: 0.9;
+  }
+  .main-Nav .logo-and-links .image-logo {
+    width: 70px;
+    height: 70px;
+  }
+  .main-Nav .logo-and-links .apb-logo {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .main-Nav {
+    width: 60px;
+    padding: 8px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  .main-Nav .logo-and-links .image-logo {
+    width: 60px;
+    height: 60px;
+  }
+}
+@media (max-width: 425px) {
+  .main-Nav {
+    width: 50px;
+    padding: 8px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  .main-Nav .logo-and-links .image-logo {
+    width: 50px;
+    height: 50px;
+  }
+  .settings-logout ul li div:first-child, 
+  .logo-and-links ul li div:first-child {
+    font-size: 25px;
+  }
+}
+
+/*# sourceMappingURL=app_3f6223._.css.map*/

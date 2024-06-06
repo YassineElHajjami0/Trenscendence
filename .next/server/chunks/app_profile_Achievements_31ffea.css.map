@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/profile/Achievements.css"],"sourcesContent":[".achievements_container {\n  width: 100%;\n  height: 100%;\n  overflow-y: scroll;\n  padding: 10px 30px 0 15px;\n}\n\n.achievements_container::-webkit-scrollbar {\n  width: 10px;\n}\n\n.achievements_container::-webkit-scrollbar-thumb {\n  background-color: #4caf50;\n  border-radius: 6px;\n}\n\n.achievements_container::-webkit-scrollbar-track {\n  background-color: #e0e0e000;\n}\n\n/*# sourceMappingURL=Achievements.css.map */"],"names":[],"mappings":"AAAA,CAAC,sBAAsB,CAAC,CAAC;EACvB,KAAK,EAAE,GAAG,CAAC;EACX,MAAM,EAAE,GAAG,CAAC;EACZ,UAAU,EAAE,MAAM;EAClB,OAAO,EAAE,EAAE,EAAE,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,EAAE,EAAE;AAC3B,CAAC;AAED,CAAC,sBAAsB,CAAC,AAAD,CAAE,iBAAiB,CAAC,CAAC;EAC1C,KAAK,EAAE,EAAE,EAAE;AACb,CAAC;AAED,CAAC,sBAAsB,CAAC,AAAD,CAAE,uBAAuB,CAAC,CAAC;EAChD,gBAAgB,EAAE,OAAO;EACzB,aAAa,EAAE,CAAC,EAAE;AACpB,CAAC;AAED,CAAC,sBAAsB,CAAC,AAAD,CAAE,uBAAuB,CAAC,CAAC;EAChD,gBAAgB,EAAE,SAAS;AAC7B,CAAC"}},
+    {"offset": {"line": 16, "column": 1}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

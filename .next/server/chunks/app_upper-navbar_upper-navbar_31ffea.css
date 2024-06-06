@@ -1,0 +1,142 @@
+/* [project]/app/upper-navbar/upper-navbar.css [app-ssr] (css) */
+.upperNav {
+  color: white;
+  position: sticky;
+  top: 0px;
+  padding: 10px 0;
+  z-index: 10000000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #27272b00;
+}
+.upperNav input::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.68);
+}
+.upperNav input::placeholder {
+  color: rgba(255, 255, 255, 0.68);
+}
+.upperNav input {
+  font-weight: lighter;
+  background-color: #2d2d31;
+  padding: 10px;
+  padding-left: 60px;
+  font-size: 25px;
+  border-radius: 10px;
+  width: 400px;
+  border: none;
+  outline: none;
+  color: white;
+}
+.upperNav div:first-child {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.upperNav div:first-child .search-icon {
+  position: absolute;
+  font-size: 40px;
+  left: 10px;
+}
+.notif-and-profilePic {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.notif-and-profilePic .notif-icon {
+  width: 50px;
+  height: 50px;
+  background: #2d2d31;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  z-index: 2;
+  position: relative;
+}
+.notif_count {
+  position: absolute;
+  top: -10px;
+  right: -5px;
+  font-size: 18px;
+  color: white;
+  text-shadow: 0 0 2px white;
+  font-weight: 900;
+  background-color: #161618;
+  width: 20px;
+  height: 20px;
+  padding: 12px;
+  display: grid;
+  place-content: center;
+  border-radius: 50%;
+}
+.notif-and-profilePic .profile-picture {
+  position: relative;
+}
+.notif-and-profilePic .profile-picture .profile-picture-white {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+}
+.notif-and-profilePic .profile-picture img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+.notif-and-profilePic .notif-icon:hover {
+  transition: 0.3s;
+  cursor: pointer;
+  background-color: #1ce14e;
+}
+@media (max-width: 425px) {
+  .upperNav input {
+    width: 200px;
+    padding: 5px;
+    padding-left: 40px;
+    font-size: 16px;
+  }
+  .notif-and-profilePic {
+    gap: 10px;
+  }
+  .upperNav div:first-child .search-icon {
+    font-size: 25px;
+  }
+  .notif-and-profilePic .notif-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+  }
+  .notif-and-profilePic .profile-picture img {
+    width: 40px;
+    height: 40px;
+  }
+}
+@media (max-width: 375px) {
+  .upperNav input {
+    width: 160px;
+    padding: 5px;
+    padding-left: 40px;
+    font-size: 16px;
+  }
+  .notif-and-profilePic {
+    gap: 10px;
+  }
+  .upperNav div:first-child .search-icon {
+    font-size: 25px;
+  }
+  .notif-and-profilePic .notif-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+  }
+  .notif-and-profilePic .profile-picture img {
+    width: 40px;
+    height: 40px;
+  }
+}
+/*# sourceMappingURL=app_upper-navbar_upper-navbar_31ffea.css.map*/

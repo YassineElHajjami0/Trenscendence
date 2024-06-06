@@ -1,0 +1,213 @@
+-- CreateEnum
+CREATE TYPE "Status" AS ENUM ('PENDING', 'ACCEPTED', 'BLOCKED', 'DENIED', 'NONE');
+
+-- CreateEnum
+CREATE TYPE "NotificationType" AS ENUM ('gameReq', 'friendReq', 'channelReq');
+
+-- CreateEnum
+CREATE TYPE "channelType" AS ENUM ('DM', 'PUBLIC', 'PRIVATE', 'PROTECTED');
+
+-- CreateEnum
+CREATE TYPE "roles" AS ENUM ('ADMIN', 'USER', 'OWNER');
+
+-- CreateEnum
+CREATE TYPE "conditions" AS ENUM ('MUTED', 'BLOCKED', 'NORMAL');
+
+-- CreateEnum
+CREATE TYPE "Ranks" AS ENUM ('Beginner', 'Intermediate', 'Expert', 'Master', 'Grandmaster', 'Apex');
+
+-- CreateEnum
+CREATE TYPE "GameMode" AS ENUM ('RANDOM', 'AGAINST_FRIEND');
+
+-- CreateTable
+CREATE TABLE "Channel" (
+    "id" SERIAL NOT NULL,
+    "type" "channelType" NOT NULL DEFAULT 'DM',
+    "name" TEXT NOT NULL,
+    "topic" TEXT NOT NULL,
+    "uri" TEXT NOT NULL DEFAULT 'http://localhost:3000/channelDefaultImage.png',
+    "code" INTEGER NOT NULL DEFAULT 0,
+
+    CONSTRAINT "Channel_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Message" (
+    "id" SERIAL NOT NULL,
+    "userID" INTEGER NOT NULL,
+    "channelID" INTEGER NOT NULL,
+    "content" TEXT NOT NULL,
+    "isBlocked" BOOLEAN NOT NULL DEFAULT false,
+    "createdAT" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Role" (
+    "id" SERIAL NOT NULL,
+    "channelID" INTEGER NOT NULL,
+    "userID" INTEGER NOT NULL,
+    "blocked" BOOLEAN NOT NULL DEFAULT false,
+    "role" "roles" NOT NULL DEFAULT 'USER',
+    "mutedSince" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "condition" "conditions" NOT NULL DEFAULT 'NORMAL',
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Role_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "T_User" (
+    "uid" SERIAL NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'online',
+    "username" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "bio" TEXT NOT NULL DEFAULT 'I am a player',
+    "password" TEXT NOT NULL,
+    "twoFA" BOOLEAN NOT NULL DEFAULT false,
+    "avatar" TEXT NOT NULL DEFAULT 'http://localhost:3000/default.png',
+    "paddle" TEXT NOT NULL DEFAULT 'http://localhost:3000/defaultPaddle.png',
+    "banner" TEXT NOT NULL DEFAULT 'http://localhost:3000/defaultBanner.jpg',
+    "wallet" INTEGER NOT NULL DEFAULT 0,
+    "xp" INTEGER NOT NULL DEFAULT 0,
+    "rank" "Ranks" NOT NULL DEFAULT 'Beginner',
+    "win" INTEGER NOT NULL DEFAULT 0,
+    "lose" INTEGER NOT NULL DEFAULT 0,
+    "role" TEXT NOT NULL DEFAULT 'User',
+    "strategy" TEXT NOT NULL DEFAULT 'local',
+    "twoFASecret" TEXT NOT NULL DEFAULT '',
+
+    CONSTRAINT "T_User_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateTable
+CREATE TABLE "Notification" (
+    "id" SERIAL NOT NULL,
+    "type" "NotificationType" NOT NULL,
+    "content" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "read" BOOLEAN NOT NULL DEFAULT false,
+    "ruserId" INTEGER NOT NULL,
+    "suserId" INTEGER NOT NULL,
+    "chnnelId" INTEGER NOT NULL DEFAULT -1,
+
+    CONSTRAINT "Notification_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UserFriend" (
+    "user1Id" INTEGER NOT NULL,
+    "user2Id" INTEGER NOT NULL,
+    "status" "Status" NOT NULL DEFAULT 'NONE',
+
+    CONSTRAINT "UserFriend_pkey" PRIMARY KEY ("user1Id","user2Id")
+);
+
+-- CreateTable
+CREATE TABLE "Item" (
+    "id" SERIAL NOT NULL,
+    "img" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "price" INTEGER NOT NULL,
+    "type" TEXT NOT NULL,
+    "power" TEXT NOT NULL,
+
+    CONSTRAINT "Item_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UserItem" (
+    "userId" INTEGER NOT NULL,
+    "itemId" INTEGER NOT NULL,
+    "choosed" BOOLEAN NOT NULL,
+
+    CONSTRAINT "UserItem_pkey" PRIMARY KEY ("userId","itemId")
+);
+
+-- CreateTable
+CREATE TABLE "Achievement" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "uri" TEXT NOT NULL,
+
+    CONSTRAINT "Achievement_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UserAchievement" (
+    "userId" INTEGER NOT NULL,
+    "achivementName" TEXT NOT NULL,
+    "createdAT" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "unlocked" BOOLEAN NOT NULL,
+
+    CONSTRAINT "UserAchievement_pkey" PRIMARY KEY ("userId","achivementName")
+);
+
+-- CreateTable
+CREATE TABLE "MatchHistory" (
+    "id" SERIAL NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "winner" INTEGER NOT NULL,
+    "loser" INTEGER NOT NULL,
+    "winnerScore" INTEGER NOT NULL,
+    "loserScore" INTEGER NOT NULL,
+    "gameMode" "GameMode" NOT NULL,
+    "startAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "endAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "MatchHistory_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "T_User_username_key" ON "T_User"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "T_User_email_key" ON "T_User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Achievement_name_key" ON "Achievement"("name");
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_userID_fkey" FOREIGN KEY ("userID") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_channelID_fkey" FOREIGN KEY ("channelID") REFERENCES "Channel"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Role" ADD CONSTRAINT "Role_channelID_fkey" FOREIGN KEY ("channelID") REFERENCES "Channel"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Role" ADD CONSTRAINT "Role_userID_fkey" FOREIGN KEY ("userID") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Notification" ADD CONSTRAINT "Notification_ruserId_fkey" FOREIGN KEY ("ruserId") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Notification" ADD CONSTRAINT "Notification_suserId_fkey" FOREIGN KEY ("suserId") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserFriend" ADD CONSTRAINT "UserFriend_user1Id_fkey" FOREIGN KEY ("user1Id") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserFriend" ADD CONSTRAINT "UserFriend_user2Id_fkey" FOREIGN KEY ("user2Id") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserItem" ADD CONSTRAINT "UserItem_userId_fkey" FOREIGN KEY ("userId") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserItem" ADD CONSTRAINT "UserItem_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserAchievement" ADD CONSTRAINT "UserAchievement_userId_fkey" FOREIGN KEY ("userId") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserAchievement" ADD CONSTRAINT "UserAchievement_achivementName_fkey" FOREIGN KEY ("achivementName") REFERENCES "Achievement"("name") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MatchHistory" ADD CONSTRAINT "MatchHistory_winner_fkey" FOREIGN KEY ("winner") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MatchHistory" ADD CONSTRAINT "MatchHistory_loser_fkey" FOREIGN KEY ("loser") REFERENCES "T_User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
