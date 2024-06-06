@@ -59,7 +59,7 @@ function RobotGame() {
 
 		const botAchievement = achievements.find((a: any) => a.name === 'AI Conqueror');
 		if (botAchievement && botAchievement.unlocked === false) {
-			await fetch(`http://localhost:3000/user-achievement`, {
+			await fetch(`http://localhost:3000/user-achievement/`, {
 				method: "POST",
 				headers: {
 					Authorization: `Bearer ${userTok}`,
@@ -67,7 +67,7 @@ function RobotGame() {
 				},
 				body: JSON.stringify({
 					userId: userId,
-					achievementName: 'AI Conqueror',
+					achivementName: 'AI Conqueror',
 					unlocked: true,
 				}),
 			});
