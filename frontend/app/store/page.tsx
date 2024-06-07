@@ -3,15 +3,12 @@ import React, { useState, useEffect } from "react";
 import "./store.css";
 import "../globals.css";
 import Image from "next/image";
-import playerData from "../data/player-info.json";
 import { TbShoppingBag } from "react-icons/tb";
 import { FaRegSmileBeam } from "react-icons/fa";
 import { FaBagShopping } from "react-icons/fa6";
-import { PlayerInfo } from "../Interfaces/playerInfoInterface";
 import { userToken } from "@/app/Atoms/userToken";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
-import { useRouter } from "next/router";
 
 interface itemsInterface {
   description: string;
@@ -39,23 +36,24 @@ interface dataInterface {
 }
 
 const Store = () => {
-  //http://10.12.4.13:3001/users
   const [loading, setLoading] = useState(true);
   const userTok = useRecoilValue(userToken);
   const [popUpCannotBuy, setPopUpCannotBuy] = useState(false);
   const [choosedArticle, setChoosedArticle] = useState<itemsInterface>();
+  const [prevchoosedArticle, setPrevChoosedArticle] =
+    useState<itemsInterface>();
   const [items, setItems] = useState<itemsInterface[]>();
   const [selectedCategory, setselectedCategory] = useState("all");
   const [userData, setUserData] = useState<dataInterface>();
-  const all = playerData.avatarsAndPaddles;
-  const playerPoints = playerData.statistic.points;
   const userId = useRecoilValue(loggedUser);
+  const [playerPoints, setPlayerPoints] = useState<number>(0);
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
     const fetchedData = async () => {
+      console.log("test");
       try {
         const responseUser = await fetch(
           `http://localhost:3000/users/${userId}`,
@@ -67,6 +65,7 @@ const Store = () => {
           }
         );
         const dataofUser = await responseUser.json();
+        setPlayerPoints(dataofUser.wallet);
         console.log("data of user : ", dataofUser);
         setUserData(dataofUser);
 
@@ -80,16 +79,11 @@ const Store = () => {
           }
         );
         let data: itemsInterface[] = await response.json();
+        console.log("DATA:", data);
         data = data.filter((e) => e.type == "paddle" || e.type == "avatar");
         setChoosedArticle(data[0]);
-        let oldestChoosedArticle: itemsInterface | undefined = data.find(
-          (e) => e.choosed == true
-        );
-        setPrevChoosedArticle(oldestChoosedArticle);
 
-        let oldestChoosedArticle: itemsInterface | undefined = data.find(
-          (e) => e.choosed == true
-        );
+        let oldestChoosedArticle: any = data.find((e) => e.choosed == true);
         setPrevChoosedArticle(oldestChoosedArticle?.id);
         console.log("_______>>>", data);
         setItems(data);
@@ -218,8 +212,8 @@ const Store = () => {
                 src={
                   choosedArticle
                     ? choosedArticle.type === "avatar"
-                      ? `http://localhost:3000/av/${choosedArticle.img}`
-                      : `http://localhost:3000/pd/${choosedArticle.img}`
+                      ? `${choosedArticle.img}`
+                      : `${choosedArticle.img}`
                     : ""
                 }
                 width={200}
@@ -287,7 +281,7 @@ const Store = () => {
                       >
                         <Image
                           className="img"
-                          src={`http://localhost:3000/av/${article.img}`}
+                          src={`${article.img && article.img}`}
                           alt="avatar"
                           width={200}
                           height={200}
@@ -313,7 +307,8 @@ const Store = () => {
                       >
                         <Image
                           className="img"
-                          src={`http://localhost:3000/pd/${article.img}`}
+                          // src={`http://localhost:3000/pd/${article.img}`}
+                          src={`${article.img}`}
                           alt="paddle"
                           width={200}
                           height={200}

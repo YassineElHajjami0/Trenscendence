@@ -16,15 +16,15 @@ services:
     networks:
       - app-network
 
-  frontend:
-    container_name: frontend
-    depends_on:
-      - backend
-    build: ./frontend
-    ports:
-      - "7000:7000"
-    networks:
-      - app-network
+  # frontend:
+  #   container_name: frontend
+  #   depends_on:
+  #     - backend
+  #   build: ./frontend
+  #   ports:
+  #     - "7000:7000"
+  #   networks:
+  #     - app-network
 
   postgres:
     container_name: postgres
