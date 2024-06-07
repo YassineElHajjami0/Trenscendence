@@ -16,6 +16,10 @@ import { gameModeVar } from "./Atoms/gameMode";
 import { userToken } from "./Atoms/userToken";
 import { tablePicture } from "./Atoms/tablePicture";
 
+class User {
+	constructor(public id: number, public username: string) {}
+}
+
 export default function SubChildrens({
 	children,
 }: {
@@ -30,24 +34,6 @@ export default function SubChildrens({
 	const [gameRequestQueue, setGameRequestQueue] = useState<number[]>([]);
 	const [index, setIndex] = useState(-1);
 	const [, setTable] = useRecoilState(tablePicture);
-	const [username, setUsername] = useState("");
-	const userTok = useRecoilValue(userToken);
-
-	const fetchUserDatas = async (userId: number) => {
-		try {
-			const res = await fetch(`http://localhost:3000/users/${userId}`, {
-				method: "GET",
-				headers: {
-					Authorization: `Bearer ${userTok}`,
-					"Content-Type": "application/json",
-				},
-			});
-			const data = await res.json();
-			setUsername(data.username);
-		} catch (error) {
-			console.log("catched error: ", error);
-		}
-	};
 
 	useEffect(() => {
 		user === -1 && router.push("/login");
@@ -68,7 +54,7 @@ export default function SubChildrens({
 					index: number;
 					table: string;
 				}) => {
-					fetchUserDatas(opponentId);
+					// fetchUserDatas(opponentId);
 					console.log(`Game request from ${opponentId}`);
 					setGameRequestQueue((prevQueue) => [...prevQueue, opponentId]);
 					setIndex(index);
@@ -127,8 +113,8 @@ export default function SubChildrens({
 			setGameRequestQueue((prevQueue) => prevQueue.slice(1)); // Remove the current request from the queue
 			if (accepted) {
 				setGameRequestQueue([]); // remove all other requests from the queue
+				setGameMode('friend');
 				router.push('/play');
-				// setGameMode('friend');
 				socket.emit("go_to_game", {
 					userId: user,
 					opponentId: gameRequestValue,
@@ -140,10 +126,12 @@ export default function SubChildrens({
 	useEffect(() => {
 		socket.on("go_to_game", (opponentId: number) => {
 			setGameMode("friend");
+			router.push("/play");
 		});
 
 		socket.on("go_to_random_game", () => {
 			setGameMode("random");
+			router.push("/play");
 			console.log("go to random game event received");
 		});
 
@@ -164,7 +152,7 @@ export default function SubChildrens({
 	return (
 		<div className="upperNav-children-container">
 			<UpperNav />
-			{gameRequestValue !== -1 && <GameRequestPopup username={username} />}
+			{gameRequestValue !== -1 && <GameRequestPopup />}
 			{children}
 		</div>
 	);
