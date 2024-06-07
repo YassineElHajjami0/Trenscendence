@@ -60,17 +60,17 @@ export default function SubChildrens({
 			socket.on(
 				"game_request_request",
 				({
-					userId,
+					opponentId: opponentId,
 					index,
 					table,
 				}: {
-					userId: number;
+					opponentId: number;
 					index: number;
 					table: string;
 				}) => {
-					fetchUserDatas(userId);
-					console.log(`Game request from ${userId}`);
-					setGameRequestQueue((prevQueue) => [...prevQueue, userId]);
+					fetchUserDatas(opponentId);
+					console.log(`Game request from ${opponentId}`);
+					setGameRequestQueue((prevQueue) => [...prevQueue, opponentId]);
 					setIndex(index);
 					setTable(table);
 				}
