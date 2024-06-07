@@ -54,7 +54,6 @@ export default function SubChildrens({
 					index: number;
 					table: string;
 				}) => {
-					// fetchUserDatas(opponentId);
 					console.log(`Game request from ${opponentId}`);
 					setGameRequestQueue((prevQueue) => [...prevQueue, opponentId]);
 					setIndex(index);
