@@ -34,15 +34,19 @@ export default function SubChildrens({
   const userTok = useRecoilValue(userToken);
 
   const fetchUserDatas = async (userId: number) => {
-    const res = await fetch(`http://localhost:3000/users/${userId}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${userTok}`,
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    setUsername(data.username);
+    try {
+      const res = await fetch(`http://localhost:3000/users/${userId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      setUsername(data.username);
+    } catch (error) {
+      console.log("catched error: ", error);
+    }
   };
 
   useEffect(() => {

@@ -86,27 +86,31 @@ export function PingPong() {
 	}
 
 	const fetchUserDatas = async (userId: number, opponentId: number) => {
-		const res = await fetch(`http://localhost:3000/users/${userId}`, {
-			method: "GET",
-			headers: {
-				Authorization: `Bearer ${userTok}`,
-				"Content-Type": "application/json",
-			},
-		});
-		const data = await res.json();
-		setLeftPlayer(data.username);
-		setLeftAvatar(data.avatar);
-
-		const res2 = await fetch(`http://localhost:3000/users/${opponentId}`, {
-			method: "GET",
-			headers: {
-				Authorization: `Bearer ${userTok}`,
-				"Content-Type": "application/json",
-			},
-		});
-		const data2 = await res2.json();
-		setRightPlayer(data2.username);
-		setRightAvatar(data2.avatar);
+		try {
+			const res = await fetch(`http://localhost:3000/users/${userId}`, {
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${userTok}`,
+					"Content-Type": "application/json",
+				},
+			});
+			const data = await res.json();
+			setLeftPlayer(data.username);
+			setLeftAvatar(data.avatar);
+	
+			const res2 = await fetch(`http://localhost:3000/users/${opponentId}`, {
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${userTok}`,
+					"Content-Type": "application/json",
+				},
+			});
+			const data2 = await res2.json();
+			setRightPlayer(data2.username);
+			setRightAvatar(data2.avatar);
+		} catch (error) {
+			console.log("catched error: ", error);
+		}
 	}
 
 	useEffect(() => {

@@ -48,42 +48,50 @@ function RobotGame() {
 	const rightArrowRef = useRef<HTMLButtonElement | null>(null);
 
 	const addAchievement = async () => {
-		const getedAchievements = await fetch(`http://localhost:3000/user-achievement/${userId}`, {
-			method: "GET",
-			headers: {
-				Authorization: `Bearer ${userTok}`,
-				"Content-Type": "application/json",
-			},
-		});
-		const achievements = await getedAchievements.json();
-
-		const botAchievement = achievements.find((a: any) => a.name === 'AI Conqueror');
-		if (botAchievement && botAchievement.unlocked === false) {
-			await fetch(`http://localhost:3000/user-achievement/`, {
-				method: "POST",
+		try {
+			const getedAchievements = await fetch(`http://localhost:3000/user-achievement/${userId}`, {
+				method: "GET",
 				headers: {
 					Authorization: `Bearer ${userTok}`,
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({
-					userId: userId,
-					achivementName: 'AI Conqueror',
-					unlocked: true,
-				}),
 			});
+			const achievements = await getedAchievements.json();
+	
+			const botAchievement = achievements.find((a: any) => a.name === 'AI Conqueror');
+			if (botAchievement && botAchievement.unlocked === false) {
+				await fetch(`http://localhost:3000/user-achievement/`, {
+					method: "POST",
+					headers: {
+						Authorization: `Bearer ${userTok}`,
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						userId: userId,
+						achivementName: 'AI Conqueror',
+						unlocked: true,
+					}),
+				});
+			}
+		} catch (error) {
+			console.log("catched error: ", error);
 		}
 	};
 
 	const fetchUserDatas = async (userId: number) => {
-		const res = await fetch(`http://localhost:3000/users/${userId}`, {
-			method: "GET",
-			headers: {
-				Authorization: `Bearer ${userTok}`,
-				"Content-Type": "application/json",
-			},
-		});
-		const data = await res.json();
-		setUserData(data);
+		try {
+			const res = await fetch(`http://localhost:3000/users/${userId}`, {
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${userTok}`,
+					"Content-Type": "application/json",
+				},
+			});
+			const data = await res.json();
+			setUserData(data);
+		} catch (error) {
+			console.log("catched error: ", error);
+		}
 	}
 
 	const handleQuit = () => {
