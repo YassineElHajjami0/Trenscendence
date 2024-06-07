@@ -146,7 +146,8 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 				users.get(userData.userId)?.sockets.push(client);
 				console.log(`Client ${client.id} added to user ${userData.userId} sockets`);
 			}
- 
+
+			// this is for when user refreshes the page
 			const roomId = [...rooms.keys()].find((roomId) =>
 				roomId.includes(userData.userId.toString()),
 			);
@@ -210,7 +211,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 		console.log(`Game request received!`, payload);
 		if (users.has(payload.opponentId)) {
 			users.get(payload.opponentId)?.sockets.forEach((socket) => {
-				socket.emit('game_request_request', { userId: payload.userId, index: payload.index, table: payload.table });
+				socket.emit('game_request_request', { opponentId: payload.userId, index: payload.index, table: payload.table });
 			});
 		} else {
 			client.emit('game_request_request', 'Opponent not found');
