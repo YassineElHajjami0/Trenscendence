@@ -123,10 +123,10 @@ export default function Friend({
             <>
               <button
                 className={`friend_component_btn friend_msg ${
-                  (blocked || !logged) && "disable_btns"
+                  blocked && "disable_btns"
                 }`}
                 onClick={test}
-                disabled={blocked || !logged}
+                disabled={blocked}
               >
                 <LuMessagesSquare />
               </button>

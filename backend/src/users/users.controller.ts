@@ -13,14 +13,14 @@ import {
 import { Roles } from '../auth/decorators/role.decorator';
 import { Role } from '../auth/enums/role.enum';
 import { UsersService } from './users.service';
-import { Prisma } from '@prisma/client';
+import { Prisma, UserStatus } from '@prisma/client';
 import { UpdateUserDto } from './dto/update-User.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -51,6 +51,10 @@ export class UsersController {
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     console.log('PATCH');
     return this.usersService.update(+id, updateUserDto);
+  }
+  @Patch('/status/:id')
+  updateStatus(@Param('id') id: string, @Body() status: any) {
+    return this.usersService.updateStatus(+id, status);
   }
 
   @Delete()

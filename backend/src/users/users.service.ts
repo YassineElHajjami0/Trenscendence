@@ -9,10 +9,11 @@ import { DatabaseService } from 'src/database/database.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-User.dto';
+import { UserStatus } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly databaseService: DatabaseService) { }
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async delete() {
     return this.databaseService.t_User.deleteMany({});
@@ -132,6 +133,15 @@ export class UsersService {
     return this.databaseService.t_User.update({
       where: { uid },
       data: updateUserDto,
+    });
+  }
+
+  async updateStatus(uid: number, status: UserStatus) {
+    console.log('>>>>>>>>', status);
+
+    return this.databaseService.t_User.update({
+      where: { uid },
+      data: status,
     });
   }
 
