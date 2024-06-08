@@ -71,7 +71,7 @@ export default function SubChildrens({
 			return () => {
 				socket.off("new_user");
 				socket.off("game_request_request");
-				socket.off("remove_notification");
+				// socket.off("remove_notification");
 			};
 		}
 	}, [user]);

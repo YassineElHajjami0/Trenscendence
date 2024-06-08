@@ -232,17 +232,17 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 		}
 	}
 
-	@SubscribeMessage('remove_notification')
-	handleRemoveNotification(
-		client: Socket,
-		payload: { userId: number; opponentId: number },
-	) {
-		if (users.has(payload.opponentId)) {
-			users.get(payload.opponentId)?.sockets.forEach((socket) => {
-				socket.emit('remove_notification');
-			});
-		}
-	}
+	// @SubscribeMessage('remove_notification')
+	// handleRemoveNotification(
+	// 	client: Socket,
+	// 	payload: { userId: number; opponentId: number },
+	// ) {
+	// 	if (users.has(payload.opponentId)) {
+	// 		users.get(payload.opponentId)?.sockets.forEach((socket) => {
+	// 			socket.emit('remove_notification');
+	// 		});
+	// 	}
+	// }
 
 	// Random player
 

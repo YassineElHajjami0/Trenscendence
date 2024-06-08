@@ -286,7 +286,7 @@ export default function Popup({ setShowPopup }: any) {
 				toast.error(`Game rejected from ${opponentId}`);
 			}
 
-			socket.emit('remove_notification', { userId: userId, opponentId: opponentId });
+			// socket.emit('remove_notification', { userId: userId, opponentId: opponentId });
 
 			setLoadingStates(prevState => ({
 				...prevState,
