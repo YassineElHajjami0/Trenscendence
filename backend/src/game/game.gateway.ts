@@ -65,8 +65,8 @@ class Room {
 	player1: User;
 	player2: User;
 	ball: Ball;
-	paddle1: Paddle;
-	paddle2: Paddle;
+	// paddle1: Paddle;
+	// paddle2: Paddle;
 	matchDetails: MatchDetails;
 	gameMode: string;
 	ballInterval: NodeJS.Timeout;
@@ -75,6 +75,7 @@ class Room {
 class User {
 	userId: number;
 	sockets: Socket[] = [];
+	paddle: Paddle;
 }
 
 const queue: User[] = [];
@@ -157,13 +158,13 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 					client.join(roomId);
 					if (room.gameMode === 'friend') {
 						client.emit('go_to_game', room.player1.userId === userData.userId ? room.player2.userId : room.player1.userId);
-						if (room.player1 !== undefined && room.player2 !== undefined && room.ball !== undefined && room.paddle1 !== undefined && room.paddle2 !== undefined) {
-							client.emit('start_friend_game', room.ball, room.paddle1, room.paddle2,{ userId: room.player1.userId, opponentId: room.player2.userId });
+						if (room.player1 !== undefined && room.player2 !== undefined && room.ball !== undefined) {
+							client.emit('start_game', room.ball, room.player1.paddle, room.player2.paddle, { userId: room.player1.userId, opponentId: room.player2.userId })
 						}
 					} else if (room.gameMode === 'random') {
 						client.emit('go_to_random_game');
-						if (room.player1 !== undefined && room.player2 !== undefined && room.ball !== undefined && room.paddle1 !== undefined && room.paddle2 !== undefined) {
-							client.emit('start_game', room.ball, room.paddle1, room.paddle2, { userId: room.player1.userId,opponentId: room.player2.userId });
+						if (room.player1 !== undefined && room.player2 !== undefined && room.ball !== undefined) {
+							client.emit('start_game', room.ball, room.player1.paddle, room.player2.paddle, { userId: room.player1.userId, opponentId: room.player2.userId })
 						}
 					}
 				}
@@ -250,11 +251,22 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 		if (users.has(payload.userId)) {
 			const user = users.get(payload.userId);
 			if (!queue.includes(user)) {
+				if (queue.length === 0) {
+					user.paddle = new Paddle(
+						0,
+						CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
+						PADDLE_WIDTH,
+						PADDLE_HEIGHT,
+					);
+				} else {
+					user.paddle = new Paddle(
+						CANVAS_WIDTH - PADDLE_WIDTH,
+						CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
+						PADDLE_WIDTH,
+						PADDLE_HEIGHT,
+					);
+				}
 				queue.push(user);
-				// if (!user.sockets.includes(client)) {
-				// 	user.sockets.push(client);
-				// }
-				console.log('user found and Joining queue', payload.userId, '  queue length: ', queue.length);
 			}
 			if (queue.length === 2) {
 				const player1 = queue.shift();
@@ -289,18 +301,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 					BALL_DY,
 					BALL_SPEED,
 				);
-				room.paddle1 = new Paddle(
-					0,
-					CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
-					PADDLE_WIDTH,
-					PADDLE_HEIGHT,
-				);
-				room.paddle2 = new Paddle(
-					CANVAS_WIDTH - PADDLE_WIDTH,
-					CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
-					PADDLE_WIDTH,
-					PADDLE_HEIGHT,
-				);
+
 				room.gameMode = 'random';
 
 				rooms.set(roomId, room);
@@ -309,16 +310,10 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 					room.matchDetails.gameMode = $Enums.GameMode.RANDOM;
 					room.matchDetails.startAt = new Date();
 					player1.sockets.forEach((socket) => {
-						socket.emit('start_game', room.ball, room.paddle1, room.paddle2, {
-							userId: player1.userId,
-							opponentId: player2.userId,
-						});
+						socket.emit('start_game', room.ball, player1.paddle, player2.paddle, { userId: player1.userId, opponentId: player2.userId });
 					});
 					player2.sockets.forEach((socket) => {
-						socket.emit('start_game', room.ball, room.paddle1, room.paddle2, {
-							userId: player1.userId,
-							opponentId: player2.userId,
-						});
+						socket.emit('start_game', room.ball, player1.paddle, player2.paddle, { userId: player1.userId, opponentId: player2.userId });
 					});
 
 					this.updateBall(room, roomId);
@@ -350,37 +345,24 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 		payload: { userId: number; keyCode: string },
 	) {
 		if (users.has(payload.userId)) {
-			const roomId = [...client.rooms].filter(
-				(roomId) => roomId !== client.id,
-			)[0];
+			const roomId = [...client.rooms].filter((roomId) => roomId !== client.id)[0];
 			const room = rooms.get(roomId);
 			if (room) {
-				if (users.get(payload.userId) === room.player1) {
-					if (payload.keyCode === 'up') {
-						if (room.paddle1.y > 0) {
-							room.paddle1.y -= PADDLE_SPEED;
-						}
-					} else if (payload.keyCode === 'down') {
-						if (room.paddle1.y + room.paddle1.height < CANVAS_HEIGHT) {
-							room.paddle1.y += PADDLE_SPEED;
-						}
+				const user = users.get(payload.userId);
+				if (payload.keyCode === 'up') {
+					if (user.paddle.y > 0) {
+						user.paddle.y -= PADDLE_SPEED;
 					}
-				} else if (users.get(payload.userId) === room.player2) {
-					if (payload.keyCode === 'up') {
-						if (room.paddle2.y > 0) {
-							room.paddle2.y -= PADDLE_SPEED;
-						}
-					} else if (payload.keyCode === 'down') {
-						if (room.paddle2.y + room.paddle2.height < CANVAS_HEIGHT) {
-							room.paddle2.y += PADDLE_SPEED;
-						}
+				} else if (payload.keyCode === 'down') {
+					if (user.paddle.y + user.paddle.height < CANVAS_HEIGHT) {
+						user.paddle.y += PADDLE_SPEED;
 					}
 				}
 				room.player1.sockets.forEach((socket) => {
-					socket.emit('update', room.ball, room.paddle1, room.paddle2);
+					socket.emit('update', room.ball, room.player1.paddle, room.player2.paddle);
 				});
 				room.player2.sockets.forEach((socket) => {
-					socket.emit('update', room.ball, room.paddle1, room.paddle2);
+					socket.emit('update', room.ball, room.player1.paddle, room.player2.paddle);
 				});
 			}
 		}
@@ -402,10 +384,11 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 				room.player2.sockets.forEach((socket) => {
 					socket.leave(roomId);
 				});
-				if (users.get(payload.userId) === room.player1) {
+				const user = users.get(payload.userId);
+				if (user === room.player1) {
 					room.matchDetails.endAt = new Date();
-					room.matchDetails.winnerScore = room.paddle2.score;
-					room.matchDetails.loserScore = room.paddle1.score;
+					room.matchDetails.winnerScore = room.player2.paddle.score;
+					room.matchDetails.loserScore = room.player1.paddle.score;
 					room.matchDetails.winner = room.player2.userId;
 					room.matchDetails.loser = room.player1.userId;
 
@@ -417,10 +400,10 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 					room.player1.sockets.forEach((socket) => {
 						socket.emit('game_over', `You concede. You lose.`);
 					});
-				} else {
+				} else if (user === room.player2) {
 					room.matchDetails.endAt = new Date();
-					room.matchDetails.winnerScore = room.paddle1.score;
-					room.matchDetails.loserScore = room.paddle2.score;
+					room.matchDetails.winnerScore = room.player1.paddle.score;
+					room.matchDetails.loserScore = room.player2.paddle.score;
 					room.matchDetails.winner = room.player1.userId;
 					room.matchDetails.loser = room.player2.userId;
 					this.matchHistoryService.create(room.matchDetails as any);
@@ -477,8 +460,22 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 	@SubscribeMessage('ready')
 	handleReady(client: Socket, payload: { userId: number }) {
 		if (againstFriendQueue.length < 2 && users.has(payload.userId)) {
+			if (againstFriendQueue.length === 0) {
+				users.get(payload.userId).paddle = new Paddle(
+					0,
+					CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
+					PADDLE_WIDTH,
+					PADDLE_HEIGHT,
+				);
+			} else if (againstFriendQueue.length === 1) {
+				users.get(payload.userId).paddle = new Paddle(
+					CANVAS_WIDTH - PADDLE_WIDTH,
+					CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
+					PADDLE_WIDTH,
+					PADDLE_HEIGHT,
+				);
+			}
 			againstFriendQueue.push(users.get(payload.userId));
-			console.log('againstFriendQueue length: ', againstFriendQueue.length, 'users in againstFriendQueue: ', againstFriendQueue);
 		}
 		if (againstFriendQueue.length === 2) {
 			const player1 = againstFriendQueue.shift();
@@ -491,6 +488,8 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
 			if (roomId) {
 				const room = rooms.get(roomId);
+				room.player1 = player1;
+				room.player2 = player2;
 				room.ball = new Ball(
 					CANVAS_WIDTH / 2,
 					CANVAS_HEIGHT / 2,
@@ -499,38 +498,14 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 					BALL_DY,
 					BALL_SPEED,
 				);
-				room.paddle1 = new Paddle(
-					0,
-					CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
-					PADDLE_WIDTH,
-					PADDLE_HEIGHT,
-				);
-				room.paddle2 = new Paddle(
-					CANVAS_WIDTH - PADDLE_WIDTH,
-					CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
-					PADDLE_WIDTH,
-					PADDLE_HEIGHT,
-				);
 
 				room.matchDetails.startAt = new Date();
 
 				player1.sockets.forEach((socket) => {
-					socket.emit(
-						'start_friend_game',
-						room.ball,
-						room.paddle1,
-						room.paddle2,
-						{ userId: player1.userId, opponentId: player2.userId },
-					);
+					socket.emit('start_friend_game', room.ball, player1.paddle, player2.paddle, { userId: player1.userId, opponentId: player2.userId });
 				});
 				player2.sockets.forEach((socket) => {
-					socket.emit(
-						'start_friend_game',
-						room.ball,
-						room.paddle1,
-						room.paddle2,
-						{ userId: player1.userId, opponentId: player2.userId },
-					);
+					socket.emit('start_friend_game', room.ball, player1.paddle, player2.paddle, { userId: player1.userId, opponentId: player2.userId });
 				});
 
 				this.updateBall(room, roomId);
@@ -559,28 +534,28 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 		}
 
 		if (room.ball.x < -room.ball.raduis) {
-			room.paddle1.score++;
+			room.player2.paddle.score++;
 			room.player1.sockets.forEach((socket) => {
-				socket.emit('update_score', room.paddle1.score, room.paddle2.score);
+				socket.emit('update_score', room.player2.paddle.score, room.player1.paddle.score);
 			});
 			room.player2.sockets.forEach((socket) => {
-				socket.emit('update_score', room.paddle1.score, room.paddle2.score);
+				socket.emit('update_score', room.player2.paddle.score, room.player1.paddle.score);
 			});
-			if (room.paddle1.score === WINNER_SCORE) {
+			if (room.player2.paddle.score === WINNER_SCORE) {
 				room.matchDetails.endAt = new Date();
-				room.matchDetails.winnerScore = room.paddle1.score;
-				room.matchDetails.loserScore = room.paddle2.score;
-				room.matchDetails.winner = room.player1.userId;
-				room.matchDetails.loser = room.player2.userId;
+				room.matchDetails.winnerScore = room.player2.paddle.score;
+				room.matchDetails.loserScore = room.player1.paddle.score;
+				room.matchDetails.winner = room.player2.userId;
+				room.matchDetails.loser = room.player1.userId;
 				this.matchHistoryService.create(room.matchDetails as any);
 
 				room.gameMode = '';
 				clearInterval(room.ballInterval);
-				room.player1.sockets.forEach((socket) => {
+				room.player2.sockets.forEach((socket) => {
 					socket.emit('game_over', 'Victory is yours.');
 					socket.leave(roomId);
 				});
-				room.player2.sockets.forEach((socket) => {
+				room.player1.sockets.forEach((socket) => {
 					socket.emit('game_over', 'Defeat is yours.');
 					socket.leave(roomId);
 				});
@@ -589,29 +564,30 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 			}
 			resetBall();
 		} else if (room.ball.x > CANVAS_WIDTH + room.ball.raduis) {
-			room.paddle2.score++;
-			room.player2.sockets.forEach((socket) => {
-				socket.emit('update_score', room.paddle1.score, room.paddle2.score);
-			});
+			room.player1.paddle.score++;
 			room.player1.sockets.forEach((socket) => {
-				socket.emit('update_score', room.paddle1.score, room.paddle2.score);
+				socket.emit('update_score', room.player2.paddle.score, room.player1.paddle.score);
 			});
-			if (room.paddle2.score === WINNER_SCORE) {
+			room.player2.sockets.forEach((socket) => {
+				socket.emit('update_score', room.player2.paddle.score, room.player1.paddle.score);
+			});
+
+			if (room.player1.paddle.score === WINNER_SCORE) {
 				room.matchDetails.endAt = new Date();
-				room.matchDetails.winnerScore = room.paddle2.score;
-				room.matchDetails.loserScore = room.paddle1.score;
-				room.matchDetails.winner = room.player2.userId;
-				room.matchDetails.loser = room.player1.userId;
+				room.matchDetails.winnerScore = room.player1.paddle.score;
+				room.matchDetails.loserScore = room.player2.paddle.score;
+				room.matchDetails.winner = room.player1.userId;
+				room.matchDetails.loser = room.player2.userId;
 				this.matchHistoryService.create(room.matchDetails as any);
 
 				room.gameMode = '';
 
 				clearInterval(room.ballInterval);
-				room.player2.sockets.forEach((socket) => {
+				room.player1.sockets.forEach((socket) => {
 					socket.emit('game_over', 'Victory is yours.');
 					socket.leave(roomId);
 				});
-				room.player1.sockets.forEach((socket) => {
+				room.player2.sockets.forEach((socket) => {
 					socket.emit('game_over', 'Defeat is yours.');
 					socket.leave(roomId);
 				});
@@ -631,11 +607,10 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 			room.ball.dy = -room.ball.dy;
 		}
 
-		const thePlayer =
-			room.ball.x < CANVAS_WIDTH / 2 ? room.paddle1 : room.paddle2;
+		const thePlayer = room.ball.x < CANVAS_WIDTH / 2 ? room.player1.paddle : room.player2.paddle;
 		if (collision(room.ball, thePlayer)) {
 			let collidePoint = room.ball.y - (thePlayer.y + thePlayer.height / 2);
-			collidePoint /= room.paddle2.height;
+			collidePoint /= room.player1.paddle.height / 2;
 			let angleRad = (Math.PI / 4) * collidePoint;
 			let direction =
 				room.ball.x + room.ball.raduis < CANVAS_WIDTH / 2 ? 1 : -1;
@@ -645,10 +620,10 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 		}
 
 		room.player1.sockets.forEach((socket) => {
-			socket.emit('update', room.ball, room.paddle1, room.paddle2);
+			socket.emit('update', room.ball, room.player1.paddle, room.player2.paddle);
 		});
 		room.player2.sockets.forEach((socket) => {
-			socket.emit('update', room.ball, room.paddle1, room.paddle2);
+			socket.emit('update', room.ball, room.player1.paddle, room.player2.paddle);
 		});
 	}
 
