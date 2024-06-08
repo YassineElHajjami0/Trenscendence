@@ -266,9 +266,6 @@ export default function Popup({ setShowPopup }: any) {
 				...prevState,
 				[index]: false
 			}));
-
-			socket.emit('remove_notification', { userId: userId, opponentId: opponentId });
-
 		}, 10000);
 
 		requestTimeouts.current[index] = timeout;
