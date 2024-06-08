@@ -9,9 +9,33 @@ import socket from "./gameSocket";
 
 import '../play/play-page-style.css';
 
-export default function GameRequestPopup({ username }: { username: string }) {
+export default function GameRequestPopup() {
 	const [gameResponseValue, setGameResponseValue] = useRecoilState(gameResponse);
 	const [gameRequestValue, setGameRequestValue] = useRecoilState(gameRequest);
+	const userTok = useRecoilValue(userToken);
+	const [username, setUsername] = useState("");
+
+	const fetchUserDatas = async (userId: number) => {
+		try {
+			const res = await fetch(`http://localhost:3000/users/${userId}`, {
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${userTok}`,
+					"Content-Type": "application/json",
+				},
+			});
+			const data = await res.json();
+			setUsername(data.username);
+		} catch (error) {
+			console.log("catched error: ", error);
+		}
+	};
+
+	useEffect(() => {
+		if (gameRequestValue !== -1) {
+			fetchUserDatas(gameRequestValue);
+		}
+	}, [gameRequestValue]);
 
 	const handleAccept = () => {
 		setGameResponseValue(1);
