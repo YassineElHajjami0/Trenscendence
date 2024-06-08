@@ -1,8 +1,8 @@
-import { Ranks } from '@prisma/client';
+import { Ranks, UserStatus } from '@prisma/client';
 import { IsEmail, MinLength, Matches } from 'class-validator';
 
 export class CreateUserDto {
-  status?: string;
+  status?: UserStatus;
 
   @MinLength(5)
   username: string;
