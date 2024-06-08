@@ -239,7 +239,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 	) {
 		if (users.has(payload.opponentId)) {
 			users.get(payload.opponentId)?.sockets.forEach((socket) => {
-				socket.emit('remove_notification', payload.userId);
+				socket.emit('remove_notification');
 			});
 		}
 	}

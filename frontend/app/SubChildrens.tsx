@@ -61,11 +61,11 @@ export default function SubChildrens({
 				}
 			);
 
-			socket.on("remove_notification", (opponentId: number) => {
-				console.log(`Remove notification from ${opponentId}`);
-				setGameRequestQueue((prevQueue) =>
-					prevQueue.filter((id) => id !== opponentId)
-				);
+			// Remove notification from the queue is not working properly the event is not being triggered when another request sent from play page popup to another user
+			socket.on("remove_notification", () => {
+				setGameRequestQueue((prevQueue) => prevQueue.slice(1));
+				setGameRequestValue(-1);
+				setGameResponseValue(0);
 			});
 
 			return () => {
