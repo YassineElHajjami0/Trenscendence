@@ -21,13 +21,13 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
     // const user = await this.authService.signUpWithProvider({
     //   username: login,
     //   email: email,
-    //   password: this.authService.generateRandomPassword(10),
+    //   password: this.authService.generateRandomChars(10),
     //   strategy: '42',
     // });
     const user = {
       username: login,
       email: email,
-      password: this.authService.generateRandomPassword(10),
+      password: this.authService.generateRandomChars(10),
       strategy: '42',
     }
     // done(null, user);

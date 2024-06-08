@@ -59,8 +59,6 @@ export class ChannelService {
       };
       channelData.roles.push(roleData);
     });
-    console.log('yeaaaaaaaaaaaaaah');
-
     this.chatGateway.updateFriendList(channelData);
     return channelData;
   }

@@ -76,8 +76,8 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
       },
     });
     const data = await res.data;
+    setIsFriend(data);
     setTimeout(() => {
-      setIsFriend(data);
       setLoading(false);
     }, 1000);
   };

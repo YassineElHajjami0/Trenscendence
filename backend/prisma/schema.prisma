@@ -99,9 +99,16 @@ enum Ranks {
   Apex
 }
 
+enum UserStatus {
+  online
+  offline
+  ingame
+}
+
+// yalah zednaha
 model T_User {
   uid              Int               @id @default(autoincrement())
-  status           String            @default("online")
+  status           UserStatus        @default(offline)
   username         String            @unique
   email            String            @unique
   bio              String            @default("I am a player")

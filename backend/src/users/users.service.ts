@@ -45,7 +45,9 @@ export class UsersService {
       });
       return user;
     } catch (err: any) {
-      return err.message;
+      throw new UnauthorizedException(
+        `${err.meta?.target} cannot be duplicated`,
+      );
     }
   }
 

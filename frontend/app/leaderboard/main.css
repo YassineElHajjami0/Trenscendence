@@ -47,237 +47,164 @@ ul {
 
 
 /* rank */
-.leaders-leaderboard {
+.leaders {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: center;
+    gap: 50px;
     align-items: flex-end;
 }
 
-.leaders-leaderboard .box-leaderboard {
-    max-width: 30%;
-    width: 30%;
-    background-color: #262629;
-    padding: 20px;
-    border-top: 5px solid var(--main-color);
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
-.leaders-leaderboard > :nth-child(2) {
-    order: -1;
+/* Handle images */
+.leaders img {
+    width: 100%;
+    height: 100%;
 }
 
-.leaders-leaderboard .box-leaderboard > :first-child {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.leaders .profile .image {
+    width: 70px;
 }
 
-.leaders-leaderboard .box-leaderboard .prof-leaderboard {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    max-width: 300px;
+.leaders .profile .detail .image {
+    width: 50px;
 }
 
-.leaders-leaderboard .box-leaderboard .prof-leaderboard span {
-    display: block;
-}
-
-.leaders-leaderboard .box-leaderboard .prof-leaderboard > div {
-    max-width: 100%;
-}
-
-.leaders-leaderboard .box-leaderboard .prof-leaderboard > div * {
-    max-width: 100%;
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Ensure content does not overflow the h2 */
-    text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
-    margin: 0;
-}
-
-
-@keyframes move_right {
-    0% {
-        transform: translateX(-100px);
-    }
-    25% {
-        transform: translateX(0px);
-    }
-    50% {
-        transform: translateX(100px);
-    }
-    75% {
-        transform: translateX(200px);
-    }
-    100% {
-        transform: translateX(300px);
-    }
-}
-.leaders-leaderboard .box-leaderboard .prof-img img {
+.leaders .cup {
     width: 120px;
     height: 120px;
 }
+/* box */
+.leaders .box {
+    /* flex: 0.3; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top: 10px solid #1CE14E;
+    background-color: #2d2d30;
+}
 
-.leaders-leaderboard .box-leaderboard .prof-leaderboard > div img {
-    width: 50px;
-    height: 50px;
+@media (min-width: 1440px) {
+    .leaders > :first-child {
+        height: 300px;
+    }
 }
-.leaders-leaderboard .box-leaderboard .cup-leaderboard img {
-    width: 150px;
-    height: 150px;
-}
-.leaders-leaderboard > :first-child .cup-leaderboard img {
-    width: 190px;
-    height: 190px;
+@media (max-width: 1024px) {
+    .leaders {
+        justify-content: space-between;
+        gap: 0px;
+    }
+    .leaders .box  {
+        width: 30%;
+    }
 }
 
+.leaders > :nth-child(2) {
+    order: -1;
+}
+
+.leaders > :first-child .cup {
+    width: 180px;
+    height: 180px;
+}
+
+.leaders .box > :first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.leaders .profile {
+    width: 300px;
+    max-width: calc(100% - 120px);
+    text-align: center;
+    white-space: nowrap; /* Prevent the text from wrapping to a new line */
+    overflow: hidden; /* Hide the overflow text */
+    text-overflow: ellipsis; /* Add ellipsis */
+}
+.leaders .profile h2 {
+    white-space: nowrap; /* Prevent the text from wrapping to a new line */
+    overflow: hidden; /* Hide the overflow text */
+    text-overflow: ellipsis; /* Add ellipsis */
+    margin: 0; /* Remove default margin to prevent overflow caused by margin */
+}
 
 @media (max-width: 1024px) {
-    .leaders-leaderboard .box-leaderboard .prof-leaderboard {
+    .leaders .box > :first-child {
         flex-direction: column;
     }
-    .leaders-leaderboard .box-leaderboard .prof-leaderboard img {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .leaders-leaderboard .box-leaderboard .prof-leaderboard > div img  {
-        width: 40px;
-        height: 40px;
-    }
-    .leaders-leaderboard .box-leaderboard .cup-leaderboard img {
-        width: 80px;
-        height: 80px;
-    }
-    .leaders-leaderboard > :first-child .cup-leaderboard img {
-        width: 100px;
-        height: 100px;
-    }
-}
 
-@media (max-width: 768px) {
-    .leaders-leaderboard {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
-    .leaders-leaderboard .box-leaderboard {
+    .leaders .profile {
+        width: 100%;
         max-width: 100%;
-        width: 70%;
-    }
-    .leaders-leaderboard .box-leaderboard .prof-leaderboard  {
-        max-width: 500px;
-        width: 500%;
-    }
-    .leaders-leaderboard .box-leaderboard .prof-leaderboard > div img  {
-        width: 60px;
-        height: 60px;
-    }
-    .leaders-leaderboard .box-leaderboard .cup-leaderboard img {
-        width: 120px;
-        height: 120px;
-    }
-    .leaders-leaderboard > :first-child .cup-leaderboard img {
-        width: 150px;
-        height: 150px;
     }
 }
 
 @media (max-width: 425px) {
-    .leaders-leaderboard .box-leaderboard {
-        width: 80%;
+    .leaders {
+        flex-direction: column;
+        gap: 20px;
     }
-    .leaders-leaderboard .box-leaderboard .prof-leaderboard  {
-        width: 200px;
+    .leaders .box {
+        width: 100%;
+        padding: 10px;
     }
-    .leaders-leaderboard .box-leaderboard .prof-leaderboard > div img  {
-        width: 40px;
-        height: 40px;
+    .leaders .box > :first-child {
+        flex-direction: row;
     }
-    .leaders-leaderboard .box-leaderboard .cup-leaderboard img {
-        width: 70px;
-        height: 70px;
-    }
-    .leaders-leaderboard > :first-child .cup-leaderboard img {
-        width: 80px;
-        height: 80px;
-    }
-    .leaders-leaderboard .box-leaderboard .prof-leaderboard h2 {
-        font-size: 15px;
-    }
-    .leaders-leaderboard .box-leaderboard .prof-leaderboard span {
-        font-size: 10px;
-    }
-    .leaders-leaderboard .box-leaderboard .rate-leaderboard {
-        font-size: 10px;
-    }
-}
-
-.leaders-leaderboard .rate-leaderboard {
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    max-width: 300px;
-    margin: auto;
-}
-
-.leaders-leaderboard .rate-leaderboard > div {
-    max-width: 30%;
-}
-
-.leaders-leaderboard .rate-leaderboard > div * {
-    display: block;
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Ensure content does not overflow the h2 */
-    text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
-    margin: 0;
-}
-
-@media (max-width: 320px) {
-    .leaders-leaderboard .box-leaderboard .prof-leaderboard > div img  {
-        width: 20px;
-        height: 20px;
-    }
-    .leaders-leaderboard .box-leaderboard .cup-leaderboard img {
+    .leaders .profile .image {
         width: 50px;
         height: 50px;
     }
-    .leaders-leaderboard > :first-child .cup-leaderboard img {
-        width: 60px;
-        height: 60px;
+    .leaders .profile h2 {
+        font-size: 15px;
     }
-    .leaders-leaderboard .rate-leaderboard {
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-end;
-        margin: auto;
-        gap: 5px;
-    }
-    .leaders-leaderboard .box-leaderboard {
-        display: flex;
-        justify-content: flex-end;
-    }
-    .leaders-leaderboard .box-leaderboard .prof-leaderboard {
-        justify-content: flex-end;
-        width: 100px;
-    }
-    .leaders-leaderboard .rate-leaderboard > div {
-        max-width: 100%;
+    .leaders .profile span {
+        font-size: 12px;
     }
 
+    .leaders .profile {
+        /* display: flex; */
+        width: 200px;
+    }
+    .leaders > :first-child .cup {
+        width: 120px;
+        height: 120px;
+    }
 }
 
 
+.leaders .profile .image {
+    margin: auto;
+}
+/* second stats */
+
+.leaders .stats {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .leaders .stats div {
+        font-size: 14px;
+    }
+}
 
 
 /* table */
 
 .scrollable-leaderboard {
-    margin-top: 10px;
-    height: 450px;
+    margin-top: 50px;
+    height: 500px;
     overflow-y: auto;
+}
+
+@media (max-width: 425px) {
+    .scrollable-leaderboard {
+        height: 350px;
+    }
 }
 
 

@@ -91,6 +91,18 @@
   overflow-y: hidden;
   /* padding: 5px; */
 }
+.current_friend_no_achievements {
+  width: 90%;
+  height: 80%;
+  display: grid;
+  place-items: center;
+}
+
+.current_friend_no_achievements img {
+  width: auto;
+  height: 50%;
+  filter: drop-shadow(0 0 50px #1ce14d40);
+}
 
 .current_friend_achievement {
   padding: 10px;

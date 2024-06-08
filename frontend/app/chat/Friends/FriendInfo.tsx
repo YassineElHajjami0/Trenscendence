@@ -11,17 +11,26 @@ import ProfileLoading from "./ProfileLoading";
 import axios from "axios";
 import { userToken } from "@/app/Atoms/userToken";
 import { getRank } from "@/app/util/headers";
+import { channelId } from "@/app/Atoms/channelId";
+
+import noAchievemnets from "../../../public/achievement/no_achievements.png";
+
 export const FriendInfo = () => {
   const [friend, setFriend] = useRecoilState(currentFriend);
   const loadingAnimation = useRecoilValue(loadingMsg);
   const userTok = useRecoilValue(userToken);
+
+  const [dmID, setDMID] = useRecoilState(channelId);
+
   const [userAchievement, setUserAchievement] = useState<any[]>([]);
+
+  const noUserAchievement = userAchievement.filter((e) => e?.unlocked);
 
   const handleSwitch = (e: any) => {
     e.preventDefault();
 
     const body = {
-      channelID: friend.id,
+      channelID: dmID,
       friendId: friend.uid,
       blocked: !friend.blocked,
     };
@@ -40,7 +49,7 @@ export const FriendInfo = () => {
     const getUserData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/user-achievement/${friend.id}`,
+          `http://localhost:3000/user-achievement/${friend.uid}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -55,9 +64,9 @@ export const FriendInfo = () => {
       }
     };
     getUserData();
-  }, [friend.id]);
+  }, [friend.uid]);
 
-  const rank = getRank(friend.xp + 302);
+  const rank = getRank(friend.xp);
 
   return loadingAnimation ? (
     <ProfileLoading />
@@ -87,24 +96,30 @@ export const FriendInfo = () => {
       </div>
       <div className="current_friend_achievements_container">
         <h1>achievements</h1>
-        <div className="current_friend_achievements">
-          {userAchievement.map((a: any) => {
-            if (a?.unlocked)
-              return (
-                <div key={a?.name} className="current_friend_achievement">
-                  <Image
-                    className="current_friend_achievement_badge"
-                    src={`http://localhost:3000${a.uri}`}
-                    width={5000}
-                    height={5000}
-                    alt="achievement_badge"
-                  />
+        {noUserAchievement.length > 0 ? (
+          <div className="current_friend_achievements">
+            {userAchievement.map((a: any) => {
+              if (a?.unlocked)
+                return (
+                  <div key={a?.name} className="current_friend_achievement">
+                    <Image
+                      className="current_friend_achievement_badge"
+                      src={`http://localhost:3000/ach${a.uri}`}
+                      width={5000}
+                      height={5000}
+                      alt="achievement_badge"
+                    />
 
-                  <span>{a?.name}</span>
-                </div>
-              );
-          })}
-        </div>
+                    <span>{a?.name}</span>
+                  </div>
+                );
+            })}
+          </div>
+        ) : (
+          <div className="current_friend_no_achievements">
+            <Image src={noAchievemnets} alt="noob" width={500} height={500} />
+          </div>
+        )}
       </div>
       <div className="current_friend_block">
         <button

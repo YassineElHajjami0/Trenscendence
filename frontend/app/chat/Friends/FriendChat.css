@@ -4,14 +4,17 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 5px;
+  padding: 10px;
 
   position: relative;
   cursor: pointer;
+
+  border-radius: 0 10px 10px 0;
 }
 .friend_chat_container::before {
   content: "";
   position: absolute;
+  border-radius: inherit;
   top: 0;
   left: 0;
   height: 100%;
@@ -19,8 +22,12 @@
   z-index: -1;
   background: linear-gradient(to right, #1ce14e -50%, rgba(255, 255, 255, 0));
   transition: 0.3s;
-  border-radius: 0 10px 10px 0;
 }
+
+.selected_channel_dm {
+  background: hsla(135, 78%, 50%, 0.1);
+}
+
 .friend_chat_container:hover::before {
   width: 100%;
 }

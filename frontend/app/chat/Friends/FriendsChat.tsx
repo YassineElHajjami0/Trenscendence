@@ -64,7 +64,7 @@ export default function FriendsChat() {
     myFriends.sort((a: any, b: any) => {
       return new Date(b.sendAT).getTime() - new Date(a.sendAT).getTime();
     });
-  }, [myFriends]);
+  });
 
   useEffect(() => {
     const updateFriends = (friend: any) => {
@@ -91,7 +91,11 @@ export default function FriendsChat() {
         },
       });
       const data = await response.json();
+      data.sort((a: any, b: any) => {
+        return new Date(b.sendAT).getTime() - new Date(a.sendAT).getTime();
+      });
       setMyFriends(data);
+      console.log("eeeeeeb >>>>", data);
     } catch (error) {
       console.log("Error111");
     }

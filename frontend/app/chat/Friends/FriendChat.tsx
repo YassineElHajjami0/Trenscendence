@@ -17,10 +17,15 @@ interface FriendChatProps {
 const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
   const UID = useRecoilValue(loggedUser);
   const myFriend = friendData.roles.find((role: any) => role.uid !== UID);
+
+  console.log("my frieeeeeeend >>> ", myFriend);
+
   const ifImBlocked = friendData.roles.find((role: any) => role.uid === UID);
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [friend, setFriend] = useRecoilState(currentFriend);
   const [blockCheck, setBlockCheck] = useRecoilState(blockedMe);
+  const [loadingAnimation, setLoadingAnimation] = useRecoilState(loadingMsg);
+  const [dmID, setDMID] = useRecoilState(channelId);
 
   useEffect(() => {
     if (myFriend?.uid === friend.uid) setFriend(myFriend);
@@ -28,9 +33,6 @@ const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
   useEffect(() => {
     if (ifImBlocked.uid === UID) setBlockCheck(ifImBlocked.blocked);
   }, [ifImBlocked]);
-
-  const [loadingAnimation, setLoadingAnimation] = useRecoilState(loadingMsg);
-  const [dmID, setDMID] = useRecoilState(channelId);
 
   return (
     <div
@@ -43,7 +45,9 @@ const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
           setSelectedFriend(myFriend.uid);
         }
       }}
-      className="friend_chat_container"
+      className={`friend_chat_container ${
+        dmID === friendData.id && "selected_channel_dm"
+      }`}
     >
       <div className="chat_list_avatar_container">
         <Image

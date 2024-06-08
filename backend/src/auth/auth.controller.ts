@@ -88,7 +88,7 @@ export class AuthController {
     const createUserDto = {
       username: req.user.username,
       email: req.user.email,
-      password: this.authService.generateRandomPassword(10),
+      password: this.authService.generateRandomChars(10),
     };
 
     const cookies = await this.authService.signUpWithProvider(createUserDto);

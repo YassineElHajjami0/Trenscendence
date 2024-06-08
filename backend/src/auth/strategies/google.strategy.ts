@@ -27,14 +27,14 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   //   // const user = await this.authService.signUpWithProvider({
   //   //   username: `${name.givenName}_${name.familyName}`,
   //   //   email: emails[0].value,
-  //   //   password: this.authService.generateRandomPassword(10),
+  //   //   password: this.authService.generateRandomChars(10),
   //   //   strategy: 'google',
   //   // });
 
   //   const user = {
   //     username: `${name.givenName}_${name.familyName}`,
   //     email: emails[0].value,
-  //     password: this.authService.generateRandomPassword(10),
+  //     password: this.authService.generateRandomChars(10),
   //     strategy: 'google',
   //   };
   //   done(null, user);
@@ -52,7 +52,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     const user = {
       email: emails[0].value,
       username: `${name.givenName}_${name.familyName}`,
-      password: this.authService.generateRandomPassword(10),
+      password: this.authService.generateRandomChars(10),
       picture: photos[0].value,
       accessToken,
     };
