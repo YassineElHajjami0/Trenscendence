@@ -39,6 +39,11 @@ const FriendChatList = () => {
   const [showEmoji, setShowEmoji] = useState(false);
   const [loadingAnimation, setLoadingAnimation] = useRecoilState(loadingMsg);
 
+  const isOnline = friend?.status === "online";
+
+  const isIngame = friend?.status === "ingame";
+  const isOffline = friend?.status === "offline";
+
   const onEmojiClick = (event: any) => {
     setInputMSG((prevInput) => prevInput + event.emoji);
   };
@@ -123,15 +128,11 @@ const FriendChatList = () => {
         <div className="my_chat_msg_name">
           <h1>{friend?.username}</h1>
           <h5
-            className={`online ${friend?.status === "ingame" && "ingames"}
-          ${friend?.status === "offline" && "offline"}
+            className={`online ${isIngame && "ingames"}
+          ${isOffline && "offline"}
           `}
           >
-            {friend?.status === "online"
-              ? "Online"
-              : friend?.status === "ingame"
-              ? "Playing"
-              : "Offline"}
+            {isOnline ? "Online" : isIngame ? "Playing" : "Offline"}
           </h5>
         </div>
       </div>
@@ -174,7 +175,14 @@ const FriendChatList = () => {
           />
 
           <div className="play_send_msg">
-            <BiSolidJoystickAlt />
+            <button
+              onClick={() => console.log("hahahahaha")}
+              disabled={isOffline}
+              className={`submit_msg ${isOffline && "disable_play"}`}
+              type="button"
+            >
+              <BiSolidJoystickAlt />
+            </button>
             <button className="submit_msg" type="submit">
               <IoIosSend />
             </button>

@@ -83,14 +83,18 @@
   display: grid;
   align-content: center;
 }
+.disable_play {
+  color: gray;
+  cursor: not-allowed;
+}
 
-.play_send_msg svg:hover:first-child {
+.play_send_msg .submit_msg:hover:first-child {
   cursor: pointer;
   color: #ff7f00 !important;
   filter: drop-shadow(0 0 5px #ff7f00);
 }
 
-.play_send_msg svg:hover:last-child {
+.play_send_msg .submit_msg:hover:last-child {
   cursor: pointer;
   color: #1ce14e !important;
   filter: drop-shadow(0 0 5px #1ce14e);

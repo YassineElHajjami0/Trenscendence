@@ -61,15 +61,18 @@ export default function Stats() {
 
   // hada lik a mimoun
   const getStats = () => {
-    return data.map((e) => {
-      if (statsSwitch.state === "win") return e.win;
-      if (statsSwitch.state === "lose") return e.lose;
-      if (statsSwitch.state === "w/l") return e.w_l;
-    });
+    return (
+      data.length > 0 &&
+      data.map((e) => {
+        if (statsSwitch.state === "win") return e.win;
+        if (statsSwitch.state === "lose") return e.lose;
+        if (statsSwitch.state === "w/l") return e.w_l;
+      })
+    );
   };
 
   useEffect(() => {
-    setChartData(getStats());
+    setChartData(getStats() as any);
   }, [statsSwitch, data]);
 
   const option = {
@@ -106,10 +109,12 @@ export default function Stats() {
       {
         type: "category",
         boundaryGap: false,
-        data: data.map((e) => {
-          const date = e.date.split("-");
-          return date[1] + "/" + date[2];
-        }),
+        data:
+          data.length > 0 &&
+          data.map((e) => {
+            const date = e?.date?.split("-");
+            return date[1] + "/" + date[2];
+          }),
       },
     ],
     yAxis: [
