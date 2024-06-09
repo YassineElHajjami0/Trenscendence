@@ -142,6 +142,11 @@ export default function SubChildrens({
 
 	useEffect(() => {
 		if (gameRequestQueue.length > 0) {
+			if (gameRequestQueue[0] === undefined) {
+				setGameRequestQueue((prevQueue) => prevQueue.slice(1));
+				setGameRequestValue(-1);
+				return;
+			}
 			setGameRequestValue(gameRequestQueue[0]);
 		} else {
 			setGameRequestValue(-1);
