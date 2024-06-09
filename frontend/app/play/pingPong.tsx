@@ -155,6 +155,7 @@ export function PingPong() {
 		const canvas = canvasRef.current as HTMLCanvasElement | null;
 		if (!canvas) return;
 		const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+		if (!ctx) return;
 		canvas.width = 1000;
 		canvas.height = 500;
 		
