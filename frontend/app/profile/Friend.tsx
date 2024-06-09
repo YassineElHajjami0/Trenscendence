@@ -82,7 +82,6 @@ export default function Friend({
     setCurrFriend(myFriend);
     setChannelID(friend.id);
     route.push("/chat");
-    console.log("-------->>>>>>>");
   };
 
   return (

@@ -17,10 +17,9 @@ export class ChannelController {
 
   @Post('/dm')
   create(@Body() createChannelDto: ChannelDto) {
-    console.log('hana d5altttttt');
-
     return this.channelService.createDM(createChannelDto);
   }
+
   @Get('/dm/:id')
   findMyFriends(@Param('id') id: string) {
     return this.channelService.findMyFriends(+id);

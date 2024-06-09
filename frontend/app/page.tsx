@@ -13,8 +13,7 @@ import { PlayerInfo } from "./Interfaces/playerInfoInterface";
 import { loggedUser } from "./Atoms/logged";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
-import router from "next/router";
-import Cookies from "js-cookie";
+import axios from "axios";
 
 interface dataInterface {
   createdAt: string;
@@ -39,6 +38,24 @@ export default function Home() {
   const [data, setData] = useState<dataInterface[]>();
   const userTok = useRecoilValue(userToken);
   const userId = useRecoilValue(loggedUser);
+
+  const setUserStatus = () => {
+    if (userId === -1) return;
+    const body = {
+      status: "online",
+    };
+    try {
+      axios.patch(`http://localhost:3000/users/status/${userId}`, body, {
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+        },
+      });
+    } catch (error) {
+      console.log("3a", error);
+    }
+  };
+
+  useEffect(() => setUserStatus(), [userId]);
 
   useEffect(() => {
     setTimeout(() => {

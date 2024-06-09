@@ -17,9 +17,9 @@ import noAchievemnets from "../../../public/achievement/no_achievements.png";
 
 export const FriendInfo = () => {
   const [friend, setFriend] = useRecoilState(currentFriend);
+
   const loadingAnimation = useRecoilValue(loadingMsg);
   const userTok = useRecoilValue(userToken);
-
   const [dmID, setDMID] = useRecoilState(channelId);
 
   const [userAchievement, setUserAchievement] = useState<any[]>([]);

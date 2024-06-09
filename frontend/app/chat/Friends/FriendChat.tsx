@@ -18,8 +18,6 @@ const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
   const UID = useRecoilValue(loggedUser);
   const myFriend = friendData.roles.find((role: any) => role.uid !== UID);
 
-  console.log("my frieeeeeeend >>> ", myFriend);
-
   const ifImBlocked = friendData.roles.find((role: any) => role.uid === UID);
   const [selectedFriend, setSelectedFriend] = useRecoilState(slctdFriend);
   const [friend, setFriend] = useRecoilState(currentFriend);

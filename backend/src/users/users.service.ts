@@ -10,10 +10,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-User.dto';
 import { UserStatus } from '@prisma/client';
+import { ChatGateway } from 'src/chatSockets/chat.getway';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly chatGateway: ChatGateway,
+  ) {}
 
   async delete() {
     return this.databaseService.t_User.deleteMany({});
@@ -87,8 +91,10 @@ export class UsersService {
         newPassword: '',
         confirmedPassword: '',
       };
+
       return finalUser;
     }
+
     return user;
   }
 
@@ -137,12 +143,11 @@ export class UsersService {
   }
 
   async updateStatus(uid: number, status: UserStatus) {
-    console.log('>>>>>>>>', status);
-
-    return this.databaseService.t_User.update({
+    const res = await this.databaseService.t_User.update({
       where: { uid },
       data: status,
     });
+    this.chatGateway.updateFriendStatus(res);
   }
 
   async setTwoFaSecret(twoFASecret: string, uid: number) {

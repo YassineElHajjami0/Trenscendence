@@ -43,6 +43,25 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
   });
 
   useEffect(() => {
+    const handleNewFriendStatus = (friend: any) => {
+      setUserFriends((prev: any) => {
+        return prev.map((channel: any) => {
+          const updatedRoles = channel.roles.map((role: any) => {
+            if (role.uid === friend.uid) return friend;
+            return role;
+          });
+          return { ...channel, roles: updatedRoles };
+        });
+      });
+    };
+
+    socket.on("update_friend_status", handleNewFriendStatus);
+    return () => {
+      socket.off("update_friend_status");
+    };
+  });
+
+  useEffect(() => {
     const updateFriends = (friend: any) => {
       if (friend.length === 0) return;
 
@@ -58,25 +77,24 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
     };
   }, []);
 
+  const getUserData = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/channels/dm/${whichProfile}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await res.json();
+      setUserFriends(data);
+    } catch (error: any) {
+      console.log("--->>>", error.message);
+    }
+  };
   useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const res = await fetch(
-          `http://localhost:3000/channels/dm/${whichProfile}`,
-          {
-            headers: {
-              Authorization: `Bearer ${userTok}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const data = await res.json();
-        setUserFriends(data);
-        // console.log("userData-->>>", data);
-      } catch (error: any) {
-        console.log("--->>>", error.message);
-      }
-    };
     getUserData();
   }, [whichProfile]);
 

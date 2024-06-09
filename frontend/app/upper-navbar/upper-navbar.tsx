@@ -49,8 +49,6 @@ const UpperNav = () => {
         }
       );
       const data = await res.json();
-      console.log("notiffffffffff---------->>>>>", data);
-
       setMyNotifications(data);
     } catch (error: any) {
       console.log("error>>>", error.message);
