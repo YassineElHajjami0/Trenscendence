@@ -1,6 +1,7 @@
 import Image from 'next/image'
+import { getRank } from '../util/headers';
 
-const Leaders = ({users}) => {
+const Leaders = ({ users }) => {
     let cups = ['http://localhost:3000/cups/cup-1.svg', 'http://localhost:3000/cups/cup-2.svg', 'http://localhost:3000/cups/cup-3.svg'];
     let throphies = ['http://localhost:3000/throphies/throphy-1.svg', 'http://localhost:3000/throphies/throphy-2.svg', 'http://localhost:3000/throphies/throphy-3.svg'];
     if (users.length < 3)
@@ -8,18 +9,20 @@ const Leaders = ({users}) => {
     return (
         <div className="leaders">
             {
-                users.map((user: any, index: number) => (
-                    <div key={user.uid} className="box">
+                users.map((user: any, index: number) => {
+                    let rank = getRank(user.xp);
+                    return <div key={user.uid} className="box">
                         <div>
                             <div className="profile">
                                 <div className='image'>
-                                    <img src={user.avatar} alt="avatarImage"/>
+                                    <img src={user.avatar} alt="avatarImage" />
                                 </div>
                                 <div className='detail'>
                                     <h2>{user.username}</h2>
                                     <span>RANK: {index + 1}</span>
                                     <div className='image'>
-                                        <img src={throphies[index]} alt="" />
+                                        {/* <img src={throphies[index]} alt="" /> */}
+                                        <img src={`/ranks/${rank}.png`} alt="" />
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +45,7 @@ const Leaders = ({users}) => {
                             </div>
                         </div>
                     </div>
-                ))
+                })
             }
         </div>
     );
