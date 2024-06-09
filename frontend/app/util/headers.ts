@@ -7,7 +7,7 @@ const mheaders = {
   "Content-Type": "application/json",
 };
 
-const getRank = (xp: any) => {
+const getRank = (xp: number) => {
   if (xp >= 0 && xp <= 100) return "Beginner";
   if (xp > 100 && xp <= 200) return "Intermediate";
   if (xp > 200 && xp <= 300) return "Expert";

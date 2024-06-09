@@ -1,4 +1,4 @@
-import { Ranks, UserStatus } from '@prisma/client';
+import { UserStatus } from '@prisma/client';
 import { IsEmail, MinLength, Matches } from 'class-validator';
 
 export class CreateUserDto {
@@ -34,7 +34,7 @@ export class CreateUserDto {
   banner?: string;
   level?: number;
   points?: number;
-  rank?: Ranks;
+
   xp?: number;
   win?: number;
   lose?: number;

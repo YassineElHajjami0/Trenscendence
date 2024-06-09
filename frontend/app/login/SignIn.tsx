@@ -53,7 +53,6 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       ...user,
       twoFaCode: biometric,
     };
-    console.log("user>>>>>>", user, biometric);
 
     try {
       const response = await axios.post(

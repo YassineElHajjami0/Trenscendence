@@ -16,7 +16,6 @@ export default function Login() {
   const router = useRouter();
 
   const logged = useRecoilValue(loggedUser);
-  console.log("=======>>>>>>logged", logged);
 
   useEffect(() => {
     if (logged != -1) router.push("/");
@@ -41,7 +40,7 @@ export default function Login() {
           </div>
           <SignIn signInUp={signInUp as boolean} />
           <h5>
-            you {!signInUp && "don't"}  have an account?{" "}
+            you {!signInUp && "don't"} have an account?{" "}
             <label onClick={switchSides} htmlFor="check">
               Sing {signInUp ? "In" : "Up"}.
             </label>

@@ -53,10 +53,28 @@ export default function FriendsChat() {
         });
       });
     };
-
     socket.on("update_blocked_friend", handleBlockedFriend);
     return () => {
       socket.off("update_blocked_friend");
+    };
+  });
+
+  useEffect(() => {
+    const handleNewFriendStatus = (friend: any) => {
+      setMyFriends((prev: any) => {
+        return prev.map((channel: any) => {
+          const updatedRoles = channel.roles.map((role: any) => {
+            if (role.uid === friend.uid) return friend;
+            return role;
+          });
+          return { ...channel, roles: updatedRoles };
+        });
+      });
+    };
+
+    socket.on("update_friend_status", handleNewFriendStatus);
+    return () => {
+      socket.off("update_friend_status");
     };
   });
 
@@ -69,13 +87,11 @@ export default function FriendsChat() {
   useEffect(() => {
     const updateFriends = (friend: any) => {
       if (friend.length === 0) return;
-
       const whichUID = friend.roles.some((user: any) => user.uid === UID);
       if (whichUID) {
         setMyFriends((prev: any) => [...prev, friend]);
       }
     };
-
     socket.on("update_friend_list", updateFriends);
     return () => {
       socket.off("update_friend_list");
@@ -91,11 +107,10 @@ export default function FriendsChat() {
         },
       });
       const data = await response.json();
-      data.sort((a: any, b: any) => {
+      await data.sort((a: any, b: any) => {
         return new Date(b.sendAT).getTime() - new Date(a.sendAT).getTime();
       });
       setMyFriends(data);
-      console.log("eeeeeeb >>>>", data);
     } catch (error) {
       console.log("Error111");
     }

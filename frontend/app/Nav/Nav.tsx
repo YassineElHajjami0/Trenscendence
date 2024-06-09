@@ -17,12 +17,35 @@ import { useRecoilState } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
 import { userNotifications } from "../Atoms/notifications";
+import axios from "axios";
 
 const Nav = () => {
   const [loggedU, setLoggedU] = useRecoilState(loggedUser);
   const [loggedT, setLoggedT] = useRecoilState(userToken);
   const [myNotifications, setMyNotifications] =
     useRecoilState(userNotifications);
+
+  const logout = async (e: any) => {
+    e.preventDefault();
+    const uid = loggedU;
+    const tok = loggedT;
+    const body = {
+      status: "offline",
+    };
+    try {
+      axios.patch(`http://localhost:3000/users/status/${uid}`, body, {
+        headers: {
+          Authorization: `Bearer ${tok}`,
+        },
+      });
+    } catch (error) {
+      console.log("3a", error);
+    }
+
+    setLoggedU(-1);
+    setLoggedT("");
+    setMyNotifications([]);
+  };
 
   return (
     <div className="main-Nav">
@@ -98,15 +121,7 @@ const Nav = () => {
               </div>
             </li>
           </Link>
-          <li
-            onClick={() => {
-              setLoggedU(-1);
-
-              setLoggedT("");
-              setMyNotifications([]);
-            }}
-            style={{ cursor: "pointer" }}
-          >
+          <li onClick={logout} style={{ cursor: "pointer" }}>
             <div>
               <MdOutlineLogout className="nav-icon" />
             </div>

@@ -24,6 +24,11 @@
   text-decoration: none;
 }
 
+/* li * {
+  display: flex;
+  align-items: center;
+} */
+
 .main-Nav .logo-and-links,
 .main-Nav .settings-logout {
   display: flex;

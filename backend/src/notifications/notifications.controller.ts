@@ -20,6 +20,7 @@ export class NotificationsController {
   ) {
     return this.notificationsService.create(createNotificationDto);
   }
+
   @Post('channelnotif')
   createChannelNotif(
     @Body() createNotificationDto: Prisma.NotificationUncheckedCreateInput,

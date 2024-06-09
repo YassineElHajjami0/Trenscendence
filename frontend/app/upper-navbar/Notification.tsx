@@ -79,7 +79,6 @@ function Notification({ notif }: { notif: any }) {
     } catch (error: any) {
       console.log("Error deleting notification:", error.message);
     }
-    console.log("pppppppppp");
   };
 
   const handdleAccept = () => {

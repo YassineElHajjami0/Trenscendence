@@ -119,7 +119,6 @@ model T_User {
   banner           String            @default("http://localhost:3000/defaultBanner.jpg") // neeeeeed to be updated
   wallet           Int               @default(0)
   xp               Int               @default(0)
-  rank             Ranks             @default(Beginner)
   win              Int               @default(0)
   lose             Int               @default(0)
   role             String            @default("User")

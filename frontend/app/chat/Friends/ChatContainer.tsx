@@ -12,8 +12,6 @@ export const ChatContainer = ({ messages }: { messages: any }) => {
   // );
   const loggedU = useRecoilValue(loggedUser);
 
-  console.log("messagess>>>>>", messages);
-
   return (
     <div className="chat_container">
       {/* <h1 className="chat_todays_date">{date}</h1> */}
