@@ -151,6 +151,11 @@ ul {
         width: 100%;
         padding: 10px;
     }
+
+    .leaders > :first-child {
+        order: -1;
+    }
+
     .leaders .box > :first-child {
         flex-direction: row;
     }
@@ -166,9 +171,9 @@ ul {
     }
 
     .leaders .profile {
-        /* display: flex; */
         width: 200px;
     }
+
     .leaders > :first-child .cup {
         width: 120px;
         height: 120px;
@@ -219,7 +224,6 @@ ul {
 .scrollable-leaderboard::-webkit-scrollbar-thumb {
     background: var(--main-color); /* Color of the scrollbar handle */
 }
-
 .rank-leaderboard table {
     width: 100%;
     background-color: #2d2d30;

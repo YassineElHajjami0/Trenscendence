@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import avatar from './assets/avatars/av-1.svg';
 import throphy1 from './assets/throphies/throphy-1.svg';
+import { getRank } from '../util/headers';
 
-const RankTable = ({users}) => {
+const RankTable = ({ users }) => {
     if (users.length == 3) {
         return (<div className="scrollable-leaderboard"></div>);
     }
@@ -20,11 +21,13 @@ const RankTable = ({users}) => {
                     <th>WLR</th>
                     <th>Rank</th>
                 </tr>
-                {data.map((user, index) => (
-                    <tr key={user.uid}>
+                {data.map((user, index) => {
+                    let rank = getRank(user.xp);
+                    console.log('RANK ', rank);
+                    return <tr key={user.uid}>
                         <td>#{index + 4 - i}</td>
                         <td>
-                            <Image height={40} width={40} src={user.avatar} alt=""/>
+                            <Image height={40} width={40} src={user.avatar} alt="" />
                             {/* <Image src={avatar} alt=""/> */}
                             <span>{user.username}</span>
                         </td>
@@ -32,11 +35,11 @@ const RankTable = ({users}) => {
                         <td>{user.lose === 0 ? '100%' : `${(user.win / user.lose).toFixed(2)}%`}</td>
                         <td>{user.lose === 0 ? 'Special' : `${(user.win / user.lose)}%`}</td>
                         <td>
-                            <Image height={40} width={40} src='http://localhost:3000/throphies/throphy-3.svg' alt=""/>
-                            <span>Legendary</span>
+                            <Image height={40} width={40} src={`/ranks/${rank}.png`} alt="" />
+                            <span>{rank}</span>
                         </td>
                     </tr>
-                ))}
+                })}
             </table>
         </div>
     );
