@@ -37,11 +37,11 @@ const Leaders = ({ users }) => {
                             </div>
                             <div>
                                 <h4>Winrate</h4>
-                                <span>{user.lose === 0 ? '100%' : `${(user.win / user.lose).toFixed(2)}%`}</span>
+                                <span>{!user.lose && !user.win ? '0%' : (!user.lose ? '100%' : `${(user.win / (user.lose + user.win))}%`)} </span>
                             </div>
                             <div>
                                 <h4>WLR</h4>
-                                <span>{user.lose === 0 ? 'Special' : `${(user.win / user.lose)}%`}</span>
+                                <span>{user.lose === 0 ? 'Special' : `${(user.win / (user.lose + user.win))}%`}</span>
                             </div>
                         </div>
                     </div>
