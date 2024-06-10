@@ -15,25 +15,38 @@ export default function Custom404() {
         <div className="noise"></div>
         <div className="overlay"></div>
         <form onSubmit={redirectUser} className="terminal">
-          <h1>
-            Error <span className="errorcode">404</span>
-          </h1>
-          <p className="output">
-            The User you are looking for might have been removed,
-            <br /> had its name changed or is temporarily unavailable.
-          </p>
-          <p className="output">Please try to search with another name</p>
-          <input
-            required
-            placeholder="userName"
-            className="userName"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            type="text"
-          />
-          <button type="submit" className="output">
-            Good luck.
-          </button>
+          <>
+            <h1>
+              Error <span className="errorcode">404</span>
+            </h1>
+            <p className="output">
+              The User you are looking for might have been removed,
+              <br /> had its name changed or is temporarily unavailable.
+            </p>
+            <p className="output">Please try to search with another name</p>
+            <input
+              required
+              placeholder="userName"
+              className="userName"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              type="text"
+            />
+            <div className="btns_containers_error_404">
+              <button type="submit" className="output">
+                Good luck.
+              </button>
+              <button
+                onClick={() => {
+                  route.push("/profile");
+                }}
+                type="button"
+                className="output"
+              >
+                go back
+              </button>
+            </div>
+          </>
         </form>
       </div>
     </div>

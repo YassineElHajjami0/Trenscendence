@@ -5,8 +5,7 @@
   place-items: center;
 }
 .error_msg {
-  width: 60%;
-  height: 30%;
+  max-width: 700px;
   background: rgba(29, 205, 74, 0.1);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -18,7 +17,7 @@
 }
 
 .userName {
-  width: 70%;
+  /* width: 70%; */
   height: 40px;
   padding: 5px 10px;
   font-size: 20px;
@@ -98,31 +97,71 @@
 }
 
 .terminal {
-  position: absolute;
+  /* position: absolute; */
   height: 100%;
   width: 100%;
 
   padding: 4rem;
   text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
 }
-
+.btns_containers_error_404 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
 .output {
+  transition: all 0.4s;
   outline: none;
   border: none;
+  text-transform: capitalize;
   background: transparent;
   padding: 5px;
   display: block;
+  font-size: 18px;
   color: rgba(128, 255, 128, 0.8);
   text-shadow: 0 0 1px rgba(51, 255, 51, 0.4), 0 0 2px rgba(255, 255, 255, 0.8);
 }
-.output:nth-child(5) {
+.output:hover {
+  cursor: pointer;
+}
+/* .output:nth-child(5) {
   padding: 10px;
   margin-top: 5px;
   font-size: 20px;
   cursor: pointer;
-  border: 1px solid rgba(29, 205, 74, 0.3);
   border-radius: 5px;
+  width: fit-content;
 }
-.output::before {
+.output:nth-child(6) {
+  margin-top: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  width: fit-content;
+} */
+.output:hover::before {
+  margin-right: 10px;
+}
+.output:nth-last-child(2)::before {
+  transition: all 0.4s;
   content: "> ";
+  animation: inputCurser 2s linear infinite;
+}
+.output:last-child::before {
+  transition: all 0.4s;
+  content: "< ";
+}
+
+@keyframes inputCurser {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@media (max-width: 375px) {
 }
