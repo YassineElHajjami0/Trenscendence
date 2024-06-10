@@ -119,8 +119,8 @@ model T_User {
   banner           String            @default("http://localhost:3000/defaultBanner.jpg") // neeeeeed to be updated
   wallet           Int               @default(0)
   xp               Int               @default(0)
-  win              Int               @default(0)
-  lose             Int               @default(0)
+  // win              Int               @default(0)
+  // lose             Int               @default(0)
   role             String            @default("User")
   strategy         String            @default("local")
   twoFASecret      String            @default("")

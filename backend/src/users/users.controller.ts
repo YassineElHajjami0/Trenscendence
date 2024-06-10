@@ -6,14 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  Req,
-  UseGuards,
   Query,
 } from '@nestjs/common';
-import { Roles } from '../auth/decorators/role.decorator';
-import { Role } from '../auth/enums/role.enum';
 import { UsersService } from './users.service';
-import { Prisma, UserStatus } from '@prisma/client';
 import { UpdateUserDto } from './dto/update-User.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Public } from '../auth/decorators/public.decorator';
