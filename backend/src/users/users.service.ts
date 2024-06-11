@@ -11,12 +11,14 @@ import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-User.dto';
 import { UserStatus } from '@prisma/client';
 import { ChatGateway } from 'src/chatSockets/chat.getway';
+import { MatchHistoryService } from 'src/match-history/match-history.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly chatGateway: ChatGateway,
+    private readonly matchHistory: MatchHistoryService,
   ) {}
 
   async delete() {
@@ -62,13 +64,21 @@ export class UsersService {
   }
 
   async orderByAsc() {
-    const users = await this.databaseService.t_User.findMany({
-      orderBy: {
-        win: 'desc',
-      },
-    });
-    console.log(users);
-    return users;
+    const users = await this.databaseService.t_User.findMany();
+    const updatedUsers = await Promise.all(users.map(async (user) => {
+        const win = await this.matchHistory.findwinnedMatches(user.uid);
+        const lose = await this.matchHistory.findLostMatches(user.uid);
+        return {
+          ...user,
+          win: win.length,
+          lose: lose.length,
+        };
+      }),
+    );
+    updatedUsers.sort((a, b) =>
+      b.win - a.win ? b.win - a.win : a.lose - b.lose,
+    );
+    return updatedUsers;
   }
   async findOneName(username: string) {
     const user = await this.databaseService.t_User.findFirst({
