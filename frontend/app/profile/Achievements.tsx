@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Achievement from "./Achievement";
-import playerData from "../data/player-info.json";
+
 import "./Achievements.css";
-import { PlayerInfo } from "@/app/Interfaces/playerInfoInterface";
+
 import { useRecoilValue } from "recoil";
 import { userToken } from "../Atoms/userToken";
 export default function Achievements({ whichProfile }: { whichProfile: any }) {
-  const player_data: PlayerInfo = playerData;
-
-  const sortedAchievements = player_data.achievements.sort(
-    (a: any, b: any) => b.unlicked - a.unlicked
-  );
   const userTok = useRecoilValue(userToken);
 
   const [userAchievement, setUserAchievement] = useState<any[]>([]);

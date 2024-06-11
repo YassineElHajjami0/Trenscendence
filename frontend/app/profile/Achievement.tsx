@@ -1,7 +1,6 @@
 import React from "react";
 import "./Achievement.css";
 import Image from "next/image";
-// import paddler from "../../public/achievement/Precision_Paddler.png";
 
 export default function Achievement({ achievement }: { achievement: any }) {
   const date = () => {

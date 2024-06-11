@@ -78,8 +78,8 @@ export default function SubChildrens({
       }
     };
 
-    // addEventListener("unload", handleUnload);
-    // addEventListener("load", handleLoad);
+    addEventListener("unload", handleUnload);
+    addEventListener("load", handleLoad);
 
     addEventListener("visibilitychange", handleVisibility);
 
