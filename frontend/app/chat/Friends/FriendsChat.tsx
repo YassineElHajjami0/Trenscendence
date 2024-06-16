@@ -6,11 +6,14 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { loggedUser } from "@/app/Atoms/logged";
 
 import { userToken } from "@/app/Atoms/userToken";
-import { socket } from "@/app/sockets/socket";
+// import { socket } from "@/app/sockets/socket";
 import { channelId } from "@/app/Atoms/channelId";
 import { chatMSG } from "@/app/Atoms/chatMSG";
+import { useSocket } from "@/app/SubChildrens";
 
 export default function FriendsChat() {
+  const { socket } = useSocket();
+
   const UID = useRecoilValue(loggedUser);
   const userTok = useRecoilValue(userToken);
   const [myFriends, setMyFriends] = useState<any[]>([]);
@@ -18,6 +21,8 @@ export default function FriendsChat() {
   const [friendChat, setFriendChat] = useRecoilState<any[]>(chatMSG);
 
   useEffect(() => {
+    if (!socket) return;
+
     const handleReceiveMessage = (message: any) => {
       if (message?.channelID === channelID)
         setFriendChat((prevMessages: any) => [...prevMessages, message]);
@@ -37,6 +42,8 @@ export default function FriendsChat() {
   });
   // newRole>>> { id: 131, channelID: 66, userID: 13, blocked: true, role: 'USER' }
   useEffect(() => {
+    if (!socket) return;
+
     const handleBlockedFriend = (friend: any) => {
       setMyFriends((prev: any) => {
         return prev.map((channel: any) => {
@@ -60,6 +67,8 @@ export default function FriendsChat() {
   });
 
   useEffect(() => {
+    if (!socket) return;
+
     const handleNewFriendStatus = (friend: any) => {
       setMyFriends((prev: any) => {
         return prev.map((channel: any) => {
@@ -85,6 +94,8 @@ export default function FriendsChat() {
   });
 
   useEffect(() => {
+    if (!socket) return;
+
     const updateFriends = (friend: any) => {
       if (friend.length === 0) return;
       const whichUID = friend.roles.some((user: any) => user.uid === UID);

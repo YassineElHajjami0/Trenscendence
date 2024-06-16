@@ -1,7 +1,7 @@
 import React from "react";
 import { FriendMSG } from "./FriendMSG";
 import "./ChatContainer.css";
-import { FriendChatMSG } from "@/app/Interfaces/friendChat";
+
 import { useRecoilValue } from "recoil";
 import { loggedUser } from "@/app/Atoms/logged";
 export const ChatContainer = ({ messages }: { messages: any }) => {

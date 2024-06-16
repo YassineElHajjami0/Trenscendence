@@ -9,9 +9,10 @@ import { userToken } from "../Atoms/userToken";
 import AddFriendSection from "../chat/Friends/AddFriendSection";
 import "../chat/chat.css";
 import "../chat/Friends/AddFriend.css";
-import { socket } from "../sockets/socket";
+import { useSocket } from "../SubChildrens";
 
 export default function Friends({ whichProfile }: { whichProfile: any }) {
+  const { socket } = useSocket();
   const UID = useRecoilValue(loggedUser);
 
   const userTok = useRecoilValue(userToken);
@@ -35,6 +36,7 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
         });
       });
     };
+    if (!socket) return;
 
     socket.on("update_blocked_friend", handleBlockedFriend);
     return () => {
@@ -54,6 +56,7 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
         });
       });
     };
+    if (!socket) return;
 
     socket.on("update_friend_status", handleNewFriendStatus);
     return () => {
@@ -70,6 +73,7 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
         setUserFriends((prev: any) => [...prev, friend]);
       }
     };
+    if (!socket) return;
 
     socket.on("update_friend_list", updateFriends);
     return () => {

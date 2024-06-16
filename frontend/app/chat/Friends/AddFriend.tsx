@@ -3,7 +3,7 @@ import { TiUserAdd } from "react-icons/ti";
 
 import Image from "next/image";
 import "./AddFriend.css";
-import { useEffect } from "react";
+
 import { useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
 import { loggedUser } from "@/app/Atoms/logged";

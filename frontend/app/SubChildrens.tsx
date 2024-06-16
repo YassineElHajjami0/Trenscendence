@@ -3,23 +3,32 @@ import { loggedUser } from "./Atoms/logged";
 import UpperNav from "./upper-navbar/upper-navbar";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useRouter, usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import Login from "./login/page";
 
 // import GameRequestPopup from "./play/GameRequestPopup";
 import GameRequestPopup from "./play/GameRequestPopup";
 import { gameRequest } from "./Atoms/gameRequest";
-import socket from "./play/gameSocket";
+import { socket as mySocket } from "./sockets/socket";
 import { gameResponse } from "./Atoms/gameRespose";
 
 import { gameModeVar } from "./Atoms/gameMode";
 import { userToken } from "./Atoms/userToken";
 import { tablePicture } from "./Atoms/tablePicture";
 import axios from "axios";
+import { Socket } from "socket.io-client";
 
 class User {
   constructor(public id: number, public username: string) {}
 }
+
+/*---------- sokcets ---------------*/
+interface SocketContextProps {
+  socket: Socket | null;
+}
+
+const SocketContext = createContext<SocketContextProps | undefined>(undefined);
+/*---------- sokcets ---------------*/
 
 export default function SubChildrens({
   children,
@@ -30,6 +39,20 @@ export default function SubChildrens({
   const token = useRecoilValue(userToken);
   const router = useRouter();
   const pathname = usePathname();
+
+  /*---------- sokcets ---------------*/
+  const [socket, setSocket] = useState<Socket | null>(null);
+
+  useEffect(() => {
+    const socketIo = mySocket;
+
+    setSocket(socketIo);
+
+    return () => {
+      socketIo.disconnect();
+    };
+  }, []);
+  /*---------- sokcets ---------------*/
 
   useEffect(() => {
     user === -1 && router.push("/login");
@@ -63,13 +86,6 @@ export default function SubChildrens({
       setUserStatus("online");
     });
 
-    const handleUnload = () => {
-      setUserStatus("offline");
-    };
-    const handleLoad = () => {
-      setUserStatus("online");
-    };
-
     const handleVisibility = () => {
       if (document.visibilityState === "hidden") {
         setUserStatus("offline");
@@ -78,14 +94,9 @@ export default function SubChildrens({
       }
     };
 
-    addEventListener("unload", handleUnload);
-    addEventListener("load", handleLoad);
-
     addEventListener("visibilitychange", handleVisibility);
 
     return () => {
-      removeEventListener("unload", handleUnload);
-      removeEventListener("load", handleLoad);
       removeEventListener("visibilitychange", handleVisibility);
     };
   }, []);
@@ -103,6 +114,7 @@ export default function SubChildrens({
 
   useEffect(() => {
     if (user !== -1) {
+      if (!socket) return;
       socket.emit("new_user", { userId: user });
       socket.on(
         "game_request_request",
@@ -161,6 +173,7 @@ export default function SubChildrens({
 
   useEffect(() => {
     if (gameResponseValue) {
+      if (!socket) return;
       const accepted =
         gameResponseValue === 1 ? true : gameResponseValue === 2 ? false : null;
       socket.emit("game_response", {
@@ -184,6 +197,7 @@ export default function SubChildrens({
   }, [gameResponseValue]);
 
   useEffect(() => {
+    if (!socket) return;
     socket.on("go_to_game", (opponentId: number) => {
       setGameMode("friend");
       // router.push("/play");
@@ -212,9 +226,18 @@ export default function SubChildrens({
   /*-------game shit------*/
   return (
     <div className="upperNav-children-container">
-      <UpperNav />
-      {gameRequestValue !== -1 && <GameRequestPopup />}
-      {children}
+      <SocketContext.Provider value={{ socket }}>
+        <UpperNav />
+        {gameRequestValue !== -1 && <GameRequestPopup />}
+        {children}
+      </SocketContext.Provider>
     </div>
   );
 }
+export const useSocket = () => {
+  const context = useContext(SocketContext);
+  if (!context) {
+    throw new Error("useSocket must be used within a SocketProvider");
+  }
+  return context;
+};

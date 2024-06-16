@@ -19,9 +19,9 @@ import LoadingPaddle from "../LoadingPaddle";
 import { loggedUser } from "../Atoms/logged";
 import { useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
-import { io } from "socket.io-client";
+
 import PopupSearchChannels from "./Channels/popupSearchChannels";
-const socket = io("http://localhost:3001", { transports: ["websocket"] });
+import { useSocket } from "../SubChildrens";
 interface channelInterface {
   id: number;
   name: string;
@@ -32,6 +32,7 @@ interface channelInterface {
 }
 
 const Chat = () => {
+  const { socket } = useSocket();
   const [hide, setHide] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -72,6 +73,7 @@ const Chat = () => {
       }
     };
     fetchChannels();
+    if (!socket) return;
     socket.on("updateUsersAfterSomeoneKick", fetchChannels);
     socket.on("updateChannels", fetchChannels);
     socket.on("updateRoles", fetchChannels);
@@ -135,6 +137,7 @@ const Chat = () => {
             <button
               onClick={() => {
                 setMode("channels");
+                setSelectedFriend(-1);
               }}
             >
               Channels
