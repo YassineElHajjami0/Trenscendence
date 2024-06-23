@@ -62,8 +62,8 @@ const FriendChatList = () => {
     );
     const data = await selectedFriendChat.json();
 
+    setFriendChat(data);
     setTimeout(() => {
-      setFriendChat(data);
       setLoadingAnimation(false);
     }, 1000);
   };
@@ -106,7 +106,7 @@ const FriendChatList = () => {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
-  }, [friendChat]);
+  }, [friendChat, loadingAnimation]);
 
   return loadingAnimation ? (
     <ChatLoading />

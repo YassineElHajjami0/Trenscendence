@@ -11,7 +11,6 @@ import FriendChatList from "./Friends/FriendChatList";
 import { slctdFriend } from "../Atoms/friendAtom";
 import { useRecoilState } from "recoil";
 import ChannelInfo from "./Channels/channelInfo";
-import { IoCameraReverse } from "react-icons/io5";
 import { FriendInfo } from "./Friends/FriendInfo";
 import PopupCreateChannel from "./Channels/popupCreateChannel";
 import AddFriendSection from "./Friends/AddFriendSection";
@@ -214,18 +213,20 @@ const Chat = () => {
           </div>
         </div>
 
-        <div
-          onClick={() => {
-            setHide((prev) => !prev);
-          }}
-          className="chat_channel_details"
-        >
-          {hide ? (
-            <MdOutlineCancel className="dots_hide" />
-          ) : (
-            <HiDotsVertical className="dots_hide" />
-          )}
-        </div>
+        {(selectedFriend !== -1 || selectedChannel > 0) && (
+          <div
+            onClick={() => {
+              setHide((prev) => !prev);
+            }}
+            className="chat_channel_details"
+          >
+            {hide ? (
+              <MdOutlineCancel className="dots_hide" />
+            ) : (
+              <HiDotsVertical className="dots_hide" />
+            )}
+          </div>
+        )}
         {mode === "friends" && <AddFriendSection />}
       </div>
     </div>

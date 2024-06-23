@@ -76,14 +76,14 @@ export default function Stats() {
   }, [statsSwitch, data]);
 
   const option = {
-    title: {
-      text: `Your ${
-        statsSwitch.state === "w/l" ? "win-loss ratio" : statsSwitch.state
-      } over the week`,
-      textStyle: {
-        color: statsSwitch.color,
-      },
-    },
+    // title: {
+    //   text: `Your ${
+    //     statsSwitch.state === "w/l" ? "win-loss ratio" : statsSwitch.state
+    //   } over the week`,
+    //   textStyle: {
+    //     color: statsSwitch.color,
+    //   },
+    // },
     tooltip: {
       backgroundColor: "#27272b",
       borderWidth: 1,

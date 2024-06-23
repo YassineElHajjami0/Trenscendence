@@ -125,6 +125,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         className={`sign_in_ships ${_2fa_opt && "hide_pass"}`}
+        tabIndex={1}
       />
 
       <input
@@ -134,10 +135,12 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         onChange={(e) => setEmail(e.target.value)}
         placeholder="email"
         type="email"
+        tabIndex={signInUp ? 2 : 3}
       />
 
       <div className="password_wraper">
         <input
+          tabIndex={signInUp ? 3 : 2}
           required={!_2fa_opt}
           placeholder="password"
           className={`sign_in_ships for_pass_only ${_2fa_opt && "hide_pass"} ${
