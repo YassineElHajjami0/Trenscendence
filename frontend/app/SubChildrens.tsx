@@ -61,17 +61,17 @@ export default function SubChildrens({
 				}
 			);
 
-			// Remove notification from the queue is not working properly the event is not being triggered when another request sent from play page popup to another user
-			// socket.on("remove_notification", () => {
-			// 	setGameRequestQueue((prevQueue) => prevQueue.slice(1));
-			// 	setGameRequestValue(-1);
-			// 	setGameResponseValue(0);
-			// });
-
+			socket.on("remove_notification", () => {
+				console.log("remove_notification event received");
+				setGameRequestQueue((prevQueue) => prevQueue.slice(1));
+				setGameRequestValue(-1);
+				setGameResponseValue(0);
+			});
+			
 			return () => {
 				socket.off("new_user");
 				socket.off("game_request_request");
-				// socket.off("remove_notification");
+				socket.off("remove_notification");
 			};
 		}
 	}, [user]);
@@ -80,6 +80,7 @@ export default function SubChildrens({
 		if (gameRequestQueue.length > 0) {
 			setGameRequestValue(gameRequestQueue[0]);
 		}
+		console.log("gameRequestQueue: ", gameRequestQueue);
 	}, [gameRequestQueue]);
 
 	useEffect(() => {
@@ -104,12 +105,12 @@ export default function SubChildrens({
 				gameResponseValue === 1 ? true : gameResponseValue === 2 ? false : null;
 			socket.emit("game_response", {
 				userId: gameRequestValue,
+				opponentId: user,
 				accepted: accepted,
 				index: index,
 			});
 			setGameRequestValue(-1);
 			setGameResponseValue(0);
-			setGameRequestQueue((prevQueue) => prevQueue.slice(1)); // Remove the current request from the queue
 			if (accepted) {
 				setGameRequestQueue([]); // remove all other requests from the queue
 				setGameMode('friend');

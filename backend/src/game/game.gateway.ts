@@ -220,11 +220,11 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 	}
 
 	@SubscribeMessage('game_response')
-	handleGameResponse(client: Socket, response: { userId: number; accepted: boolean; index: number }) {
+	handleGameResponse(client: Socket, response: { userId: number; opponentId: number; accepted: boolean; index: number }) {
 		console.log('Game response received ', response);
 		if (users.has(response.userId)) {
 			users.get(response.userId)?.sockets.forEach((socket) => {
-				socket.emit('game_response_response', { accepted: response.accepted, index: response.index });
+				socket.emit('game_response_response', { accepted: response.accepted, index: response.index, id: response.opponentId});
 				console.log(`Game response sent to ${response.userId}`);
 			});
 		} else {
@@ -232,17 +232,17 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 		}
 	}
 
-	// @SubscribeMessage('remove_notification')
-	// handleRemoveNotification(
-	// 	client: Socket,
-	// 	payload: { userId: number; opponentId: number },
-	// ) {
-	// 	if (users.has(payload.opponentId)) {
-	// 		users.get(payload.opponentId)?.sockets.forEach((socket) => {
-	// 			socket.emit('remove_notification');
-	// 		});
-	// 	}
-	// }
+	@SubscribeMessage('remove_notification')
+	handleRemoveNotification(
+		client: Socket,
+		payload: { userId: number; opponentId: number },
+	) {
+		if (users.has(payload.opponentId)) {
+			users.get(payload.opponentId)?.sockets.forEach((socket) => {
+				socket.emit('remove_notification');
+			});
+		}
+	}
 
 	// Random player
 

@@ -275,18 +275,18 @@ export default function Popup({ setShowPopup }: any) {
 		console.log(`Sending game request to ${opponentId}`);
 
 		socket.off('game_response_response').on('game_response_response', (
-			{ accepted, index }: { accepted: boolean, index: number }
+			{ accepted, index, id }: { accepted: boolean, index: number, id: number}
 		) => {
 			setResponseIndex(index);
 			if (accepted) {
-				console.log(`Game request accepted from ${opponentId}`);
-				toast.success(`Game request accepted from ${opponentId}`);
+				console.log(`Game request accepted from ${id}`);
+				toast.success(`Game request accepted from ${id}`);
 			} else {
-				console.log(`Game rejected from ${opponentId}`);
-				toast.error(`Game rejected from ${opponentId}`);
+				console.log(`Game rejected from ${id}`);
+				toast.error(`Game rejected from ${id}`);
 			}
 
-			// socket.emit('remove_notification', { userId: userId, opponentId: opponentId });
+			socket.emit('remove_notification', { userId: userId, opponentId: id });
 
 			setLoadingStates(prevState => ({
 				...prevState,
