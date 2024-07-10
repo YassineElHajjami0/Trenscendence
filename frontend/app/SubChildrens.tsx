@@ -115,6 +115,8 @@ export default function SubChildrens({
   useEffect(() => {
     if (user !== -1) {
       if (!socket) return;
+      console.log("-------------------------sokt");
+
       socket.emit("new_user", { userId: user });
       socket.on(
         "game_request_request",
@@ -147,7 +149,7 @@ export default function SubChildrens({
         socket.off("remove_notification");
       };
     }
-  }, [user]);
+  }, [user, socket]);
 
   useEffect(() => {
     if (gameRequestQueue.length > 0) {

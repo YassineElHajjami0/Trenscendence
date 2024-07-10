@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import socket from "./gameSocket";
+// import socket from "./gameSocket";
 import requestImage from "../../public/game/send_arrow_icon.png";
 import Link from "next/link";
 
@@ -180,7 +180,10 @@ import { useRouter, usePathname } from "next/navigation";
 import { tablePicture } from "../Atoms/tablePicture";
 import { gameModeVar } from "../Atoms/gameMode";
 import "./play-page-style.css";
+import { useSocket } from "../SubChildrens";
 export default function Popup({ setShowPopup }: any) {
+  const { socket } = useSocket();
+
   const [loadingStates, setLoadingStates] = useState<{
     [index: number]: boolean;
   }>({});
@@ -258,6 +261,7 @@ export default function Popup({ setShowPopup }: any) {
   };
 
   const sendGameReq = (opponentId: number, index: number) => {
+    if (!socket) return;
     if (loadingStates[index]) return;
     const timeout = setTimeout(() => {
       console.log(
@@ -316,6 +320,7 @@ export default function Popup({ setShowPopup }: any) {
   const [, setGameMode] = useRecoilState(gameModeVar);
 
   useEffect(() => {
+    if (!socket) return;
     socket.on("go_to_game", (opponentId: number) => {
       setGameMode("friend");
     });
