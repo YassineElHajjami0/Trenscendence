@@ -65,7 +65,8 @@ export class UsersService {
 
   async orderByAsc() {
     const users = await this.databaseService.t_User.findMany();
-    const updatedUsers = await Promise.all(users.map(async (user) => {
+    const updatedUsers = await Promise.all(
+      users.map(async (user) => {
         const win = await this.matchHistory.findwinnedMatches(user.uid);
         const lose = await this.matchHistory.findLostMatches(user.uid);
         return {
@@ -158,6 +159,61 @@ export class UsersService {
       data: status,
     });
     this.chatGateway.updateFriendStatus(res);
+  }
+
+  getRank = (xp: number) => {
+    if (xp >= 0 && xp <= 100) return 'Beginner';
+    if (xp > 100 && xp <= 200) return 'Intermediate';
+    if (xp > 200 && xp <= 300) return 'Expert';
+    if (xp > 300 && xp <= 400) return 'Master';
+    if (xp > 400 && xp <= 500) return 'Grandmaster';
+    if (xp > 500) return 'Apex';
+  };
+
+  adjustXP = (xp: number, result: string) => {
+    const rank = this.getRank(xp);
+    let points = 0;
+
+    switch (rank) {
+      case 'Beginner':
+        points = result === 'win' ? 10 : -1;
+        break;
+      case 'Intermediate':
+        points = result === 'win' ? 8 : -2;
+        break;
+      case 'Expert':
+        points = result === 'win' ? 6 : -3;
+        break;
+      case 'Master':
+        points = result === 'win' ? 4 : -4;
+        break;
+      case 'Grandmaster':
+        points = result === 'win' ? 2 : -5;
+        break;
+      case 'Apex':
+        points = result === 'win' ? 1 : -6;
+        break;
+    }
+
+    return xp + points;
+  };
+
+  async updateXP(uid: number, status: string) {
+    const user = await this.databaseService.t_User.findUnique({
+      where: { uid },
+    });
+    if (user) {
+      const oldXp = user.xp;
+      console.log('old xp', oldXp);
+      const newXp = this.adjustXP(oldXp, status);
+      const newRank = this.getRank(newXp);
+
+      const res = await this.databaseService.t_User.update({
+        where: { uid },
+        data: { xp: newXp },
+      });
+      console.log('new xp', res.xp);
+    }
   }
 
   async setTwoFaSecret(twoFASecret: string, uid: number) {

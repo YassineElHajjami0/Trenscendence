@@ -183,7 +183,6 @@ import "./play-page-style.css";
 import { useSocket } from "../SubChildrens";
 export default function Popup({ setShowPopup }: any) {
   const { socket } = useSocket();
-
   const [loadingStates, setLoadingStates] = useState<{
     [index: number]: boolean;
   }>({});
@@ -192,6 +191,8 @@ export default function Popup({ setShowPopup }: any) {
   const [userId, setUserId] = useRecoilState(loggedUser);
   const [userTok, setUserTok] = useRecoilState(userToken);
   const [responseIndex, setResponseIndex] = useState(-1);
+  const [sendedRequestQueue, setSendedRequestQueue] = useState<number[]>([]);
+  const [responseValue, setResponseValue] = useState(false);
   const table = useRecoilValue(tablePicture);
 
   const popupRef = useRef(null);
@@ -261,22 +262,26 @@ export default function Popup({ setShowPopup }: any) {
   };
 
   const sendGameReq = (opponentId: number, index: number) => {
-    if (!socket) return;
     if (loadingStates[index]) return;
+    if (!socket) return;
+
+    setSendedRequestQueue((prevQueue) => [...prevQueue, opponentId]);
+    console.log(`sendedRequestQueue: ${sendedRequestQueue}`);
     const timeout = setTimeout(() => {
       console.log(
         `Request timeout for opponentId: ${opponentId}, index: ${index}`
+      );
+      setSendedRequestQueue((prevQueue) =>
+        prevQueue.filter((id) => id !== opponentId)
       );
       setLoadingStates((prevState) => ({
         ...prevState,
         [index]: false,
       }));
-      socket.emit("remove_notification", {
-        userId: userId,
-        opponentId: opponentId,
-      });
     }, 10000);
+
     requestTimeouts.current[index] = timeout;
+
     socket.emit("game_request", {
       userId: userId,
       opponentId: opponentId,
@@ -290,19 +295,30 @@ export default function Popup({ setShowPopup }: any) {
       .off("game_response_response")
       .on(
         "game_response_response",
-        ({ accepted, index }: { accepted: boolean; index: number }) => {
+        ({
+          accepted,
+          index,
+          id,
+        }: {
+          accepted: boolean;
+          index: number;
+          id: number;
+        }) => {
           setResponseIndex(index);
+          setResponseValue(accepted);
           if (accepted) {
-            console.log(`Game request accepted from ${opponentId}`);
-            toast.success(`Game request accepted from ${opponentId}`);
+            console.log(`Game request accepted from ${id}`);
+            toast.success(`Game request accepted from ${id}`);
           } else {
-            console.log(`Game rejected from ${opponentId}`);
-            toast.error(`Game rejected from ${opponentId}`);
+            console.log(`Game rejected from ${id}`);
+            toast.error(`Game rejected from ${id}`);
           }
+
           socket.emit("remove_notification", {
             userId: userId,
-            opponentId: opponentId,
+            opponentId: id,
           });
+
           setLoadingStates((prevState) => ({
             ...prevState,
             [index]: false,
@@ -310,11 +326,23 @@ export default function Popup({ setShowPopup }: any) {
           clearTimeout(requestTimeouts.current[index]);
         }
       );
+
     setLoadingStates((prevState) => ({
       ...prevState,
       [index]: true,
     }));
   };
+
+  useEffect(() => {
+    if (!socket) return;
+
+    if (responseValue) {
+      socket.emit("remove_sended_request", {
+        sendedRequestQueue: sendedRequestQueue,
+      });
+      setSendedRequestQueue([]);
+    }
+  }, [responseValue]);
 
   // const router = useRouter();
   const [, setGameMode] = useRecoilState(gameModeVar);

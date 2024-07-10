@@ -2,24 +2,42 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import { UserAchievementService } from 'src/user-achievement/user-achievement.service';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class MatchHistoryService {
-  constructor(private databaseService: DatabaseService, private userAchievementService: UserAchievementService) {}
+  constructor(
+    private databaseService: DatabaseService,
+    private userAchievementService: UserAchievementService,
+    // private userService: UsersService,
+  ) {}
 
   async create(createMatchHistoryDto: Prisma.MatchHistoryCreateInput) {
     const matchHistory = await this.databaseService.matchHistory.create({
       data: createMatchHistoryDto,
     });
 
-    const winnerWinnedMatches = await this.findwinnedMatches(matchHistory.winner) as Array<{}>;
-    const loserLostMatches = await this.findLostMatches(matchHistory.loser) as Array<{}>;
+    // this.userService.updateXP(matchHistory.winner, 'win');
+    // this.userService.updateXP(matchHistory.loser, 'lose');
+    const winnerWinnedMatches = (await this.findwinnedMatches(
+      matchHistory.winner,
+    )) as Array<{}>;
+    const loserLostMatches = (await this.findLostMatches(
+      matchHistory.loser,
+    )) as Array<{}>;
 
-    const winnerAchievements = await this.userAchievementService.findOne(matchHistory.winner) as Array<{name, unlocked}>;
-    const loserAchievements = await this.userAchievementService.findOne(matchHistory.loser) as Array<{name, unlocked}>;
+    const winnerAchievements = (await this.userAchievementService.findOne(
+      matchHistory.winner,
+    )) as Array<{ name; unlocked }>;
+    const loserAchievements = (await this.userAchievementService.findOne(
+      matchHistory.loser,
+    )) as Array<{ name; unlocked }>;
 
     if (winnerWinnedMatches && winnerWinnedMatches.length === 1) {
-      if (winnerAchievements.find((a) => a.name === 'First Win').unlocked === false) {
+      if (
+        winnerAchievements.find((a) => a.name === 'First Win').unlocked ===
+        false
+      ) {
         await this.userAchievementService.create({
           userId: matchHistory.winner,
           achivementName: 'First Win',
@@ -28,17 +46,23 @@ export class MatchHistoryService {
       }
     }
     if (loserLostMatches && loserLostMatches.length === 1) {
-        if (loserAchievements.find((a) => a.name === 'First Defeat').unlocked === false) {
-          await this.userAchievementService.create({
-            userId: matchHistory.loser,
-            achivementName: 'First Defeat',
-            unlocked: true,
-          });
-        }
+      if (
+        loserAchievements.find((a) => a.name === 'First Defeat').unlocked ===
+        false
+      ) {
+        await this.userAchievementService.create({
+          userId: matchHistory.loser,
+          achivementName: 'First Defeat',
+          unlocked: true,
+        });
+      }
     }
 
     if (matchHistory.loserScore === 0) {
-      if (winnerAchievements.find((a) => a.name === 'Flawless Victory').unlocked === false) {
+      if (
+        winnerAchievements.find((a) => a.name === 'Flawless Victory')
+          .unlocked === false
+      ) {
         await this.userAchievementService.create({
           userId: matchHistory.winner,
           achivementName: 'Flawless Victory',
@@ -48,7 +72,10 @@ export class MatchHistoryService {
     }
 
     if (winnerWinnedMatches && winnerWinnedMatches.length === 50) {
-      if (winnerAchievements.find((a) => a.name === 'Ping Pong Pro').unlocked === false) {
+      if (
+        winnerAchievements.find((a) => a.name === 'Ping Pong Pro').unlocked ===
+        false
+      ) {
         await this.userAchievementService.create({
           userId: matchHistory.winner,
           achivementName: 'Ping Pong Pro',
@@ -57,9 +84,15 @@ export class MatchHistoryService {
       }
     }
 
-    const matchDurationInMinutes = (matchHistory.endAt.getTime() - matchHistory.startAt.getTime()) / 1000 / 60;
+    const matchDurationInMinutes =
+      (matchHistory.endAt.getTime() - matchHistory.startAt.getTime()) /
+      1000 /
+      60;
     if (matchDurationInMinutes >= 5) {
-      if (winnerAchievements.find((a) => a.name === 'Marathon Match').unlocked === false) {
+      if (
+        winnerAchievements.find((a) => a.name === 'Marathon Match').unlocked ===
+        false
+      ) {
         await this.userAchievementService.create({
           userId: matchHistory.winner,
           achivementName: 'Marathon Match',

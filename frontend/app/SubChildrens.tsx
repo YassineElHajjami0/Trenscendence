@@ -18,10 +18,6 @@ import { tablePicture } from "./Atoms/tablePicture";
 import axios from "axios";
 import { Socket } from "socket.io-client";
 
-class User {
-  constructor(public id: number, public username: string) {}
-}
-
 /*---------- sokcets ---------------*/
 interface SocketContextProps {
   socket: Socket | null;
@@ -136,11 +132,11 @@ export default function SubChildrens({
         }
       );
 
-      socket.on("remove_notification", (opponentId: number) => {
-        console.log(`Remove notification from ${opponentId}`);
-        setGameRequestQueue((prevQueue) =>
-          prevQueue.filter((id) => id !== opponentId)
-        );
+      socket.on("remove_notification", () => {
+        console.log("remove_notification event received");
+        setGameRequestQueue((prevQueue) => prevQueue.slice(1));
+        setGameRequestValue(-1);
+        setGameResponseValue(0);
       });
 
       return () => {
@@ -169,7 +165,7 @@ export default function SubChildrens({
     return () => {
       clearInterval(interval);
     };
-  }, [gameRequestQueue]);
+  }, [gameRequestQueue, socket]);
 
   const [gameMode, setGameMode] = useRecoilState(gameModeVar);
 
@@ -180,12 +176,12 @@ export default function SubChildrens({
         gameResponseValue === 1 ? true : gameResponseValue === 2 ? false : null;
       socket.emit("game_response", {
         userId: gameRequestValue,
+        opponentId: user,
         accepted: accepted,
         index: index,
       });
       setGameRequestValue(-1);
       setGameResponseValue(0);
-      setGameRequestQueue((prevQueue) => prevQueue.slice(1)); // Remove the current request from the queue
       if (accepted) {
         setGameRequestQueue([]); // remove all other requests from the queue
         setGameMode("friend");
@@ -196,12 +192,13 @@ export default function SubChildrens({
         });
       }
     }
-  }, [gameResponseValue]);
+  }, [gameResponseValue, socket]);
 
   useEffect(() => {
     if (!socket) return;
     socket.on("go_to_game", (opponentId: number) => {
       setGameMode("friend");
+
       // router.push("/play");
     });
 
@@ -215,7 +212,7 @@ export default function SubChildrens({
       socket.off("go_to_game");
       socket.off("go_to_random_game");
     };
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     if (gameRequestQueue.length > 0) {
@@ -223,7 +220,19 @@ export default function SubChildrens({
     } else {
       setGameRequestValue(-1);
     }
-  }, [gameRequestQueue, gameRequestValue]);
+  }, [gameRequestQueue, gameRequestValue, socket]);
+  useEffect(() => {
+    if (gameRequestQueue.length > 0) {
+      if (gameRequestQueue[0] === undefined) {
+        setGameRequestQueue((prevQueue) => prevQueue.slice(1));
+        setGameRequestValue(-1);
+        return;
+      }
+      setGameRequestValue(gameRequestQueue[0]);
+    } else {
+      setGameRequestValue(-1);
+    }
+  }, [gameRequestQueue, gameRequestValue, socket]);
 
   /*-------game shit------*/
   return (

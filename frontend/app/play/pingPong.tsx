@@ -171,9 +171,12 @@ export function PingPong() {
   const [gameStarted, setGameStarted] = useState(false);
 
   useEffect(() => {
+    if (!socket) return;
+
     const canvas = canvasRef.current as HTMLCanvasElement | null;
     if (!canvas) return;
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+    if (!ctx) return;
     canvas.width = 1000;
     canvas.height = 500;
 
@@ -183,7 +186,6 @@ export function PingPong() {
     canvasImage.onload = () => {
       ctx.drawImage(canvasImage, 0, 0, canvas!.width, canvas!.height);
     };
-    if (!socket) return;
 
     if (gameMode === "random") {
       socket.on(

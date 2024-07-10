@@ -270,7 +270,12 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('game_response')
   handleGameResponse(
     client: Socket,
-    response: { userId: number; accepted: boolean; index: number },
+    response: {
+      userId: number;
+      opponentId: number;
+      accepted: boolean;
+      index: number;
+    },
   ) {
     console.log('Game response received ', response);
     if (users.has(response.userId)) {
@@ -278,6 +283,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
         socket.emit('game_response_response', {
           accepted: response.accepted,
           index: response.index,
+          id: response.opponentId,
         });
         console.log(`Game response sent to ${response.userId}`);
       });
@@ -293,7 +299,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {
     if (users.has(payload.opponentId)) {
       users.get(payload.opponentId)?.sockets.forEach((socket) => {
-        socket.emit('remove_notification', payload.userId);
+        socket.emit('remove_notification');
       });
     }
   }
@@ -526,13 +532,29 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
       room.player1?.sockets.forEach((socket) => {
         socket.join(roomId);
+        socket.emit('remove_notification');
       });
       room.player2?.sockets.forEach((socket) => {
         socket.join(roomId);
+        socket.emit('remove_notification');
       });
 
       rooms.set(roomId, room);
     }
+  }
+
+  @SubscribeMessage('remove_sended_request')
+  handleRemoveSendedRequest(
+    client: Socket,
+    payload: { sendedRequestQueue: number[] },
+  ) {
+    payload.sendedRequestQueue.forEach((id) => {
+      if (users.has(id)) {
+        users.get(id)?.sockets.forEach((socket) => {
+          socket.emit('remove_notification');
+        });
+      }
+    });
   }
 
   @SubscribeMessage('ready')
