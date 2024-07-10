@@ -16,7 +16,7 @@ const getRank = (xp: number) => {
   if (xp > 500) return "Apex";
 };
 
-const adjustPoints = (xp: number, result: string) => {
+const adjustXP = (xp: number, result: string) => {
   const rank = getRank(xp);
   let points = 0;
 

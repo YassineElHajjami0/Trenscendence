@@ -62,6 +62,7 @@ export default function Friend({
       friendId: myFriend.uid,
       blocked: !blocked,
     };
+
     try {
       axios.patch("http://localhost:3000/channels/dm", body, {
         headers: {

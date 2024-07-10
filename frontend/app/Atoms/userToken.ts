@@ -5,8 +5,8 @@ import Cookies from "js-cookie";
 const { persistAtom } = recoilPersist({
   key: "userData",
   storage: {
-    getItem: (key) => Cookies.get(key),
-    setItem: (key, value) => Cookies.set(key, value, { expires: 7, path: "/" }),
+    getItem: (key:any) => Cookies.get(key),
+    setItem: (key:any, value:any) => Cookies.set(key, value, { expires: 7, path: "/" }),
   },
 });
 

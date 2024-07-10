@@ -40,7 +40,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
 
   useEffect(() => {
     if (selectedProfile === loggedU) route.replace("/profile");
-    setLoading(true);
+
     const getUserData = async () => {
       try {
         const res = await axios.get(
@@ -55,7 +55,6 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
         setSelectedProfile(data.uid);
         setUserData(data);
       } catch (error: any) {
-        setLoading(false);
         route.push("/profile/404");
       }
     };

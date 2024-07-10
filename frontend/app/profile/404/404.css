@@ -108,6 +108,11 @@
   justify-content: center;
   gap: 5px;
 }
+
+.terminal > h1 {
+  color: rgb(255, 51, 85);
+}
+
 .btns_containers_error_404 {
   display: flex;
   align-items: center;

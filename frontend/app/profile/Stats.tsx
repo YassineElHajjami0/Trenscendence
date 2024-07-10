@@ -115,6 +115,16 @@ export default function Stats() {
             const date = e?.date?.split("-");
             return date[1] + "/" + date[2];
           }),
+        axisTick: {
+          show: false,
+        },
+        axisLine: {
+          show: false,
+        },
+        axisLabel: {
+          show: true,
+          color: "#ffffff",
+        },
       },
     ],
     yAxis: [
@@ -123,11 +133,11 @@ export default function Stats() {
           show: false,
         },
         type: "value",
-        // axisLine: {
-        //   lineStyle: {
-        //     color: "transparent",
-        //   },
-        // },
+        axisLine: {
+          lineStyle: {
+            color: "transparent",
+          },
+        },
       },
     ],
     series: [
@@ -137,7 +147,8 @@ export default function Stats() {
         stack: "Total",
         smooth: true,
         lineStyle: {
-          width: 0,
+          width: 2,
+          color: statsSwitch.color + "80",
         },
         showSymbol: true,
         itemStyle: {

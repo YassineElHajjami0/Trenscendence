@@ -12,12 +12,6 @@ export const FriendMSG = ({ message }: { message: any }) => {
     options as Intl.DateTimeFormatOptions
   );
 
-  // "id": 4,
-  //       "userID": 2,
-  //       "channelID": 21,
-  //       "content": "wax nta f medrasa",
-  //       "createdAT": "2024-03-31T13:08:33.627Z"
-
   return (
     <div
       className={`chat_msg_container ${
