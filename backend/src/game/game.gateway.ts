@@ -448,13 +448,26 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
 			room.player1?.sockets.forEach((socket) => {
 				socket.join(roomId);
+				socket.emit('remove_notification');
 			});
 			room.player2?.sockets.forEach((socket) => {
 				socket.join(roomId);
+				socket.emit('remove_notification');
 			});
 
 			rooms.set(roomId, room);
 		}
+	}
+
+	@SubscribeMessage('remove_sended_request')
+	handleRemoveSendedRequest( client: Socket, payload: { sendedRequestQueue: number[] }) {
+		payload.sendedRequestQueue.forEach((id) => {
+			if (users.has(id)) {
+				users.get(id)?.sockets.forEach((socket) => {
+					socket.emit('remove_notification');
+				});
+			}
+		});
 	}
 
 	@SubscribeMessage('ready')

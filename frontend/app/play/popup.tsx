@@ -188,6 +188,8 @@ export default function Popup({ setShowPopup }: any) {
 	const [userId, setUserId] = useRecoilState(loggedUser);
 	const [userTok, setUserTok] = useRecoilState(userToken);
 	const [responseIndex, setResponseIndex] = useState(-1);
+	const [sendedRequestQueue, setSendedRequestQueue] = useState<number[]>([]);
+	const [responseValue, setResponseValue] = useState(false);
 	const table = useRecoilValue(tablePicture);
 
 	const popupRef = useRef(null);
@@ -260,8 +262,11 @@ export default function Popup({ setShowPopup }: any) {
 	const sendGameReq = (opponentId: number, index: number) => {
 		if (loadingStates[index]) return;
 
+		setSendedRequestQueue(prevQueue => [...prevQueue, opponentId]);
+		console.log(`sendedRequestQueue: ${sendedRequestQueue}`);
 		const timeout = setTimeout(() => {
 			console.log(`Request timeout for opponentId: ${opponentId}, index: ${index}`);
+			setSendedRequestQueue(prevQueue => prevQueue.filter(id => id !== opponentId));
 			setLoadingStates(prevState => ({
 				...prevState,
 				[index]: false
@@ -278,6 +283,7 @@ export default function Popup({ setShowPopup }: any) {
 			{ accepted, index, id }: { accepted: boolean, index: number, id: number}
 		) => {
 			setResponseIndex(index);
+			setResponseValue(accepted);
 			if (accepted) {
 				console.log(`Game request accepted from ${id}`);
 				toast.success(`Game request accepted from ${id}`);
@@ -301,6 +307,13 @@ export default function Popup({ setShowPopup }: any) {
 			[index]: true
 		}));
 	};
+
+	useEffect(() => {
+		if (responseValue) {
+			socket.emit('remove_sended_request', { sendedRequestQueue: sendedRequestQueue });
+			setSendedRequestQueue([]);
+		}
+	}, [responseValue]);
 
 	// const router = useRouter();
 	const [, setGameMode] = useRecoilState(gameModeVar);

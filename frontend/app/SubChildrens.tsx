@@ -80,7 +80,6 @@ export default function SubChildrens({
 		if (gameRequestQueue.length > 0) {
 			setGameRequestValue(gameRequestQueue[0]);
 		}
-		console.log("gameRequestQueue: ", gameRequestQueue);
 	}, [gameRequestQueue]);
 
 	useEffect(() => {
