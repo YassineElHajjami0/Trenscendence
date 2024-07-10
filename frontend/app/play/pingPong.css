@@ -342,11 +342,11 @@
 		font-size: 20px;
 		rotate: 90deg;
 		z-index: 9;
-		left: -5%;
-		top: 80%;
+		left: -7%;
+		top: 62%;
 		text-align: center;
-		/* background: red; */
-		/* width: 90%; */
+		width: 170px;
+		height: 100px;
 	}
 	.quit-game-button {
 		width: 130px;
