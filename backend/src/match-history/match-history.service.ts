@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import { UserAchievementService } from 'src/user-achievement/user-achievement.service';
@@ -9,7 +9,8 @@ export class MatchHistoryService {
   constructor(
     private databaseService: DatabaseService,
     private userAchievementService: UserAchievementService,
-    // private userService: UsersService,
+    @Inject(forwardRef(() => UsersService))
+    private userService: UsersService,
   ) {}
 
   async create(createMatchHistoryDto: Prisma.MatchHistoryCreateInput) {
@@ -17,8 +18,14 @@ export class MatchHistoryService {
       data: createMatchHistoryDto,
     });
 
-    // this.userService.updateXP(matchHistory.winner, 'win');
-    // this.userService.updateXP(matchHistory.loser, 'lose');
+    this.userService.updateXP(matchHistory.winner, 'win');
+    this.userService.updateXP(matchHistory.loser, 'lose');
+
+    // change status to ingame
+    this.userService.updateStatus(matchHistory.winner, 'online');
+    this.userService.updateStatus(matchHistory.loser, 'online');
+    // change status to ingame
+
     const winnerWinnedMatches = (await this.findwinnedMatches(
       matchHistory.winner,
     )) as Array<{}>;

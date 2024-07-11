@@ -8,6 +8,7 @@ import {
 import { $Enums } from '@prisma/client';
 import { Socket, Server } from 'socket.io';
 import { MatchHistoryService } from 'src/match-history/match-history.service';
+import { UsersService } from 'src/users/users.service';
 
 class Ball {
   x: number;
@@ -96,7 +97,11 @@ const WINNER_SCORE = 1;
 
 @WebSocketGateway(3001, { cors: { origin: '*' } })
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  constructor(private readonly matchHistoryService: MatchHistoryService) {}
+  constructor(
+    private readonly matchHistoryService: MatchHistoryService,
+
+    private readonly usersService: UsersService,
+  ) {}
   @WebSocketServer() server: Server;
 
   async handleConnection(client: Socket) {}
@@ -230,10 +235,15 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
           socket.leave(roomId);
           socket.emit('quited', payload.userId);
         });
+        // change status to ingame
+        this.usersService.updateStatus(room.player1.userId, 'online');
+        this.usersService.updateStatus(room.player2.userId, 'online');
+        // change status to ingame
       } else if (room.gameMode === 'random') {
         users.get(payload.userId)?.sockets.forEach((socket) => {
           socket.emit('quited', payload.userId);
         });
+        this.usersService.updateStatus(payload.userId, 'online');
       }
       room.gameMode = '';
 
@@ -327,10 +337,15 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
           );
         }
         queue.push(user);
+        this.usersService.updateStatus(user.userId, 'ingame');
       }
       if (queue.length === 2) {
         const player1 = queue.shift();
         const player2 = queue.shift();
+        // change status to ingame
+        // this.usersService.updateStatus(player1.userId, 'ingame');
+        // this.usersService.updateStatus(player2.userId, 'ingame');
+        // change status to ingame
         const roomId = `${player1.userId}+${player2.userId}`;
         player1.sockets.forEach((socket) => {
           socket.join(roomId);
@@ -526,6 +541,11 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
         socket.emit('go_to_game', payload.userId);
       });
 
+      // change status to ingame
+      this.usersService.updateStatus(payload.userId, 'ingame');
+      this.usersService.updateStatus(payload.opponentId, 'ingame');
+      // change status to ingame
+
       room.matchDetails = new MatchDetails();
       room.matchDetails.gameMode = $Enums.GameMode.AGAINST_FRIEND;
       room.matchDetails.createdAt = new Date();
@@ -559,23 +579,24 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('ready')
   handleReady(client: Socket, payload: { userId: number }) {
+    const user = users.get(payload.userId);
     if (againstFriendQueue.length < 2 && users.has(payload.userId)) {
       if (againstFriendQueue.length === 0) {
-        users.get(payload.userId).paddle = new Paddle(
+        user.paddle = new Paddle(
           0,
           CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
           PADDLE_WIDTH,
           PADDLE_HEIGHT,
         );
       } else if (againstFriendQueue.length === 1) {
-        users.get(payload.userId).paddle = new Paddle(
+        user.paddle = new Paddle(
           CANVAS_WIDTH - PADDLE_WIDTH,
           CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
           PADDLE_WIDTH,
           PADDLE_HEIGHT,
         );
       }
-      againstFriendQueue.push(users.get(payload.userId));
+      againstFriendQueue.push(user);
     }
     if (againstFriendQueue.length === 2) {
       const player1 = againstFriendQueue.shift();

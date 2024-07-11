@@ -2,8 +2,10 @@ import {
   BadRequestException,
   HttpException,
   HttpStatus,
+  Inject,
   Injectable,
   UnauthorizedException,
+  forwardRef,
 } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -18,6 +20,7 @@ export class UsersService {
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly chatGateway: ChatGateway,
+    @Inject(forwardRef(() => MatchHistoryService))
     private readonly matchHistory: MatchHistoryService,
   ) {}
 
@@ -154,10 +157,13 @@ export class UsersService {
   }
 
   async updateStatus(uid: number, status: UserStatus) {
+    console.log('>>>>>>', status);
+
     const res = await this.databaseService.t_User.update({
       where: { uid },
-      data: status,
+      data: { status },
     });
+
     this.chatGateway.updateFriendStatus(res);
   }
 
@@ -194,8 +200,8 @@ export class UsersService {
         points = result === 'win' ? 1 : -6;
         break;
     }
-
-    return xp + points;
+    const res = xp + points;
+    return res < 0 ? 0 : res;
   };
 
   async updateXP(uid: number, status: string) {
@@ -207,7 +213,6 @@ export class UsersService {
       console.log('old xp', oldXp);
       const newXp = this.adjustXP(oldXp, status);
       const newRank = this.getRank(newXp);
-
       const res = await this.databaseService.t_User.update({
         where: { uid },
         data: { xp: newXp },

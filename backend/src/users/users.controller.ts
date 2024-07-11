@@ -12,6 +12,7 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-User.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Public } from '../auth/decorators/public.decorator';
+import { UserStatus } from '@prisma/client';
 
 @Controller('users')
 export class UsersController {
@@ -48,8 +49,11 @@ export class UsersController {
     return this.usersService.update(+id, updateUserDto);
   }
   @Patch('/status/:id')
-  updateStatus(@Param('id') id: string, @Body() status: any) {
-    return this.usersService.updateStatus(+id, status);
+  updateStatus(
+    @Param('id') id: string,
+    @Body() status: { status: UserStatus },
+  ) {
+    return this.usersService.updateStatus(+id, status.status);
   }
 
   @Delete()

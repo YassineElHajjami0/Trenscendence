@@ -57,44 +57,40 @@ export default function SubChildrens({
 
   /*--------online offline---------*/
 
-  const setUserStatus = (status: string) => {
-    if (user === -1) return;
-    const body = {
-      status: status,
-    };
-    try {
-      axios.patch(`http://localhost:3000/users/status/${user}`, body, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (error) {
-      console.log("3a", error);
-    }
-  };
+  // const setUserStatus = (status: string) => {
+  //   if (user === -1) return;
+  //   const body = {
+  //     status: status,
+  //   };
+  //   try {
+  //     axios.patch(`http://localhost:3000/users/status/${user}`, body, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //   } catch (error) {
+  //     console.log("3a", error);
+  //   }
+  // };
 
   useEffect(() => {
-    addEventListener("offline", function () {
-      setUserStatus("offline");
-    });
-
-    addEventListener("online", function () {
-      setUserStatus("online");
-    });
-
-    const handleVisibility = () => {
-      if (document.visibilityState === "hidden") {
-        setUserStatus("offline");
-      } else {
-        setUserStatus("online");
-      }
-    };
-
-    addEventListener("visibilitychange", handleVisibility);
-
-    return () => {
-      removeEventListener("visibilitychange", handleVisibility);
-    };
+    // addEventListener("offline", function () {
+    //   setUserStatus("offline");
+    // });
+    // addEventListener("online", function () {
+    //   setUserStatus("online");
+    // });
+    // const handleVisibility = () => {
+    //   if (document.visibilityState === "hidden") {
+    //     setUserStatus("offline");
+    //   } else {
+    //     setUserStatus("online");
+    //   }
+    // };
+    // addEventListener("visibilitychange", handleVisibility);
+    // return () => {
+    //   removeEventListener("visibilitychange", handleVisibility);
+    // };
   }, []);
 
   /*--------online offline---------*/

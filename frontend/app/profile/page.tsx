@@ -91,12 +91,12 @@ const Profile = () => {
           <div className="progress">
             <div
               style={{
-                width: `${(userData?.xp % 100) + 42}%`,
+                width: `${userData?.xp % 100}%`,
               }}
               className="pseudoProgress"
             ></div>
           </div>
-          {(userData?.xp % 100) + 42}%
+          {userData?.xp % 100}%
           {/* <div
             //  onClick={copyUID}
 
