@@ -358,6 +358,16 @@ export default function Popup({ setShowPopup }: any) {
     };
   }, []);
 
+  useEffect(() => {
+    socket?.on('update_friend_list', () => {
+      getAllusers();
+    })
+
+    return () => {
+      socket?.off('update_friend_list');
+    }
+  }, [allUsers])
+
   return (
     <>
       <ToestContainer ref={teastRef}>

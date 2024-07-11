@@ -165,6 +165,7 @@ export class UsersService {
     });
 
     this.chatGateway.updateFriendStatus(res);
+    this.chatGateway.updateOnlineFriendList();
   }
 
   getRank = (xp: number) => {

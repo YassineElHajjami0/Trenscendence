@@ -16,5 +16,6 @@ import { UsersModule } from 'src/users/users.module';
     UserAchievementService,
   ],
   imports: [UsersModule, MatchHistoryModule],
+  exports: [GameGateway],
 })
 export class GameModule {}
