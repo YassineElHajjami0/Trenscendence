@@ -33,6 +33,7 @@ export class ChannelsController {
 
   @Get()
   findAll(@Query('mustinclude') text: string) {
+    console.log('Text:', text);
     return this.channelsService.findAll(text);
   }
   @Get('messages')

@@ -53,7 +53,12 @@ export class ChannelsService {
 
   async findOne(userID: number) {
     const roles = await this.databaseService.role.findMany({
-      where: { userID },
+      where: {
+        userID,
+        channels: {
+          type: { not: 'DM' },
+        },
+      },
       include: {
         channels: {
           include: { roles: true },
