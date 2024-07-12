@@ -86,6 +86,7 @@ const PopupSearchChannels: React.FC<popupProps> = ({
       }, 2000);
     }
   };
+
   useEffect(() => {
     console.log("HERE");
     const fetchFreshChannels = async () => {
@@ -129,51 +130,55 @@ const PopupSearchChannels: React.FC<popupProps> = ({
           onChange={(e) => setChannelName(e.currentTarget.value)}
         />
         <div className="searchedChannelsList">
-          {fetchedChannels?.map((e: channelInterface) => {
-            return (
-              <div className="channelLink" key={e.id}>
-                <div className="imageAndName">
-                  <Image
-                    src={`http://localhost:3000/${e.uri}`}
-                    width={50}
-                    height={50}
-                    alt="IMG"
-                    className="channelImage"
-                  />
-                  <div className="nameAndCode">
-                    <p>{e.name}</p>
-                    {e.type == "PROTECTED" ? (
-                      <input
-                        type="number"
-                        style={{ appearance: "textfield" }}
-                        placeholder="code"
-                        onKeyDown={(e) => e.key === "." && e.preventDefault()}
-                        value={code != undefined ? code.toString() : ""}
-                        onChange={(e) => {
-                          if (e.target.value.length < 5)
-                            setCode(parseInt(e.target.value));
-                        }}
-                      />
-                    ) : (
-                      ""
-                    )}
+          {fetchedChannels &&
+            fetchedChannels?.map((e: channelInterface) => {
+              return (
+                <div className="channelLink" key={e.id}>
+                  <div className="imageAndName">
+                    <Image
+                      src={`${e.uri}`}
+                      width={50}
+                      height={50}
+                      alt="IMG"
+                      className="channelImage"
+                    />
+                    <div className="nameAndCode">
+                      <p>{e.name}</p>
+                      {e.type == "PROTECTED" ? (
+                        <input
+                          type="number"
+                          style={{ appearance: "textfield" }}
+                          placeholder="code"
+                          onKeyDown={(e) => e.key === "." && e.preventDefault()}
+                          value={code != undefined ? code.toString() : ""}
+                          onChange={(e) => {
+                            if (e.target.value.length < 5)
+                              setCode(parseInt(e.target.value));
+                          }}
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
+                  {e.type == "PUBLIC" ? (
+                    <button
+                      className="joinBtn"
+                      onClick={() => handleJoin(e.id)}
+                    >
+                      join
+                    </button>
+                  ) : (
+                    <button
+                      className="joinBtn"
+                      onClick={() => handleJoinProtected(e.id, e.code)}
+                    >
+                      join
+                    </button>
+                  )}
                 </div>
-                {e.type == "PUBLIC" ? (
-                  <button className="joinBtn" onClick={() => handleJoin(e.id)}>
-                    join
-                  </button>
-                ) : (
-                  <button
-                    className="joinBtn"
-                    onClick={() => handleJoinProtected(e.id, e.code)}
-                  >
-                    join
-                  </button>
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
     </div>

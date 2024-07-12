@@ -1,3 +1,6 @@
+* {
+  font-family: "arial";
+}
 .chat_channels_container {
   color: #ffffff;
   display: flex;

@@ -99,6 +99,7 @@ const Settings = () => {
     fetchedData();
   }, [showArticlesPopup]);
 
+
   function changeInputValue(
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -606,7 +607,7 @@ const Settings = () => {
                   <div>
                     {data?.twoFA == true && (
                       <Image
-                        src={qrImage}
+                        src={qrImage.slice(1, -1)}
                         alt="Qr code"
                         width={200}
                         height={200}
