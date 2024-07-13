@@ -102,7 +102,7 @@ export class AuthService {
   isTwoFactorCodeValid(body: any) {
     return authenticator.verify({
       token: body.twoFaCode,
-      secret: body.user.twoFASecret,
+      secret: body.twoFASecret,
     });
   }
 
