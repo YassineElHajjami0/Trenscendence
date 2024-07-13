@@ -153,8 +153,8 @@ export class AuthController {
   async register(@Res({ passthrough: true }) res, @Body() body) {
     const { otpAuthUrl } =
       await this.authService.generateTwoFactorAuthenticationSecret(body);
-
-    return res.json(await this.authService.generateQrCodeDataURL(otpAuthUrl));
+    const qrCode = await this.authService.generateQrCodeDataURL(otpAuthUrl);
+    return qrCode;
   }
 
   // I need the whole user in body

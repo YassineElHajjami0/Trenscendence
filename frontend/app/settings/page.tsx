@@ -607,7 +607,7 @@ const Settings = () => {
                   <div>
                     {data?.twoFA == true && (
                       <Image
-                        src={qrImage.slice(1, -1)}
+                        src={qrImage}
                         alt="Qr code"
                         width={200}
                         height={200}
