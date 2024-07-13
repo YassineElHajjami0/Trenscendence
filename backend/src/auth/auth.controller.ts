@@ -170,7 +170,7 @@ export class AuthController {
     const bearer_token = await this.authService.login(body);
     this.setCookie(res, bearer_token);
     return {
-      user_token: bearer_token,
+      userToken: bearer_token,
       user: body,
     };
     // return { userToken: bearer_token, user: body };
