@@ -294,13 +294,13 @@ const ChannelInfo = ({
   return (
     <div className="selectedChannelData">
       <div className="ChannelImage">
-        {/* <Image
-          src={`${channelData?.uri}`}
+        <Image
+          src={ channelData?.uri ? `${channelData.uri}` : "http://localhost:3000/default.png"}
           width={100}
           height={100}
           alt="avatar"
           style={{ borderRadius: "50%" }}
-        /> */}
+        />
       </div>
       <h3 className="channelName">{channelData?.name}</h3>
       <p className="topic">{channelData?.topic}</p>

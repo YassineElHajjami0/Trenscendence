@@ -57,6 +57,7 @@ const SelectedChannelChat = ({
     let channelToDisplay: channelInterface | undefined = channels?.find(
       (ch) => ch.id === selectedChannel
     );
+    setChToDisplay(channelToDisplay);
     console.log("MMMMMMMMMM___>>", channelToDisplay);
     if (channelToDisplay?.type == "PRIVATE") {
       setShowSearchFriend(true);
@@ -288,17 +289,16 @@ const SelectedChannelChat = ({
           className="arrow_back"
           onClick={() => setSelectedChannel(-1)}
         />
-        {chToDisplay?.uri}
-        {/* <Image
+        {/* {chToDisplay?.uri} */}
+        <Image
           className="channel_msg_section_header_avatar"
           src={
-            `${chToDisplay?.uri}` ||
-            "http://localhost:3000/channelDefaultImage.png"
+            chToDisplay?.uri ? `${chToDisplay.uri}` : "http://localhost:3000/default.png"
           }
           width={100}
           height={100}
           alt="avatar"
-        /> */}
+        />
         <div>
           <h3 style={{ display: "block" }}>{chToDisplay?.name}</h3>
           {/* <p>

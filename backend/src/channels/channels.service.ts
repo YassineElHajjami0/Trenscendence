@@ -42,7 +42,7 @@ export class ChannelsService {
   async findAll(text: string) {
     const channels = await this.databaseService.channel.findMany({
       where: {
-        OR: [{ type: 'PUBLIC' }, { type: 'PROTECTED' }],
+        OR: [{ type: 'PUBLIC' }, { type: 'PROTECTED' }, { type: 'PRIVATE' }],
         name: { contains: text },
       },
       take: 10,
