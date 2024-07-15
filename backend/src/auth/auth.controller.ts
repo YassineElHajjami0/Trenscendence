@@ -151,6 +151,7 @@ export class AuthController {
   @Post('2fa/turn-on')
   // @UseGuards(Jwt2faAuthGuard)
   async register(@Res({ passthrough: true }) res, @Body() body) {
+    console.log("BODY ", body);
     const { otpAuthUrl } =
       await this.authService.generateTwoFactorAuthenticationSecret(body);
     const qrCode = await this.authService.generateQrCodeDataURL(otpAuthUrl);

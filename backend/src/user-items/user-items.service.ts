@@ -55,33 +55,39 @@ export class UserItemsService {
   }
 
   async update(updateUserItemDto: any) {
-    console.log(updateUserItemDto);
-    const ids: Prisma.UserItemUserIdItemIdCompoundUniqueInput = {
-      userId: updateUserItemDto.userId,
-      itemId: updateUserItemDto.itemId,
-    };
-    if (updateUserItemDto.oldType == updateUserItemDto.type) {
-      await this.updateOldItem(updateUserItemDto);
-    }
-    await this.databaseService.userItem.update({
-      where: { userId_itemId: ids },
-      data: { choosed: updateUserItemDto.choosed },
-    });
-
-    if (updateUserItemDto.type == 'avatar' && updateUserItemDto.avatar) {
-      await this.databaseService.t_User.update({
-        where: { uid: updateUserItemDto.userId },
-        data: { avatar: updateUserItemDto.avatar },
-      });
-    }
-  }
-
-  async updateToFalse(updateUserItemDto: any) {
-    const userId = updateUserItemDto.userId;
-    return await this.databaseService.userItem.updateMany({
-      where: { userId },
+    await this.databaseService.userItem.updateMany({
+      where: {
+        AND: [
+          { userId: updateUserItemDto.userId },
+          { item: { type: updateUserItemDto.type } },
+        ],
+      },
       data: { choosed: false },
     });
+
+    await this.databaseService.userItem.update({
+      where: {
+        userId_itemId: {
+          itemId: updateUserItemDto.itemId,
+          userId: updateUserItemDto.userId,
+        },
+      },
+      data: { choosed: true },
+    });
+    if (updateUserItemDto.type == 'avatar')
+      return await this.databaseService.t_User.update({
+          where: {uid: updateUserItemDto.userId},
+          data: {avatar: updateUserItemDto.img},
+        }
+      );
+    else if (updateUserItemDto.type == 'paddle')
+      return await this.databaseService.t_User.update({
+          where: {uid: updateUserItemDto.userId},
+          data: {paddle: updateUserItemDto.img},
+        }
+      );
+    else 
+      return {};
   }
 
   async remove(id: number) {

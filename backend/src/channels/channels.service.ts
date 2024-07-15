@@ -23,6 +23,7 @@ export class ChannelsService {
     // createChannelDto.uri = `http://localhost:3000/${filePath}`;
     await fs.promises.writeFile(filePath, file.buffer);
     console.log('!!!!!!', createChannelDto);
+    
     const imageName = path.basename(filePath);
     createChannelDto.uri = `http://localhost:3000/${imageName}`;
     const createdChannel = await this.databaseService.channel.create({

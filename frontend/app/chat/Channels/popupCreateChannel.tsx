@@ -23,7 +23,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
   const [name, setName] = useState("");
   const [status, setStatus] = useState("PUBLIC");
   const [topic, setTopic] = useState("");
-  const [code, setCode] = useState("8888");
+  const [code, setCode] = useState(8888);
   const [file, setFile] = useState<File | null>(null);
 
   const userTok = useRecoilValue(userToken);
@@ -33,7 +33,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
     const formData = new FormData();
     formData.append("name", name);
     formData.append("type", status);
-    formData.append("code", code);
+    formData.append("code", code.toString());
     formData.append("topic", topic);
     console.log("formData: ", formData);
     if (file) formData.append("uri", file);
@@ -50,7 +50,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
       setName("");
       setStatus("PUBLIC");
       setTopic("");
-      setCode("");
+      setCode(8888);
     });
   };
 
@@ -167,7 +167,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
               value={code}
               onKeyDown={(e) => e.key === "." && e.preventDefault()}
               onChange={(e) => {
-                if (e.target.value.length < 5) setCode(e.target.value);
+                if (e.target.value.length < 5) setCode(+e.target.value);
               }}
               className="protectedPassword"
               placeholder="code"

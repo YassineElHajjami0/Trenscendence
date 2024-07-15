@@ -86,10 +86,12 @@ const Settings = () => {
           },
         });
         const avatarsAndPaddlesData = await avatarsAndPaddlesResponse.json();
-        const data = await response.json();
-        setData(data);
+        const d = await response.json();
+        setData(d);
         setAvatarsAndPaddles(avatarsAndPaddlesData);
-        console.log("data", data);
+        // console.log("D >>>>> ", d);
+        bringQrImage(d);
+        console.log("data", d);
         console.log("avatarsAndPaddles", avatarsAndPaddlesData);
       } catch (err) {
         console.error("settings error >>>>>>", err);
@@ -99,6 +101,12 @@ const Settings = () => {
     fetchedData();
   }, [showArticlesPopup]);
 
+  // useEffect(() => {
+  //           console.log("D >>>>> ", data);
+
+  //     bringQrImage(data?.twoFA);
+
+  // }, [data])
 
   function changeInputValue(
     e:
@@ -261,9 +269,9 @@ const Settings = () => {
     }
   };
 
-  const bringQrImage = async (type: boolean | undefined) => {
-    console.log("email   ", data?.email);
-    if (!type) {
+  const bringQrImage = async (data: any) => {
+    console.log("data   ", data);
+    if (!data.twoFa) {
       const response = await fetch(`http://localhost:3000/auth/2fa/turn-on`, {
         method: "POST",
         headers: {
@@ -272,7 +280,8 @@ const Settings = () => {
         },
         body: JSON.stringify({
           uid: userId,
-          email: data?.email,
+          // email: data?.email,
+          email: data.email,
         }),
       });
       const data_ = await response.text();
@@ -340,7 +349,9 @@ const Settings = () => {
               body: JSON.stringify({
                 itemId: id,
                 userId: userId,
-                choosed: true,
+                // choosed: true,
+                type: type,
+                img: img
               }),
             })
           : await fetch(`http://localhost:3000/users/${userId}`, {
@@ -421,7 +432,7 @@ const Settings = () => {
                       >
                         <Image
                           className="img"
-                          src={`http://localhost:3000/av/${e.img}`}
+                          src={`${e.img}`}
                           width={200}
                           height={200}
                           alt="IMG"
@@ -444,7 +455,7 @@ const Settings = () => {
                             width: "100%",
                             height: "60%",
                           }}
-                          src={`http://localhost:3000/bn/${e.img}`}
+                          src={`${e.img}`}
                           width={200}
                           height={200}
                           alt="IMG"

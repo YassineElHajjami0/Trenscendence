@@ -151,11 +151,12 @@ const Store = () => {
       body: JSON.stringify({
         userId: userId,
         itemId: id,
-        choosed: true,
-        oldId: prevchoosedArticle?.id || "undefined",
-        oldType: prevchoosedArticle?.type || "undefined",
+        // choosed: true,
+        // oldId: prevchoosedArticle?.id || "undefined",
+        // oldType: prevchoosedArticle?.type || "undefined",
         type: choosedArticle?.type, //++
-        avatar: choosedArticle?.img, //++
+        // avatar: choosedArticle?.img, //++
+        img: choosedArticle?.img, //++
       }),
     })
       .then(() => {

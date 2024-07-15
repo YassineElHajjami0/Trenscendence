@@ -50,6 +50,7 @@ const Chat = () => {
   useEffect(() => {
     const fetchChannels = async () => {
       try {
+        console.log("BLABLABLA");
         const response = await fetch(
           `http://localhost:3000/channelss/${userId}`,
           {
@@ -81,7 +82,7 @@ const Chat = () => {
       socket.off("updateChannels");
       socket.off("updateRoles");
     };
-  }, []);
+  }, [socket]);
 
   const preventCHilde = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
