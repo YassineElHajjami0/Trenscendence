@@ -168,6 +168,9 @@ CREATE UNIQUE INDEX "T_User_username_key" ON "T_User"("username");
 CREATE UNIQUE INDEX "T_User_email_key" ON "T_User"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Item_name_key" ON "Item"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Achievement_name_key" ON "Achievement"("name");
 
 -- AddForeignKey
