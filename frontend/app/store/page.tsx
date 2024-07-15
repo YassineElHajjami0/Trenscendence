@@ -232,8 +232,7 @@ const Store = () => {
                         "choosed"
                       ) : (
                         <button
-                          onClick={() => handleChooseArticle(choosedArticle.id)}
-                        >
+                          onClick={() => handleChooseArticle(choosedArticle.id)} >
                           choose
                         </button>
                       )}
@@ -277,7 +276,7 @@ const Store = () => {
                   ) {
                     return (
                       <div
-                        key={article.img}
+                        key={article.id}
                         onClick={() => setChoosedArticle(article)}
                       >
                         <Image
@@ -308,7 +307,6 @@ const Store = () => {
                       >
                         <Image
                           className="img"
-                          // src={`http://localhost:3000/pd/${article.img}`}
                           src={`${article.img}`}
                           alt="paddle"
                           width={200}
