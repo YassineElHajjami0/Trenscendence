@@ -7,7 +7,7 @@ import { DatabaseService } from 'src/database/database.service';
 
 import { UserAchievementModule } from 'src/user-achievement/user-achievement.module';
 import { ChatGateway } from 'src/chatSockets/chat.getway';
-import { GameGateway } from 'src/game/game.gateway';
+
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { GameGateway } from 'src/game/game.gateway';
     UserAchievementModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService, DatabaseService, ChatGateway, GameGateway],
+  providers: [UsersService, DatabaseService, ChatGateway],
   exports: [UsersService],
 })
 export class UsersModule {}
