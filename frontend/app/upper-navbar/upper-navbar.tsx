@@ -10,6 +10,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userNotifications } from "../Atoms/notifications";
 import { userToken } from "../Atoms/userToken";
 import { loggedUser } from "../Atoms/logged";
+import Link from "next/link";
 
 const UpperNav = () => {
   const notificationRef = useRef<HTMLDivElement>(null);
@@ -31,10 +32,13 @@ const UpperNav = () => {
     };
   }, [notificationRef]);
 
+  const [searchUsers, setSearchUsers] = useState("");
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
   const [myNotifications, setMyNotifications] =
     useRecoilState(userNotifications);
+  const [myUsers, setMyUsers] = useState<any[]>([]);
+  console.log("-------->>>>", myUsers);
 
   const getNotifications = async () => {
     if (loggedU === -1) return;
@@ -54,8 +58,27 @@ const UpperNav = () => {
       console.log("error>>>", error.message);
     }
   };
+  const getAllUsers = async () => {
+    if (loggedU === -1) return;
+    try {
+      const res = await fetch(
+        `http://localhost:3000/users/allusers/${loggedU}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await res.json();
+      setMyUsers(data);
+    } catch (error: any) {
+      console.log("error>>>", error.message);
+    }
+  };
   useEffect(() => {
     getNotifications();
+    getAllUsers();
   }, [loggedU]);
 
   return (
@@ -64,7 +87,28 @@ const UpperNav = () => {
         <div className="search-icon">
           <MdOutlinePersonSearch />
         </div>
-        <input placeholder="search player" type="text" />
+        <input
+          value={searchUsers}
+          onChange={(e) => setSearchUsers(e.target.value)}
+          placeholder="search player"
+          type="text"
+        />
+        <div className={`all_users ${searchUsers.length && "show_all_users"}`}>
+          {myUsers.map((user) => (
+            <Link
+              className="users_names_links"
+              key={user?.uid}
+              href={`/profile/${user?.username}`}
+            >
+              <img
+                src={user?.avatar}
+                className="users_avatars_links"
+                alt="avatar"
+              />
+              {user?.username}
+            </Link>
+          ))}
+        </div>
       </div>
       <div ref={notificationRef} className="notif-and-profilePic">
         <div

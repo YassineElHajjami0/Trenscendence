@@ -75,6 +75,26 @@ export default function Stats() {
     setChartData(getStats() as any);
   }, [statsSwitch, data]);
 
+
+  const getMatchesDates = () => 
+    {
+    if(data.length === 0) return []
+        const dates =  data.map((e) => {
+            const date = e?.date + ":00:00";
+            const options = { hour: "2-digit", minute: "2-digit" };
+            const dateObject = new Date(date).toLocaleString(
+              "en-US",
+              options as Intl.DateTimeFormatOptions
+            );
+            return dateObject
+          })
+          console.log('>>>>>>>>>>>>>2',dates);
+          return dates
+  }
+
+  
+
+
   const option = {
     // title: {
     //   text: `Your ${
@@ -109,12 +129,7 @@ export default function Stats() {
       {
         type: "category",
         boundaryGap: false,
-        data:
-          data.length > 0 &&
-          data.map((e) => {
-            const date = e?.date?.split("-");
-            return date[1] + "/" + date[2];
-          }),
+        data:getMatchesDates(),
         axisTick: {
           show: false,
         },

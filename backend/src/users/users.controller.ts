@@ -38,6 +38,15 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
+
+
+  @Public()
+  @Get('/allusers/:id')
+  findAllUserExceptMe(@Param('id') id: string) {
+    return this.usersService.findAllUserExceptMe(+id);
+  }
+
+
   @Public()
   @Get('/user/:username')
   findOneName(@Param('username') username: string) {

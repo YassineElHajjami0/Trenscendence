@@ -112,6 +112,13 @@ export class UsersService {
     return user;
   }
 
+  async findAllUserExceptMe(uid: number) {
+    const allUsers = await this.databaseService.t_User.findMany({
+      where: { NOT: { uid: uid } },
+    });
+    return allUsers;
+  }
+
   async findUserByUsername(username: string) {
     const user = await this.databaseService.t_User.findFirst({
       where: { username },

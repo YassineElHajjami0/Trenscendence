@@ -264,7 +264,7 @@ export class MatchHistoryService {
     });
     if (!match || !match.length) return [];
     const groupedData = match.reduce((acc, item) => {
-      const date = item.createdAt.toISOString().split('T')[0];
+      const date = item.createdAt.toISOString().slice(0, 13);
       if (!acc[date]) {
         acc[date] = { date, win: 0, lose: 0, w_l: 0 };
       }
@@ -276,7 +276,7 @@ export class MatchHistoryService {
       acc[date].w_l = (
         (acc[date].win / (acc[date].win + acc[date].lose)) *
         100
-      ).toExponential(2);
+      ).toFixed(2);
       return acc;
     }, {});
 
