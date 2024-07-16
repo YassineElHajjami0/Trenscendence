@@ -73,7 +73,7 @@ export default function SubChildrens({
   //   }
   // };
 
-  useEffect(() => {
+  // useEffect(() => {
     // addEventListener("offline", function () {
     //   setUserStatus("offline");
     // });
@@ -91,9 +91,28 @@ export default function SubChildrens({
     // return () => {
     //   removeEventListener("visibilitychange", handleVisibility);
     // };
-  }, []);
+  // }, []);
 
   /*--------online offline---------*/
+  /*--------online online---------*/
+  const setUserStatus = () => {
+    if (user === -1) return;
+    const body = {
+      status: "online",
+    };
+    try {
+      axios.patch(`http://localhost:3000/users/status/${user}`, body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.log("3a", error);
+    }
+  };
+
+  useEffect(() => setUserStatus(), [user]);
+  /*--------online online---------*/
   /*----------------------------------------------------------------------------------------------------------*/
   /*----------game shit----------*/
 

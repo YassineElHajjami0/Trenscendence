@@ -39,23 +39,7 @@ export default function Home() {
   const userTok = useRecoilValue(userToken);
   const userId = useRecoilValue(loggedUser);
 
-  const setUserStatus = () => {
-    if (userId === -1) return;
-    const body = {
-      status: "online",
-    };
-    try {
-      axios.patch(`http://localhost:3000/users/status/${userId}`, body, {
-        headers: {
-          Authorization: `Bearer ${userTok}`,
-        },
-      });
-    } catch (error) {
-      console.log("3a", error);
-    }
-  };
-
-  useEffect(() => setUserStatus(), [userId]);
+  
 
   useEffect(() => {
     setTimeout(() => {

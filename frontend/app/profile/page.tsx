@@ -2,17 +2,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Profile.css";
 
-import { MdOutlineEdit, MdContentCopy } from "react-icons/md";
+import { MdOutlineEdit } from "react-icons/md";
 import ProfileDetails from "./ProfileDetails";
 import Image from "next/image";
-import { useRecoilState, useRecoilValue } from "recoil";
+import {  useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
 import { PiCurrencyEthFill } from "react-icons/pi";
 import { useRouter } from "next/navigation";
 import LoadingPaddle from "../LoadingPaddle";
-import { selectedFriendProfile } from "../Atoms/selectedFriendProfile";
-import { getRank } from "../util/headers";
+
 
 const Profile = () => {
   const uidRef = useRef<HTMLDivElement>(null);

@@ -26,10 +26,10 @@ const FriendChat: React.FC<FriendChatProps> = ({ friendData }) => {
   const [dmID, setDMID] = useRecoilState(channelId);
 
   useEffect(() => {
-    if (myFriend?.uid === friend.uid) setFriend(myFriend);
+    if (myFriend && myFriend?.uid === friend.uid) setFriend(myFriend);
   }, [myFriend]);
   useEffect(() => {
-    if (ifImBlocked.uid === UID) setBlockCheck(ifImBlocked.blocked);
+    if (ifImBlocked && ifImBlocked.uid === UID) setBlockCheck(ifImBlocked.blocked);
   }, [ifImBlocked]);
 
   return (

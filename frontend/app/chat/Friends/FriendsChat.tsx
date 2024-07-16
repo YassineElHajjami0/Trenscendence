@@ -24,6 +24,7 @@ export default function FriendsChat() {
     if (!socket) return;
 
     const handleReceiveMessage = (message: any) => {
+      if (!message) return
       if (message?.channelID === channelID)
         setFriendChat((prevMessages: any) => [...prevMessages, message]);
 
@@ -39,12 +40,13 @@ export default function FriendsChat() {
     return () => {
       socket.off("message");
     };
-  });
+  },);
   // newRole>>> { id: 131, channelID: 66, userID: 13, blocked: true, role: 'USER' }
   useEffect(() => {
     if (!socket) return;
 
     const handleBlockedFriend = (friend: any) => {
+      if (!friend) return
       setMyFriends((prev: any) => {
         return prev.map((channel: any) => {
           if (channel.id === friend.channelID) {
@@ -68,8 +70,9 @@ export default function FriendsChat() {
 
   useEffect(() => {
     if (!socket) return;
-
+    
     const handleNewFriendStatus = (friend: any) => {
+      if (!friend) return;
       setMyFriends((prev: any) => {
         return prev.map((channel: any) => {
           const updatedRoles = channel.roles.map((role: any) => {
@@ -97,6 +100,7 @@ export default function FriendsChat() {
     if (!socket) return;
 
     const updateFriends = (friend: any) => {
+      if (!friend) return
       if (friend.length === 0) return;
       const whichUID = friend.roles.some((user: any) => user.uid === UID);
       if (whichUID) {
