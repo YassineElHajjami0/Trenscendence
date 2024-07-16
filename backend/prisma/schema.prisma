@@ -4,6 +4,9 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+//yassiiiiiiiiiiiiin hhhhhhhhhhhhhhhhhhhhß
+
+
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["relationJoins"]
@@ -13,7 +16,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   // url      = env("DATABASE_URL")
-  url      = "postgresql://yel-hajj:1337@postgres:5432/ft_transcendance"
+  url      = "postgresql://mtigunit:1337@localhost:5432/ft_transcendance"
   // url      = "postgresql://yel-hajj:1337@localhost:5432/ft_transcendance"
   // uncomment next line if you use Prisma <5.10
   // directUrl = env("DATABASE_URL_UNPOOLED")
@@ -121,7 +124,7 @@ model T_User {
   wallet   Int        @default(0)
   xp       Int        @default(0)
 
-  // win              Int               @default(0)
+  rank              Ranks               @default(Beginner)
   // lose             Int               @default(0)
   role             String            @default("User")
   strategy         String            @default("local")
