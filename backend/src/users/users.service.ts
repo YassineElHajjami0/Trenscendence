@@ -216,9 +216,23 @@ export class UsersService {
       const newRank = this.getRank(newXp);
       const res = await this.databaseService.t_User.update({
         where: { uid },
-        data: { xp: newXp },
+        data: { xp: newXp, rank: newRank },
       });
       console.log('new xp', res.xp);
+    }
+  }
+
+  async updateWallet(uid: number) {
+    const user = await this.databaseService.t_User.findUnique({
+      where: { uid },
+    });
+    if (user) {
+      const oldWallet = user.wallet;
+      const newWallet = oldWallet + 25;
+      const res = await this.databaseService.t_User.update({
+        where: { uid },
+        data: { wallet: newWallet },
+      });
     }
   }
 
