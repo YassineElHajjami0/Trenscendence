@@ -17,7 +17,7 @@ export class UserItemsController {
   constructor(private readonly userItemsService: UserItemsService) {}
 
   @Post()
-  create(@Body() createUserItemDto: Prisma.UserItemCreateInput) {
+  create(@Body() createUserItemDto: Prisma.UserItemUncheckedCreateInput) {
     return this.userItemsService.create(createUserItemDto);
   }
 

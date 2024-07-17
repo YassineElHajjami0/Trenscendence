@@ -182,6 +182,7 @@ model Item {
   type        String
   power       String
   userItems   UserItem[]
+  color       String    @default("none")
 }
 
 // model UploadImageFromClient {

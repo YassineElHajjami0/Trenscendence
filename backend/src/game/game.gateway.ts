@@ -8,6 +8,7 @@ import {
 import { $Enums } from '@prisma/client';
 import { Socket, Server } from 'socket.io';
 import { MatchHistoryService } from 'src/match-history/match-history.service';
+import { UserItemsService } from 'src/user-items/user-items.service';
 import { UsersService } from 'src/users/users.service';
 
 class Ball {
@@ -41,13 +42,15 @@ class Paddle {
   width: number;
   height: number;
   score: number = 0;
+  color: string;
 
-  constructor(x: number, y: number, width: number, height: number) {
+  constructor(x: number, y: number, width: number, height: number, color: string) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
     this.score = 0;
+    this.color = color;
   }
 }
 
@@ -99,7 +102,7 @@ const WINNER_SCORE = 1;
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private readonly matchHistoryService: MatchHistoryService,
-
+    private readonly userItemsService: UserItemsService,
     private readonly usersService: UsersService,
   ) {}
   @WebSocketServer() server: Server;
@@ -317,8 +320,9 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   // Random player
 
   @SubscribeMessage('join_queue')
-  handleJoinQueue(client: Socket, payload: { userId: number }) {
+  async handleJoinQueue(client: Socket, payload: { userId: number }) {
     if (users.has(payload.userId)) {
+      const color = await this.userItemsService.getPaddleColor(payload.userId);
       const user = users.get(payload.userId);
       if (!queue.includes(user)) {
         if (queue.length === 0) {
@@ -327,6 +331,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
             CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
             PADDLE_WIDTH,
             PADDLE_HEIGHT,
+            color,
           );
         } else {
           user.paddle = new Paddle(
@@ -334,6 +339,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
             CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
             PADDLE_WIDTH,
             PADDLE_HEIGHT,
+            color,
           );
         }
         queue.push(user);
@@ -578,15 +584,17 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('ready')
-  handleReady(client: Socket, payload: { userId: number }) {
+  async handleReady(client: Socket, payload: { userId: number }) {
     const user = users.get(payload.userId);
     if (againstFriendQueue.length < 2 && users.has(payload.userId)) {
+    const color = await this.userItemsService.getPaddleColor(payload.userId);  
       if (againstFriendQueue.length === 0) {
         user.paddle = new Paddle(
           0,
           CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
           PADDLE_WIDTH,
           PADDLE_HEIGHT,
+          color
         );
       } else if (againstFriendQueue.length === 1) {
         user.paddle = new Paddle(
@@ -594,6 +602,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
           CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
           PADDLE_WIDTH,
           PADDLE_HEIGHT,
+          color
         );
       }
       againstFriendQueue.push(user);

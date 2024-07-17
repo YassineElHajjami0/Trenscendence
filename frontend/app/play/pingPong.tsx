@@ -267,14 +267,14 @@ export function PingPong() {
         leftPaddle.y,
         leftPaddle.width,
         leftPaddle.height,
-        "white"
+        leftPaddle.color
       );
       drawRect(
         rightPaddle.x,
         rightPaddle.y,
         rightPaddle.width,
         rightPaddle.height,
-        "white"
+        rightPaddle.color
       );
       drawCircle(ball.x, ball.y, ball.raduis, "white");
     }

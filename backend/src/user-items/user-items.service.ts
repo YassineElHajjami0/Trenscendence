@@ -7,8 +7,62 @@ import { DatabaseService } from 'src/database/database.service';
 export class UserItemsService {
   constructor(private readonly databaseService: DatabaseService) { }
 
-  async create(createUserItemDto: Prisma.UserItemCreateInput) {
-    return this.databaseService.userItem.create({ data: createUserItemDto });
+  async getPaddleColor(userId: number) {
+    const userItems = await this.databaseService.userItem.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+
+
+    if (userItems.length > 0) {
+      const choosedItems = userItems.filter((item) => item.choosed);
+  
+      if (choosedItems.length > 0) {
+        const items = await this.databaseService.item.findMany({
+          where: {
+            type: 'paddle',
+            AND: choosedItems.map((item) => {
+              return { id: item.itemId };
+            }),
+          },
+        });
+
+        console.log(items, "<<<<<<<<<<<<<<<<< items >>>>>>>>>>>>>>>>>>");
+        return items[0].color;
+      }
+    }
+    return 'white';
+  }
+
+  async updateWallet(uid: number, itemId: number) {
+    const item = await this.databaseService.item.findUnique({
+      where: { id: itemId },
+    });
+
+    const amount = item.price;
+
+    const user = await this.databaseService.t_User.findUnique({
+      where: { uid },
+    });
+    if (user) {
+      const oldWallet = user.wallet;
+      const newWallet = oldWallet - amount;
+      const res = await this.databaseService.t_User.update({
+        where: { uid },
+        data: { wallet: newWallet },
+      });
+    }
+  }
+
+  async create(createUserItemDto: Prisma.UserItemUncheckedCreateInput) {
+    const user = await this.databaseService.t_User.findFirst({
+      where: {uid: createUserItemDto.userId}
+    })
+
+    this.updateWallet(user.uid, createUserItemDto.itemId);
+
+    return await this.databaseService.userItem.create({ data: createUserItemDto });
   }
 
   async findAll() {
