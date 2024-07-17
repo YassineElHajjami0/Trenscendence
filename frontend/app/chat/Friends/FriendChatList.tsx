@@ -22,6 +22,8 @@ import ChatLoading from "./ChatLoading";
 import { channelId } from "@/app/Atoms/channelId";
 import { chatMSG } from "@/app/Atoms/chatMSG";
 import { blockedMe } from "@/app/Atoms/blockedMe";
+import { useSocket } from "@/app/SubChildrens";
+import { tablePicture } from "@/app/Atoms/tablePicture";
 
 const FriendChatList = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -108,6 +110,63 @@ const FriendChatList = () => {
     }
   }, [friendChat, loadingAnimation]);
 
+
+  /* game req */
+  const { socket } = useSocket();
+  const playButtonRef = useRef<HTMLButtonElement>(null);
+  const table = useRecoilValue(tablePicture);
+  const sendGameReq = () => {
+    if (!socket) return;
+
+    socket.emit("game_request", {
+      userId: loggedU,
+      opponentId: friend.uid,
+      index: -1,
+      table: table,
+    });
+
+    if (playButtonRef.current) {
+      playButtonRef.current.style.cursor = "not-allowed";
+      playButtonRef.current.style.opacity = "0.1";
+    }
+
+
+  socket!.off('in_the_queue').on('in_the_queue', () => {
+    setTimeout(() => {
+      if (playButtonRef.current) {
+        playButtonRef.current.style.cursor = "pointer";
+        playButtonRef.current.style.opacity = "1";
+      }
+    }, 10000);
+  });
+
+    socket
+      .off("game_response_response")
+      .on(
+        "game_response_response",
+        ({
+          accepted,
+          index,
+          id,
+        }: {
+          accepted: boolean;
+          index: number;
+          id: number;
+        }) => {
+
+          playButtonRef.current!.style.cursor = "pointer";
+          playButtonRef.current!.style.opacity = "1";
+
+          socket.emit("remove_notification", {
+            userId: loggedU,
+            opponentId: id,
+          });
+        }
+      );
+  };
+  /* game req */
+
+
   return loadingAnimation ? (
     <ChatLoading />
   ) : (
@@ -176,9 +235,10 @@ const FriendChatList = () => {
 
           <div className="play_send_msg">
             <button
-              onClick={() => console.log("hahahahaha")}
-              disabled={isOffline}
-              className={`submit_msg ${isOffline && "disable_play"}`}
+              ref={playButtonRef}
+              onClick={sendGameReq}
+              disabled={isOffline || isIngame}
+              className={`submit_msg ${(isOffline || isIngame) && "disable_play"}`}
               type="button"
             >
               <BiSolidJoystickAlt />

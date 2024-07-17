@@ -317,6 +317,15 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
+  @SubscribeMessage('in_the_queue')
+  handleInTheQueue(client: Socket, payload: { opponentId: number }) {
+    if (users.has(payload.opponentId)) {
+      users.get(payload.opponentId)?.sockets.forEach((socket) => {
+        socket.emit('in_the_queue');
+      });
+    }
+  }
+
   // Random player
 
   @SubscribeMessage('join_queue')

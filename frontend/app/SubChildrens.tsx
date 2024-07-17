@@ -165,6 +165,7 @@ export default function SubChildrens({
   useEffect(() => {
     if (gameRequestQueue.length > 0) {
       setGameRequestValue(gameRequestQueue[0]);
+      socket?.emit('in_the_queue', {opponentId: gameRequestQueue[0]});
     }
   }, [gameRequestQueue]);
 
@@ -214,12 +215,12 @@ export default function SubChildrens({
     socket.on("go_to_game", (opponentId: number) => {
       setGameMode("friend");
 
-      // router.push("/play");
+      router.push("/play");
     });
 
     socket.on("go_to_random_game", () => {
       setGameMode("random");
-      // router.push("/play");
+      router.push("/play");
       console.log("go to random game event received");
     });
 

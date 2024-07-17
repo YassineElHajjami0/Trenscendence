@@ -85,7 +85,7 @@
 }
 .disable_play {
   color: gray;
-  cursor: not-allowed;
+  cursor: not-allowed !important;
 }
 
 .play_send_msg .submit_msg:hover:first-child {
