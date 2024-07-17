@@ -13,8 +13,8 @@ import { userToken } from "@/app/Atoms/userToken";
 import { getRank } from "@/app/util/headers";
 import { channelId } from "@/app/Atoms/channelId";
 
-// import noAchievemnets from "../../../public/achievement/no_achievements.png";
-import noAchievemnets from "@/public/apb.png";
+import noAchievemnets from "../../../public/achievement/no_achievements.png";
+// import noAchievemnets from "@/public/apb.png";
 
 export const FriendInfo = () => {
   const [friend, setFriend] = useRecoilState(currentFriend);

@@ -7,12 +7,12 @@ import { AuthService } from '../auth.service';
 export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
   constructor(private readonly authService: AuthService) {
     super({
-      // clientID: process.env.CLIENT_ID_FORTY_TWO,
-      // clientSecret: process.env.CLIENT_SECRET_FORTY_TWO,
-      clientID:
-        'u-s4t2ud-2eb7839586c2db3c5cb771db02b6ee638d6ae43d54ac0db84c2a8fdbfb61e654',
-      clientSecret:
-        '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',
+      clientID: process.env.CLIENT_ID_FORTY_TWO,
+      clientSecret: process.env.CLIENT_SECRET_FORTY_TWO,
+      // clientID:
+      //   'u-s4t2ud-2eb7839586c2db3c5cb771db02b6ee638d6ae43d54ac0db84c2a8fdbfb61e654',
+      // clientSecret:
+      //   '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',
       callbackURL: 'http://localhost:3000/auth/fortyTwo/redirect/',
       Scope: ['profile'],
     });
@@ -21,7 +21,10 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
   // store in req the user
   async validate(accessToken: string, refreshToken: string, profile: any) {
     console.log('Callback url ', process.env.FORTY_TWO_CALL_BACK);
-    const { login, email } = profile._json;
+
+    const { login, email, image } = profile._json;
+    console.log(image.link);
+
     // const user = await this.authService.signUpWithProvider({
     //   username: login,
     //   email: email,
@@ -33,6 +36,8 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
       email: email,
       password: this.authService.generateRandomChars(10),
       strategy: '42',
+      avatar:
+        'https://cdn.intra.42.fr/users/52acde4b40fc83313818ee10ebe40725/ytaqsi.jpg',
     };
     // done(null, user);
     return user;
