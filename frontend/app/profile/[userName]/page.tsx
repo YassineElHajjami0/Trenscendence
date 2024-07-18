@@ -18,6 +18,7 @@ import ProfileDetails from "../ProfileDetails";
 import { notFound, useRouter } from "next/navigation";
 import LoadingPaddle from "@/app/LoadingPaddle";
 import { getRank } from "@/app/util/headers";
+import { useSocket } from "@/app/SubChildrens";
 
 interface OtherProfileProps {
   params: {
@@ -60,6 +61,9 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
     };
     getUserData();
     getIfFriend();
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, [selectedProfile]);
 
   const getIfFriend = async () => {
@@ -76,15 +80,21 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
     });
     const data = await res.data;
     setIsFriend(data);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
   };
 
-  // useEffect(() => {
-  //   getIfFriend();
-  // }, [selectedProfile]);
+  const { socket } = useSocket();
 
+  useEffect(() => {
+    const updateFriends = (friend: any) => {
+      getIfFriend();
+    };
+    if (!socket) return;
+
+    socket.on("update_friend_list", updateFriends);
+    return () => {
+      socket.off("update_friend_list");
+    };
+  }, []);
   const addFriend = async () => {
     if (selectedProfile === -1 || selectedProfile === loggedU) return;
 

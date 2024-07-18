@@ -1,59 +1,77 @@
-import Image from 'next/image'
-import { getRank } from '../util/headers';
+import Image from "next/image";
+import { getRank } from "../util/headers";
 
 const Leaders = ({ users }) => {
-    let cups = ['http://localhost:3000/cups/cup-1.svg', 'http://localhost:3000/cups/cup-2.svg', 'http://localhost:3000/cups/cup-3.svg'];
-    let throphies = ['http://localhost:3000/throphies/throphy-1.svg', 'http://localhost:3000/throphies/throphy-2.svg', 'http://localhost:3000/throphies/throphy-3.svg'];
-    if (users.length < 3)
-        return (<div className="leaders-leaderboard"></div>);
-    return (
-        <div className="leaders">
-            {
-                users.map((user: any, index: number) => {
-                    let rank = getRank(user.xp);
-                    return <div key={user.uid} className="box">
-                        <div>
-                            <div className="profile">
-                                <div className='image'>
-                                    <img src={user.avatar} alt="avatarImage" />
-                                </div>
-                                <div className='detail'>
-                                    <h2>{user.username}</h2>
-                                    <span>RANK: {index + 1}</span>
-                                    <div className='image'>
-                                        {/* <img src={throphies[index]} alt="" /> */}
-                                        <img src={`/ranks/${rank}.png`} alt="" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="cup">
-                                <img src={cups[index]} alt="" />
-                            </div>
-                        </div>
-                        <div className="stats">
-                            <div>
-                                <h4>Stats</h4>
-                                <span>{user.win}-{user.lose}</span>
-                            </div>
-                            <div>
-                                <h4>Winrate</h4>
-                                <span>{!user.lose && !user.win ? '0%' : (!user.lose ? '100%' : `${(user.win / (user.lose + user.win))}%`)} </span>
-                            </div>
-                            <div>
-                                <h4>WLR</h4>
-                                <span>{user.lose === 0 ? 'Special' : `${(user.win / (user.lose + user.win))}%`}</span>
-                            </div>
-                        </div>
-                    </div>
-                })
-            }
-        </div>
-    );
-}
+  let cups = [
+    "http://localhost:3000/cups/cup-1.svg",
+    "http://localhost:3000/cups/cup-2.svg",
+    "http://localhost:3000/cups/cup-3.svg",
+  ];
+  let throphies = [
+    "http://localhost:3000/throphies/throphy-1.svg",
+    "http://localhost:3000/throphies/throphy-2.svg",
+    "http://localhost:3000/throphies/throphy-3.svg",
+  ];
+  if (users.length < 3) return <div className="leaders-leaderboard"></div>;
+  return (
+    <div className="leaders">
+      {users.map((user: any, index: number) => {
+        return (
+          <div key={user.uid} className="box">
+            <div>
+              <div className="profile">
+                <div className="image">
+                  <img src={user.avatar} alt="avatarImage" />
+                </div>
+                <div className="detail">
+                  <h2>{user.username}</h2>
+                  <span>RANK: {index + 1}</span>
+                  <div className="image">
+                    {/* <img src={throphies[index]} alt="" /> */}
+                    <img src={`/ranks/${user.rank}.png`} alt="" />
+                  </div>
+                </div>
+              </div>
+              <div className="cup">
+                <img src={cups[index]} alt="" />
+              </div>
+            </div>
+            <div className="stats">
+              <div>
+                <h4>Stats</h4>
+                <span>
+                  {user.win}-{user.lose}
+                </span>
+              </div>
+              <div>
+                <h4>Winrate</h4>
+                <span>
+                  {!user.lose && !user.win
+                    ? "0%"
+                    : !user.lose
+                    ? "100%"
+                    : `${(user.win / (user.lose + user.win)).toFixed(2)}%`}{" "}
+                </span>
+              </div>
+              <div>
+                <h4>WLR</h4>
+                <span>
+                  {user.lose === 0
+                    ? "0%"
+                    : `${((user.win / (user.lose + user.win)) * 100).toFixed(
+                        0
+                      )}%`}
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 export default Leaders;
-
-
 
 // leaders
 //    box
@@ -67,7 +85,8 @@ export default Leaders;
 //        div
 //        div
 
-{/* <div key={user.uid} className="box">
+{
+  /* <div key={user.uid} className="box">
     <div>
         <div className="prof">
             <Image height={60} width={60} src={user.avatar} alt=""/>
@@ -95,4 +114,5 @@ export default Leaders;
             <span>{user.lose === 0 ? 'Special' : `${(user.win / user.lose)}%`}</span>
         </div>
     </div>
-</div> */}
+</div> */
+}

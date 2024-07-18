@@ -39,8 +39,6 @@ export default function Home() {
   const userTok = useRecoilValue(userToken);
   const userId = useRecoilValue(loggedUser);
 
-  
-
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -156,7 +154,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="latests">
-              {data?.length &&
+              {data &&
                 data?.map((match) => {
                   if (flag === 3) return;
                   flag++;

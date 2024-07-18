@@ -17,6 +17,7 @@ export default function Stats() {
   const userTok = useRecoilValue(userToken);
   const userId = useRecoilValue(loggedUser);
   const fetchedData = async () => {
+    if (userId === -1) return;
     try {
       const response = await fetch(
         `http://localhost:3000/match-history/${userId}`,
@@ -75,25 +76,20 @@ export default function Stats() {
     setChartData(getStats() as any);
   }, [statsSwitch, data]);
 
-
-  const getMatchesDates = () => 
-    {
-    if(data.length === 0) return []
-        const dates =  data.map((e) => {
-            const date = e?.date + ":00:00";
-            const options = { hour: "2-digit", minute: "2-digit" };
-            const dateObject = new Date(date).toLocaleString(
-              "en-US",
-              options as Intl.DateTimeFormatOptions
-            );
-            return dateObject
-          })
-          console.log('>>>>>>>>>>>>>2',dates);
-          return dates
-  }
-
-  
-
+  const getMatchesDates = () => {
+    if (data.length === 0) return [];
+    const dates = data.map((e) => {
+      const date = e?.date + ":00:00";
+      const options = { hour: "2-digit", minute: "2-digit" };
+      const dateObject = new Date(date).toLocaleString(
+        "en-US",
+        options as Intl.DateTimeFormatOptions
+      );
+      return dateObject;
+    });
+    console.log(">>>>>>>>>>>>>2", dates);
+    return dates;
+  };
 
   const option = {
     // title: {
@@ -129,7 +125,7 @@ export default function Stats() {
       {
         type: "category",
         boundaryGap: false,
-        data:getMatchesDates(),
+        data: getMatchesDates(),
         axisTick: {
           show: false,
         },

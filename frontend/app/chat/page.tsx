@@ -21,6 +21,10 @@ import { userToken } from "@/app/Atoms/userToken";
 
 import PopupSearchChannels from "./Channels/popupSearchChannels";
 import { useSocket } from "../SubChildrens";
+
+import { motion } from "framer-motion";
+import { channelId } from "../Atoms/channelId";
+
 interface channelInterface {
   id: number;
   name: string;
@@ -40,6 +44,7 @@ const Chat = () => {
   const [selectedChannel, setSelectedChannel] = useState<number>(-1);
   const [showPopUpCreateChannel, setShowPopUpCreateChannel] = useState(false);
   const [showPopUpSearchChannels, setShowPopUpSearchChannels] = useState(false);
+  const [dmID, setDMID] = useRecoilState(channelId);
 
   const selectedBtn = mode === "friends" ? "toleft" : "toright";
 
@@ -95,6 +100,13 @@ const Chat = () => {
   setTimeout(() => {
     setLoading(false);
   }, 1500);
+
+  let tabs = [
+    { id: "friends", label: "friends" },
+    { id: "channels", label: "channels" },
+  ];
+  let [activeTab, setActiveTab] = useState(tabs[0].id);
+
   return loading ? (
     <LoadingPaddle />
   ) : (
@@ -127,6 +139,35 @@ const Chat = () => {
           }  `}
         >
           <div className="switcher">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setMode(tab.label);
+                  if (tab.label === "channels") {
+                    setSelectedFriend(-1);
+                    setDMID(-1);
+                  }
+                }}
+                className="relative rounded-full px-2.5 py-1.5 text-sm font-medium text-white"
+              >
+                {activeTab === tab.id && (
+                  <motion.span
+                    layoutId="underline"
+                    layout="position"
+                    className="absolute inset-0  bg-[#1ce14e] rounded-md "
+                    transition={{
+                      duration: 0.3,
+                    }}
+                  />
+                )}
+                <span className="relative z-10 capitalize">{tab.label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* <div className="switcher">
             <button
               onClick={() => {
                 setMode("friends");
@@ -143,7 +184,7 @@ const Chat = () => {
               Channels
             </button>
             <span className={`selectedColor ${selectedBtn}`}></span>
-          </div>
+          </div> */}
           {/* show friends list or channels list */}
           {mode == "friends" ? (
             <div className="friendsList">

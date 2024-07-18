@@ -35,10 +35,10 @@ const UpperNav = () => {
   const [searchUsers, setSearchUsers] = useState("");
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
+  const [showMyUsers, setShowMyUsers] = useState(false);
   const [myNotifications, setMyNotifications] =
     useRecoilState(userNotifications);
   const [myUsers, setMyUsers] = useState<any[]>([]);
-  console.log("-------->>>>", myUsers);
 
   const getNotifications = async () => {
     if (loggedU === -1) return;
@@ -71,6 +71,8 @@ const UpperNav = () => {
         }
       );
       const data = await res.json();
+      console.log("all users>>>", data);
+
       setMyUsers(data);
     } catch (error: any) {
       console.log("error>>>", error.message);
@@ -81,6 +83,15 @@ const UpperNav = () => {
     getAllUsers();
   }, [loggedU]);
 
+  const handleOnBlur = () => {
+    setTimeout(() => {
+      setShowMyUsers(false);
+    }, 200);
+  };
+
+  const filteredUsers = myUsers.filter((user: any) =>
+    user?.username.toLowerCase().includes(searchUsers.toLowerCase())
+  );
   return (
     <div className="upperNav">
       <div>
@@ -92,9 +103,11 @@ const UpperNav = () => {
           onChange={(e) => setSearchUsers(e.target.value)}
           placeholder="search player"
           type="text"
+          onFocus={() => setShowMyUsers(true)}
+          onBlur={handleOnBlur}
         />
-        <div className={`all_users ${searchUsers.length && "show_all_users"}`}>
-          {myUsers.map((user) => (
+        <div className={`all_users ${showMyUsers && "show_all_users"}`}>
+          {filteredUsers.map((user) => (
             <Link
               className="users_names_links"
               key={user?.uid}
