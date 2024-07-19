@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 // import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
-import { ChannelDto, updateChannelDto } from './dto/channelDto';
+import { ChannelDto, channelData, updateChannelDto } from './dto/channelDto';
 import { ChatGateway } from 'src/chatSockets/chat.getway';
 
 @Injectable()
@@ -83,7 +83,7 @@ export class ChannelService {
       },
     });
 
-    const myFriends: any[] = [];
+    const myFriends: channelData[] = [];
     res.forEach((channel) => {
       const channelData = {
         id: channel.id,

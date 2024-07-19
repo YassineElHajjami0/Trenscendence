@@ -67,7 +67,9 @@ export class UsersService {
   }
 
   async orderByAsc() {
-    const users = await this.databaseService.t_User.findMany();
+    const users = await this.databaseService.t_User.findMany({
+      orderBy: { xp: 'desc' },
+    });
     const updatedUsers = await Promise.all(
       users.map(async (user) => {
         const win = await this.matchHistory.findwinnedMatches(user.uid);
@@ -79,9 +81,9 @@ export class UsersService {
         };
       }),
     );
-    updatedUsers.sort((a, b) =>
-      b.win - a.win ? b.win - a.win : a.lose - b.lose,
-    );
+    // updatedUsers.sort((a, b) =>
+    //   b.win - a.win ? b.win - a.win : a.lose - b.lose,
+    // );
     return updatedUsers;
   }
   async findOneName(username: string) {

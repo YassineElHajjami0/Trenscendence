@@ -5,26 +5,23 @@ import "./Profile.css";
 import { MdOutlineEdit } from "react-icons/md";
 import ProfileDetails from "./ProfileDetails";
 import Image from "next/image";
-import {  useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
 import { PiCurrencyEthFill } from "react-icons/pi";
 import { useRouter } from "next/navigation";
 import LoadingPaddle from "../LoadingPaddle";
-
+import { userInterface } from "../Interfaces/chatInterfaces";
 
 const Profile = () => {
   const uidRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
+  const [hoverEffect, setHoverEffect] = useState(true);
 
   const loggedU = useRecoilValue(loggedUser);
   const userTok = useRecoilValue(userToken);
   const route = useRouter();
-  const [userData, setUserData] = useState<any>({});
-
-  /////// kyan moxkiiiiiiiil
-  //////  setSelectedProfile(-1);   <------------ gado
-  //////////////////////////
+  const [userData, setUserData] = useState<userInterface | null>(null);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -66,45 +63,52 @@ const Profile = () => {
           <span>Edit</span>
           <MdOutlineEdit />
         </div>
-
-        <div className="img_container_add">
-          <Image
-            src={`${userData.avatar || ""}`}
-            width={2000}
-            height={2000}
-            alt="profile_avatar"
-            className="profile_photo"
-          />
-        </div>
-
+        {hoverEffect ? (
+          <div className="img_container_add">
+            <Image
+              src={`${userData?.avatar || ""}`}
+              width={2000}
+              height={2000}
+              alt="profile_avatar"
+              className="profile_photo"
+            />
+          </div>
+        ) : (
+          <div className="img_container_add">
+            <Image
+              src={`${"/ranks/" + "Apex" + ".png" || ""}`}
+              width={2000}
+              height={2000}
+              alt="profile_avatar"
+              className="profile_photo2"
+            />
+          </div>
+        )}
         <div className="profile_data">
           <h1>{userData?.username}</h1>
           <h4 className="profile_username">
             <PiCurrencyEthFill /> {userData?.wallet}
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
-          <h2 className="profile_user_lvl">{userData?.rank}</h2>
-        </div>
-
-        <div className="profile_progress">
-          <div className="progress">
-            <div
-              style={{
-                width: `${userData?.xp % 100}%`,
-              }}
-              className="pseudoProgress"
-            ></div>
-          </div>
-          {userData?.xp % 100}%
-          {/* <div
-            //  onClick={copyUID}
-
-            ref={uidRef}
-            className="profile_uid"
+          <h2
+            onMouseOver={() => setHoverEffect(false)}
+            onMouseOut={() => setHoverEffect(true)}
+            className="profile_user_lvl"
           >
-            {userData?.uid}
-            <MdContentCopy />
-          </div> */}
+            {userData?.rank}
+          </h2>
+
+          <div className="profile_progress">
+            <div className="progress">
+              <div
+                style={{
+                  width: `${(userData && userData?.xp % 100) || 0}%`,
+                }}
+                className="pseudoProgress"
+              ></div>
+            </div>
+            {(userData && userData?.xp % 100) || 0}%
+          </div>
         </div>
       </div>
       <div className="profile_details">
@@ -131,3 +135,12 @@ export default Profile;
 //       });
 //   }
 // };
+
+{
+  /* <Image
+src={`${"/ranks/" + userData?.rank + ".png" || ""}`}
+width={150}
+height={150}
+alt="profile_avatar"
+/> */
+}

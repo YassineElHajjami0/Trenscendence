@@ -155,7 +155,6 @@ const Chat = () => {
                 {activeTab === tab.id && (
                   <motion.span
                     layoutId="underline"
-                    layout="position"
                     className="absolute inset-0  bg-[#1ce14e] rounded-md "
                     transition={{
                       duration: 0.3,

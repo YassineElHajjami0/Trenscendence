@@ -20,10 +20,7 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
   // refresh token ??
   // store in req the user
   async validate(accessToken: string, refreshToken: string, profile: any) {
-    console.log('Callback url ', process.env.FORTY_TWO_CALL_BACK);
-
     const { login, email, image } = profile._json;
-    console.log(image.link);
 
     // const user = await this.authService.signUpWithProvider({
     //   username: login,
@@ -36,8 +33,7 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
       email: email,
       password: this.authService.generateRandomChars(10),
       strategy: '42',
-      avatar:
-        'https://cdn.intra.42.fr/users/52acde4b40fc83313818ee10ebe40725/ytaqsi.jpg',
+      avatar: image.link,
     };
     // done(null, user);
     return user;

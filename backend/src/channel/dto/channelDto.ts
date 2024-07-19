@@ -10,3 +10,10 @@ export type updateChannelDto = {
   friendId: number;
   blocked: boolean;
 };
+
+export type channelData = {
+  id: number;
+  roles: any[];
+  lastMSG: string;
+  sendAT: Date;
+};

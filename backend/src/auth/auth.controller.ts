@@ -25,7 +25,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UsersService,
-  ) { }
+  ) {}
 
   setCookie(@Res() res, bearer_token?: string) {
     if (!bearer_token) bearer_token = '';
@@ -89,6 +89,8 @@ export class AuthController {
       username: req.user.username,
       email: req.user.email,
       password: this.authService.generateRandomChars(10),
+      avatar: req.user.avatar,
+      strategy: '42',
     };
 
     const cookies = await this.authService.signUpWithProvider(createUserDto);
@@ -125,6 +127,8 @@ export class AuthController {
       username: req.user.username,
       email: req.user.email,
       password: req.user.password,
+      avatar: req.user.avatar,
+      strategy: 'google',
     };
     const cookies = await this.authService.signUpWithProvider(createUserDto);
     // this.setCookie(res, cookies.bearer_token);
@@ -151,7 +155,7 @@ export class AuthController {
   @Post('2fa/turn-on')
   // @UseGuards(Jwt2faAuthGuard)
   async register(@Res({ passthrough: true }) res, @Body() body) {
-    console.log("BODY ", body);
+    console.log('BODY ', body);
     const { otpAuthUrl } =
       await this.authService.generateTwoFactorAuthenticationSecret(body);
     const qrCode = await this.authService.generateQrCodeDataURL(otpAuthUrl);

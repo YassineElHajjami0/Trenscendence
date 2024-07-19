@@ -129,8 +129,8 @@
 
 .show_2fa_container {
   width: 95%;
-  height: 25%;
-  padding: 10px 5px;
+  height: fit-content;
+  padding: 10px 0;
 }
 
 ._2fa_container_inputs {
@@ -161,6 +161,7 @@
   height: 16%;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 .btn {
   text-transform: capitalize;

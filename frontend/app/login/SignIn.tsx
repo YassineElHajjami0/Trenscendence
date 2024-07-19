@@ -138,12 +138,12 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         tabIndex={signInUp ? 2 : 3}
       />
 
-      <div className="password_wraper">
+      <div className={`password_wraper  ${_2fa_opt && "hide_pass"}`}>
         <input
           tabIndex={signInUp ? 3 : 2}
           required={!_2fa_opt}
           placeholder="password"
-          className={`sign_in_ships for_pass_only ${_2fa_opt && "hide_pass"} ${
+          className={`sign_in_ships for_pass_only ${
             showPass && "change_pass_bg"
           }`}
           type={showPass ? "text" : "password"}

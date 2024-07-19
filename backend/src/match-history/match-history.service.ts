@@ -250,6 +250,8 @@ export class MatchHistoryService {
   }
 
   async findOne(id: number) {
+    console.log('match>>>>>>>>>', id);
+
     const match = await this.databaseService.matchHistory.findMany({
       where: {
         OR: [

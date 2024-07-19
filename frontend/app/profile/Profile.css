@@ -25,6 +25,10 @@
   background-repeat: no-repeat;
   background-position: right;
 }
+.user_profile_rank_badge {
+  position: absolute;
+  right: 20px;
+}
 
 .profile_photo {
   width: 200px;
@@ -33,6 +37,14 @@
   border: 5px solid #1ce14e;
   /* animation: heartbeat 3s infinite 5s ease-in-out; */
 }
+.profile_photo2 {
+  width: 200px;
+  height: 200px;
+
+  filter: drop-shadow(0 0 50px #1ce14d70);
+  /* animation: heartbeat 3s infinite 5s ease-in-out; */
+}
+
 .img_container_add {
   position: relative;
 }
@@ -66,7 +78,8 @@
 }
 
 .profile_data {
-  width: 60%;
+  width: 45%;
+
   height: 60%;
   display: flex;
   flex-direction: column;
@@ -118,20 +131,19 @@
   transform: translate(50%, -50%);
 }
 
-.profile_user_lvl span {
-  color: white;
+.profile_user_lvl {
+}
+.profile_user_lvl:hover {
+  cursor: pointer;
 }
 
 .profile_progress {
   display: flex;
   align-items: center;
 
-  width: 60%;
-  position: absolute;
-  bottom: 12%;
-  right: 5%;
-  text-shadow: 0 0 10px white;
+  width: 100%;
 
+  text-shadow: 0 0 10px white;
 }
 
 .profile_uid {
@@ -160,7 +172,7 @@
 .progress {
   border-radius: 10px;
   position: relative;
-  width: 50%;
+  width: 70%;
   height: 20px;
   background: #868686;
   display: flex;

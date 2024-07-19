@@ -412,12 +412,13 @@
 
 .col1 .switcher .selectedColor {
   position: absolute;
-  width: 105px;
-  height: 65%;
+  width: 100px;
+  height: 30px;
   border-radius: 10px;
   z-index: 1;
 
   background-color: #1ce14e;
+  mix-blend-mode: lighten;
   transition: all 0.3s;
 }
 .toleft {
