@@ -150,18 +150,18 @@ const Chat = () => {
                     setDMID(-1);
                   }
                 }}
-                className="relative rounded-full px-2.5 py-1.5 text-sm font-medium text-white"
+                className="theparentButton"
               >
                 {activeTab === tab.id && (
                   <motion.span
                     layoutId="underline"
-                    className="absolute inset-0  bg-[#1ce14e] rounded-md "
+                    className="selectedColor"
                     transition={{
                       duration: 0.3,
                     }}
                   />
                 )}
-                <span className="relative z-10 capitalize">{tab.label}</span>
+                <span>{tab.label}</span>
               </button>
             ))}
           </div>

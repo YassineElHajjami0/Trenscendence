@@ -76,7 +76,7 @@ const Profile = () => {
         ) : (
           <div className="img_container_add">
             <Image
-              src={`${"/ranks/" + "Apex" + ".png" || ""}`}
+              src={`${"/ranks/" + userData?.rank + ".png" || ""}`}
               width={2000}
               height={2000}
               alt="profile_avatar"

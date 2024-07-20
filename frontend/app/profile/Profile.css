@@ -36,13 +36,36 @@
   border-radius: 50%;
   border: 5px solid #1ce14e;
   /* animation: heartbeat 3s infinite 5s ease-in-out; */
+  animation: showUp2 0.5s ease-in-out;
 }
 .profile_photo2 {
   width: 200px;
   height: 200px;
 
   filter: drop-shadow(0 0 50px #1ce14d70);
-  /* animation: heartbeat 3s infinite 5s ease-in-out; */
+  animation: showUp 0.5s ease-in-out;
+}
+
+@keyframes showUp {
+  0% {
+    opacity: 0;
+    scale: 0;
+  }
+  100% {
+    scale: 1;
+    opacity: 1;
+    rotate: 360deg;
+  }
+}
+@keyframes showUp2 {
+  0% {
+    opacity: 0;
+    scale: 0;
+  }
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
 }
 
 .img_container_add {

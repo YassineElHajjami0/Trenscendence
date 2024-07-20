@@ -396,30 +396,40 @@
   justify-content: space-between;
   padding: 15px;
   text-align: center;
-  position: relative;
+
   margin-bottom: 20px;
 }
-.col1 .switcher button {
+/* .col1 .switcher button {
   color: white;
   background-color: transparent;
+  font-weight: 700;
+  z-index: 2;
+} */
+
+.theparentButton {
+  /* relative rounded-full px-2.5 py-1.5 text-sm font-medium text-white */
   font-size: 20px;
   border: none;
   outline: none;
   cursor: pointer;
-  font-weight: 700;
-  z-index: 2;
+  background-color: transparent;
+
+  position: relative;
+  border-radius: 10px;
+  padding: 5px 10px;
+  color: white;
+  text-transform: capitalize;
 }
 
 .col1 .switcher .selectedColor {
   position: absolute;
-  width: 100px;
-  height: 30px;
+
   border-radius: 10px;
-  z-index: 1;
+  inset: 0;
 
   background-color: #1ce14e;
   mix-blend-mode: lighten;
-  transition: all 0.3s;
+  /* transition: all 0.3s; */
 }
 .toleft {
   transform: translateX(-10%) !important;
@@ -620,7 +630,7 @@
     font-size: 18px;
   }
   .selectedColor {
-    width: 90px !important;
+    /* width: 90px !important; */
   }
   .chat_channels_container {
     width: 100%;
@@ -638,7 +648,7 @@
     padding: 20px;
   }
   .selectedColor {
-    width: 82px !important;
+    /* width: 82px !important; */
   }
   .blurCols {
     filter: blur(5px);
