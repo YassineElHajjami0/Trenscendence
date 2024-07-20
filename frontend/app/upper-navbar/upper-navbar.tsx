@@ -103,24 +103,29 @@ const UpperNav = () => {
           onChange={(e) => setSearchUsers(e.target.value)}
           placeholder="search player"
           type="text"
-          onFocus={() => setShowMyUsers(true)}
+          onFocus={() => {
+            loggedU !== -1 && setShowMyUsers(true);
+          }}
           onBlur={handleOnBlur}
         />
         <div className={`all_users ${showMyUsers && "show_all_users"}`}>
-          {filteredUsers.map((user) => (
-            <Link
-              className="users_names_links"
-              key={user?.uid}
-              href={`/profile/${user?.username}`}
-            >
-              <img
-                src={user?.avatar}
-                className="users_avatars_links"
-                alt="avatar"
-              />
-              {user?.username}
-            </Link>
-          ))}
+          {filteredUsers.map((user) => {
+            const encodedUsername = encodeURIComponent(user?.username);
+            return (
+              <Link
+                className="users_names_links"
+                key={user?.uid}
+                href={`/profile/${encodedUsername}`}
+              >
+                <img
+                  src={user?.avatar}
+                  className="users_avatars_links"
+                  alt="avatar"
+                />
+                {user?.username}
+              </Link>
+            );
+          })}
         </div>
       </div>
       <div ref={notificationRef} className="notif-and-profilePic">

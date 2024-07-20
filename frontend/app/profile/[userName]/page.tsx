@@ -31,6 +31,10 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
   const userTok = useRecoilValue(userToken);
   const route = useRouter();
 
+  //makaynch lkhroj lyom khasmna nsaliwwwwwww
+
+  // const decodedUsername = decodeURIComponent(params.userName);
+
   const [selectedProfile, setSelectedProfile] = useRecoilState(
     selectedFriendProfile
   );
