@@ -1,10 +1,10 @@
-.error_container {
+._404_error_container {
   width: 100%;
   height: 100%;
   display: grid;
   place-items: center;
 }
-.error_msg {
+._404_error_msg {
   max-width: 700px;
   background: rgba(29, 205, 74, 0.1);
   border-radius: 16px;
@@ -16,7 +16,7 @@
   overflow: hidden;
 }
 
-.userName {
+._404_userName {
   /* width: 70%; */
   height: 40px;
   padding: 5px 10px;
@@ -32,11 +32,11 @@
   border: 1px solid rgba(29, 205, 74, 0.3);
 }
 
-.userName::placeholder {
+._404_userName::placeholder {
   color: rgb(192, 192, 192);
 }
 
-.noise {
+._404_noise {
   pointer-events: none;
   position: absolute;
   width: 100%;
@@ -48,7 +48,7 @@
   opacity: 0.02;
 }
 
-.overlay {
+._404_overlay {
   pointer-events: none;
   position: absolute;
   width: 100%;
@@ -63,7 +63,7 @@
   z-index: 1;
 }
 
-.overlay::before {
+._404_overlay::before {
   content: "";
   pointer-events: none;
   position: absolute;
@@ -96,7 +96,7 @@
   }
 }
 
-.terminal {
+._404_terminal {
   /* position: absolute; */
   height: 100%;
   width: 100%;
@@ -109,17 +109,17 @@
   gap: 5px;
 }
 
-.terminal > h1 {
+._404_terminal > h1 {
   color: rgb(255, 51, 85);
 }
 
-.btns_containers_error_404 {
+._404_btns_containers_error_404 {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
 }
-.output {
+._404_output {
   transition: all 0.4s;
   outline: none;
   border: none;
@@ -131,7 +131,7 @@
   color: rgba(128, 255, 128, 0.8);
   text-shadow: 0 0 1px rgba(51, 255, 51, 0.4), 0 0 2px rgba(255, 255, 255, 0.8);
 }
-.output:hover {
+._404_output:hover {
   cursor: pointer;
 }
 /* .output:nth-child(5) {
@@ -149,15 +149,15 @@
   border-radius: 5px;
   width: fit-content;
 } */
-.output:hover::before {
+._404_output:hover::before {
   margin-right: 10px;
 }
-.output:nth-last-child(2)::before {
+._404_output:nth-last-child(2)::before {
   transition: all 0.4s;
   content: "> ";
   animation: inputCurser 2s linear infinite;
 }
-.output:last-child::before {
+._404_output:last-child::before {
   transition: all 0.4s;
   content: "< ";
 }

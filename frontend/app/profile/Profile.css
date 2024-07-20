@@ -231,34 +231,43 @@
 }
 @media (max-width: 425px) {
   .user_account {
-    height: 25%;
-  }
-  .profile_photo {
-    width: 100px;
-    height: 100px;
+    height: 40%;
+    flex-direction: column;
+
+    /* justify-content: space-around; */
   }
   .profile_data {
-    width: 50%;
-    height: 50%;
+    width: 100%;
+    text-align: center !important;
+  }
+  .profile_data > * {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .profile_details {
+    height: 55%;
+  }
+  .profile_photo,
+  .profile_photo2 {
+    width: 120px;
+    height: 120px;
+    border-width: 2px;
   }
   .profile_data * {
     font-size: 1rem;
     text-shadow: 0 0 10px black;
   }
   .profile_progress {
-    width: 90%;
+    width: 100%;
   }
 }
 @media (max-width: 375px) {
-  .profile_data {
-    width: 50%;
-    height: 45%;
-  }
-  .profile_data * {
+  /* .profile_data * {
     font-size: 0.9rem;
   }
   .profile_progress {
     width: 90%;
     font-size: 0.8rem;
-  }
+  } */
 }

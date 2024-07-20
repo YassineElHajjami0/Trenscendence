@@ -27,6 +27,7 @@ interface dataInterface {
   twoFA: boolean;
   wallet: number;
 }
+
 interface itemsInterface {
   description: string;
   id: number;
@@ -87,10 +88,10 @@ const Settings = () => {
         });
         const avatarsAndPaddlesData = await avatarsAndPaddlesResponse.json();
         const d = await response.json();
+        console.log("D >>>>> ", d);
         setData(d);
         setAvatarsAndPaddles(avatarsAndPaddlesData);
-        // console.log("D >>>>> ", d);
-        bringQrImage(d);
+        getNewQrCode(d);
         console.log("data", d);
         console.log("avatarsAndPaddles", avatarsAndPaddlesData);
       } catch (err) {
@@ -269,9 +270,8 @@ const Settings = () => {
     }
   };
 
-  const bringQrImage = async (data: any) => {
-    console.log("data   ", data);
-    if (!data.twoFa) {
+  const getNewQrCode = async (data: any) => {
+    if (data.twoFA) {
       const response = await fetch(`http://localhost:3000/auth/2fa/turn-on`, {
         method: "POST",
         headers: {
@@ -280,7 +280,25 @@ const Settings = () => {
         },
         body: JSON.stringify({
           uid: userId,
-          // email: data?.email,
+          email: data.email,
+        }),
+      });
+      const data_ = await response.text();
+      setQrImage(data_);
+    }
+  };
+
+  const bringQrImage = async (data: any) => {
+    console.log("data   ", data);
+    if (!data.twoFA) {
+      const response = await fetch(`http://localhost:3000/auth/2fa/turn-on`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uid: userId,
           email: data.email,
         }),
       });
@@ -351,7 +369,7 @@ const Settings = () => {
                 userId: userId,
                 // choosed: true,
                 type: type,
-                img: img
+                img: img,
               }),
             })
           : await fetch(`http://localhost:3000/users/${userId}`, {
@@ -630,7 +648,7 @@ const Settings = () => {
                           ...(data as dataInterface),
                           twoFA: !data?.twoFA,
                         }));
-                        bringQrImage(data?.twoFA);
+                        bringQrImage(data);
                       }}
                       className={data?.twoFA ? "redbc" : "greenbc"}
                     >

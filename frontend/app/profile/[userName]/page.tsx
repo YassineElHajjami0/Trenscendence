@@ -38,6 +38,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
   const [loading, setLoading] = useState(true);
 
   const [userData, setUserData] = useState<any>({});
+  const [hoverEffect, setHoverEffect] = useState(true);
 
   useEffect(() => {
     if (selectedProfile === loggedU) route.replace("/profile");
@@ -133,51 +134,56 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
         }}
         className="user_account"
       >
-        <div className="img_container_add">
-          <Image
-            src={userData?.avatar}
-            width={2000}
-            height={2000}
-            alt="profile_avatar"
-            className="profile_photo"
-          />
-          {!isFriend && (
-            <BsPersonFillAdd className="add_me_if_not" onClick={addFriend} />
-          )}
-        </div>
-
+        {hoverEffect ? (
+          <div className="img_container_add">
+            <Image
+              src={`${userData?.avatar || ""}`}
+              width={2000}
+              height={2000}
+              alt="profile_avatar"
+              className="profile_photo"
+            />
+          </div>
+        ) : (
+          <div className="img_container_add">
+            <Image
+              src={`${"/ranks/" + userData?.rank + ".png" || ""}`}
+              width={100}
+              height={100}
+              alt="profile_avatar"
+              className="profile_photo2"
+            />
+          </div>
+        )}
         <div className="profile_data">
           <h1>{userData?.username}</h1>
           <h4 className="profile_username">
             <PiCurrencyEthFill /> {userData?.wallet}
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
-          <h2 className="profile_user_lvl">{userData?.rank}</h2>
-        </div>
-
-        <div className="profile_progress">
-          <div className="progress">
-            <div
-              style={{
-                width: `${(userData?.xp % 100) + 42}%`,
-              }}
-              className="pseudoProgress"
-            ></div>
-          </div>
-          {(userData?.xp % 100) + 42}%
-          {/* <div
-            //  onClick={copyUID}
-
-            ref={uidRef}
-            className="profile_uid"
+          <h2
+            onMouseOver={() => setHoverEffect(false)}
+            onMouseOut={() => setHoverEffect(true)}
+            className="profile_user_lvl"
           >
-            {userData?.uid}
-            <MdContentCopy />
-          </div> */}
+            {userData?.rank}
+          </h2>
+
+          <div className="profile_progress">
+            <div className="progress">
+              <div
+                style={{
+                  width: `${(userData && userData?.xp % 100) || 0}%`,
+                }}
+                className="pseudoProgress"
+              ></div>
+            </div>
+            {(userData && userData?.xp % 100) || 0}%
+          </div>
         </div>
       </div>
       <div className="profile_details">
-        <ProfileDetails whichProfile={selectedProfile} />
+        <ProfileDetails whichProfile={loggedU} />
       </div>
     </div>
   );

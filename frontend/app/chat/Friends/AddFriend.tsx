@@ -34,7 +34,7 @@ export default function AddFriend({ user }: { user: any }) {
   };
 
   return (
-    <div className="add_friend_conatiner">
+    <div className="little_add_friend_conatiner">
       <Image
         className="add_friend_avatar"
         src={user.avatar}

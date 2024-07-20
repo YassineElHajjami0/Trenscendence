@@ -1,13 +1,12 @@
-.add_friend_conatiner {
-  width: 90%;
-  height: max-content;
+/* add break points **/
+
+.little_add_friend_conatiner {
+  width: 100%;
+  min-height: fit-content;
 
   padding: 5px 10px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-  margin-bottom: 10px;
 }
 
 .add_friend_avatar {
@@ -18,8 +17,11 @@
 
 .add_friend_name {
   font-weight: 900;
-  font-size: 1.4rem;
+  font-size: 1rem;
   margin-right: auto !important;
+  margin-left: 10px;
+  white-space: normal;
+  display: block;
 }
 
 .add_friend_btn {
@@ -37,4 +39,45 @@
 }
 .add_friend_btn:active {
   scale: 0.9;
+}
+@media (max-width: 425px) {
+  .little_add_friend_conatiner {
+    padding: 5px;
+  }
+  .add_friend_name {
+    font-weight: 600;
+  }
+  .add_friend_avatar {
+    width: 40px;
+    height: 40px;
+  }
+  .add_friend_btn {
+    width: 30px;
+    height: 30px;
+  }
+  .add_friend_btn {
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 375px) {
+  .add_friend_avatar {
+    width: 30px;
+    height: 30px;
+  }
+  .add_friend_name {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .little_add_friend_conatiner {
+    padding: 0px;
+  }
+}
+@media (max-width: 320px) {
+  .add_friend_name {
+    font-weight: 400;
+    font-size: 0.8rem;
+  }
+  .add_friend_avatar {
+    display: none;
+  }
 }
