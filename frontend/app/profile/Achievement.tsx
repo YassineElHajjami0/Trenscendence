@@ -19,7 +19,7 @@ export default function Achievement({ achievement }: { achievement: any }) {
       }`}
     >
       <Image
-        src={`http://localhost:3000/ach${achievement.uri}`}
+        src={achievement.uri}
         width={1000}
         height={1000}
         className={`friend_achievement_badge  `}

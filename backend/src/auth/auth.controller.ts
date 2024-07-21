@@ -80,10 +80,11 @@ export class AuthController {
     return {};
   }
 
+  /*******************************************log in  with 42*************************************************** */
   @UseGuards(FortyTwoGuard)
   @Get('fortyTwo/redirect')
   @Public()
-  @Redirect('http://localhost:5252/', 302)
+  @Redirect('http://localhost:5252/login', 302)
   async fortyTwoAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
     const createUserDto = {
       username: req.user.username,
@@ -95,11 +96,28 @@ export class AuthController {
 
     const cookies = await this.authService.signUpWithProvider(createUserDto);
     // this.setCookie(res, cookies.bearer_token);
+
+    const reqUserData = req.cookies.userData;
+    const fakeData =
+      '{"userTwoFA":-1,"loggedUser":-1,"userToken":"","twoFA":false}';
+    const theData = reqUserData === undefined ? fakeData : reqUserData;
+    const data = await JSON.parse(theData);
+
+    /**
+ if (tfa)
+    loggeduser: -1
+  else
+    loggeduser: req.uid
+ */
+
     const userData = {
-      loggedUser: cookies.uid,
+      loggedUser: cookies.twoFA ? -1 : cookies.uid,
+      userTwoFA: cookies.uid,
       userToken: cookies.bearer_token,
+      twoFA: cookies.twoFA,
     };
     res.cookie('userData', JSON.stringify(userData));
+
     // res.cookie('loggedUser', cookies.uid, { httpOnly: true });
     // res.cookie('userToken', cookies.bearer_token, { httpOnly: true });
     return {
@@ -118,7 +136,7 @@ export class AuthController {
   @Public()
   @Get('google/redirect')
   @UseGuards(GoogleGuard)
-  @Redirect('http://localhost:5252/', 302)
+  @Redirect('http://localhost:5252/login', 302)
   async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
     if (!req.user) {
       return {};
@@ -135,6 +153,7 @@ export class AuthController {
     const userData = {
       loggedUser: cookies.uid,
       userToken: cookies.bearer_token,
+      twoFA: cookies.twoFA,
     };
     res.cookie('userData', JSON.stringify(userData));
     // res.cookie('userToken', cookies.bearer_token, { httpOnly: true });
@@ -162,18 +181,37 @@ export class AuthController {
     return qrCode;
   }
 
-  // I need the whole user in body
+  /*******************************************check for twofa *************************************************** */
   @Post('2fa')
   @Public()
   @HttpCode(200)
-  async authenticate(@Res({ passthrough: true }) res, @Body() body) {
+  async authenticate(@Res({ passthrough: true }) res, @Body() data) {
+    const user = await this.userService.findOne(data.uid);
+    const body = { ...user, twoFaCode: data.twoFaCode };
     const isCodeValid = this.authService.isTwoFactorCodeValid(body);
 
     if (!isCodeValid) {
       throw new UnauthorizedException('Wrong authentication code');
     }
     const bearer_token = await this.authService.login(body);
-    this.setCookie(res, bearer_token);
+    // this.setCookie(res, bearer_token);
+
+    /*-------------------------------------*/
+
+    // const reqUserData = req.cookies.userData;
+    // const fakeData =
+    //   '{"userTwoFA":-1,"loggedUser":-1,"userToken":"","twoFA":false}';
+    // const theData = reqUserData === undefined ? fakeData : reqUserData;
+    // const data = await JSON.parse(theData);
+    // const userData = {
+    //   loggedUser: cookies.twoFA ? -1 : cookies.uid,
+    //   userToken: data.userToken === undefined ? '' : data.userToken,
+    //   twoFA: cookies.twoFA,
+    // };
+    // res.cookie('userData', JSON.stringify(userData));
+
+    /*-------------------------------------*/
+
     return {
       userToken: bearer_token,
       user: body,

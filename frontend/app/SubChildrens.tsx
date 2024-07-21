@@ -74,23 +74,23 @@ export default function SubChildrens({
   // };
 
   // useEffect(() => {
-    // addEventListener("offline", function () {
-    //   setUserStatus("offline");
-    // });
-    // addEventListener("online", function () {
-    //   setUserStatus("online");
-    // });
-    // const handleVisibility = () => {
-    //   if (document.visibilityState === "hidden") {
-    //     setUserStatus("offline");
-    //   } else {
-    //     setUserStatus("online");
-    //   }
-    // };
-    // addEventListener("visibilitychange", handleVisibility);
-    // return () => {
-    //   removeEventListener("visibilitychange", handleVisibility);
-    // };
+  // addEventListener("offline", function () {
+  //   setUserStatus("offline");
+  // });
+  // addEventListener("online", function () {
+  //   setUserStatus("online");
+  // });
+  // const handleVisibility = () => {
+  //   if (document.visibilityState === "hidden") {
+  //     setUserStatus("offline");
+  //   } else {
+  //     setUserStatus("online");
+  //   }
+  // };
+  // addEventListener("visibilitychange", handleVisibility);
+  // return () => {
+  //   removeEventListener("visibilitychange", handleVisibility);
+  // };
   // }, []);
 
   /*--------online offline---------*/
@@ -111,7 +111,7 @@ export default function SubChildrens({
     }
   };
 
-  useEffect(() => setUserStatus(), [user]);
+  // useEffect(() => setUserStatus(), [user]);
   /*--------online online---------*/
   /*----------------------------------------------------------------------------------------------------------*/
   /*----------game shit----------*/
@@ -165,7 +165,7 @@ export default function SubChildrens({
   useEffect(() => {
     if (gameRequestQueue.length > 0) {
       setGameRequestValue(gameRequestQueue[0]);
-      socket?.emit('in_the_queue', {opponentId: gameRequestQueue[0]});
+      socket?.emit("in_the_queue", { opponentId: gameRequestQueue[0] });
     }
   }, [gameRequestQueue]);
 

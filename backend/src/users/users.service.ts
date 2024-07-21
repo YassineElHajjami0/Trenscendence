@@ -154,15 +154,33 @@ export class UsersService {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { newPassword, oldPassword, confirmedPassword, ...result } =
         updateUserDto;
-      return this.databaseService.t_User.update({
-        where: { uid },
-        data: result,
-      });
+      try {
+        const res = await this.databaseService.t_User.update({
+          where: { uid },
+          data: result,
+        });
+        return res;
+      } catch (err: any) {
+        throw new BadRequestException(
+          `${err.meta?.target} Already taken by another user`,
+        );
+      }
+      // return this.databaseService.t_User.update({
+      //   where: { uid },
+      //   data: result,
+      // });
     }
-    return this.databaseService.t_User.update({
-      where: { uid },
-      data: updateUserDto,
-    });
+    try {
+      const res = await this.databaseService.t_User.update({
+        where: { uid },
+        data: updateUserDto,
+      });
+      return res;
+    } catch (err: any) {
+      throw new BadRequestException(
+        `${err.meta?.target} Already taken by another user`,
+      );
+    }
   }
 
   async updateStatus(uid: number, status: UserStatus) {

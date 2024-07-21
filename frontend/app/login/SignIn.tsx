@@ -19,38 +19,55 @@ import OtpInput from "react-otp-input";
 import { MdError } from "react-icons/md";
 import { IoIosFlashlight } from "react-icons/io";
 import { IoSunnyOutline } from "react-icons/io5";
+import { userTwoFA } from "../Atoms/_2faUser";
+import { twoFA } from "../Atoms/_If_2fa";
 
 export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const router = useRouter();
   const optInputRef = useRef(null);
 
   const [loggedU, setLoggedU] = useRecoilState(loggedUser);
+  const [loggedU2fa, setLoggedU2fa] = useRecoilState(userTwoFA);
+
+  const [twofa, setTwofa] = useRecoilState(twoFA);
+  const [test, setTest] = useState(false);
+
+  useEffect(() => {
+    setTest(twofa);
+  }, [twofa]);
+
   const [userTok, setUserTok] = useRecoilState(userToken);
 
   const [biometric, setBiometric] = useState<string>("");
-  const [_2fa_opt, set_2fa_opt] = useState<boolean>(false);
+  // const [_2fa_opt, set_2fa_opt] = useState<boolean>(false);
   const [showPass, setShowPass] = useState<boolean>(false);
 
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [pass, setPass] = useState<string>("");
   const [err, setErr] = useState<string>("");
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState<any>(-1);
 
   useEffect(() => {
     setEmail("");
     setUsername("");
     setPass("");
     setBiometric("");
-    set_2fa_opt(false);
+    // set_2fa_opt(false);
     setShowPass(false);
   }, [signInUp, loggedU]);
+
+  useEffect(() => {
+    setEmail("");
+    setUsername("");
+    setPass("");
+  }, [twofa]);
 
   const verifyTwoFA = async (e: any) => {
     e.preventDefault();
 
     const Udata = {
-      ...user,
+      uid: loggedU2fa,
       twoFaCode: biometric,
     };
 
@@ -71,12 +88,6 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     }
   };
 
-  // {
-  //   headers: {
-  //     withCredentials: true,
-  //   },
-  // }
-
   const signUpFunction = async (e: any) => {
     e.preventDefault();
     const Udata = {
@@ -92,8 +103,8 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       );
       const data = await response.data;
       if (data.user.twoFA) {
-        setUser(data.user);
-        set_2fa_opt(true);
+        setTwofa(true);
+
         return;
       }
       setLoggedU(data.user.uid);
@@ -107,7 +118,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     }
   };
 
-  const uri = _2fa_opt ? verifyTwoFA : signUpFunction;
+  const uri = test ? verifyTwoFA : signUpFunction;
 
   const auth42 = async () => {
     router.push("http://localhost:3000/auth/login-42");
@@ -119,12 +130,12 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   return (
     <form onSubmit={uri} className="sign_in_container">
       <input
-        required={!_2fa_opt}
+        required={!test}
         placeholder="username"
         type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        className={`sign_in_ships ${_2fa_opt && "hide_pass"}`}
+        className={`sign_in_ships ${test && "hide_pass"}`}
         tabIndex={1}
       />
 
@@ -138,10 +149,10 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         tabIndex={signInUp ? 2 : 3}
       />
 
-      <div className={`password_wraper  ${_2fa_opt && "hide_pass"}`}>
+      <div className={`password_wraper  ${test && "hide_pass"}`}>
         <input
           tabIndex={signInUp ? 3 : 2}
-          required={!_2fa_opt}
+          required={!test}
           placeholder="password"
           className={`sign_in_ships for_pass_only ${
             showPass && "change_pass_bg"
@@ -155,7 +166,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         /> */}
         <div className="eye_container">
           <div
-            className={`eye ${_2fa_opt && "hide_eye"}`}
+            className={`eye ${test && "hide_eye"}`}
             onClick={() => setShowPass((prev) => !prev)}
             data-closed={showPass ? "" : null}
           >
@@ -176,31 +187,31 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         </div>
       </div>
 
-      <div className={`two_factor_auth ${_2fa_opt && "show_2fa_container"}`}>
+      <div className={`two_factor_auth ${test && "show_2fa_container"}`}>
         <h1 className="_2fa_header">2-Factor Authentication</h1>
         <OtpInput
           value={biometric}
-          shouldAutoFocus={_2fa_opt}
+          shouldAutoFocus={test}
           onChange={setBiometric}
           numInputs={6}
           inputType="number"
           containerStyle="_2fa_container"
           inputStyle="_2fa_container_inputs"
           renderSeparator={<span className="_2fa_container_separator">-</span>}
-          renderInput={(props) => <input {...props} required={_2fa_opt} />}
+          renderInput={(props) => <input {...props} required={test} />}
         />
       </div>
 
       <div className="btn_container">
         <div
           onClick={() => {
-            set_2fa_opt(false);
+            setTwofa(false);
             setEmail("");
             setUsername("");
             setPass("");
             setBiometric("");
           }}
-          className={` cancel_opt ${_2fa_opt && "show_cancel_opt"}`}
+          className={` cancel_opt ${test && "show_cancel_opt"}`}
         >
           cancel
         </div>
@@ -210,7 +221,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
           className={`sign_in_ships btn ${err.length > 0 && "lets_not_play"}`}
         >
           {!err.length ? (
-            !_2fa_opt ? (
+            !test ? (
               "Let's play"
             ) : (
               "verify"

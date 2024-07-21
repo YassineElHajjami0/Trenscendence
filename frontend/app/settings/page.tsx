@@ -10,10 +10,12 @@ import { FaLock } from "react-icons/fa";
 import "../store/store.css";
 import "./settings.css";
 import { userToken } from "@/app/Atoms/userToken";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { FaImages } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa";
+import { twoFA } from "../Atoms/_If_2fa";
+import { userAvatar } from "../Atoms/userAvatar";
 
 interface dataInterface {
   avatar: string;
@@ -25,6 +27,7 @@ interface dataInterface {
   confirmedPassword: string;
   bio: string;
   twoFA: boolean;
+  strategy: string;
   wallet: number;
 }
 
@@ -54,6 +57,8 @@ interface User {
 const Settings = () => {
   const [ArticlesType, setArticlesType] = useState("");
   const [showArticlesPopup, setShowArticlesPopup] = useState(false);
+  const [twofa, setTwofa] = useRecoilState(twoFA);
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<dataInterface>();
   const [errors, setErrors] = useState<string>("");
@@ -62,6 +67,7 @@ const Settings = () => {
     useState<itemsInterface[]>();
   const userTok = useRecoilValue(userToken);
   const userId = useRecoilValue(loggedUser);
+  const [userAV, setUserAV] = useRecoilState(userAvatar);
 
   //http://localhost:3000/users/2 if no 2 the backend does not return an error
   useEffect(() => {
@@ -89,7 +95,10 @@ const Settings = () => {
         const avatarsAndPaddlesData = await avatarsAndPaddlesResponse.json();
         const d = await response.json();
         console.log("D >>>>> ", d);
+        /******** */
         setData(d);
+        setUserAV(d?.avatar);
+
         setAvatarsAndPaddles(avatarsAndPaddlesData);
         getNewQrCode(d);
         console.log("data", d);
@@ -556,7 +565,7 @@ const Settings = () => {
               </div>
               <div className="inputs-and-2fa">
                 <div className="inputs">
-                  <div>
+                  <>
                     <label htmlFor="username">username</label>
                     <input
                       type="text"
@@ -567,8 +576,8 @@ const Settings = () => {
                       value={data?.username}
                       onChange={(e) => changeInputValue(e)}
                     />
-                  </div>
-                  <div>
+                  </>
+                  <>
                     <label htmlFor="label">email</label>
                     <input
                       type="text"
@@ -579,8 +588,8 @@ const Settings = () => {
                       value={data?.email}
                       onChange={(e) => changeInputValue(e)}
                     />
-                  </div>{" "}
-                  <div>
+                  </>
+                  <>
                     <label htmlFor="label">Bio</label>
                     <textarea
                       rows={4}
@@ -590,43 +599,49 @@ const Settings = () => {
                       value={data?.bio}
                       onChange={(e) => changeInputValue(e)}
                     />
-                  </div>
-                  <div>
-                    <label htmlFor="label">password</label>
-                    <input
-                      id="password"
-                      type="password"
-                      name="oldPassword"
-                      placeholder="old Password"
-                      className="Password"
-                      value={data?.oldPassword}
-                      onChange={(e) => changeInputValue(e)}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="label">new password</label>
-                    <input
-                      id="newpassword"
-                      type="password"
-                      name="newPassword"
-                      placeholder="new Password"
-                      className="Password"
-                      value={data?.newPassword}
-                      onChange={(e) => changeInputValue(e)}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="confirmpassword">confirm password</label>
-                    <input
-                      id="confirmpassword"
-                      type="password"
-                      name="confirmedPassword"
-                      placeholder="confirm Password"
-                      className="Password"
-                      value={data?.confirmedPassword}
-                      onChange={(e) => changeInputValue(e)}
-                    />
-                  </div>
+                  </>
+                  {data?.strategy == "local" && (
+                    <>
+                      <>
+                        <label htmlFor="label">password</label>
+                        <input
+                          id="password"
+                          type="password"
+                          name="oldPassword"
+                          placeholder="old Password"
+                          className="Password"
+                          value={data?.oldPassword}
+                          onChange={(e) => changeInputValue(e)}
+                        />
+                      </>
+                      <>
+                        <label htmlFor="label">new password</label>
+                        <input
+                          id="newpassword"
+                          type="password"
+                          name="newPassword"
+                          placeholder="new Password"
+                          className="Password"
+                          value={data?.newPassword}
+                          onChange={(e) => changeInputValue(e)}
+                        />
+                      </>
+                      <>
+                        <label htmlFor="confirmpassword">
+                          confirm password
+                        </label>
+                        <input
+                          id="confirmpassword"
+                          type="password"
+                          name="confirmedPassword"
+                          placeholder="confirm Password"
+                          className="Password"
+                          value={data?.confirmedPassword}
+                          onChange={(e) => changeInputValue(e)}
+                        />
+                      </>
+                    </>
+                  )}
                   <pre className="errorsMsg">{errors}</pre>
                 </div>
                 <div className="twofa">
@@ -644,6 +659,7 @@ const Settings = () => {
                     )}
                     <button
                       onClick={() => {
+                        setTwofa(!data?.twoFA);
                         setData((data) => ({
                           ...(data as dataInterface),
                           twoFA: !data?.twoFA,

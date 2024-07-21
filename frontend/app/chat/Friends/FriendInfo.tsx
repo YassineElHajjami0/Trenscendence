@@ -105,7 +105,7 @@ export const FriendInfo = () => {
                   <div key={a?.name} className="current_friend_achievement">
                     <Image
                       className="current_friend_achievement_badge"
-                      src={`http://localhost:3000/ach${a.uri}`}
+                      src={a.uri}
                       width={5000}
                       height={5000}
                       alt="achievement_badge"

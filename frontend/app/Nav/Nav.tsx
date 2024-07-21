@@ -18,9 +18,16 @@ import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
 import { userNotifications } from "../Atoms/notifications";
 import axios from "axios";
+import { userTwoFA } from "../Atoms/_2faUser";
+import { twoFA } from "../Atoms/_If_2fa";
 
 const Nav = () => {
+  const [user2fa, setUser2fa] = useRecoilState(userTwoFA);
+  const [twofa, setTwofa] = useRecoilState(twoFA);
+
   const [loggedU, setLoggedU] = useRecoilState(loggedUser);
+  const [loggedU2fa, setLoggedU2fa] = useRecoilState(userTwoFA);
+
   const [loggedT, setLoggedT] = useRecoilState(userToken);
   const [myNotifications, setMyNotifications] =
     useRecoilState(userNotifications);
@@ -41,8 +48,9 @@ const Nav = () => {
     } catch (error) {
       console.log("3a", error);
     }
-
+    setTwofa(false);
     setLoggedU(-1);
+    setLoggedU2fa(-1);
     setLoggedT("");
     setMyNotifications([]);
   };

@@ -50,6 +50,7 @@ export class AuthService {
     const bearer_token = await this.login(user);
     return {
       uid: user.uid,
+      twoFA: user.twoFA,
       bearer_token: bearer_token,
     };
   }
@@ -64,7 +65,7 @@ export class AuthService {
 
   generateRandomChars(length: number): string {
     const charset =
-      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?';
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let str = '';
 
     for (let i = 0; i < length; i++) {
@@ -100,6 +101,8 @@ export class AuthService {
 
   // 3
   isTwoFactorCodeValid(body: any) {
+    console.log('isTwoFactorCodeValid>>', body);
+
     return authenticator.verify({
       token: body.twoFaCode,
       secret: body.twoFASecret,

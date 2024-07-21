@@ -30,7 +30,7 @@ export default function Friend({
   whichProfile,
 }: {
   friend: any;
-  whichProfile: number;
+  whichProfile: any;
 }) {
   console.log("zaaaaaaaaaaaaaaaaab", friend);
   const route = useRouter();
@@ -54,7 +54,6 @@ export default function Friend({
   const logged = myFriend.status === "online";
   const inGame = myFriend.status === "ingame";
   const blocked = myFriend.blocked;
-  console.log(">>>>>>>>>>>>>>>>>>>>>", myFriend);
 
   useEffect(() => {
     setCurrFriend(myFriend);

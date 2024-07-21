@@ -239,17 +239,16 @@
   align-items: center;
 }
 .inputs-and-2fa .inputs {
-  display: flex;
-  height: 500px;
-
-  flex-direction: column;
+  /* display: flex; */
+  /* height: 400px; */
+  /* flex-direction: column; */
   width: 50%;
 }
 .inputs-and-2fa .inputs input,
 .inputs-and-2fa .inputs textarea {
   width: 100%;
   padding: 15px 20px;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   border-radius: 10px;
   border: 1px solid rgba(126, 126, 126, 0.883);
   background-color: #2d2d31;
@@ -258,10 +257,13 @@
   resize: none;
   position: relative;
 }
-.inputs-and-2fa .inputs div {
+.inputs-and-2fa .inputs textarea {
+  height: 200px;
+}
+.inputs-and-2fa .inputs input {
   position: relative;
 }
-.inputs-and-2fa .inputs div label {
+.inputs-and-2fa .inputs label {
   position: absolute;
   z-index: 1;
   top: -10px;
@@ -272,7 +274,7 @@
   left: 10px;
   opacity: 0;
 }
-.inputs-and-2fa .inputs div:hover label {
+.inputs-and-2fa .inputs input:hover label {
   transition: 0.3s;
   opacity: 1;
 }
@@ -323,7 +325,13 @@
   }
   .inputs-and-2fa .inputs {
     height: 310px;
-    overflow-y: scroll;
+    /* gap: 20px; */
+    overflow: scroll;
+  }
+  .inputs-and-2fa .inputs input {
+    padding: 10px;
+    margin-bottom: 10px;
+    /* height: 100%; */
   }
 }
 @media (max-width: 1024px) {
@@ -345,10 +353,11 @@
     flex-direction: column;
     overflow-y: scroll;
     padding-bottom: 90px;
+    height: 700px;
   }
   .inputs-and-2fa .inputs {
     width: 100%;
-    overflow: visible;
+    /* overflow: visible; */
   }
   .inputs-and-2fa .inputs input,
   .inputs-and-2fa .inputs textarea {
@@ -356,7 +365,7 @@
     margin-bottom: 10px;
     font-size: 16px;
   }
-  .inputs-and-2fa .inputs div:hover label {
+  .inputs-and-2fa .inputs input:hover label {
     display: none;
   }
   .inputs-and-2fa .twofa img {

@@ -154,7 +154,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="latests">
-              {data?.length &&
+              {data && data?.length > 0 ? (
                 data?.map((match) => {
                   if (flag === 3) return;
                   flag++;
@@ -187,7 +187,10 @@ export default function Home() {
                       </div>
                     </div>
                   );
-                })}
+                })
+              ) : (
+                <div className="noMatch">NO MATCH </div>
+              )}
             </div>
           </div>
         </main>

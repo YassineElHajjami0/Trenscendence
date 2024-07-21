@@ -476,6 +476,12 @@ nav {
     width: 150px;
     height: 150px;
   }
+  .store-container h2 {
+    display: none;
+  }
+  .store-container {
+    padding: 0 0 5px;
+  }
   .store-container .store .shape1,
   .store-container .store .shape2,
   .store-container .store .shape3,
@@ -549,6 +555,20 @@ nav {
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;
   font-weight: normal;
+}
+.latest-games .noMatch {
+  text-align: center;
+  /* margin-top: 10%; */
+  padding: 12%;
+  font-size: 20px;
+  background: radial-gradient(
+    rgba(255, 255, 255, 0.058),
+    rgba(255, 255, 255, 0)
+  );
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 .latest-games .header .see-all {
   text-decoration: none;
@@ -641,8 +661,8 @@ nav {
 } */
 
 .latest-games .latests .line .gamestatus div:last-child {
-  font-size: 30px;
-  font-weight: 900;
+  font-size: 25px;
+  font-weight: 700;
 }
 .latest-games .latests .line .gamestatus .lose {
   color: #a02a17;
@@ -684,7 +704,7 @@ nav {
   .latest-games .latests .line {
     background-color: #2d2d31;
     padding: 10px;
-    font-size: 18px;
+    font-size: 16px;
   }
   .latest-games .latests .line .player,
   .latest-games .latests .line .opponent {

@@ -17,8 +17,6 @@ import { selectedFriendProfile } from "@/app/Atoms/selectedFriendProfile";
 import ProfileDetails from "../ProfileDetails";
 import { notFound, useRouter } from "next/navigation";
 import LoadingPaddle from "@/app/LoadingPaddle";
-import { getRank } from "@/app/util/headers";
-import { useSocket } from "@/app/SubChildrens";
 
 interface OtherProfileProps {
   params: {
@@ -31,22 +29,17 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
   const userTok = useRecoilValue(userToken);
   const route = useRouter();
 
-  //makaynch lkhroj lyom khasmna nsaliwwwwwww
-
-  // const decodedUsername = decodeURIComponent(params.userName);
-
   const [selectedProfile, setSelectedProfile] = useRecoilState(
     selectedFriendProfile
   );
   const [isFriend, setIsFriend] = useState(true);
   const [loading, setLoading] = useState(true);
-
-  const [userData, setUserData] = useState<any>({});
   const [hoverEffect, setHoverEffect] = useState(true);
+  const [userData, setUserData] = useState<any>({});
 
   useEffect(() => {
     if (selectedProfile === loggedU) route.replace("/profile");
-
+    setLoading(true);
     const getUserData = async () => {
       try {
         const res = await axios.get(
@@ -61,14 +54,12 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
         setSelectedProfile(data.uid);
         setUserData(data);
       } catch (error: any) {
+        setLoading(false);
         route.push("/profile/404");
       }
     };
     getUserData();
     getIfFriend();
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
   }, [selectedProfile]);
 
   const getIfFriend = async () => {
@@ -84,22 +75,16 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
       },
     });
     const data = await res.data;
-    setIsFriend(data);
+    setTimeout(() => {
+      setIsFriend(data);
+      setLoading(false);
+    }, 1000);
   };
 
-  const { socket } = useSocket();
+  // useEffect(() => {
+  //   getIfFriend();
+  // }, [selectedProfile]);
 
-  useEffect(() => {
-    const updateFriends = (friend: any) => {
-      getIfFriend();
-    };
-    if (!socket) return;
-
-    socket.on("update_friend_list", updateFriends);
-    return () => {
-      socket.off("update_friend_list");
-    };
-  }, []);
   const addFriend = async () => {
     if (selectedProfile === -1 || selectedProfile === loggedU) return;
 
@@ -141,12 +126,15 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
         {hoverEffect ? (
           <div className="img_container_add">
             <Image
-              src={`${userData?.avatar || ""}`}
+              src={userData?.avatar}
               width={2000}
               height={2000}
               alt="profile_avatar"
               className="profile_photo"
             />
+            {!isFriend && (
+              <BsPersonFillAdd className="add_me_if_not" onClick={addFriend} />
+            )}
           </div>
         ) : (
           <div className="img_container_add">
@@ -159,6 +147,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
             />
           </div>
         )}
+
         <div className="profile_data">
           <h1>{userData?.username}</h1>
           <h4 className="profile_username">
@@ -187,7 +176,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
         </div>
       </div>
       <div className="profile_details">
-        <ProfileDetails whichProfile={loggedU} />
+        <ProfileDetails whichProfile={selectedProfile} />
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ import {
   userInterface,
 } from "../Interfaces/chatInterfaces";
 
-export default function Friends({ whichProfile }: { whichProfile: number }) {
+export default function Friends({ whichProfile }: { whichProfile: any }) {
   const { socket } = useSocket();
   const UID = useRecoilValue(loggedUser);
 
@@ -100,6 +100,8 @@ export default function Friends({ whichProfile }: { whichProfile: number }) {
         }
       );
       const data = await res.json();
+      console.log("===========>>>>>>", data);
+
       setUserFriends(data);
     } catch (error: any) {
       console.log("--->>>", error.message);

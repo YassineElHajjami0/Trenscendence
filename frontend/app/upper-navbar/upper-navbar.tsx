@@ -11,11 +11,18 @@ import { userNotifications } from "../Atoms/notifications";
 import { userToken } from "../Atoms/userToken";
 import { loggedUser } from "../Atoms/logged";
 import Link from "next/link";
+import { userAvatar } from "../Atoms/userAvatar";
+
+interface User {
+  avatar: string;
+}
 
 const UpperNav = () => {
   const notificationRef = useRef<HTMLDivElement>(null);
   const userTok = useRecoilValue(userToken);
   const loggedU = useRecoilValue(loggedUser);
+  const [userAV, setUserAV] = useRecoilState(userAvatar);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -31,6 +38,22 @@ const UpperNav = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [notificationRef]);
+
+  // const [userData, setUserData] = useState<User>();
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     const response = await fetch(`http://localhost:3000/users/${loggedU}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${userTok}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     const data = await response.json();
+  //     console.log(">>>>??>>>>", data);
+  //     setUserData(data);
+  //   };
+  //   fetchUserData();
+  // }, []);
 
   const [searchUsers, setSearchUsers] = useState("");
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -141,10 +164,9 @@ const UpperNav = () => {
         </div>
         <Notifications showNotif={showNotif} />
         <div className="profile-picture">
-          {!imageLoaded && <div className="profile-picture-white"></div>}
           <div>
             <Image
-              src="https://cdn.intra.42.fr/users/b653c32ff7b8c8f272ffb8dfbb4674a7/yel-hajj.jpg"
+              src={userAV || "http://localhost:3000/default.png"}
               alt="P"
               width={45}
               height={45}
