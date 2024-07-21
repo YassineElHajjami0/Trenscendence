@@ -207,7 +207,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         <button
           disabled={err.length > 0}
           type="submit"
-          className={`sign_in_ships btn ${err.length && "lets_not_play"}`}
+          className={`sign_in_ships btn ${err.length > 0 && "lets_not_play"}`}
         >
           {!err.length ? (
             !_2fa_opt ? (

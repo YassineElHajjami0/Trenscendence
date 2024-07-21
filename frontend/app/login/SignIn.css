@@ -75,7 +75,7 @@
   height: 100%;
 }
 .hide_pass {
-  height: 0;
+  height: 0 !important;
   width: 0;
   font-size: 0;
   padding: 0;
@@ -409,4 +409,27 @@ button.sign_in_ships:active {
   height: var(--hair-length);
   background: white;
   transform: rotate(-20deg);
+}
+
+@media (max-width: 425px) {
+  .from_errors {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .sign_in_container {
+    padding: 0;
+  }
+  .sign_in_container > input {
+    height: 13%;
+  }
+  .other_login {
+    width: 100%;
+  }
+}
+
+@media (max-width: 375px) {
+  .btn {
+    flex: 1;
+  }
 }

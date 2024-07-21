@@ -10,8 +10,13 @@ import AddFriendSection from "../chat/Friends/AddFriendSection";
 import "../chat/chat.css";
 import "../chat/Friends/AddFriend.css";
 import { useSocket } from "../SubChildrens";
+import {
+  channelData,
+  newRole,
+  userInterface,
+} from "../Interfaces/chatInterfaces";
 
-export default function Friends({ whichProfile }: { whichProfile: any }) {
+export default function Friends({ whichProfile }: { whichProfile: number }) {
   const { socket } = useSocket();
   const UID = useRecoilValue(loggedUser);
 
@@ -20,11 +25,12 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
   console.log("friend array>>>", userFriends);
 
   useEffect(() => {
-    const handleBlockedFriend = (friend: any) => {
-      setUserFriends((prev: any) => {
-        return prev.map((channel: any) => {
+    const handleBlockedFriend = (friend: newRole) => {
+      if (!friend) return;
+      setUserFriends((prev: channelData[]) => {
+        return prev.map((channel: channelData) => {
           if (channel.id === friend.channelID) {
-            const updatedRoles = channel.roles.map((role: any) => {
+            const updatedRoles = channel.roles.map((role: userInterface) => {
               if (role.uid === friend.userID) {
                 return { ...role, blocked: friend.blocked };
               }
@@ -45,10 +51,11 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
   });
 
   useEffect(() => {
-    const handleNewFriendStatus = (friend: any) => {
-      setUserFriends((prev: any) => {
-        return prev.map((channel: any) => {
-          const updatedRoles = channel.roles.map((role: any) => {
+    const handleNewFriendStatus = (friend: userInterface) => {
+      if (!friend) return;
+      setUserFriends((prev: channelData[]) => {
+        return prev.map((channel: channelData) => {
+          const updatedRoles = channel.roles.map((role: userInterface) => {
             if (role.uid === friend.uid) return friend;
             return role;
           });
@@ -66,7 +73,7 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
 
   useEffect(() => {
     const updateFriends = (friend: any) => {
-      if (friend.length === 0) return;
+      if (!friend) return;
 
       const whichUID = friend.roles.some((user: any) => user.uid === UID);
       if (whichUID) {
@@ -105,7 +112,7 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
   return (
     <div className="friends_container">
       {userFriends?.length > 0 &&
-        userFriends?.map((e: any) => (
+        userFriends?.map((e: channelData) => (
           <Friend whichProfile={whichProfile} friend={e} key={e.id} />
         ))}
     </div>

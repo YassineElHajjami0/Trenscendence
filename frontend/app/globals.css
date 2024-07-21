@@ -220,6 +220,7 @@ nav {
 @media (max-width: 425px) {
   .upperNav-children-container {
     width: calc(100% - 50px);
+    padding: 10px;
   }
 
   .home-page .animation-slide {

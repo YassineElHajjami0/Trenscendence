@@ -19,13 +19,18 @@ import axios from "axios";
 import { userToken } from "../Atoms/userToken";
 import { channelId } from "../Atoms/channelId";
 import { currentFriend } from "../Atoms/currentFriend";
+import {
+  channelData,
+  newRole,
+  userInterface,
+} from "../Interfaces/chatInterfaces";
 
 export default function Friend({
   friend,
   whichProfile,
 }: {
   friend: any;
-  whichProfile: any;
+  whichProfile: number;
 }) {
   console.log("zaaaaaaaaaaaaaaaaab", friend);
   const route = useRouter();
@@ -49,6 +54,7 @@ export default function Friend({
   const logged = myFriend.status === "online";
   const inGame = myFriend.status === "ingame";
   const blocked = myFriend.blocked;
+  console.log(">>>>>>>>>>>>>>>>>>>>>", myFriend);
 
   useEffect(() => {
     setCurrFriend(myFriend);
@@ -84,7 +90,7 @@ export default function Friend({
     setChannelID(friend.id);
     route.push("/chat");
   };
-
+  const encodedUsername = encodeURIComponent(myFriend?.username);
   return (
     <div className="friend_container">
       <div className="friend_name_photo">
@@ -113,7 +119,7 @@ export default function Friend({
             id={myFriend?.uid}
             onClick={() => {
               setSelectedProfile(myFriend?.uid);
-              route.push(`/profile/${myFriend?.username}`);
+              route.push(`/profile/${encodedUsername}`);
             }}
             className="friend_component_btn view_profile"
           >
@@ -130,15 +136,7 @@ export default function Friend({
               >
                 <LuMessagesSquare />
               </button>
-              <button
-                className={`friend_component_btn friend_play ${
-                  (blocked || !logged || inGame) && "disable_btns"
-                }`}
-                onClick={test}
-                disabled={blocked || !logged || inGame}
-              >
-                <BiSolidJoystickAlt />
-              </button>
+
               <MdBlock
                 onClick={handleSwitch}
                 className={`friend_block  ${blocked && "hide_block"}`}
