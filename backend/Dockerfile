@@ -7,12 +7,12 @@ RUN apk --update add postgresql-client
 WORKDIR /app
 
 # Copy the package.json and package-lock.json files
-# COPY package*.json ./
-COPY . .
+COPY package*.json ./
 
 # Install dependencies
-
 RUN npm install
+
+COPY . .
 # RUN npm update
 # RUN npm audit fix --force
 
