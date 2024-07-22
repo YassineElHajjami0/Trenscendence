@@ -14,6 +14,7 @@ import { getRank } from "@/app/util/headers";
 import { channelId } from "@/app/Atoms/channelId";
 
 import noAchievemnets from "../../../public/achievement/no_achievements.png";
+import { loggedUser } from "@/app/Atoms/logged";
 // import noAchievemnets from "@/public/apb.png";
 
 export const FriendInfo = () => {
@@ -22,7 +23,7 @@ export const FriendInfo = () => {
   const loadingAnimation = useRecoilValue(loadingMsg);
   const userTok = useRecoilValue(userToken);
   const [dmID, setDMID] = useRecoilState(channelId);
-
+  const UID = useRecoilValue(loggedUser);
   const [userAchievement, setUserAchievement] = useState<any[]>([]);
 
   const noUserAchievement = userAchievement.filter((e) => e?.unlocked);
@@ -47,6 +48,8 @@ export const FriendInfo = () => {
   };
 
   useEffect(() => {
+    if (UID === -1) return;
+
     const getUserData = async () => {
       try {
         const res = await fetch(

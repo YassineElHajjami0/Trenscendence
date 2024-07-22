@@ -6,7 +6,6 @@
 
 //yassiiiiiiiiiiiiin hhhhhhhhhhhhhhhhhhhhß
 
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["relationJoins"]
@@ -16,6 +15,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // url      = "postgresql://ytaqsi:1337@localhost:3002/ft_transcendance"
   // url      = "postgresql://mtigunit:1337@localhost:5432/ft_transcendance"
   // url      = "postgresql://yel-hajj:1337@localhost:5432/ft_transcendance"
   // uncomment next line if you use Prisma <5.10
@@ -124,8 +124,7 @@ model T_User {
   wallet   Int        @default(0)
   xp       Int        @default(0)
 
-  rank              Ranks               @default(Beginner)
-  // lose             Int               @default(0)
+  rank             Ranks             @default(Beginner)
   role             String            @default("User")
   strategy         String            @default("local")
   twoFASecret      String            @default("")
@@ -182,7 +181,7 @@ model Item {
   type        String
   power       String
   userItems   UserItem[]
-  color       String    @default("none")
+  color       String     @default("none")
 }
 
 // model UploadImageFromClient {

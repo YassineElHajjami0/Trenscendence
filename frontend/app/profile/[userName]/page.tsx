@@ -39,6 +39,8 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
   const [userData, setUserData] = useState<any>({});
 
   useEffect(() => {
+    if (selectedProfile === -1) return;
+
     if (selectedProfile === loggedU) route.replace("/profile");
     setLoading(true);
     const getUserData = async () => {
@@ -70,10 +72,9 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
 
   useEffect(() => {
     if (!socket) return;
-    const updateFriends = (friend: any) => {
-      if (!friend) return;
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>9999999999>>>>>>>>>>>>>>>>>>>>>>>>>");
+    if (selectedProfile === -1) return;
 
+    const updateFriends = (friend: any) => {
       getIfFriend();
     };
 

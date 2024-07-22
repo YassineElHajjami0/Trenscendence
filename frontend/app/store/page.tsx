@@ -95,7 +95,16 @@ const Store = () => {
     fetchedData();
   }, []);
 
-  const handleBuyArticle = async (id: number | undefined, price : number |  undefined) => {
+  const handleBuyArticle = async (
+    id: number | undefined,
+    price: number | undefined
+  ) => {
+    console.log(
+      ">>>>playerPoints:",
+      playerPoints,
+      "   >>>>>choosedArticle?.price:",
+      choosedArticle?.price
+    );
     if (choosedArticle?.price && playerPoints < choosedArticle?.price) {
       setPopUpCannotBuy(!popUpCannotBuy);
       setTimeout(() => {
@@ -129,13 +138,14 @@ const Store = () => {
             }
             return item;
           });
-          console.log("?????????? => updatedItems =>", updatedItems )
+          console.log("?????????? => updatedItems =>", updatedItems);
           setItems(updatedItems);
           const updatedchoosedArticle: any = {
             ...choosedArticle,
             owned: true,
           };
           setChoosedArticle(updatedchoosedArticle);
+          setPlayerPoints(playerPoints - (price ?? 0));
         })
         .catch((errorResponse) => {
           throw new Error(
@@ -165,8 +175,8 @@ const Store = () => {
       }),
     })
       .then(() => {
-        console.log("?????????? => ITEMS =>", items )
-        
+        console.log("?????????? => ITEMS =>", items);
+
         const updatedItems = items?.map((item) => {
           if (item.id === id) {
             return {
@@ -176,13 +186,13 @@ const Store = () => {
           }
           return { ...item, choosed: false };
         });
-        console.log("?????????? => updatedItems =>", updatedItems )
+        console.log("?????????? => updatedItems =>", updatedItems);
         setItems(updatedItems);
         const updatedchoosedArticle: any = {
           ...choosedArticle,
           choosed: true,
         };
-    
+
         setChoosedArticle(updatedchoosedArticle);
       })
       .catch((errorResponse) => {
@@ -240,7 +250,8 @@ const Store = () => {
                         "choosed"
                       ) : (
                         <button
-                          onClick={() => handleChooseArticle(choosedArticle.id)} >
+                          onClick={() => handleChooseArticle(choosedArticle.id)}
+                        >
                           choose
                         </button>
                       )}
@@ -249,7 +260,10 @@ const Store = () => {
                 ) : (
                   <button
                     onClick={() => {
-                      handleBuyArticle(choosedArticle?.id, choosedArticle?.price);
+                      handleBuyArticle(
+                        choosedArticle?.id,
+                        choosedArticle?.price
+                      );
                     }}
                   >
                     Buy Now {choosedArticle?.price}$

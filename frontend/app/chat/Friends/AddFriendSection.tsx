@@ -12,6 +12,7 @@ interface AddFriendInterface {
   className: string;
 }
 import { usePathname } from "next/navigation";
+import { useSocket } from "@/app/SubChildrens";
 const AddFriendSection = () => {
   const pathname = usePathname();
   const [addFriend, setAddFriend] = useState(false);
@@ -71,6 +72,22 @@ const AddFriendSection = () => {
   useEffect(() => {
     getAllusers();
   }, [addFriend]);
+
+  const { socket } = useSocket();
+  useEffect(() => {
+    if (!socket) return;
+    const updateFriends = (friend: any) => {
+      if (!friend) return;
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>9999999999>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+      getAllusers();
+    };
+
+    socket.on("update_friend_list", updateFriends);
+    return () => {
+      socket.off("update_friend_list");
+    };
+  });
 
   return (
     <div

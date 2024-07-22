@@ -44,6 +44,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   updateFriendList(friend: any) {
+    console.log('>>>>>>>>>>>>>>>test0');
+
     this.server.emit('update_friend_list', friend);
   }
   updateBlockedFriend(friend: any) {
@@ -54,6 +56,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
   /**-------------------------------------- */
   updateOnlineFriendList() {
-    this.server.emit('update_friend_list');
+    this.server.emit('update_friend_list_game');
   }
 }

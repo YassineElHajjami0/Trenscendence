@@ -359,14 +359,14 @@ export default function Popup({ setShowPopup }: any) {
   }, []);
 
   useEffect(() => {
-    socket?.on('update_friend_list', () => {
+    socket?.on("update_friend_list_game", () => {
       getAllusers();
-    })
+    });
 
     return () => {
-      socket?.off('update_friend_list');
-    }
-  }, [allUsers])
+      socket?.off("update_friend_list_game");
+    };
+  }, [allUsers]);
 
   return (
     <>

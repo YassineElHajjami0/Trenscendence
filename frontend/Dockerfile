@@ -19,4 +19,4 @@ RUN npm install
 # Copy the rest of the application files
 COPY . .
 
-CMD [ "npm", "run", "dev" , "--" ,"-p", "7000"]
+CMD [ "npm", "run", "dev" , "--" ,"-p", "5252"]

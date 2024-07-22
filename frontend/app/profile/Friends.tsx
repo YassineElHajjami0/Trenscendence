@@ -25,8 +25,9 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
   console.log("friend array>>>", userFriends);
 
   useEffect(() => {
+    if (UID === -1) return;
+    if (!socket) return;
     const handleBlockedFriend = (friend: newRole) => {
-      if (!friend) return;
       setUserFriends((prev: channelData[]) => {
         return prev.map((channel: channelData) => {
           if (channel.id === friend.channelID) {
@@ -42,7 +43,6 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
         });
       });
     };
-    if (!socket) return;
 
     socket.on("update_blocked_friend", handleBlockedFriend);
     return () => {
@@ -51,8 +51,10 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
   });
 
   useEffect(() => {
+    if (UID === -1) return;
+
+    if (!socket) return;
     const handleNewFriendStatus = (friend: userInterface) => {
-      if (!friend) return;
       setUserFriends((prev: channelData[]) => {
         return prev.map((channel: channelData) => {
           const updatedRoles = channel.roles.map((role: userInterface) => {
@@ -63,7 +65,6 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
         });
       });
     };
-    if (!socket) return;
 
     socket.on("update_friend_status", handleNewFriendStatus);
     return () => {
@@ -72,23 +73,25 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
   });
 
   useEffect(() => {
-    const updateFriends = (friend: any) => {
-      if (!friend) return;
+    if (UID === -1) return;
 
+    if (!socket) return;
+    const updateFriends = (friend: any) => {
       const whichUID = friend.roles.some((user: any) => user.uid === UID);
       if (whichUID) {
         setUserFriends((prev: any) => [...prev, friend]);
       }
     };
-    if (!socket) return;
 
     socket.on("update_friend_list", updateFriends);
     return () => {
       socket.off("update_friend_list");
     };
-  }, []);
+  });
 
   const getUserData = async () => {
+    if (UID === -1) return;
+
     try {
       const res = await fetch(
         `http://localhost:3000/channels/dm/${whichProfile}`,
