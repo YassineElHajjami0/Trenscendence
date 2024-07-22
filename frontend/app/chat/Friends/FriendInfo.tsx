@@ -77,8 +77,8 @@ export const FriendInfo = () => {
         <Image
           className="current_friend_avatar"
           src={`${friend?.avatar}`}
-          width={5000}
-          height={5000}
+          width={200}
+          height={200}
           alt="avatar"
         />
         <h1>{friend?.username}</h1>
@@ -89,8 +89,8 @@ export const FriendInfo = () => {
         <Image
           className="current_friend_rank_badge"
           src={`/ranks/${rank}.png`}
-          width={5000}
-          height={5000}
+          width={200}
+          height={200}
           alt="rank_badge"
         />
         <h3> {rank} </h3>
@@ -106,8 +106,8 @@ export const FriendInfo = () => {
                     <Image
                       className="current_friend_achievement_badge"
                       src={a.uri}
-                      width={5000}
-                      height={5000}
+                      width={200}
+                      height={200}
                       alt="achievement_badge"
                     />
 
@@ -118,7 +118,7 @@ export const FriendInfo = () => {
           </div>
         ) : (
           <div className="current_friend_no_achievements">
-            <Image src={noAchievemnets} alt="noob" width={500} height={500} />
+            <Image src={noAchievemnets} alt="noob" width={200} height={200} />
           </div>
         )}
       </div>

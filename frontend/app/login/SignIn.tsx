@@ -55,8 +55,10 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     setBiometric("");
     // set_2fa_opt(false);
     setShowPass(false);
+    // setTwofa(false);
   }, [signInUp, loggedU]);
 
+  signInUp && setTwofa(false);
   useEffect(() => {
     setEmail("");
     setUsername("");
@@ -71,17 +73,45 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       twoFaCode: biometric,
     };
 
+    // try {
+    //   const response = await axios.post(
+    //     `http://localhost:3000/auth/2fa`,
+    //     Udata
+    //   );
+    //   const data = await response.data;
+    //   router.push("/settings");
+    //   // window.location.href = "/settings";
+
+    //   setLoggedU(data.user.uid);
+    //   setUserTok(data.userToken);
+    // } catch (error: any) {
+    //   setErr(error?.response?.data?.message);
+    //   setTimeout(() => {
+    //     setErr("");
+    //   }, 5000);
+    // }
+
     try {
+      // const response = await fetch("http://localhost:3000/auth/2fa", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(Udata),
+      // });
       const response = await axios.post(
         `http://localhost:3000/auth/2fa`,
         Udata
       );
+      // const data = await response.json();
       const data = await response.data;
+      router.push("/settings");
+      // window.location.href = "/settings";
+
       setLoggedU(data.user.uid);
       setUserTok(data.userToken);
-      router.push("/");
     } catch (error: any) {
-      setErr(error.response.data.message);
+      setErr(error?.response?.data?.message);
       setTimeout(() => {
         setErr("");
       }, 5000);
@@ -97,24 +127,35 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     };
     const endpoint = signInUp ? "signup" : "login";
     try {
+      // const response = await fetch(`http://localhost:3000/auth/${endpoint}`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(Udata),
+      // });
       const response = await axios.post(
         `http://localhost:3000/auth/${endpoint}`,
         Udata
       );
+      // const data = await response.json();
       const data = await response.data;
       if (data.user.twoFA) {
         setTwofa(true);
-
         return;
       }
+      // window.location.href = "/settings";
+
+      router.replace("/play");
       setLoggedU(data.user.uid);
       setUserTok(data.user_token);
-      router.push("/");
     } catch (error: any) {
-      setErr(error.response.data.message);
-      setTimeout(() => {
-        setErr("");
-      }, 5000);
+      if (error) {
+        setErr(error?.response?.data?.message);
+        setTimeout(() => {
+          setErr("");
+        }, 5000);
+      }
     }
   };
 
@@ -161,9 +202,6 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
           value={pass}
           onChange={(e) => setPass(e.target.value)}
         />
-        {/* <IoSunnyOutline
-          className={`hide_password_text ${showPass && "show_password_text"}`}
-        /> */}
         <div className="eye_container">
           <div
             className={`eye ${test && "hide_eye"}`}
@@ -216,11 +254,11 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
           cancel
         </div>
         <button
-          disabled={err.length > 0}
+          disabled={err?.length > 0}
           type="submit"
-          className={`sign_in_ships btn ${err.length > 0 && "lets_not_play"}`}
+          className={`sign_in_ships btn ${err?.length > 0 && "lets_not_play"}`}
         >
-          {!err.length ? (
+          {!err?.length ? (
             !test ? (
               "Let's play"
             ) : (
@@ -229,7 +267,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
           ) : (
             <p className="from_errors">{err}</p>
           )}
-          {err.length ? <MdError /> : <FaArrowRight />}
+          {err?.length ? <MdError /> : <FaArrowRight />}
         </button>
       </div>
 

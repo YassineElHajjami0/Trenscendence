@@ -4,9 +4,7 @@ import UpperNav from "./upper-navbar/upper-navbar";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useRouter, usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import Login from "./login/page";
 
-// import GameRequestPopup from "./play/GameRequestPopup";
 import GameRequestPopup from "./play/GameRequestPopup";
 import { gameRequest } from "./Atoms/gameRequest";
 import { socket as mySocket } from "./sockets/socket";
@@ -15,7 +13,7 @@ import { gameResponse } from "./Atoms/gameRespose";
 import { gameModeVar } from "./Atoms/gameMode";
 import { userToken } from "./Atoms/userToken";
 import { tablePicture } from "./Atoms/tablePicture";
-import axios from "axios";
+
 import { Socket } from "socket.io-client";
 
 /*---------- sokcets ---------------*/
@@ -95,23 +93,27 @@ export default function SubChildrens({
 
   /*--------online offline---------*/
   /*--------online online---------*/
-  const setUserStatus = () => {
+  const setUserStatus = async () => {
     if (user === -1) return;
     const body = {
       status: "online",
     };
     try {
-      axios.patch(`http://localhost:3000/users/status/${user}`, body, {
+      const res = await fetch(`http://localhost:3000/users/status/${user}`, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify(body),
       });
     } catch (error) {
       console.log("3a", error);
     }
   };
 
-  // useEffect(() => setUserStatus(), [user]);
+  useEffect(() => {
+    setUserStatus();
+  }, [user]);
   /*--------online online---------*/
   /*----------------------------------------------------------------------------------------------------------*/
   /*----------game shit----------*/

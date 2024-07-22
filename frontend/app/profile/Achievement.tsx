@@ -20,8 +20,8 @@ export default function Achievement({ achievement }: { achievement: any }) {
     >
       <Image
         src={achievement.uri}
-        width={1000}
-        height={1000}
+        width={200}
+        height={200}
         className={`friend_achievement_badge  `}
         alt="achievement"
       />

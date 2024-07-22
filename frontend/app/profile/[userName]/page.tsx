@@ -17,6 +17,7 @@ import { selectedFriendProfile } from "@/app/Atoms/selectedFriendProfile";
 import ProfileDetails from "../ProfileDetails";
 import { notFound, useRouter } from "next/navigation";
 import LoadingPaddle from "@/app/LoadingPaddle";
+import { useSocket } from "@/app/SubChildrens";
 
 interface OtherProfileProps {
   params: {
@@ -60,7 +61,27 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
     };
     getUserData();
     getIfFriend();
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, [selectedProfile]);
+
+  const { socket } = useSocket();
+
+  useEffect(() => {
+    if (!socket) return;
+    const updateFriends = (friend: any) => {
+      if (!friend) return;
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>9999999999>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+      getIfFriend();
+    };
+
+    socket.on("update_friend_list", updateFriends);
+    return () => {
+      socket.off("update_friend_list");
+    };
+  });
 
   const getIfFriend = async () => {
     if (selectedProfile === -1 || selectedProfile === loggedU) return;
@@ -75,10 +96,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
       },
     });
     const data = await res.data;
-    setTimeout(() => {
-      setIsFriend(data);
-      setLoading(false);
-    }, 1000);
+    setIsFriend(data);
   };
 
   // useEffect(() => {

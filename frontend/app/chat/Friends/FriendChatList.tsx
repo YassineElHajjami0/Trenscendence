@@ -78,7 +78,10 @@ const FriendChatList = () => {
 
   const sendMSG = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("lolololo1");
+
     if (inputMSG.length === 0) return;
+    console.log("lolololo1");
     const channelData = {
       userID: loggedU,
       channelID: channelID,
@@ -110,12 +113,13 @@ const FriendChatList = () => {
     }
   }, [friendChat, loadingAnimation]);
 
-
   /* game req */
   const { socket } = useSocket();
   const playButtonRef = useRef<HTMLButtonElement>(null);
   const table = useRecoilValue(tablePicture);
   const sendGameReq = () => {
+    console.log("3aaaaaaa");
+
     if (!socket) return;
 
     socket.emit("game_request", {
@@ -130,15 +134,14 @@ const FriendChatList = () => {
       playButtonRef.current.style.opacity = "0.1";
     }
 
-
-  socket!.off('in_the_queue').on('in_the_queue', () => {
-    setTimeout(() => {
-      if (playButtonRef.current) {
-        playButtonRef.current.style.cursor = "pointer";
-        playButtonRef.current.style.opacity = "1";
-      }
-    }, 10000);
-  });
+    socket!.off("in_the_queue").on("in_the_queue", () => {
+      setTimeout(() => {
+        if (playButtonRef.current) {
+          playButtonRef.current.style.cursor = "pointer";
+          playButtonRef.current.style.opacity = "1";
+        }
+      }, 10000);
+    });
 
     socket
       .off("game_response_response")
@@ -153,7 +156,6 @@ const FriendChatList = () => {
           index: number;
           id: number;
         }) => {
-
           playButtonRef.current!.style.cursor = "pointer";
           playButtonRef.current!.style.opacity = "1";
 
@@ -165,7 +167,6 @@ const FriendChatList = () => {
       );
   };
   /* game req */
-
 
   return loadingAnimation ? (
     <ChatLoading />
@@ -180,8 +181,8 @@ const FriendChatList = () => {
         <Image
           className="my_chat_msg_avatar"
           src={`${friend?.avatar}`}
-          width={2000}
-          height={2000}
+          width={200}
+          height={200}
           alt="avatar"
         />
         <div className="my_chat_msg_name">
@@ -238,12 +239,20 @@ const FriendChatList = () => {
               ref={playButtonRef}
               onClick={sendGameReq}
               disabled={isOffline || isIngame}
-              className={`submit_msg ${(isOffline || isIngame) && "disable_play"}`}
+              className={`submit_msg ${
+                (isOffline || isIngame) && "disable_play"
+              }`}
               type="button"
             >
               <BiSolidJoystickAlt />
             </button>
-            <button className="submit_msg" type="submit">
+            <button
+              onClick={() => {
+                console.log("lol");
+              }}
+              className="submit_msg"
+              type="submit"
+            >
               <IoIosSend />
             </button>
           </div>

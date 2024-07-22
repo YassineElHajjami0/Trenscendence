@@ -95,20 +95,6 @@ export class AuthController {
     };
 
     const cookies = await this.authService.signUpWithProvider(createUserDto);
-    // this.setCookie(res, cookies.bearer_token);
-
-    const reqUserData = req.cookies.userData;
-    const fakeData =
-      '{"userTwoFA":-1,"loggedUser":-1,"userToken":"","twoFA":false}';
-    const theData = reqUserData === undefined ? fakeData : reqUserData;
-    const data = await JSON.parse(theData);
-
-    /**
- if (tfa)
-    loggeduser: -1
-  else
-    loggeduser: req.uid
- */
 
     const userData = {
       loggedUser: cookies.twoFA ? -1 : cookies.uid,
@@ -149,12 +135,14 @@ export class AuthController {
       strategy: 'google',
     };
     const cookies = await this.authService.signUpWithProvider(createUserDto);
-    // this.setCookie(res, cookies.bearer_token);
+
     const userData = {
-      loggedUser: cookies.uid,
+      loggedUser: cookies.twoFA ? -1 : cookies.uid,
+      userTwoFA: cookies.uid,
       userToken: cookies.bearer_token,
       twoFA: cookies.twoFA,
     };
+
     res.cookie('userData', JSON.stringify(userData));
     // res.cookie('userToken', cookies.bearer_token, { httpOnly: true });
     return {

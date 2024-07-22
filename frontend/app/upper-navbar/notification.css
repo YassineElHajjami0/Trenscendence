@@ -10,6 +10,7 @@
   margin-bottom: 2px;
 }
 .notification_section {
+  width: 80%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -54,4 +55,21 @@
   margin-right: 5px;
   font-weight: 900;
   text-transform: capitalize;
+}
+@media (max-width: 425px) {
+  .notification_section > p {
+    font-size: 0.9rem;
+  }
+  .notification_frind_name {
+    font-size: 1rem;
+  }
+  .notification_avatar {
+    width: 40px;
+    height: 40px;
+  }
+}
+@media (max-width: 320px) {
+  .notification_frind_name {
+    font-size: 0.8rem;
+  }
 }

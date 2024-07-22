@@ -11,13 +11,10 @@ import { FaRankingStar } from "react-icons/fa6";
 import { IoMdChatbubbles } from "react-icons/io";
 import { IoMdSettings } from "react-icons/io";
 import { MdOutlineLogout } from "react-icons/md";
-import next from "next";
-import nextAppLoader from "next/dist/build/webpack/loaders/next-app-loader";
 import { useRecoilState } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
 import { userNotifications } from "../Atoms/notifications";
-import axios from "axios";
 import { userTwoFA } from "../Atoms/_2faUser";
 import { twoFA } from "../Atoms/_If_2fa";
 
@@ -34,25 +31,39 @@ const Nav = () => {
 
   const logout = async (e: any) => {
     e.preventDefault();
-    const uid = loggedU;
-    const tok = loggedT;
-    const body = {
-      status: "offline",
-    };
-    try {
-      axios.patch(`http://localhost:3000/users/status/${uid}`, body, {
-        headers: {
-          Authorization: `Bearer ${tok}`,
-        },
-      });
-    } catch (error) {
-      console.log("3a", error);
+    if (loggedU !== -1) {
+      const uid = loggedU;
+      const tok = loggedT;
+      const body = {
+        status: "offline",
+      };
+
+      try {
+        const response = await fetch(
+          `http://localhost:3000/users/status/${uid}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${tok}`,
+            },
+            body: JSON.stringify(body),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+
+      setTwofa(false);
+      setLoggedU(-1);
+      setLoggedU2fa(-1);
+      setLoggedT("");
+      setMyNotifications([]);
     }
-    setTwofa(false);
-    setLoggedU(-1);
-    setLoggedU2fa(-1);
-    setLoggedT("");
-    setMyNotifications([]);
   };
 
   return (

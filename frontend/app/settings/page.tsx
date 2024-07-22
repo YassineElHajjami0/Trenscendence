@@ -531,7 +531,9 @@ const Settings = () => {
                   <div>
                     <Image
                       className="profile-image"
-                      src={`${data?.avatar}`}
+                      src={`${
+                        data?.avatar || "http://localhost:3000/default.png"
+                      }`}
                       width={192}
                       height={192}
                       alt="Profile Picture"

@@ -13,7 +13,6 @@ import { PlayerInfo } from "./Interfaces/playerInfoInterface";
 import { loggedUser } from "./Atoms/logged";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userToken } from "@/app/Atoms/userToken";
-import axios from "axios";
 
 interface dataInterface {
   createdAt: string;

@@ -67,8 +67,8 @@ const Profile = () => {
           <div className="img_container_add">
             <Image
               src={`${userData?.avatar || ""}`}
-              width={2000}
-              height={2000}
+              width={200}
+              height={200}
               alt="profile_avatar"
               className="profile_photo"
             />

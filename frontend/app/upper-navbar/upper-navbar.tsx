@@ -12,10 +12,7 @@ import { userToken } from "../Atoms/userToken";
 import { loggedUser } from "../Atoms/logged";
 import Link from "next/link";
 import { userAvatar } from "../Atoms/userAvatar";
-
-interface User {
-  avatar: string;
-}
+import { useSocket } from "../SubChildrens";
 
 const UpperNav = () => {
   const notificationRef = useRef<HTMLDivElement>(null);
@@ -105,6 +102,19 @@ const UpperNav = () => {
     getNotifications();
     getAllUsers();
   }, [loggedU]);
+
+  const { socket } = useSocket();
+  useEffect(() => {
+    if (!socket) return;
+    const handleUpdateList = (user: any) => {
+      if (!user) return;
+      getAllUsers();
+    };
+    socket.on("update_All_Users", handleUpdateList);
+    return () => {
+      socket.off("update_All_Users");
+    };
+  });
 
   const handleOnBlur = () => {
     setTimeout(() => {
