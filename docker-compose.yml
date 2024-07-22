@@ -12,7 +12,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /Users/ytaqsi/goinfre/backend:/var/lib/postgresql/data
+      - /goinfre/amentag/Trenscendence/backend:/app
     env_file:
       - .env
     networks:
@@ -26,7 +26,7 @@ services:
     ports:
       - "5252:5252"
     volumes:
-      - /Users/ytaqsi/goinfre/frontend:/var/lib/postgresql/data
+      - /goinfre/amentag/Trenscendence/frontend:/app
     networks:
       - app-network
 
@@ -38,7 +38,24 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - /Users/ytaqsi/goinfre/T_DB:/var/lib/postgresql/data
+      - /goinfre/amentag/db:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
       - app-network
+
+# volumes:
+#   backend:
+#     driver_opts:
+#       device: /goinfre/amentag/Trenscendence/backend
+#       type: none
+#       o: bind
+#   frontend:
+#     driver_opts:
+#       device: /goinfre/amentag/Trenscendence/frontend
+#       type: none
+#       o: bind
+  # db:
+  #   driver_opts:
+  #     device: /goinfre/amentag/db
+  #     type: none
+  #     o: bind
