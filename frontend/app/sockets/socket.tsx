@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3001", { transports: ["websocket"] });
+// kant localhost
+const socket = io("http://backend:3001", { transports: ["websocket"] });
 
 export { socket };

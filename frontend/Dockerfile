@@ -7,12 +7,12 @@ FROM node:20
 WORKDIR /app
 
 # Copy the package.json and package-lock.json files
-COPY package*.json .
+COPY package.json .
 
 # Install dependencies
 
 RUN npm install
 COPY . .
 
-CMD [ "npm", "run", "dev"]
+CMD [ "npm", "run", "dev", "--", "-p", "5252"]
 # ENTRYPOINT ["tail", "-f"]

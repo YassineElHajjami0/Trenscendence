@@ -17,19 +17,19 @@ services:
       - .env
     networks:
       - app-network
-
+    restart: unless-stopped
   frontend:
     container_name: frontend
     # depends_on:
     #   - backend
     build: ./frontend
     ports:
-      - "5252:3000"
-    # volumes:
-    #   - /goinfre/ytaqsi/Trenscendence/frontend:/app
+      - "5252:5252"
+    volumes:
+      - /goinfre/ytaqsi/Trenscendence/frontend:/app
     networks:
       - app-network
-
+    restart: unless-stopped
   postgres:
     container_name: postgres
     image: postgres:16.3
