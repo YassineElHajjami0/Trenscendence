@@ -20,12 +20,12 @@ export class ChannelsService {
   ) {
     const filePath = path.join(process.cwd(), 'public', file.originalname);
     // createChannelDto.uri = filePath;
-    // createChannelDto.uri = `http://10.13.4.8:3000/${filePath}`;
+    // createChannelDto.uri = `http://10.13.4.4:3000/${filePath}`;
     await fs.promises.writeFile(filePath, file.buffer);
     console.log('!!!!!!', createChannelDto);
 
     const imageName = path.basename(filePath);
-    createChannelDto.uri = `http://10.13.4.8:3000/${imageName}`;
+    createChannelDto.uri = `http://10.13.4.4:3000/${imageName}`;
     const createdChannel = await this.databaseService.channel.create({
       data: createChannelDto,
     });
