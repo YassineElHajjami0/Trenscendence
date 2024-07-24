@@ -75,7 +75,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
     // try {
     //   const response = await axios.post(
-    //     `http://10.13.4.8:3000/auth/2fa`,
+    //     `http://10.13.4.4:3000/auth/2fa`,
     //     Udata
     //   );
     //   const data = await response.data;
@@ -92,7 +92,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     // }
 
     try {
-      // const response = await fetch("http://10.13.4.8:3000/auth/2fa", {
+      // const response = await fetch("http://10.13.4.4:3000/auth/2fa", {
       //   method: "POST",
       //   headers: {
       //     "Content-Type": "application/json",
@@ -100,7 +100,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       //   body: JSON.stringify(Udata),
       // });
       const response = await axios.post(
-        `http://10.13.4.8:3000/auth/2fa`,
+        `http://10.13.4.4:3000/auth/2fa`,
         Udata
       );
       // const data = await response.json();
@@ -127,7 +127,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     };
     const endpoint = signInUp ? "signup" : "login";
     try {
-      // const response = await fetch(`http://10.13.4.8:3000/auth/${endpoint}`, {
+      // const response = await fetch(`http://10.13.4.4:3000/auth/${endpoint}`, {
       //   method: "POST",
       //   headers: {
       //     "Content-Type": "application/json",
@@ -135,7 +135,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       //   body: JSON.stringify(Udata),
       // });
       const response = await axios.post(
-        `http://10.13.4.8:3000/auth/${endpoint}`,
+        `http://10.13.4.4:3000/auth/${endpoint}`,
         Udata
       );
       // const data = await response.json();
@@ -162,10 +162,10 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const uri = test ? verifyTwoFA : signUpFunction;
 
   const auth42 = async () => {
-    router.push(`http://10.13.4.8:3000/auth/login-42`);
+    router.push(`http://10.13.4.4:3000/auth/login-42`);
   };
   const authGoogle = async () => {
-    router.push(`http://10.13.4.8:3000/auth/google`);
+    router.push(`http://10.13.4.4:3000/auth/google`);
   };
 
   return (

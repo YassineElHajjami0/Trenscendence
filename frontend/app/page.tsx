@@ -47,7 +47,7 @@ export default function Home() {
     const fetchedData = async () => {
       try {
         const response = await fetch(
-          `http://10.13.4.8:3000/match-history?id=${userId}`,
+          `http://10.13.4.4:3000/match-history?id=${userId}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,

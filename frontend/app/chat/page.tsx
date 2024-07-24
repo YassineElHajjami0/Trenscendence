@@ -57,7 +57,7 @@ const Chat = () => {
       try {
         console.log("BLABLABLA");
         const response = await fetch(
-          `http://10.13.4.8:3000/channelss/${userId}`,
+          `http://10.13.4.4:3000/channelss/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,

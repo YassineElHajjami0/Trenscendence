@@ -7,7 +7,7 @@ import "./main.css";
 import "./normalize.css";
 
 const Rank = () => {
-    const { data, isPending, err } = useFetch(`http://10.13.4.8:3000/users?order_by=win`);
+    const { data, isPending, err } = useFetch(`http://10.13.4.4:3000/users?order_by=win`);
     console.log("DATA ", data);
     return (
         <section className="rank-leaderboard">

@@ -54,7 +54,7 @@ const FriendChatList = () => {
     if (selectedFriend === -1) return;
 
     const selectedFriendChat = await fetch(
-      `http://10.13.4.8:3000/message/${channelID}`,
+      `http://10.13.4.4:3000/message/${channelID}`,
       {
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -88,7 +88,7 @@ const FriendChatList = () => {
       content: inputMSG,
       isBlocked: blockCheck,
     };
-    await fetch(`http://10.13.4.8:3000/message`, {
+    await fetch(`http://10.13.4.4:3000/message`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userTok}`,

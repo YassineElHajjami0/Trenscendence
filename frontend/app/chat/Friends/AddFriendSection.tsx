@@ -52,7 +52,7 @@ const AddFriendSection = () => {
     if (!addFriend) return;
     try {
       const res = await fetch(
-        `http://10.13.4.8:3000/friends/allusers/${userL}`,
+        `http://10.13.4.4:3000/friends/allusers/${userL}`,
         {
           method: "GET",
           headers: {

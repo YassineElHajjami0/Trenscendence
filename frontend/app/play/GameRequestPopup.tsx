@@ -18,7 +18,7 @@ export default function GameRequestPopup() {
   const fetchUserDatas = async (userId: number) => {
     try {
       if (userId === undefined) return;
-      const res = await fetch(`http://10.13.4.8:3000/users/${userId}`, {
+      const res = await fetch(`http://10.13.4.4:3000/users/${userId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${userTok}`,

@@ -31,7 +31,7 @@ const PopUpSearchFriend = ({
 
   useEffect(() => {
     const fetchFreshUsers = async () => {
-      const response = await fetch(`http://10.13.4.8:3000/users`, {
+      const response = await fetch(`http://10.13.4.4:3000/users`, {
         headers: {
           Authorization: `Bearer ${userTok}`,
           "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const PopUpSearchFriend = ({
       });
       const data = await response.json();
       const fetchUsersOfThatChannel = await fetch(
-        `http://10.13.4.8:3000/channelss/roles?channelId=${selectedChannel}`,
+        `http://10.13.4.4:3000/channelss/roles?channelId=${selectedChannel}`,
         {
           headers: {
             Authorization: `Bearer ${userTok}`,
@@ -71,7 +71,7 @@ const PopUpSearchFriend = ({
       ruserId: uid,
     };
     const response = await fetch(
-      `http://10.13.4.8:3000/notifications/channelnotif`,
+      `http://10.13.4.4:3000/notifications/channelnotif`,
       {
         method: "POST",
         headers: {

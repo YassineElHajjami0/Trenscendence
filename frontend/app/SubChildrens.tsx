@@ -62,7 +62,7 @@ export default function SubChildrens({
   //     status: status,
   //   };
   //   try {
-  //     axios.patch(`http://10.13.4.8:3000/users/status/${user}`, body, {
+  //     axios.patch(`http://10.13.4.4:3000/users/status/${user}`, body, {
   //       headers: {
   //         Authorization: `Bearer ${token}`,
   //       },
@@ -100,7 +100,7 @@ export default function SubChildrens({
       status: "online",
     };
     try {
-      const res = await fetch(`http://10.13.4.8:3000/users/status/${user}`, {
+      const res = await fetch(`http://10.13.4.4:3000/users/status/${user}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

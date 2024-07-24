@@ -53,7 +53,7 @@ interface User {
   confirmedPassword?: string;
 }
 
-//http://10.13.4.8:3000/image.jpeg
+//http://10.13.4.4:3000/image.jpeg
 const Settings = () => {
   const [ArticlesType, setArticlesType] = useState("");
   const [showArticlesPopup, setShowArticlesPopup] = useState(false);
@@ -69,7 +69,7 @@ const Settings = () => {
   const userId = useRecoilValue(loggedUser);
   const [userAV, setUserAV] = useRecoilState(userAvatar);
 
-  //http://10.13.4.8:3000/users/2 if no 2 the backend does not return an error
+  //http://10.13.4.4:3000/users/2 if no 2 the backend does not return an error
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -77,7 +77,7 @@ const Settings = () => {
     const fetchedData = async () => {
       try {
         const avatarsAndPaddlesResponse = await fetch(
-          `http://10.13.4.8:3000/useritems?userId=${userId}`, //remove the id in the response
+          `http://10.13.4.4:3000/useritems?userId=${userId}`, //remove the id in the response
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -86,7 +86,7 @@ const Settings = () => {
           }
         );
 
-        const response = await fetch(`http://10.13.4.8:3000/users/${userId}`, {
+        const response = await fetch(`http://10.13.4.4:3000/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${userTok}`,
             "Content-Type": "application/json",
@@ -190,7 +190,7 @@ const Settings = () => {
         }
       }
 
-      const response = await fetch(`http://10.13.4.8:3000/users/${userId}`, {
+      const response = await fetch(`http://10.13.4.4:3000/users/${userId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -257,7 +257,7 @@ const Settings = () => {
         body.confirmedPassword = data.confirmedPassword;
       }
       console.log(body);
-      const response = await fetch(`http://10.13.4.8:3000/users/${userId}`, {
+      const response = await fetch(`http://10.13.4.4:3000/users/${userId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -281,7 +281,7 @@ const Settings = () => {
 
   const getNewQrCode = async (data: any) => {
     if (data.twoFA) {
-      const response = await fetch(`http://10.13.4.8:3000/auth/2fa/turn-on`, {
+      const response = await fetch(`http://10.13.4.4:3000/auth/2fa/turn-on`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -300,7 +300,7 @@ const Settings = () => {
   const bringQrImage = async (data: any) => {
     console.log("data   ", data);
     if (!data.twoFA) {
-      const response = await fetch(`http://10.13.4.8:3000/auth/2fa/turn-on`, {
+      const response = await fetch(`http://10.13.4.4:3000/auth/2fa/turn-on`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -315,7 +315,7 @@ const Settings = () => {
       setQrImage(data_);
       console.log(data_);
     } else {
-      const response = await fetch(`http://10.13.4.8:3000/users/${userId}`, {
+      const response = await fetch(`http://10.13.4.4:3000/users/${userId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -346,7 +346,7 @@ const Settings = () => {
           banner: img,
         }));
       }
-      // const response = await fetch(`http://10.13.4.8:3000/useritems`, {
+      // const response = await fetch(`http://10.13.4.4:3000/useritems`, {
       //   method: "PATCH",
       //   headers: {
       //     Authorization: `Bearer ${userTok}`,
@@ -367,7 +367,7 @@ const Settings = () => {
       setShowArticlesPopup(false);
       const response =
         type == "avatar"
-          ? await fetch(`http://10.13.4.8:3000/useritems`, {
+          ? await fetch(`http://10.13.4.4:3000/useritems`, {
             method: "PATCH",
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -381,7 +381,7 @@ const Settings = () => {
               img: img,
             }),
           })
-          : await fetch(`http://10.13.4.8:3000/users/${userId}`, {
+          : await fetch(`http://10.13.4.4:3000/users/${userId}`, {
             method: "PATCH",
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -410,7 +410,7 @@ const Settings = () => {
       const formData = new FormData();
       formData.append("image", file);
 
-      fetch(`http://10.13.4.8:3000/upload/${userId}?type=${ArticlesType}`, {
+      fetch(`http://10.13.4.4:3000/upload/${userId}?type=${ArticlesType}`, {
         method: "POST",
         body: formData,
       })
@@ -531,7 +531,7 @@ const Settings = () => {
                   <div>
                     <Image
                       className="profile-image"
-                      src={`${data?.avatar || `http://10.13.4.8:3000/default.png`
+                      src={`${data?.avatar || `http://10.13.4.4:3000/default.png`
                         }`}
                       width={192}
                       height={192}

@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 import { MdOutlinePersonSearch } from "react-icons/md";
 import PopUpSearchFriend from "./popUpSearchFriend";
 
-const socket = io("http://localhost:3001", { transports: ["websocket"] });
+const socket = io("http://10.13.4.4:3001", { transports: ["websocket"] });
 console.log("MMMMMM", socket);
 interface channelInterface {
   id: number;
@@ -65,7 +65,7 @@ const SelectedChannelChat = ({
     const fetchMessages = async () => {
       try {
         const response = await fetch(
-          `http://10.13.4.8:3000/message/${channelToDisplay?.id}`,
+          `http://10.13.4.4:3000/message/${channelToDisplay?.id}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -77,7 +77,7 @@ const SelectedChannelChat = ({
 
         console.log("?????????????? ", selectedChannel);
         const req = await fetch(
-          `http://10.13.4.8:3000/channelss/roles?channelId=${selectedChannel}`,
+          `http://10.13.4.4:3000/channelss/roles?channelId=${selectedChannel}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -110,7 +110,7 @@ const SelectedChannelChat = ({
   useEffect(() => {
     const handleReceiveMessage = async (message: any) => {
       const response = await fetch(
-        `http://10.13.4.8:3000/channelss/roles?channelId=${selectedChannel}`,
+        `http://10.13.4.4:3000/channelss/roles?channelId=${selectedChannel}`,
         {
           headers: {
             Authorization: `Bearer ${userTok}`,
@@ -134,7 +134,7 @@ const SelectedChannelChat = ({
         myCondition.condition != "BLOCKED"
       ) {
         const response = await fetch(
-          `http://10.13.4.8:3000/message/${selectedChannel}`,
+          `http://10.13.4.4:3000/message/${selectedChannel}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -183,7 +183,7 @@ const SelectedChannelChat = ({
 
         const userIsMuted = async (): Promise<number> => {
           const response = await fetch(
-            `http://10.13.4.8:3000/channelss/roles?channelId=${selectedChannel}`,
+            `http://10.13.4.4:3000/channelss/roles?channelId=${selectedChannel}`,
             {
               headers: {
                 Authorization: `Bearer ${userTok}`,
@@ -211,7 +211,7 @@ const SelectedChannelChat = ({
               const patchRmMute = async () => {
                 try {
                   const response = await fetch(
-                    `http://10.13.4.8:3000/channelss/rmmute?channelId=${selectedChannel}&userId=${userId}`,
+                    `http://10.13.4.4:3000/channelss/rmmute?channelId=${selectedChannel}&userId=${userId}`,
                     {
                       method: "PATCH",
                       headers: {
@@ -249,7 +249,7 @@ const SelectedChannelChat = ({
           console.log("STILL MUTED");
           return;
         }
-        const response = await fetch(`http://10.13.4.8:3000/message`, {
+        const response = await fetch(`http://10.13.4.4:3000/message`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${userTok}`,
@@ -293,7 +293,7 @@ const SelectedChannelChat = ({
         <Image
           className="channel_msg_section_header_avatar"
           src={
-            chToDisplay?.uri ? `${chToDisplay.uri}` : `http://10.13.4.8:3000/default.png`
+            chToDisplay?.uri ? `${chToDisplay.uri}` : `http://10.13.4.4:3000/default.png`
           }
           width={100}
           height={100}
