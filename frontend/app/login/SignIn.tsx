@@ -272,9 +272,9 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
       <h1>OR</h1>
       <div className="outher_methods">
-        <button type="button" onClick={authGoogle} className="other_login">
+        {/* <button type="button" onClick={authGoogle} className="other_login">
           <Image src={ggl} width={26} height={26} alt="google auth" /> google
-        </button>
+        </button> */}
         <button type="button" onClick={auth42} className="other_login">
           <Image src={intra} width={26} height={26} alt="42 auth" /> intra
         </button>
