@@ -57,7 +57,7 @@ const Chat = () => {
       try {
         console.log("BLABLABLA");
         const response = await fetch(
-          `http://localhost:3000/channelss/${userId}`,
+          `http://10.13.4.8:3000/channelss/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -113,9 +113,8 @@ const Chat = () => {
     <div className="chat_channels_container">
       <div className="chat_channels_sub_container">
         <div
-          className={`createChannelPopup ${
-            showPopUpCreateChannel ? "showPopup" : "hidePopUp"
-          }`}
+          className={`createChannelPopup ${showPopUpCreateChannel ? "showPopup" : "hidePopUp"
+            }`}
         >
           <PopupCreateChannel
             userId={userId}
@@ -123,9 +122,8 @@ const Chat = () => {
           />
         </div>
         <div
-          className={`createChannelPopup ${
-            showPopUpSearchChannels ? "showPopup" : "hidePopUp"
-          }`}
+          className={`createChannelPopup ${showPopUpSearchChannels ? "showPopup" : "hidePopUp"
+            }`}
         >
           <PopupSearchChannels
             setSelectedChannel={setSelectedChannel}
@@ -134,9 +132,8 @@ const Chat = () => {
           />
         </div>
         <div
-          className={`col1 ${
-            (selectedFriend !== -1 || selectedChannel > 0) && "hideCol1"
-          }  `}
+          className={`col1 ${(selectedFriend !== -1 || selectedChannel > 0) && "hideCol1"
+            }  `}
         >
           <div className="switcher">
             {tabs.map((tab) => (
@@ -201,9 +198,8 @@ const Chat = () => {
           )}
         </div>
         <div
-          className={`col2 ${
-            (selectedFriend !== -1 || selectedChannel > 0) && "showCol2"
-          }  `}
+          className={`col2 ${(selectedFriend !== -1 || selectedChannel > 0) && "showCol2"
+            }  `}
         >
           {/* show selected friend chat or selected channel chat */}
           {mode == "friends" && selectedFriend != -1 ? (

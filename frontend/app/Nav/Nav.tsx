@@ -40,7 +40,7 @@ const Nav = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:3000/users/status/${uid}`,
+          `http://10.13.4.8:3000/users/status/${uid}`,
           {
             method: "PATCH",
             headers: {

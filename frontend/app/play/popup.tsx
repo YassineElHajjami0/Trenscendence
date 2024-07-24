@@ -200,7 +200,7 @@ export default function Popup({ setShowPopup }: any) {
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const getAllusers = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/friends/${userId}`, {
+      const res = await fetch(`http://10.13.4.8:3000/friends/${userId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -381,7 +381,7 @@ export default function Popup({ setShowPopup }: any) {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          // theme="colored"
+        // theme="colored"
         />
       </ToestContainer>
       <Overlay>

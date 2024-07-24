@@ -13,7 +13,7 @@ export class GoogleGuard extends AuthGuard('google') {
 
     // if (request.query && request.query.error) {
     //   // Handle the error (e.g., access_denied) and redirect appropriately
-    //   return response.redirect('localhost:5252/login');
+    //   return response.redirect('${process.env.FRONT}/login');
     // }
 
     // if (err || !user) {

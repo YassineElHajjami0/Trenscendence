@@ -6,6 +6,4 @@ services:
       - .env
     ports:
       - "5432:5432"
-    volumes:
-      - /Users/$USER/Desktop/T_DB:/var/lib/postgresql/data
     restart: unless-stopped

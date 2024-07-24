@@ -56,7 +56,7 @@ const Store = () => {
       console.log("test");
       try {
         const responseUser = await fetch(
-          `http://localhost:3000/users/${userId}`,
+          `http://10.13.4.8:3000/users/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -70,7 +70,7 @@ const Store = () => {
         setUserData(dataofUser);
 
         const response = await fetch(
-          `http://localhost:3000/useritems?userId=${userId}`,
+          `http://10.13.4.8:3000/useritems?userId=${userId}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -111,7 +111,7 @@ const Store = () => {
         setPopUpCannotBuy(false);
       }, 5000);
     } else {
-      const response = await fetch(`http://localhost:3000/useritems`, {
+      const response = await fetch(`http://10.13.4.8:3000/useritems`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -157,7 +157,7 @@ const Store = () => {
 
   const handleChooseArticle = async (id: number) => {
     console.log("choosedArticle?.name => ", prevchoosedArticle);
-    const response = await fetch(`http://localhost:3000/useritems`, {
+    const response = await fetch(`http://10.13.4.8:3000/useritems`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${userTok}`,

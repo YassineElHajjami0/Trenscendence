@@ -21,8 +21,8 @@ export default function FriendsChat() {
   const [friendChat, setFriendChat] = useRecoilState<any[]>(chatMSG);
 
   useEffect(() => {
-    if (!socket) return;
     if (UID === -1) return;
+    if (!socket) return;
 
     const handleReceiveMessage = (message: any) => {
       if (message?.channelID === channelID)
@@ -43,8 +43,8 @@ export default function FriendsChat() {
   });
 
   useEffect(() => {
-    if (!socket) return;
     if (UID === -1) return;
+    if (!socket) return;
 
     const handleBlockedFriend = (friend: any) => {
       setMyFriends((prev: any[]) => {
@@ -69,8 +69,8 @@ export default function FriendsChat() {
   });
 
   useEffect(() => {
-    if (!socket) return;
     if (UID === -1) return;
+    if (!socket) return;
 
     const handleNewFriendStatus = (friend: any) => {
       setMyFriends((prev: any[]) => {
@@ -97,10 +97,9 @@ export default function FriendsChat() {
   });
 
   useEffect(() => {
-    if (!socket) return;
     if (UID === -1) return;
+    if (!socket) return;
     const updateFriends = (friend: any) => {
-      // if (!friend) return;
       const whichUID = friend.roles.some((user: any) => user.uid === UID);
       if (whichUID) {
         setMyFriends((prev: any[]) => [...prev, friend]);
@@ -116,7 +115,7 @@ export default function FriendsChat() {
     if (UID === -1) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/channels/dm/${UID}`, {
+      const response = await fetch(`http://10.13.4.8:3000/channels/dm/${UID}`, {
         headers: {
           Authorization: `Bearer ${userTok}`,
           "Content-Type": "application/json",

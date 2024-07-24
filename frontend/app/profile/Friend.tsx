@@ -69,7 +69,7 @@ export default function Friend({
     };
 
     try {
-      axios.patch("http://localhost:3000/channels/dm", body, {
+      axios.patch(`http://10.13.4.8:3000/channels/dm`, body, {
         headers: {
           Authorization: `Bearer ${userTok}`,
         },
@@ -103,9 +103,8 @@ export default function Friend({
 
         <label
           htmlFor={myFriend?.uid}
-          className={`profile_name ${blocked && "blocked_friend"}  ${
-            burgerM && "hideName"
-          }`}
+          className={`profile_name ${blocked && "blocked_friend"}  ${burgerM && "hideName"
+            }`}
         >
           <div
             className={`dot ${logged && "logged"}  ${inGame && "ingame"}`}
@@ -127,9 +126,8 @@ export default function Friend({
           {(whichProfile === -1 || whichProfile === loggedU) && (
             <>
               <button
-                className={`friend_component_btn friend_msg ${
-                  blocked && "disable_btns"
-                }`}
+                className={`friend_component_btn friend_msg ${blocked && "disable_btns"
+                  }`}
                 onClick={test}
                 disabled={blocked}
               >

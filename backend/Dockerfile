@@ -1,7 +1,7 @@
 # Stage 1: Build the application
-FROM node:18-alpine
+FROM node:20
 
-RUN apk --update add postgresql-client
+RUN apt-get update && apt-get install -y postgresql-client
 
 # # Set the working directory
 WORKDIR /app
@@ -9,14 +9,10 @@ WORKDIR /app
 # Copy the package.json and package-lock.json files
 COPY package*.json ./
 
+COPY . .
+
 # Install dependencies
 RUN npm install
-
-COPY . .
-# RUN npm update
-# RUN npm audit fix --force
-
-# Copy the rest of the application files
 
 # Insert into tables some data [items ]
 ENTRYPOINT [ "sh", "script.sh" ]

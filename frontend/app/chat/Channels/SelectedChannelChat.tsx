@@ -65,7 +65,7 @@ const SelectedChannelChat = ({
     const fetchMessages = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/message/${channelToDisplay?.id}`,
+          `http://10.13.4.8:3000/message/${channelToDisplay?.id}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -77,7 +77,7 @@ const SelectedChannelChat = ({
 
         console.log("?????????????? ", selectedChannel);
         const req = await fetch(
-          `http://localhost:3000/channelss/roles?channelId=${selectedChannel}`,
+          `http://10.13.4.8:3000/channelss/roles?channelId=${selectedChannel}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -110,7 +110,7 @@ const SelectedChannelChat = ({
   useEffect(() => {
     const handleReceiveMessage = async (message: any) => {
       const response = await fetch(
-        `http://localhost:3000/channelss/roles?channelId=${selectedChannel}`,
+        `http://10.13.4.8:3000/channelss/roles?channelId=${selectedChannel}`,
         {
           headers: {
             Authorization: `Bearer ${userTok}`,
@@ -134,7 +134,7 @@ const SelectedChannelChat = ({
         myCondition.condition != "BLOCKED"
       ) {
         const response = await fetch(
-          `http://localhost:3000/message/${selectedChannel}`,
+          `http://10.13.4.8:3000/message/${selectedChannel}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -183,7 +183,7 @@ const SelectedChannelChat = ({
 
         const userIsMuted = async (): Promise<number> => {
           const response = await fetch(
-            `http://localhost:3000/channelss/roles?channelId=${selectedChannel}`,
+            `http://10.13.4.8:3000/channelss/roles?channelId=${selectedChannel}`,
             {
               headers: {
                 Authorization: `Bearer ${userTok}`,
@@ -211,7 +211,7 @@ const SelectedChannelChat = ({
               const patchRmMute = async () => {
                 try {
                   const response = await fetch(
-                    `http://localhost:3000/channelss/rmmute?channelId=${selectedChannel}&userId=${userId}`,
+                    `http://10.13.4.8:3000/channelss/rmmute?channelId=${selectedChannel}&userId=${userId}`,
                     {
                       method: "PATCH",
                       headers: {
@@ -249,7 +249,7 @@ const SelectedChannelChat = ({
           console.log("STILL MUTED");
           return;
         }
-        const response = await fetch(`http://localhost:3000/message`, {
+        const response = await fetch(`http://10.13.4.8:3000/message`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${userTok}`,
@@ -293,7 +293,7 @@ const SelectedChannelChat = ({
         <Image
           className="channel_msg_section_header_avatar"
           src={
-            chToDisplay?.uri ? `${chToDisplay.uri}` : "http://localhost:3000/default.png"
+            chToDisplay?.uri ? `${chToDisplay.uri}` : `http://10.13.4.8:3000/default.png`
           }
           width={100}
           height={100}
@@ -319,29 +319,29 @@ const SelectedChannelChat = ({
         <div className="mutedMsg" ref={mutedDiv}></div>
         {messages?.length && messages?.length > 0
           ? messages?.map((message) => {
-              return message.userID == userId ? (
-                <div className="channelMsgContainerRecipient" key={message.id}>
-                  <div className="msgAndTime">
-                    <p className="channelMsg">{message.content}</p>
-                    <p className="msgTime">{returnTime(message.createdAT)}</p>
-                  </div>
+            return message.userID == userId ? (
+              <div className="channelMsgContainerRecipient" key={message.id}>
+                <div className="msgAndTime">
+                  <p className="channelMsg">{message.content}</p>
+                  <p className="msgTime">{returnTime(message.createdAT)}</p>
                 </div>
-              ) : (
-                <div className="channelMsgContainer" key={message.id}>
-                  <Image
-                    className="senderOrRecieverImage"
-                    src={`${message.users.avatar}` || "default.png"}
-                    width={30}
-                    height={30}
-                    alt="PIC"
-                  />
-                  <div className="msgAndTime">
-                    <p className="channelMsg">{message.content}</p>
-                    <p className="msgTime">{returnTime(message.createdAT)}</p>
-                  </div>
+              </div>
+            ) : (
+              <div className="channelMsgContainer" key={message.id}>
+                <Image
+                  className="senderOrRecieverImage"
+                  src={`${message.users.avatar}` || "default.png"}
+                  width={30}
+                  height={30}
+                  alt="PIC"
+                />
+                <div className="msgAndTime">
+                  <p className="channelMsg">{message.content}</p>
+                  <p className="msgTime">{returnTime(message.createdAT)}</p>
                 </div>
-              );
-            })
+              </div>
+            );
+          })
           : ""}
       </div>
       <div className="channel_msg_section_input">

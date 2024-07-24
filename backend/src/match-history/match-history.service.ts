@@ -11,7 +11,7 @@ export class MatchHistoryService {
     private userAchievementService: UserAchievementService,
     @Inject(forwardRef(() => UsersService))
     private userService: UsersService,
-  ) {}
+  ) { }
 
   async create(createMatchHistoryDto: Prisma.MatchHistoryCreateInput) {
     const matchHistory = await this.databaseService.matchHistory.create({
@@ -30,93 +30,98 @@ export class MatchHistoryService {
     this.userService.updateStatus(matchHistory.loser, 'online');
     // change status to ingame
 
-    const winnerWinnedMatches = (await this.findwinnedMatches(
-      matchHistory.winner,
-    )) as Array<{}>;
-    const loserLostMatches = (await this.findLostMatches(
-      matchHistory.loser,
-    )) as Array<{}>;
+    try {
 
-    const winnerAchievements = (await this.userAchievementService.findOne(
-      matchHistory.winner,
-    )) as Array<{ name; unlocked }>;
-    const loserAchievements = (await this.userAchievementService.findOne(
-      matchHistory.loser,
-    )) as Array<{ name; unlocked }>;
+      const winnerWinnedMatches = (await this.findwinnedMatches(
+        matchHistory.winner,
+      )) as Array<{}>;
+      const loserLostMatches = (await this.findLostMatches(
+        matchHistory.loser,
+      )) as Array<{}>;
 
-    if (winnerWinnedMatches && winnerWinnedMatches.length === 1) {
-      if (
-        winnerAchievements.find((a) => a.name === 'First Win').unlocked ===
-        false
-      ) {
-        await this.userAchievementService.create({
-          userId: matchHistory.winner,
-          achivementName: 'First Win',
-          unlocked: true,
-        });
-      }
-    }
-    if (loserLostMatches && loserLostMatches.length === 1) {
-      if (
-        loserAchievements.find((a) => a.name === 'First Defeat').unlocked ===
-        false
-      ) {
-        await this.userAchievementService.create({
-          userId: matchHistory.loser,
-          achivementName: 'First Defeat',
-          unlocked: true,
-        });
-      }
-    }
+      const winnerAchievements = (await this.userAchievementService.findOne(
+        matchHistory.winner,
+      )) as Array<{ name; unlocked }>;
+      const loserAchievements = (await this.userAchievementService.findOne(
+        matchHistory.loser,
+      )) as Array<{ name; unlocked }>;
 
-    if (matchHistory.loserScore === 0) {
-      if (
-        winnerAchievements.find((a) => a.name === 'Flawless Victory')
-          .unlocked === false
-      ) {
-        await this.userAchievementService.create({
-          userId: matchHistory.winner,
-          achivementName: 'Flawless Victory',
-          unlocked: true,
-        });
+      if (winnerWinnedMatches && winnerWinnedMatches.length === 1) {
+        if (
+          winnerAchievements.find((a) => a.name === 'First Win').unlocked ===
+          false
+        ) {
+          await this.userAchievementService.create({
+            userId: matchHistory.winner,
+            achivementName: 'First Win',
+            unlocked: true,
+          });
+        }
       }
-    }
+      if (loserLostMatches && loserLostMatches.length === 1) {
+        if (
+          loserAchievements.find((a) => a.name === 'First Defeat').unlocked ===
+          false
+        ) {
+          await this.userAchievementService.create({
+            userId: matchHistory.loser,
+            achivementName: 'First Defeat',
+            unlocked: true,
+          });
+        }
+      }
 
-    if (winnerWinnedMatches && winnerWinnedMatches.length === 50) {
-      if (
-        winnerAchievements.find((a) => a.name === 'Ping Pong Pro').unlocked ===
-        false
-      ) {
-        await this.userAchievementService.create({
-          userId: matchHistory.winner,
-          achivementName: 'Ping Pong Pro',
-          unlocked: true,
-        });
+      if (matchHistory.loserScore === 0) {
+        if (
+          winnerAchievements.find((a) => a.name === 'Flawless Victory')
+            .unlocked === false
+        ) {
+          await this.userAchievementService.create({
+            userId: matchHistory.winner,
+            achivementName: 'Flawless Victory',
+            unlocked: true,
+          });
+        }
       }
-    }
 
-    const matchDurationInMinutes =
-      (matchHistory.endAt.getTime() - matchHistory.startAt.getTime()) /
-      1000 /
-      60;
-    if (matchDurationInMinutes >= 5) {
-      if (
-        winnerAchievements.find((a) => a.name === 'Marathon Match').unlocked ===
-        false
-      ) {
-        await this.userAchievementService.create({
-          userId: matchHistory.winner,
-          achivementName: 'Marathon Match',
-          unlocked: true,
-        });
+      if (winnerWinnedMatches && winnerWinnedMatches.length === 50) {
+        if (
+          winnerAchievements.find((a) => a.name === 'Ping Pong Pro').unlocked ===
+          false
+        ) {
+          await this.userAchievementService.create({
+            userId: matchHistory.winner,
+            achivementName: 'Ping Pong Pro',
+            unlocked: true,
+          });
+        }
       }
-      if (!loserAchievements.find((a) => a.name === 'Marathon Match')) {
-        await this.userAchievementService.create({
-          userId: matchHistory.loser,
-          achivementName: 'Marathon Match',
-          unlocked: true,
-        });
+
+      const matchDurationInMinutes =
+        (matchHistory.endAt.getTime() - matchHistory.startAt.getTime()) /
+        1000 /
+        60;
+      if (matchDurationInMinutes >= 5) {
+        if (
+          winnerAchievements.find((a) => a.name === 'Marathon Match').unlocked ===
+          false
+        ) {
+          await this.userAchievementService.create({
+            userId: matchHistory.winner,
+            achivementName: 'Marathon Match',
+            unlocked: true,
+          });
+        }
+        if (!loserAchievements.find((a) => a.name === 'Marathon Match')) {
+          await this.userAchievementService.create({
+            userId: matchHistory.loser,
+            achivementName: 'Marathon Match',
+            unlocked: true,
+          });
+        }
       }
+    } catch (err: any) {
+      console.log(err);
     }
 
     return matchHistory;

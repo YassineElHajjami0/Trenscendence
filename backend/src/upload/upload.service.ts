@@ -7,7 +7,7 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class UploadService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) { }
 
   create(createUploadDto: CreateUploadDto) {
     return 'This action adds a new upload';
@@ -28,8 +28,8 @@ export class UploadService {
   async updateUser(uid: number, type: string, value: string) {
     const data =
       type == 'avatar'
-        ? { avatar: `http://localhost:3000/${value}` }
-        : { banner: `http://localhost:3000/${value}` };
+        ? { avatar: `http://10.13.4.8:3000/${value}` }
+        : { banner: `http://10.13.4.8:3000/${value}` };
     return this.databaseService.t_User.update({
       where: { uid },
       data,

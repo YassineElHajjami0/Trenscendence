@@ -25,7 +25,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UsersService,
-  ) {}
+  ) { }
 
   setCookie(@Res() res, bearer_token?: string) {
     if (!bearer_token) bearer_token = '';
@@ -84,7 +84,7 @@ export class AuthController {
   @UseGuards(FortyTwoGuard)
   @Get('fortyTwo/redirect')
   @Public()
-  @Redirect('http://localhost:5252/login', 302)
+  @Redirect(`http://${process.env.FRONT}/login`, 302)
   async fortyTwoAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
     const createUserDto = {
       username: req.user.username,
@@ -122,7 +122,7 @@ export class AuthController {
   @Public()
   @Get('google/redirect')
   @UseGuards(GoogleGuard)
-  @Redirect('http://localhost:5252/login', 302)
+  @Redirect(`http://${process.env.FRONT}/login`, 302)
   async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
     if (!req.user) {
       return {};

@@ -27,6 +27,7 @@ interface dataInterface {
 }
 
 export default function Home() {
+
   const [logged, setLogged] = useRecoilState(loggedUser);
   useEffect(() => {
     const token = localStorage.getItem("loggedUser");
@@ -46,7 +47,7 @@ export default function Home() {
     const fetchedData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/match-history?id=${userId}`,
+          `http://10.13.4.8:3000/match-history?id=${userId}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,

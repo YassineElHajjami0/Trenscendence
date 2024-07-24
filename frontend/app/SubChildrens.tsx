@@ -15,6 +15,7 @@ import { userToken } from "./Atoms/userToken";
 import { tablePicture } from "./Atoms/tablePicture";
 
 import { Socket } from "socket.io-client";
+import Nav from "./Nav/Nav";
 
 /*---------- sokcets ---------------*/
 interface SocketContextProps {
@@ -61,7 +62,7 @@ export default function SubChildrens({
   //     status: status,
   //   };
   //   try {
-  //     axios.patch(`http://localhost:3000/users/status/${user}`, body, {
+  //     axios.patch(`http://10.13.4.8:3000/users/status/${user}`, body, {
   //       headers: {
   //         Authorization: `Bearer ${token}`,
   //       },
@@ -99,7 +100,7 @@ export default function SubChildrens({
       status: "online",
     };
     try {
-      const res = await fetch(`http://localhost:3000/users/status/${user}`, {
+      const res = await fetch(`http://10.13.4.8:3000/users/status/${user}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -254,13 +255,24 @@ export default function SubChildrens({
 
   /*-------game shit------*/
   return (
-    <div className="upperNav-children-container">
-      <SocketContext.Provider value={{ socket }}>
-        <UpperNav />
-        {gameRequestValue !== -1 && <GameRequestPopup />}
-        {children}
-      </SocketContext.Provider>
-    </div>
+    <>
+      {
+        user !== -1 &&
+        <Nav />
+      }
+
+      <div className="upperNav-children-container">
+        <SocketContext.Provider value={{ socket }}>
+
+          {
+            user !== -1 &&
+            <UpperNav />
+          }
+          {gameRequestValue !== -1 && <GameRequestPopup />}
+          {children}
+        </SocketContext.Provider>
+      </div>
+    </>
   );
 }
 export const useSocket = () => {

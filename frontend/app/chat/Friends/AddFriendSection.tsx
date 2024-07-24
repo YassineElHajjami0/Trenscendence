@@ -52,7 +52,7 @@ const AddFriendSection = () => {
     if (!addFriend) return;
     try {
       const res = await fetch(
-        `http://localhost:3000/friends/allusers/${userL}`,
+        `http://10.13.4.8:3000/friends/allusers/${userL}`,
         {
           method: "GET",
           headers: {
@@ -75,11 +75,9 @@ const AddFriendSection = () => {
 
   const { socket } = useSocket();
   useEffect(() => {
+if (userL === -1) return
     if (!socket) return;
     const updateFriends = (friend: any) => {
-      if (!friend) return;
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>9999999999>>>>>>>>>>>>>>>>>>>>>>>>>");
-
       getAllusers();
     };
 
@@ -98,9 +96,8 @@ const AddFriendSection = () => {
       {addFriend ? (
         <div
           onClick={addFriendClick}
-          className={`add_friend_container ${
-            pathname === "/profile" && "big_one"
-          }`}
+          className={`add_friend_container ${pathname === "/profile" && "big_one"
+            }`}
         >
           <input
             value={input}

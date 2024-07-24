@@ -16,7 +16,7 @@ export default function Achievements({ whichProfile }: { whichProfile: any }) {
     const getUserData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/user-achievement/${whichProfile}`,
+          `http://10.13.4.8:3000/user-achievement/${whichProfile}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,

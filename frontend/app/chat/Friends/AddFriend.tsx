@@ -20,7 +20,7 @@ export default function AddFriend({ user }: { user: any }) {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/notifications", {
+      const res = await fetch(`http://10.13.4.8:3000/notifications`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userTok}`,

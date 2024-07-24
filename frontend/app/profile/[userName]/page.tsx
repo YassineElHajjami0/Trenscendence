@@ -46,7 +46,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
     const getUserData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/users/user/${params.userName}`,
+          `http://10.13.4.8:3000/users/user/${params.userName}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -90,7 +90,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
       friendId: selectedProfile,
     };
 
-    const res = await axios.get(`http://localhost:3000/friends/me/${loggedU}`, {
+    const res = await axios.get(`http://10.13.4.8:3000/friends/me/${loggedU}`, {
       params: query,
       headers: {
         Authorization: `Bearer ${userTok}`,
@@ -115,7 +115,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/notifications", {
+      const res = await fetch(`http://10.13.4.8:3000/notifications`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userTok}`,

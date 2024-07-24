@@ -3,14 +3,14 @@ import { getRank } from "../util/headers";
 
 const Leaders = ({ users }) => {
   let cups = [
-    "http://localhost:3000/cups/cup-1.svg",
-    "http://localhost:3000/cups/cup-2.svg",
-    "http://localhost:3000/cups/cup-3.svg",
+    `http://10.13.4.8:3000/cups/cup-1.svg`,
+    `http://10.13.4.8:3000/cups/cup-2.svg`,
+    `http://10.13.4.8:3000/cups/cup-3.svg`,
   ];
   let throphies = [
-    "http://localhost:3000/throphies/throphy-1.svg",
-    "http://localhost:3000/throphies/throphy-2.svg",
-    "http://localhost:3000/throphies/throphy-3.svg",
+    `http://10.13.4.8:3000/throphies/throphy-1.svg`,
+    `http://10.13.4.8:3000/throphies/throphy-2.svg`,
+    `http://10.13.4.8:3000/throphies/throphy-3.svg`,
   ];
   if (users.length < 3) return <div className="leaders-leaderboard"></div>;
   return (
@@ -49,8 +49,8 @@ const Leaders = ({ users }) => {
                   {!user.lose && !user.win
                     ? "0%"
                     : !user.lose
-                    ? "100%"
-                    : `${(user.win / (user.lose + user.win)).toFixed(2)}%`}{" "}
+                      ? "100%"
+                      : `${(user.win / (user.lose + user.win)).toFixed(2)}%`}{" "}
                 </span>
               </div>
               <div>
@@ -59,8 +59,8 @@ const Leaders = ({ users }) => {
                   {user.lose === 0
                     ? "0%"
                     : `${((user.win / (user.lose + user.win)) * 100).toFixed(
-                        0
-                      )}%`}
+                      0
+                    )}%`}
                 </span>
               </div>
             </div>

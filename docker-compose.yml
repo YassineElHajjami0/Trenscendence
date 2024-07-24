@@ -11,8 +11,6 @@ services:
     build: ./backend
     ports:
       - "3000:3000"
-    volumes:
-      - /goinfre/ytaqsi/Trenscendence/backend:/app
     env_file:
       - .env
     networks:
@@ -20,13 +18,11 @@ services:
     restart: unless-stopped
   frontend:
     container_name: frontend
-    # depends_on:
-    #   - backend
+    depends_on:
+      - backend
     build: ./frontend
     ports:
       - "5252:5252"
-    volumes:
-      - /goinfre/ytaqsi/Trenscendence/frontend:/app
     networks:
       - app-network
     restart: unless-stopped
@@ -37,24 +33,6 @@ services:
       - .env
     ports:
       - "5432:5432"
-    volumes:
-      - /goinfre/ytaqsi/db:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
       - app-network
-# volumes:
-#   backend:
-#     driver_opts:
-#       device: /goinfre/ytaqsi/Trenscendence/backend
-#       type: none
-#       o: bind
-#   frontend:
-#     driver_opts:
-#       device: /goinfre/ytaqsi/Trenscendence/frontend
-#       type: none
-#       o: bind
-# db:
-#   driver_opts:
-#     device: /goinfre/ytaqsi/db
-#     type: none
-#     o: bind

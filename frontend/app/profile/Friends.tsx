@@ -94,7 +94,7 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/channels/dm/${whichProfile}`,
+        `http://10.13.4.8:3000/channels/dm/${whichProfile}`,
         {
           headers: {
             Authorization: `Bearer ${userTok}`,

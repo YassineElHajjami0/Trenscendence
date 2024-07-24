@@ -39,7 +39,7 @@ const UpperNav = () => {
   // const [userData, setUserData] = useState<User>();
   // useEffect(() => {
   //   const fetchUserData = async () => {
-  //     const response = await fetch(`http://localhost:3000/users/${loggedU}`, {
+  //     const response = await fetch(`http://10.13.4.8:3000/users/${loggedU}`, {
   //       headers: {
   //         Authorization: `Bearer ${userTok}`,
   //         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const UpperNav = () => {
     if (loggedU === -1) return;
     try {
       const res = await fetch(
-        `http://localhost:3000/notifications/${loggedU}`,
+        `http://10.13.4.8:3000/notifications/${loggedU}`,
         {
           headers: {
             Authorization: `Bearer ${userTok}`,
@@ -82,7 +82,7 @@ const UpperNav = () => {
     if (loggedU === -1) return;
     try {
       const res = await fetch(
-        `http://localhost:3000/users/allusers/${loggedU}`,
+        `http://10.13.4.8:3000/users/allusers/${loggedU}`,
         {
           headers: {
             Authorization: `Bearer ${userTok}`,
@@ -176,7 +176,7 @@ const UpperNav = () => {
         <div className="profile-picture">
           <div>
             <Image
-              src={userAV || "http://localhost:3000/default.png"}
+              src={userAV || `http://10.13.4.8:3000/default.png`}
               alt="P"
               width={45}
               height={45}
