@@ -3,6 +3,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-42';
 import { AuthService } from '../auth.service';
 
+// change the redirect link
+
 @Injectable()
 export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
   constructor(private readonly authService: AuthService) {
