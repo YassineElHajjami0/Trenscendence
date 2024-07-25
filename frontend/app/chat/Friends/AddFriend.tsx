@@ -20,7 +20,7 @@ export default function AddFriend({ user }: { user: any }) {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/notifications", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/notifications`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userTok}`,

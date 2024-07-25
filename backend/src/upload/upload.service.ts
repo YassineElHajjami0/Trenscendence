@@ -28,8 +28,8 @@ export class UploadService {
   async updateUser(uid: number, type: string, value: string) {
     const data =
       type == 'avatar'
-        ? { avatar: `http://localhost:3000/${value}` }
-        : { banner: `http://localhost:3000/${value}` };
+        ? { avatar: `${process.env.BACK_URL}/${value}` }
+        : { banner: `${process.env.BACK_URL}/${value}` };
     return this.databaseService.t_User.update({
       where: { uid },
       data,

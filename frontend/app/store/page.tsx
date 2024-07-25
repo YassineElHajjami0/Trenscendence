@@ -56,7 +56,7 @@ const Store = () => {
       console.log("test");
       try {
         const responseUser = await fetch(
-          `http://localhost:3000/users/${userId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -70,7 +70,7 @@ const Store = () => {
         setUserData(dataofUser);
 
         const response = await fetch(
-          `http://localhost:3000/useritems?userId=${userId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems?userId=${userId}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -111,7 +111,7 @@ const Store = () => {
         setPopUpCannotBuy(false);
       }, 5000);
     } else {
-      const response = await fetch(`http://localhost:3000/useritems`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -157,7 +157,7 @@ const Store = () => {
 
   const handleChooseArticle = async (id: number) => {
     console.log("choosedArticle?.name => ", prevchoosedArticle);
-    const response = await fetch(`http://localhost:3000/useritems`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${userTok}`,

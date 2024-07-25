@@ -25,7 +25,7 @@ export class ChannelsService {
     console.log('!!!!!!', createChannelDto);
 
     const imageName = path.basename(filePath);
-    createChannelDto.uri = `http://localhost:3000/${imageName}`;
+    createChannelDto.uri = `${process.env.BACK_URL}/${imageName}`;
     const createdChannel = await this.databaseService.channel.create({
       data: createChannelDto,
     });

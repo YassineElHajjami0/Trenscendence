@@ -84,7 +84,7 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
   const getUserData = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/channels/dm/${whichProfile}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/channels/dm/${whichProfile}`,
         {
           headers: {
             Authorization: `Bearer ${userTok}`,

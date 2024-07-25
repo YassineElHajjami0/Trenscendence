@@ -31,7 +31,7 @@ function Notification({ notif }: { notif: any }) {
 
   const handleJoin = async (uid: number, channelId: number) => {
     await fetch(
-      `http://localhost:3000/channelss/joinpublic?userID=${uid}&channelID=${channelId}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/joinpublic?userID=${uid}&channelID=${channelId}`,
       {
         method: "PATCH",
         headers: {
@@ -46,7 +46,7 @@ function Notification({ notif }: { notif: any }) {
 
   const deleteNotificatio = async () => {
     try {
-      await fetch(`http://localhost:3000/notifications/${notif?.id}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/notifications/${notif?.id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -66,7 +66,7 @@ function Notification({ notif }: { notif: any }) {
     };
 
     try {
-      await fetch(`http://localhost:3000/friends`, {
+      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/friends`, {
         method: "POST",
         body: JSON.stringify(friendDto),
         headers: {

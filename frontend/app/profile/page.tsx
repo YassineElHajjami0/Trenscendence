@@ -27,7 +27,7 @@ const Profile = () => {
     const getUserData = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`http://localhost:3000/users/${loggedU}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${loggedU}`, {
           headers: {
             Authorization: `Bearer ${userTok}`,
             "Content-Type": "application/json",

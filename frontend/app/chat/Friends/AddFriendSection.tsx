@@ -52,7 +52,7 @@ const AddFriendSection = () => {
     if (!addFriend) return;
     try {
       const res = await fetch(
-        `http://localhost:3000/friends/allusers/${userL}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/friends/allusers/${userL}`,
         {
           method: "GET",
           headers: {
@@ -93,9 +93,8 @@ const AddFriendSection = () => {
       {addFriend ? (
         <div
           onClick={addFriendClick}
-          className={`add_friend_container ${
-            pathname === "/profile" && "big_one"
-          }`}
+          className={`add_friend_container ${pathname === "/profile" && "big_one"
+            }`}
         >
           <input
             value={input}

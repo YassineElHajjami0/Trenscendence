@@ -104,7 +104,7 @@ export function PingPong() {
 
   const fetchUserDatas = async (userId: number, opponentId: number) => {
     try {
-      const res = await fetch(`http://localhost:3000/users/${userId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -115,7 +115,7 @@ export function PingPong() {
       setLeftPlayer(data.username);
       setLeftAvatar(data.avatar);
 
-      const res2 = await fetch(`http://localhost:3000/users/${opponentId}`, {
+      const res2 = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${opponentId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${userTok}`,

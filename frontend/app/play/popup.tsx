@@ -200,7 +200,7 @@ export default function Popup({ setShowPopup }: any) {
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const getAllusers = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/friends/${userId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/friends/${userId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${userTok}`,

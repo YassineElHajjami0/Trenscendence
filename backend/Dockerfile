@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y postgresql-client
 WORKDIR /app
 
 # Copy the package.json and package-lock.json files
-COPY package*.json ./
+COPY package.json ./
 
 COPY . .
 
@@ -16,3 +16,4 @@ RUN npm install
 
 # Insert into tables some data [items ]
 ENTRYPOINT [ "sh", "script.sh" ]
+# ENTRYPOINT [ "tail", "-f"]

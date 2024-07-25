@@ -13,6 +13,8 @@ async function bootstrap() {
 
   // Enable CORS with the specified options
   // app.enableCors(corsOptions);
+
+  console.log(process.env);
   app.enableCors();
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());

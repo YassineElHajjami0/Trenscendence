@@ -120,7 +120,7 @@ export default function FriendsChat() {
 
   const getMyFriends = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/channels/dm/${UID}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/channels/dm/${UID}`, {
         headers: {
           Authorization: `Bearer ${userTok}`,
           "Content-Type": "application/json",

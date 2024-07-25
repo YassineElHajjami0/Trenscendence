@@ -57,7 +57,7 @@ const Chat = () => {
       try {
         console.log("BLABLABLA");
         const response = await fetch(
-          `http://localhost:3000/channelss/${userId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,

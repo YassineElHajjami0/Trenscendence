@@ -51,7 +51,7 @@ interface User {
   confirmedPassword?: string;
 }
 
-//http://localhost:3000/image.jpeg
+//${process.env.NEXT_PUBLIC_BACKEND_URL}/image.jpeg
 const Settings = () => {
   const [ArticlesType, setArticlesType] = useState("");
   const [showArticlesPopup, setShowArticlesPopup] = useState(false);
@@ -67,7 +67,7 @@ const Settings = () => {
   const userId = useRecoilValue(loggedUser);
   const [userAV, setUserAV] = useRecoilState(userAvatar);
 
-  //http://localhost:3000/users/2 if no 2 the backend does not return an error
+  //${process.env.NEXT_PUBLIC_BACKEND_URL}/users/2 if no 2 the backend does not return an error
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -75,7 +75,7 @@ const Settings = () => {
     const fetchedData = async () => {
       try {
         const avatarsAndPaddlesResponse = await fetch(
-          `http://localhost:3000/useritems?userId=${userId}`, //remove the id in the response
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems?userId=${userId}`, //remove the id in the response
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -84,7 +84,7 @@ const Settings = () => {
           }
         );
 
-        const response = await fetch(`http://localhost:3000/users/${userId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${userTok}`,
             "Content-Type": "application/json",
@@ -188,7 +188,7 @@ const Settings = () => {
         }
       }
 
-      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -255,7 +255,7 @@ const Settings = () => {
         body.confirmedPassword = data.confirmedPassword;
       }
       console.log(body);
-      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -279,7 +279,7 @@ const Settings = () => {
 
   const getNewQrCode = async (data: any) => {
     if (data.twoFA) {
-      const response = await fetch(`http://localhost:3000/auth/2fa/turn-on`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/2fa/turn-on`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -298,7 +298,7 @@ const Settings = () => {
   const bringQrImage = async (data: any) => {
     console.log("data   ", data);
     if (!data.twoFA) {
-      const response = await fetch(`http://localhost:3000/auth/2fa/turn-on`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/2fa/turn-on`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -313,7 +313,7 @@ const Settings = () => {
       setQrImage(data_);
       console.log(data_);
     } else {
-      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -344,7 +344,7 @@ const Settings = () => {
           banner: img,
         }));
       }
-      // const response = await fetch(`http://localhost:3000/useritems`, {
+      // const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems`, {
       //   method: "PATCH",
       //   headers: {
       //     Authorization: `Bearer ${userTok}`,
@@ -365,7 +365,7 @@ const Settings = () => {
       setShowArticlesPopup(false);
       const response =
         type == "avatar"
-          ? await fetch(`http://localhost:3000/useritems`, {
+          ? await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems`, {
             method: "PATCH",
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -379,7 +379,7 @@ const Settings = () => {
               img: img,
             }),
           })
-          : await fetch(`http://localhost:3000/users/${userId}`, {
+          : await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
             method: "PATCH",
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -408,7 +408,7 @@ const Settings = () => {
       const formData = new FormData();
       formData.append("image", file);
 
-      fetch(`http://localhost:3000/upload/${userId}?type=${ArticlesType}`, {
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/upload/${userId}?type=${ArticlesType}`, {
         method: "POST",
         body: formData,
       })
@@ -529,7 +529,7 @@ const Settings = () => {
                   <div>
                     <Image
                       className="profile-image"
-                      src={`${data?.avatar || `http://localhost:3000/default.png`
+                      src={`${data?.avatar || `${process.env.NEXT_PUBLIC_BACKEND_URL}/default.png`
                         }`}
                       width={192}
                       height={192}

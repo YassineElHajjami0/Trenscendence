@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { MdBlock } from "react-icons/md";
 import { BiSolidVolumeMute } from "react-icons/bi";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3001", { transports: ["websocket"] });
+const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`, { transports: ["websocket"] });
 
 type CHANNELUSER = {
   id: number;
@@ -55,7 +55,7 @@ const ChannelInfo = ({
     const patchRmAdmin = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/channelss/rmadmin?channelId=${selectedChannel}&userId=${id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/rmadmin?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -74,7 +74,7 @@ const ChannelInfo = ({
     const patchMakeAdmin = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/channelss/makeadmin?channelId=${selectedChannel}&userId=${id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/makeadmin?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -93,7 +93,7 @@ const ChannelInfo = ({
     const patchKick = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/channelss/kick?channelId=${selectedChannel}&userId=${id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/kick?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -113,7 +113,7 @@ const ChannelInfo = ({
     const patchKick = async () => {
       try {
         const req = await fetch(
-          `http://localhost:3000/channelss/roles?channelId=${selectedChannel}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/roles?channelId=${selectedChannel}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -127,7 +127,7 @@ const ChannelInfo = ({
         if (theOwner[0].user.uid == userId) {
           if (allRoles.length > 1) {
             const response = await fetch(
-              `http://localhost:3000/channelss/leave?channelId=${selectedChannel}&userId=${id}`,
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/leave?channelId=${selectedChannel}&userId=${id}`,
               {
                 method: "PATCH",
                 headers: {
@@ -142,7 +142,7 @@ const ChannelInfo = ({
         } else {
           console.log("HEEEEEREEE!!!");
           const response = await fetch(
-            `http://localhost:3000/channelss/kick?channelId=${selectedChannel}&userId=${userId}`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/kick?channelId=${selectedChannel}&userId=${userId}`,
             {
               method: "PATCH",
               headers: {
@@ -162,7 +162,7 @@ const ChannelInfo = ({
     const patchblock = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/channelss/block?channelId=${selectedChannel}&userId=${id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/block?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -181,7 +181,7 @@ const ChannelInfo = ({
     const patchrmblock = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/channelss/rmblock?channelId=${selectedChannel}&userId=${id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/rmblock?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -200,7 +200,7 @@ const ChannelInfo = ({
     const patchmute = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/channelss/mute?channelId=${selectedChannel}&userId=${id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/mute?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -219,7 +219,7 @@ const ChannelInfo = ({
     const patchRmMute = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/channelss/rmmute?channelId=${selectedChannel}&userId=${id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/rmmute?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -246,7 +246,7 @@ const ChannelInfo = ({
     const fetchMessages = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/channelss/messages?channelId=${channelToDisplay?.id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/messages?channelId=${channelToDisplay?.id}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -295,7 +295,7 @@ const ChannelInfo = ({
     <div className="selectedChannelData">
       <div className="ChannelImage">
         <Image
-          src={channelData?.uri ? `${channelData.uri}` : `http://localhost:3000/default.png`}
+          src={channelData?.uri ? `${channelData.uri}` : `${process.env.NEXT_PUBLIC_BACKEND_URL}/default.png`}
           width={100}
           height={100}
           alt="avatar"

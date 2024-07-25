@@ -17,7 +17,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
   setShowPopUpCreateChannel,
 }) => {
   const [selectedChannelPicture, setSelectedChannelPicture] = useState(
-    `http://localhost:3000/channelDefaultImage.png`
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelDefaultImage.png`
   );
 
   const [name, setName] = useState("");
@@ -38,7 +38,7 @@ const PopupCreateChannel: React.FC<popupProps> = ({
     console.log("formData: ", formData);
     if (file) formData.append("uri", file);
 
-    fetch(`http://localhost:3000/channelss?userId=${userId}`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss?userId=${userId}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userTok}`,

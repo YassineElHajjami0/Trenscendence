@@ -36,7 +36,7 @@ export const FriendInfo = () => {
       blocked: !friend.blocked,
     };
     try {
-      axios.patch("http://localhost:3000/channels/dm", body, {
+      axios.patch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/channels/dm`, body, {
         headers: {
           Authorization: `Bearer ${userTok}`,
         },
@@ -50,7 +50,7 @@ export const FriendInfo = () => {
     const getUserData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/user-achievement/${friend.uid}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user-achievement/${friend.uid}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -125,9 +125,8 @@ export const FriendInfo = () => {
       <div className="current_friend_block">
         <button
           onClick={handleSwitch}
-          className={`block_current_friend ${
-            friend?.blocked && "unblock_current_friend"
-          }`}
+          className={`block_current_friend ${friend?.blocked && "unblock_current_friend"
+            }`}
         >
           {friend?.blocked ? (
             <>

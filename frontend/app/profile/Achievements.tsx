@@ -14,7 +14,7 @@ export default function Achievements({ whichProfile }: { whichProfile: any }) {
     const getUserData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/user-achievement/${whichProfile}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user-achievement/${whichProfile}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,

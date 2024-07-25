@@ -3,14 +3,14 @@ import { getRank } from "../util/headers";
 
 const Leaders = ({ users }: { users: any }) => {
   let cups = [
-    `http://localhost:3000/cups/cup-1.svg`,
-    `http://localhost:3000/cups/cup-2.svg`,
-    `http://localhost:3000/cups/cup-3.svg`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/cups/cup-1.svg`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/cups/cup-2.svg`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/cups/cup-3.svg`,
   ];
   let throphies = [
-    `http://localhost:3000/throphies/throphy-1.svg`,
-    `http://localhost:3000/throphies/throphy-2.svg`,
-    `http://localhost:3000/throphies/throphy-3.svg`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/throphies/throphy-1.svg`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/throphies/throphy-2.svg`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/throphies/throphy-3.svg`,
   ];
   if (users.length < 3) return <div className="leaders-leaderboard"></div>;
   return (

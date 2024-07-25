@@ -69,7 +69,7 @@ function RobotGame() {
   const addAchievement = async () => {
     try {
       const getedAchievements = await fetch(
-        `http://localhost:3000/user-achievement/${userId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user-achievement/${userId}`,
         {
           method: "GET",
           headers: {
@@ -84,7 +84,7 @@ function RobotGame() {
         (a: any) => a.name === "AI Conqueror"
       );
       if (botAchievement && botAchievement.unlocked === false) {
-        await fetch(`http://localhost:3000/user-achievement/`, {
+        await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user-achievement/`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${userTok}`,
@@ -104,7 +104,7 @@ function RobotGame() {
 
   const fetchUserDatas = async (userId: number) => {
     try {
-      const res = await fetch(`http://localhost:3000/users/${userId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${userTok}`,

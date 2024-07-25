@@ -42,7 +42,7 @@ const Nav = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:3000/users/status/${uid}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/status/${uid}`,
           {
             method: "PATCH",
             headers: {

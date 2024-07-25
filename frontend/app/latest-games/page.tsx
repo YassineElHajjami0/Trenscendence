@@ -32,7 +32,7 @@ const LatestGames = () => {
     const fetchedData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/match-history?id=${userId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/match-history?id=${userId}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,

@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 import { MdOutlinePersonSearch } from "react-icons/md";
 import PopUpSearchFriend from "./popUpSearchFriend";
 
-const socket = io("http://localhost:3001", { transports: ["websocket"] });
+const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`, { transports: ["websocket"] });
 console.log("MMMMMM", socket);
 interface channelInterface {
   id: number;

@@ -69,7 +69,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/auth/2fa`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/2fa`,
         Udata
       );
       const data = await response.data;
@@ -94,7 +94,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     const endpoint = signInUp ? "signup" : "login";
     try {
       const response = await axios.post(
-        `http://localhost:3000/auth/${endpoint}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/${endpoint}`,
         Udata
       );
       const data = await response.data;
@@ -119,7 +119,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const uri = test ? verifyTwoFA : signUpFunction;
 
   const auth42 = async () => {
-    router.push(`http://localhost:3000/auth/login-42`);
+    router.push(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login-42`);
   };
 
   return (
@@ -149,9 +149,8 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
           tabIndex={signInUp ? 3 : 2}
           required={!test}
           placeholder="password"
-          className={`sign_in_ships for_pass_only ${
-            showPass && "change_pass_bg"
-          }`}
+          className={`sign_in_ships for_pass_only ${showPass && "change_pass_bg"
+            }`}
           type={showPass ? "text" : "password"}
           value={pass}
           onChange={(e) => setPass(e.target.value)}

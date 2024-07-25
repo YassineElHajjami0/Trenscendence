@@ -54,7 +54,7 @@ const FriendChatList = () => {
     if (selectedFriend === -1) return;
 
     const selectedFriendChat = await fetch(
-      `http://localhost:3000/message/${channelID}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/message/${channelID}`,
       {
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -88,7 +88,7 @@ const FriendChatList = () => {
       content: inputMSG,
       isBlocked: blockCheck,
     };
-    await fetch("http://localhost:3000/message", {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/message`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userTok}`,
@@ -229,9 +229,8 @@ const FriendChatList = () => {
             onKeyDown={handleEnter}
             onChange={(e) => setInputMSG(e.target.value)}
             className="input_msg"
-            placeholder={`${
-              friend?.blocked ? "You blocked this friend" : "Message"
-            }`}
+            placeholder={`${friend?.blocked ? "You blocked this friend" : "Message"
+              }`}
           />
 
           <div className="play_send_msg">
@@ -239,9 +238,8 @@ const FriendChatList = () => {
               ref={playButtonRef}
               onClick={sendGameReq}
               disabled={isOffline || isIngame}
-              className={`submit_msg ${
-                (isOffline || isIngame) && "disable_play"
-              }`}
+              className={`submit_msg ${(isOffline || isIngame) && "disable_play"
+                }`}
               type="button"
             >
               <BiSolidJoystickAlt />

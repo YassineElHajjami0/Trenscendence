@@ -44,7 +44,7 @@ const ChannelChat: React.FC<channelChatProps> = ({
               <div className="imageContainer">
                 <Image
                   className="channelImage"
-                  // src={`http://localhost:3000/${channel.uri}`}
+                  // src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${channel.uri}`}
                   src={channel.uri}
                   width={80}
                   height={80}
