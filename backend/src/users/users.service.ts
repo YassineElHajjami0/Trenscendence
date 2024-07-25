@@ -53,7 +53,7 @@ export class UsersService {
       const user = await this.databaseService.t_User.create({
         data: createUserDto,
       });
-      this.chatGateway.updateFriendList(user);
+      this.chatGateway.updateAllUsers(user);
       return user;
     } catch (err: any) {
       throw new UnauthorizedException(

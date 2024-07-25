@@ -60,6 +60,7 @@ export class ChannelService {
       channelData.roles.push(roleData);
     });
     this.chatGateway.updateFriendList(channelData);
+    this.chatGateway.updateAllUsers(channelData);
     return channelData;
   }
 
