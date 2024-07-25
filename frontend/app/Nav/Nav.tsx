@@ -17,6 +17,7 @@ import { userToken } from "../Atoms/userToken";
 import { userNotifications } from "../Atoms/notifications";
 import { userTwoFA } from "../Atoms/_2faUser";
 import { twoFA } from "../Atoms/_If_2fa";
+import { useRouter } from "next/navigation";
 
 const Nav = () => {
   const [user2fa, setUser2fa] = useRecoilState(userTwoFA);
@@ -29,6 +30,7 @@ const Nav = () => {
   const [myNotifications, setMyNotifications] =
     useRecoilState(userNotifications);
 
+  const router = useRouter();
   const logout = async (e: any) => {
     e.preventDefault();
     if (loggedU !== -1) {
@@ -50,10 +52,6 @@ const Nav = () => {
             body: JSON.stringify(body),
           }
         );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
       } catch (error) {
         console.error("Error:", error);
       }
@@ -63,6 +61,7 @@ const Nav = () => {
       setLoggedU2fa(-1);
       setLoggedT("");
       setMyNotifications([]);
+      router.replace("/login");
     }
   };
 

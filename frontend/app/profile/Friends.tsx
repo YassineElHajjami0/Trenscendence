@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./Friends.css";
 import Friend from "./Friend";
+import friendData from "../data/friends.json";
+import { FriendData } from "@/app/Interfaces/friendDataInterface";
 import { useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
+import AddFriendSection from "../chat/Friends/AddFriendSection";
 import "../chat/chat.css";
 import "../chat/Friends/AddFriend.css";
 import { useSocket } from "../SubChildrens";
@@ -19,9 +22,9 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
 
   const userTok = useRecoilValue(userToken);
   const [userFriends, setUserFriends] = useState<any[]>([]);
+  console.log("friend array>>>", userFriends);
 
   useEffect(() => {
-    if (UID === -1) return;
     if (!socket) return;
     const handleBlockedFriend = (friend: newRole) => {
       setUserFriends((prev: channelData[]) => {
@@ -47,8 +50,6 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
   });
 
   useEffect(() => {
-    if (UID === -1) return;
-
     if (!socket) return;
     const handleNewFriendStatus = (friend: userInterface) => {
       setUserFriends((prev: channelData[]) => {
@@ -69,25 +70,18 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
   });
 
   useEffect(() => {
-    if (UID === -1) return;
-
     if (!socket) return;
     const updateFriends = (friend: any) => {
-      const whichUID = friend.roles.some((user: any) => user.uid === UID);
-      if (whichUID) {
-        setUserFriends((prev: any) => [...prev, friend]);
-      }
+      getUserData();
     };
 
     socket.on("update_friend_list", updateFriends);
     return () => {
       socket.off("update_friend_list");
     };
-  });
+  }, []);
 
   const getUserData = async () => {
-    if (UID === -1) return;
-
     try {
       const res = await fetch(
         `http://localhost:3000/channels/dm/${whichProfile}`,

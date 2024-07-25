@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Profile.css";
 
 import { MdOutlineEdit } from "react-icons/md";
@@ -14,7 +14,9 @@ import LoadingPaddle from "../LoadingPaddle";
 import { userInterface } from "../Interfaces/chatInterfaces";
 
 const Profile = () => {
+  const uidRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
+  const [hoverEffect, setHoverEffect] = useState(true);
 
   const loggedU = useRecoilValue(loggedUser);
   const userTok = useRecoilValue(userToken);
@@ -61,15 +63,27 @@ const Profile = () => {
           <span>Edit</span>
           <MdOutlineEdit />
         </div>
-        <div className="img_container_add">
-          <Image
-            src={`${userData?.avatar || ""}`}
-            width={200}
-            height={200}
-            alt="profile_avatar"
-            className="profile_photo"
-          />
-        </div>
+        {hoverEffect ? (
+          <div className="img_container_add">
+            <Image
+              src={`${userData?.avatar || ""}`}
+              width={200}
+              height={200}
+              alt="profile_avatar"
+              className="profile_photo"
+            />
+          </div>
+        ) : (
+          <div className="img_container_add">
+            <Image
+              src={`${"/ranks/" + userData?.rank + ".png" || ""}`}
+              width={100}
+              height={100}
+              alt="profile_avatar"
+              className="profile_photo2"
+            />
+          </div>
+        )}
         <div className="profile_data">
           <h1>{userData?.username}</h1>
           <h4 className="profile_username">
@@ -77,7 +91,8 @@ const Profile = () => {
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
           <h2
-
+            onMouseOver={() => setHoverEffect(false)}
+            onMouseOut={() => setHoverEffect(true)}
             className="profile_user_lvl"
           >
             {userData?.rank}
@@ -105,3 +120,27 @@ const Profile = () => {
 
 export default Profile;
 
+// const copyUID = () => {
+//   return;
+//   if (uidRef.current) {
+//     const textToCopy = uidRef.current.textContent || "";
+
+//     navigator.clipboard
+//       .writeText(textToCopy)
+//       .then(() => {
+//         console.log("Text copied to clipboard:", textToCopy);
+//       })
+//       .catch((error) => {
+//         console.error("Unable to copy text to clipboard", error);
+//       });
+//   }
+// };
+
+{
+  /* <Image
+src={`${"/ranks/" + userData?.rank + ".png" || ""}`}
+width={150}
+height={150}
+alt="profile_avatar"
+/> */
+}

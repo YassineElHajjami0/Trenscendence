@@ -62,8 +62,6 @@ const AddFriendSection = () => {
         }
       );
       const data = await res.json();
-      if (data?.statusCode === 401) return;
-      console.log("all users ====> ", data);
       setAllUsers(data);
     } catch (error) {
       console.log("add friend error addFriendSection.tsx");
@@ -75,15 +73,14 @@ const AddFriendSection = () => {
 
   const { socket } = useSocket();
   useEffect(() => {
-    if (userL === -1) return
     if (!socket) return;
     const updateFriends = (friend: any) => {
       getAllusers();
     };
 
-    socket.on("update_friend_list", updateFriends);
+    socket.on("update_All_Users", updateFriends);
     return () => {
-      socket.off("update_friend_list");
+      socket.off("update_All_Users");
     };
   });
 
@@ -96,8 +93,9 @@ const AddFriendSection = () => {
       {addFriend ? (
         <div
           onClick={addFriendClick}
-          className={`add_friend_container ${pathname === "/profile" && "big_one"
-            }`}
+          className={`add_friend_container ${
+            pathname === "/profile" && "big_one"
+          }`}
         >
           <input
             value={input}

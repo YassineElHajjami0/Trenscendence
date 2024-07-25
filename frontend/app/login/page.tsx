@@ -14,11 +14,13 @@ import { useRouter } from "next/navigation";
 export default function Login() {
   const [signInUp, setSignInUp] = useState(false);
   const router = useRouter();
+  const endpoint = signInUp ? "signup" : "login";
 
   const logged = useRecoilValue(loggedUser);
 
   useEffect(() => {
-    if (logged !== -1) router.replace("/settings");
+    if (logged !== -1 && endpoint === "signup") router.replace("/settings");
+    else router.replace("/");
   }, [logged]);
 
   const switchSides = () => {

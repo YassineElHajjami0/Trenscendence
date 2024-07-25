@@ -30,11 +30,11 @@ export default function SubChildrens({
 }: {
   children: React.ReactNode;
 }) {
-  const [uid, setUid] = useState(-1)
+  const [uid, setUid] = useState(-1);
   const user = useRecoilValue(loggedUser);
   const token = useRecoilValue(userToken);
   const router = useRouter();
-  // const pathname = usePathname();
+  const pathname = usePathname();
 
   /*---------- sokcets ---------------*/
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -51,15 +51,13 @@ export default function SubChildrens({
   /*---------- sokcets ---------------*/
 
   useEffect(() => {
-    setUid(user)
+    setUid(user);
   }, [user]);
-
 
   useEffect(() => {
-    user === -1 && router.push("/login");
+    user === -1 && router.replace("/login");
     // user !== -1 && pathname === "/login" && router.push("/");
-  }, [user]);
-
+  }, [user, pathname]);
 
   const changeUserStatus = async () => {
     if (user === -1) return;
@@ -68,7 +66,7 @@ export default function SubChildrens({
     };
     try {
       const res = await fetch(`http://localhost:3000/users/status/${user}`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -224,18 +222,11 @@ export default function SubChildrens({
   /*-------game shit------*/
   return (
     <>
-      {
-        uid !== -1 &&
-        <Nav />
-      }
+      {uid !== -1 && <Nav />}
 
       <div className="upperNav-children-container">
         <SocketContext.Provider value={{ socket }}>
-
-          {
-            uid !== -1 &&
-            <UpperNav />
-          }
+          {uid !== -1 && <UpperNav />}
           {gameRequestValue !== -1 && <GameRequestPopup />}
           {children}
         </SocketContext.Provider>

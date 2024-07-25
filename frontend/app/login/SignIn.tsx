@@ -67,15 +67,13 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       twoFaCode: biometric,
     };
 
-
-
     try {
       const response = await axios.post(
         `http://localhost:3000/auth/2fa`,
         Udata
       );
       const data = await response.data;
-      router.replace("/settings");
+      router.replace("/");
       setLoggedU(data.user.uid);
       setUserTok(data.userToken);
     } catch (error: any) {
@@ -104,7 +102,8 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
         setTwofa(true);
         return;
       }
-      router.replace("/settings");
+      if (endpoint === "signup") router.replace("/settings");
+      else router.replace("/");
       setLoggedU(data.user.uid);
       setUserTok(data.user_token);
     } catch (error: any) {
@@ -122,7 +121,6 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const auth42 = async () => {
     router.push(`http://localhost:3000/auth/login-42`);
   };
-
 
   return (
     <form onSubmit={uri} className="sign_in_container">
@@ -151,8 +149,9 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
           tabIndex={signInUp ? 3 : 2}
           required={!test}
           placeholder="password"
-          className={`sign_in_ships for_pass_only ${showPass && "change_pass_bg"
-            }`}
+          className={`sign_in_ships for_pass_only ${
+            showPass && "change_pass_bg"
+          }`}
           type={showPass ? "text" : "password"}
           value={pass}
           onChange={(e) => setPass(e.target.value)}

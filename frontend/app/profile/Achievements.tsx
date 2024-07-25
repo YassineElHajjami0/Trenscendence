@@ -11,8 +11,6 @@ export default function Achievements({ whichProfile }: { whichProfile: any }) {
   const [userAchievement, setUserAchievement] = useState<any[]>([]);
 
   useEffect(() => {
-    if (whichProfile === -1) return;
-
     const getUserData = async () => {
       try {
         const res = await fetch(

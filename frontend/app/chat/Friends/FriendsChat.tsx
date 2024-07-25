@@ -11,25 +11,35 @@ import { channelId } from "@/app/Atoms/channelId";
 import { chatMSG } from "@/app/Atoms/chatMSG";
 import { useSocket } from "@/app/SubChildrens";
 
+import {
+  channelData,
+  chatMessage,
+  newRole,
+  userInterface,
+} from "@/app/Interfaces/chatInterfaces";
+
 export default function FriendsChat() {
   const { socket } = useSocket();
 
   const UID = useRecoilValue(loggedUser);
   const userTok = useRecoilValue(userToken);
-  const [myFriends, setMyFriends] = useState<any[]>([]);
+  const [myFriends, setMyFriends] = useState<channelData[]>([]);
   const channelID = useRecoilValue(channelId);
-  const [friendChat, setFriendChat] = useRecoilState<any[]>(chatMSG);
+  const [friendChat, setFriendChat] = useRecoilState<chatMessage[]>(chatMSG);
 
   useEffect(() => {
-    if (UID === -1) return;
     if (!socket) return;
 
-    const handleReceiveMessage = (message: any) => {
+    const handleReceiveMessage = (message: chatMessage) => {
+      if (!message) return;
       if (message?.channelID === channelID)
-        setFriendChat((prevMessages: any[]) => [...prevMessages, message]);
+        setFriendChat((prevMessages: chatMessage[]) => [
+          ...prevMessages,
+          message,
+        ]);
 
-      setMyFriends((prev: any[]) =>
-        prev.map((f: any) =>
+      setMyFriends((prev: channelData[]) =>
+        prev.map((f: channelData) =>
           f.id === message?.channelID
             ? { ...f, lastMSG: message.content, sendAT: message.createdAT }
             : f
@@ -43,14 +53,14 @@ export default function FriendsChat() {
   });
 
   useEffect(() => {
-    if (UID === -1) return;
     if (!socket) return;
 
-    const handleBlockedFriend = (friend: any) => {
-      setMyFriends((prev: any[]) => {
-        return prev.map((channel: any) => {
+    const handleBlockedFriend = (friend: newRole) => {
+      if (!friend) return;
+      setMyFriends((prev: channelData[]) => {
+        return prev.map((channel: channelData) => {
           if (channel.id === friend.channelID) {
-            const updatedRoles = channel.roles.map((role: any) => {
+            const updatedRoles = channel.roles.map((role: userInterface) => {
               if (role.uid === friend.userID) {
                 return { ...role, blocked: friend.blocked };
               }
@@ -69,13 +79,13 @@ export default function FriendsChat() {
   });
 
   useEffect(() => {
-    if (UID === -1) return;
     if (!socket) return;
 
-    const handleNewFriendStatus = (friend: any) => {
-      setMyFriends((prev: any[]) => {
-        return prev.map((channel: any) => {
-          const updatedRoles = channel.roles.map((role: any) => {
+    const handleNewFriendStatus = (friend: userInterface) => {
+      if (!friend) return;
+      setMyFriends((prev: channelData[]) => {
+        return prev.map((channel: channelData) => {
+          const updatedRoles = channel.roles.map((role: userInterface) => {
             if (role.uid === friend.uid) return friend;
             return role;
           });
@@ -91,19 +101,16 @@ export default function FriendsChat() {
   });
 
   useEffect(() => {
-    myFriends.sort((a: any, b: any) => {
+    myFriends.sort((a: channelData, b: channelData) => {
       return new Date(b.sendAT).getTime() - new Date(a.sendAT).getTime();
     });
   });
 
   useEffect(() => {
-    if (UID === -1) return;
     if (!socket) return;
-    const updateFriends = (friend: any) => {
-      const whichUID = friend.roles.some((user: any) => user.uid === UID);
-      if (whichUID) {
-        setMyFriends((prev: any[]) => [...prev, friend]);
-      }
+
+    const updateFriends = (friend: channelData) => {
+      getMyFriends();
     };
     socket.on("update_friend_list", updateFriends);
     return () => {
@@ -112,8 +119,6 @@ export default function FriendsChat() {
   });
 
   const getMyFriends = async () => {
-    if (UID === -1) return;
-
     try {
       const response = await fetch(`http://localhost:3000/channels/dm/${UID}`, {
         headers: {
@@ -122,7 +127,7 @@ export default function FriendsChat() {
         },
       });
       const data = await response.json();
-      await data.sort((a: any, b: any) => {
+      await data.sort((a: channelData, b: channelData) => {
         return new Date(b.sendAT).getTime() - new Date(a.sendAT).getTime();
       });
       setMyFriends(data);
@@ -137,7 +142,9 @@ export default function FriendsChat() {
   return (
     <div className="friends_chat_container">
       {myFriends.length > 0 &&
-        myFriends.map((f: any) => <FriendChat key={f.id} friendData={f} />)}
+        myFriends.map((f: channelData) => (
+          <FriendChat key={f.id} friendData={f} />
+        ))}
     </div>
   );
 }

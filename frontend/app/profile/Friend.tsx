@@ -3,6 +3,7 @@ import "./Friend.css";
 
 import React, { useEffect, useState } from "react";
 import { LuMessagesSquare } from "react-icons/lu";
+import { BiSolidJoystickAlt } from "react-icons/bi";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import { TbUserShare } from "react-icons/tb";
@@ -18,6 +19,11 @@ import axios from "axios";
 import { userToken } from "../Atoms/userToken";
 import { channelId } from "../Atoms/channelId";
 import { currentFriend } from "../Atoms/currentFriend";
+import {
+  channelData,
+  newRole,
+  userInterface,
+} from "../Interfaces/chatInterfaces";
 
 export default function Friend({
   friend,
@@ -63,7 +69,7 @@ export default function Friend({
     };
 
     try {
-      axios.patch(`http://localhost:3000/channels/dm`, body, {
+      axios.patch("http://localhost:3000/channels/dm", body, {
         headers: {
           Authorization: `Bearer ${userTok}`,
         },
@@ -97,8 +103,9 @@ export default function Friend({
 
         <label
           htmlFor={myFriend?.uid}
-          className={`profile_name ${blocked && "blocked_friend"}  ${burgerM && "hideName"
-            }`}
+          className={`profile_name ${blocked && "blocked_friend"}  ${
+            burgerM && "hideName"
+          }`}
         >
           <div
             className={`dot ${logged && "logged"}  ${inGame && "ingame"}`}
@@ -120,8 +127,9 @@ export default function Friend({
           {(whichProfile === -1 || whichProfile === loggedU) && (
             <>
               <button
-                className={`friend_component_btn friend_msg ${blocked && "disable_btns"
-                  }`}
+                className={`friend_component_btn friend_msg ${
+                  blocked && "disable_btns"
+                }`}
                 onClick={test}
                 disabled={blocked}
               >

@@ -78,15 +78,17 @@ const FriendChatList = () => {
 
   const sendMSG = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("lolololo1");
 
     if (inputMSG.length === 0) return;
+    console.log("lolololo1");
     const channelData = {
       userID: loggedU,
       channelID: channelID,
       content: inputMSG,
       isBlocked: blockCheck,
     };
-    await fetch(`http://localhost:3000/message`, {
+    await fetch("http://localhost:3000/message", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userTok}`,
@@ -97,7 +99,6 @@ const FriendChatList = () => {
     setInputMSG("");
     setShowEmoji(false);
   };
-
   const handleEnter = async (e: any) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -117,6 +118,7 @@ const FriendChatList = () => {
   const playButtonRef = useRef<HTMLButtonElement>(null);
   const table = useRecoilValue(tablePicture);
   const sendGameReq = () => {
+    console.log("3aaaaaaa");
 
     if (!socket) return;
 
@@ -227,8 +229,9 @@ const FriendChatList = () => {
             onKeyDown={handleEnter}
             onChange={(e) => setInputMSG(e.target.value)}
             className="input_msg"
-            placeholder={`${friend?.blocked ? "You blocked this friend" : "Message"
-              }`}
+            placeholder={`${
+              friend?.blocked ? "You blocked this friend" : "Message"
+            }`}
           />
 
           <div className="play_send_msg">
@@ -236,8 +239,9 @@ const FriendChatList = () => {
               ref={playButtonRef}
               onClick={sendGameReq}
               disabled={isOffline || isIngame}
-              className={`submit_msg ${(isOffline || isIngame) && "disable_play"
-                }`}
+              className={`submit_msg ${
+                (isOffline || isIngame) && "disable_play"
+              }`}
               type="button"
             >
               <BiSolidJoystickAlt />

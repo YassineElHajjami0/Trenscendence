@@ -13,9 +13,8 @@ import { userToken } from "@/app/Atoms/userToken";
 import { getRank } from "@/app/util/headers";
 import { channelId } from "@/app/Atoms/channelId";
 
-// import noAchievemnets from "../../../public/achievement/no_achievements.png";
-import { loggedUser } from "@/app/Atoms/logged";
-import noAchievemnets from "@/public/apb.png";
+import noAchievemnets from "../../../public/achievement/no_achievements.png";
+// import noAchievemnets from "@/public/apb.png";
 
 export const FriendInfo = () => {
   const [friend, setFriend] = useRecoilState(currentFriend);
@@ -23,7 +22,7 @@ export const FriendInfo = () => {
   const loadingAnimation = useRecoilValue(loadingMsg);
   const userTok = useRecoilValue(userToken);
   const [dmID, setDMID] = useRecoilState(channelId);
-  const UID = useRecoilValue(loggedUser);
+
   const [userAchievement, setUserAchievement] = useState<any[]>([]);
 
   const noUserAchievement = userAchievement.filter((e) => e?.unlocked);
@@ -37,7 +36,7 @@ export const FriendInfo = () => {
       blocked: !friend.blocked,
     };
     try {
-      axios.patch(`http://localhost:3000/channels/dm`, body, {
+      axios.patch("http://localhost:3000/channels/dm", body, {
         headers: {
           Authorization: `Bearer ${userTok}`,
         },
@@ -48,8 +47,6 @@ export const FriendInfo = () => {
   };
 
   useEffect(() => {
-    if (UID === -1) return;
-
     const getUserData = async () => {
       try {
         const res = await fetch(
@@ -128,8 +125,9 @@ export const FriendInfo = () => {
       <div className="current_friend_block">
         <button
           onClick={handleSwitch}
-          className={`block_current_friend ${friend?.blocked && "unblock_current_friend"
-            }`}
+          className={`block_current_friend ${
+            friend?.blocked && "unblock_current_friend"
+          }`}
         >
           {friend?.blocked ? (
             <>
