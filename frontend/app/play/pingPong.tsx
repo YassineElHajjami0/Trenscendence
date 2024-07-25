@@ -239,6 +239,7 @@ export function PingPong() {
       "update",
       (ball: Ball, leftPaddle: Paddle, rightPaddle: Paddle) => {
         randerGame(ball, leftPaddle, rightPaddle);
+        setGameStarted(true);
       }
     );
 
@@ -388,69 +389,68 @@ export function PingPong() {
   }, [gameStarted, window.innerWidth]);
 
   useEffect(() => {
-    // when i incomment this the paddle in against friend doesn't move after refreshing the page
-    // if (gameStarted) {
-    const keyState: { [key: string]: boolean } = {};
-    const handdleKeyDown = (e: KeyboardEvent | MouseEvent) => {
-      if (e instanceof KeyboardEvent) {
-        keyState[e.key] = true;
-        if (e.key === "ArrowUp") {
-          delete keyState["ArrowDown"];
-        } else if (e.key === "ArrowDown") {
-          delete keyState["ArrowUp"];
+    if (gameStarted) {
+      const keyState: { [key: string]: boolean } = {};
+      const handdleKeyDown = (e: KeyboardEvent | MouseEvent) => {
+        if (e instanceof KeyboardEvent) {
+          keyState[e.key] = true;
+          if (e.key === "ArrowUp") {
+            delete keyState["ArrowDown"];
+          } else if (e.key === "ArrowDown") {
+            delete keyState["ArrowUp"];
+          }
+        } else {
+          const target = e.target as HTMLButtonElement;
+          keyState[target.id] = true;
+          if (target.id === "left") {
+            delete keyState["right"];
+          } else if (target.id === "right") {
+            delete keyState["left"];
+          }
         }
-      } else {
-        const target = e.target as HTMLButtonElement;
-        keyState[target.id] = true;
-        if (target.id === "left") {
-          delete keyState["right"];
-        } else if (target.id === "right") {
-          delete keyState["left"];
+      };
+
+      const handdleKeyUp = (e: KeyboardEvent | MouseEvent) => {
+        if (e instanceof KeyboardEvent) {
+          delete keyState[e.key];
+        } else {
+          const target = e.target as HTMLButtonElement;
+          delete keyState[target.id];
         }
-      }
-    };
+      };
 
-    const handdleKeyUp = (e: KeyboardEvent | MouseEvent) => {
-      if (e instanceof KeyboardEvent) {
-        delete keyState[e.key];
-      } else {
-        const target = e.target as HTMLButtonElement;
-        delete keyState[target.id];
-      }
-    };
+      window.addEventListener("keydown", handdleKeyDown);
+      window.addEventListener("keyup", handdleKeyUp);
 
-    window.addEventListener("keydown", handdleKeyDown);
-    window.addEventListener("keyup", handdleKeyUp);
+      leftArrowRef.current?.addEventListener("mousedown", handdleKeyDown);
+      rightArrowRef.current?.addEventListener("mousedown", handdleKeyDown);
+      leftArrowRef.current?.addEventListener("mouseup", handdleKeyUp);
+      rightArrowRef.current?.addEventListener("mouseup", handdleKeyUp);
 
-    leftArrowRef.current?.addEventListener("mousedown", handdleKeyDown);
-    rightArrowRef.current?.addEventListener("mousedown", handdleKeyDown);
-    leftArrowRef.current?.addEventListener("mouseup", handdleKeyUp);
-    rightArrowRef.current?.addEventListener("mouseup", handdleKeyUp);
+      const moveBallAndPaddle = () => {
+        if (!socket) return;
 
-    const moveBallAndPaddle = () => {
-      if (!socket) return;
+        if (keyState["ArrowUp"] || keyState["left"]) {
+          socket.emit("movePaddle", { userId: userId, keyCode: "up" });
+        } else if (keyState["ArrowDown"] || keyState["right"]) {
+          socket.emit("movePaddle", { userId: userId, keyCode: "down" });
+        }
+      };
 
-      if (keyState["ArrowUp"] || keyState["left"]) {
-        socket.emit("movePaddle", { userId: userId, keyCode: "up" });
-      } else if (keyState["ArrowDown"] || keyState["right"]) {
-        socket.emit("movePaddle", { userId: userId, keyCode: "down" });
-      }
-    };
+      const interval = setInterval(moveBallAndPaddle, 1000 / 60);
 
-    const interval = setInterval(moveBallAndPaddle, 1000 / 60);
+      return () => {
+        clearInterval(interval);
+        window.removeEventListener("keydown", handdleKeyDown);
+        window.removeEventListener("keyup", handdleKeyUp);
 
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener("keydown", handdleKeyDown);
-      window.removeEventListener("keyup", handdleKeyUp);
+        leftArrowRef.current?.removeEventListener("mousedown", handdleKeyDown);
+        rightArrowRef.current?.removeEventListener("mousedown", handdleKeyDown);
 
-      leftArrowRef.current?.removeEventListener("mousedown", handdleKeyDown);
-      rightArrowRef.current?.removeEventListener("mousedown", handdleKeyDown);
-
-      leftArrowRef.current?.removeEventListener("mouseup", handdleKeyUp);
-      rightArrowRef.current?.removeEventListener("mouseup", handdleKeyUp);
-    };
-    // }
+        leftArrowRef.current?.removeEventListener("mouseup", handdleKeyUp);
+        rightArrowRef.current?.removeEventListener("mouseup", handdleKeyUp);
+      };
+    }
   }, [gameStarted]);
 
   return (
