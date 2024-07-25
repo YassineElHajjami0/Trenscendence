@@ -5,7 +5,7 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class UserItemsService {
-  constructor(private readonly databaseService: DatabaseService) { }
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async getPaddleColor(userId: number) {
     const userItems = await this.databaseService.userItem.findMany({
@@ -14,10 +14,9 @@ export class UserItemsService {
       },
     });
 
-
     if (userItems.length > 0) {
       const choosedItems = userItems.filter((item) => item.choosed);
-  
+
       if (choosedItems.length > 0) {
         const items = await this.databaseService.item.findMany({
           where: {
@@ -28,7 +27,7 @@ export class UserItemsService {
           },
         });
 
-        console.log(items, "<<<<<<<<<<<<<<<<< items >>>>>>>>>>>>>>>>>>");
+        console.log(items, '<<<<<<<<<<<<<<<<< items >>>>>>>>>>>>>>>>>>');
         return items[0].color;
       }
     }
@@ -57,12 +56,14 @@ export class UserItemsService {
 
   async create(createUserItemDto: Prisma.UserItemUncheckedCreateInput) {
     const user = await this.databaseService.t_User.findFirst({
-      where: {uid: createUserItemDto.userId}
-    })
+      where: { uid: createUserItemDto.userId },
+    });
 
     this.updateWallet(user.uid, createUserItemDto.itemId);
 
-    return await this.databaseService.userItem.create({ data: createUserItemDto });
+    return await this.databaseService.userItem.create({
+      data: createUserItemDto,
+    });
   }
 
   async findAll() {
@@ -130,18 +131,15 @@ export class UserItemsService {
     });
     if (updateUserItemDto.type == 'avatar')
       return await this.databaseService.t_User.update({
-          where: {uid: updateUserItemDto.userId},
-          data: {avatar: updateUserItemDto.img},
-        }
-      );
+        where: { uid: updateUserItemDto.userId },
+        data: { avatar: updateUserItemDto.img },
+      });
     else if (updateUserItemDto.type == 'paddle')
       return await this.databaseService.t_User.update({
-          where: {uid: updateUserItemDto.userId},
-          data: {paddle: updateUserItemDto.img},
-        }
-      );
-    else 
-      return {};
+        where: { uid: updateUserItemDto.userId },
+        data: { paddle: updateUserItemDto.img },
+      });
+    else return {};
   }
 
   async remove(id: number) {
