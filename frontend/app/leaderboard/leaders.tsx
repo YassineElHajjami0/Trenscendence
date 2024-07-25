@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getRank } from "../util/headers";
 
-const Leaders = ({ users }) => {
+const Leaders = ({ users }:{users:any}) => {
   let cups = [
     `http://10.13.4.4:3000/cups/cup-1.svg`,
     `http://10.13.4.4:3000/cups/cup-2.svg`,

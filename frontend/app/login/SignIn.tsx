@@ -5,7 +5,6 @@ import { FaArrowRight } from "react-icons/fa6";
 
 import Image from "next/image";
 
-import ggl from "../../public/ggl_icon.png";
 import intra from "../../public/42_logo.svg";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useRouter } from "next/navigation";
@@ -17,8 +16,6 @@ import axios from "axios";
 
 import OtpInput from "react-otp-input";
 import { MdError } from "react-icons/md";
-import { IoIosFlashlight } from "react-icons/io";
-import { IoSunnyOutline } from "react-icons/io5";
 import { userTwoFA } from "../Atoms/_2faUser";
 import { twoFA } from "../Atoms/_If_2fa";
 
@@ -39,7 +36,6 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const [userTok, setUserTok] = useRecoilState(userToken);
 
   const [biometric, setBiometric] = useState<string>("");
-  // const [_2fa_opt, set_2fa_opt] = useState<boolean>(false);
   const [showPass, setShowPass] = useState<boolean>(false);
 
   const [username, setUsername] = useState<string>("");
@@ -53,9 +49,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     setUsername("");
     setPass("");
     setBiometric("");
-    // set_2fa_opt(false);
     setShowPass(false);
-    // setTwofa(false);
   }, [signInUp, loggedU]);
 
   signInUp && setTwofa(false);
@@ -73,41 +67,15 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       twoFaCode: biometric,
     };
 
-    // try {
-    //   const response = await axios.post(
-    //     `http://10.13.4.4:3000/auth/2fa`,
-    //     Udata
-    //   );
-    //   const data = await response.data;
-    //   router.push("/settings");
-    //   // window.location.href = "/settings";
 
-    //   setLoggedU(data.user.uid);
-    //   setUserTok(data.userToken);
-    // } catch (error: any) {
-    //   setErr(error?.response?.data?.message);
-    //   setTimeout(() => {
-    //     setErr("");
-    //   }, 5000);
-    // }
 
     try {
-      // const response = await fetch("http://10.13.4.4:3000/auth/2fa", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(Udata),
-      // });
       const response = await axios.post(
         `http://10.13.4.4:3000/auth/2fa`,
         Udata
       );
-      // const data = await response.json();
       const data = await response.data;
-      router.push("/settings");
-      // window.location.href = "/settings";
-
+      router.replace("/settings");
       setLoggedU(data.user.uid);
       setUserTok(data.userToken);
     } catch (error: any) {
@@ -127,26 +95,16 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     };
     const endpoint = signInUp ? "signup" : "login";
     try {
-      // const response = await fetch(`http://10.13.4.4:3000/auth/${endpoint}`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(Udata),
-      // });
       const response = await axios.post(
         `http://10.13.4.4:3000/auth/${endpoint}`,
         Udata
       );
-      // const data = await response.json();
       const data = await response.data;
       if (data.user.twoFA) {
         setTwofa(true);
         return;
       }
-      // window.location.href = "/settings";
-
-      router.replace("/play");
+      router.replace("/settings");
       setLoggedU(data.user.uid);
       setUserTok(data.user_token);
     } catch (error: any) {
@@ -164,9 +122,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const auth42 = async () => {
     router.push(`http://10.13.4.4:3000/auth/login-42`);
   };
-  const authGoogle = async () => {
-    router.push(`http://10.13.4.4:3000/auth/google`);
-  };
+
 
   return (
     <form onSubmit={uri} className="sign_in_container">
@@ -272,9 +228,6 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
       <h1>OR</h1>
       <div className="outher_methods">
-        {/* <button type="button" onClick={authGoogle} className="other_login">
-          <Image src={ggl} width={26} height={26} alt="google auth" /> google
-        </button> */}
         <button type="button" onClick={auth42} className="other_login">
           <Image src={intra} width={26} height={26} alt="42 auth" /> intra
         </button>

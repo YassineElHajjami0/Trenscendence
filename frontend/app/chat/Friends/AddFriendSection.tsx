@@ -75,7 +75,7 @@ const AddFriendSection = () => {
 
   const { socket } = useSocket();
   useEffect(() => {
-if (userL === -1) return
+    if (userL === -1) return
     if (!socket) return;
     const updateFriends = (friend: any) => {
       getAllusers();

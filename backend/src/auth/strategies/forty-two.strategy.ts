@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy } from 'passport-42';
+import { Strategy , VerifyCallback} from 'passport-42';
 import { AuthService } from '../auth.service';
 
 // change the redirect link
@@ -17,7 +17,8 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
   }
   // refresh token ??
   // store in req the user
-  async validate(accessToken: string, refreshToken: string, profile: any) {
+  async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback
+  ) {
     const { login, email, image } = profile._json;
 
     // const user = await this.authService.signUpWithProvider({
@@ -33,7 +34,8 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
       strategy: '42',
       avatar: image.link,
     };
-    // done(null, user);
+    // console.log("user ", user);
+    done(null, user);
     return user;
   }
 }

@@ -43,13 +43,15 @@ function RobotGame() {
     0,
     CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
     PADDLE_WIDTH,
-    PADDLE_HEIGHT
+    PADDLE_HEIGHT,
+    "white"
   );
   const rightPaddle = new Paddle(
     CANVAS_WIDTH - PADDLE_WIDTH,
     CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
     PADDLE_WIDTH,
-    PADDLE_HEIGHT
+    PADDLE_HEIGHT,
+    "white"
   );
 
   const router = useRouter();

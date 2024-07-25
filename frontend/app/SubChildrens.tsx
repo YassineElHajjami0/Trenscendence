@@ -30,10 +30,11 @@ export default function SubChildrens({
 }: {
   children: React.ReactNode;
 }) {
+  const [uid, setUid] = useState(-1)
   const user = useRecoilValue(loggedUser);
   const token = useRecoilValue(userToken);
   const router = useRouter();
-  const pathname = usePathname();
+  // const pathname = usePathname();
 
   /*---------- sokcets ---------------*/
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -50,58 +51,25 @@ export default function SubChildrens({
   /*---------- sokcets ---------------*/
 
   useEffect(() => {
+    setUid(user)
+  }, [user]);
+
+
+  useEffect(() => {
     user === -1 && router.push("/login");
-    user !== -1 && pathname === "/login" && router.push("/");
-  }, [user, pathname]);
+    // user !== -1 && pathname === "/login" && router.push("/");
+  }, [user]);
 
-  /*--------online offline---------*/
-
-  // const setUserStatus = (status: string) => {
-  //   if (user === -1) return;
-  //   const body = {
-  //     status: status,
-  //   };
-  //   try {
-  //     axios.patch(`http://10.13.4.4:3000/users/status/${user}`, body, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     console.log("3a", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  // addEventListener("offline", function () {
-  //   setUserStatus("offline");
-  // });
-  // addEventListener("online", function () {
-  //   setUserStatus("online");
-  // });
-  // const handleVisibility = () => {
-  //   if (document.visibilityState === "hidden") {
-  //     setUserStatus("offline");
-  //   } else {
-  //     setUserStatus("online");
-  //   }
-  // };
-  // addEventListener("visibilitychange", handleVisibility);
-  // return () => {
-  //   removeEventListener("visibilitychange", handleVisibility);
-  // };
-  // }, []);
-
-  /*--------online offline---------*/
-  /*--------online online---------*/
-  const setUserStatus = async () => {
+  
+  const changeUserStatus = async () => {
     if (user === -1) return;
     const body = {
       status: "online",
     };
     try {
       const res = await fetch(`http://10.13.4.4:3000/users/status/${user}`, {
-        headers: {
+        method: 'PATCH',  
+      headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
@@ -113,7 +81,7 @@ export default function SubChildrens({
   };
 
   useEffect(() => {
-    setUserStatus();
+    changeUserStatus();
   }, [user]);
   /*--------online online---------*/
   /*----------------------------------------------------------------------------------------------------------*/
@@ -257,15 +225,15 @@ export default function SubChildrens({
   return (
     <>
       {
-        user !== -1 &&
+        uid !== -1 && 
         <Nav />
-      }
+       }
 
       <div className="upperNav-children-container">
         <SocketContext.Provider value={{ socket }}>
 
           {
-            user !== -1 &&
+            uid !== -1 &&
             <UpperNav />
           }
           {gameRequestValue !== -1 && <GameRequestPopup />}

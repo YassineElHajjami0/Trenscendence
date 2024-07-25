@@ -18,7 +18,7 @@ export default function Login() {
   const logged = useRecoilValue(loggedUser);
 
   useEffect(() => {
-    if (logged != -1) router.push("/");
+    if (logged !== -1) router.replace("/settings");
   }, [logged]);
 
   const switchSides = () => {
@@ -34,7 +34,7 @@ export default function Login() {
             <h1>sign {signInUp ? "up" : "in"}</h1>
             <h3>
               {" "}
-              {signInUp && "New? create "} use you're ApexPongBattle account to
+              {signInUp && "New? create "} use you are ApexPongBattle account to
               continue
             </h3>
           </div>

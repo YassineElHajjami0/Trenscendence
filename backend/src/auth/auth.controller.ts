@@ -84,8 +84,11 @@ export class AuthController {
   @UseGuards(FortyTwoGuard)
   @Get('fortyTwo/redirect')
   @Public()
-  @Redirect(`http://${process.env.FRONT}/login`, 302)
+  @Redirect(`http://10.13.4.4:5252/login`, 302)
   async fortyTwoAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
+    if (!req.user) {
+      return {};
+    }
     const createUserDto = {
       username: req.user.username,
       email: req.user.email,
@@ -95,7 +98,6 @@ export class AuthController {
     };
 
     const cookies = await this.authService.signUpWithProvider(createUserDto);
-
     const userData = {
       loggedUser: cookies.twoFA ? -1 : cookies.uid,
       userTwoFA: cookies.uid,

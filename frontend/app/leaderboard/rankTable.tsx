@@ -3,7 +3,11 @@ import avatar from "./assets/avatars/av-1.svg";
 import throphy1 from "./assets/throphies/throphy-1.svg";
 import { getRank } from "../util/headers";
 
-const RankTable = ({ users }) => {
+interface RankTableProps {
+  users: any[];
+}
+
+const RankTable: React.FC<RankTableProps>  = ({ users }) => {
   if (users.length == 3) {
     return <div className="scrollable-leaderboard"></div>;
   }

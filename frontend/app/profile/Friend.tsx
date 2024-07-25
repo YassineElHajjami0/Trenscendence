@@ -3,7 +3,6 @@ import "./Friend.css";
 
 import React, { useEffect, useState } from "react";
 import { LuMessagesSquare } from "react-icons/lu";
-import { BiSolidJoystickAlt } from "react-icons/bi";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import { TbUserShare } from "react-icons/tb";
@@ -19,11 +18,6 @@ import axios from "axios";
 import { userToken } from "../Atoms/userToken";
 import { channelId } from "../Atoms/channelId";
 import { currentFriend } from "../Atoms/currentFriend";
-import {
-  channelData,
-  newRole,
-  userInterface,
-} from "../Interfaces/chatInterfaces";
 
 export default function Friend({
   friend,

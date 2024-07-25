@@ -129,7 +129,6 @@ const Nav = () => {
       </div>
       <div className="settings-logout">
         <ul>
-          {/* later */}
           <Link className="link" href="/settings">
             <li>
               <div>

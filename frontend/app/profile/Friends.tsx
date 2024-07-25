@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Friends.css";
 import Friend from "./Friend";
-import friendData from "../data/friends.json";
-import { FriendData } from "@/app/Interfaces/friendDataInterface";
 import { useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
-import AddFriendSection from "../chat/Friends/AddFriendSection";
 import "../chat/chat.css";
 import "../chat/Friends/AddFriend.css";
 import { useSocket } from "../SubChildrens";
@@ -22,7 +19,6 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
 
   const userTok = useRecoilValue(userToken);
   const [userFriends, setUserFriends] = useState<any[]>([]);
-  console.log("friend array>>>", userFriends);
 
   useEffect(() => {
     if (UID === -1) return;

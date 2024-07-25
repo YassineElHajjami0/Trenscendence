@@ -78,10 +78,8 @@ const FriendChatList = () => {
 
   const sendMSG = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("lolololo1");
 
     if (inputMSG.length === 0) return;
-    console.log("lolololo1");
     const channelData = {
       userID: loggedU,
       channelID: channelID,
@@ -99,6 +97,7 @@ const FriendChatList = () => {
     setInputMSG("");
     setShowEmoji(false);
   };
+  
   const handleEnter = async (e: any) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -118,7 +117,6 @@ const FriendChatList = () => {
   const playButtonRef = useRef<HTMLButtonElement>(null);
   const table = useRecoilValue(tablePicture);
   const sendGameReq = () => {
-    console.log("3aaaaaaa");
 
     if (!socket) return;
 

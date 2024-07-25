@@ -1,9 +1,7 @@
 "use client";
-import React, { useReducer } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
-import Popup from "./popupChooseImage/page";
 import Image from "next/image";
-import avatar from "../../public/avatar5.png";
 import { IoMdAdd } from "react-icons/io";
 import { IoCameraReverse } from "react-icons/io5";
 import { FaLock } from "react-icons/fa";

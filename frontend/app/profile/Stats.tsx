@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import "./Stats.css";
-import playerData from "../data/player-info.json";
 import ReactECharts from "echarts-for-react";
 import * as echarts from "echarts/core";
 import { useRecoilValue } from "recoil";
@@ -92,14 +91,6 @@ export default function Stats() {
   };
 
   const option = {
-    // title: {
-    //   text: `Your ${
-    //     statsSwitch.state === "w/l" ? "win-loss ratio" : statsSwitch.state
-    //   } over the week`,
-    //   textStyle: {
-    //     color: statsSwitch.color,
-    //   },
-    // },
     tooltip: {
       backgroundColor: "#27272b",
       borderWidth: 1,

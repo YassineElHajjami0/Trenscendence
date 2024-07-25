@@ -107,7 +107,6 @@ const UpperNav = () => {
   useEffect(() => {
     if (!socket) return;
     const handleUpdateList = (user: any) => {
-      if (!user) return;
       getAllUsers();
     };
     socket.on("update_All_Users", handleUpdateList);
@@ -157,6 +156,7 @@ const UpperNav = () => {
                 />
                 {user?.username}
               </Link>
+              // <div  key={user?.uid}>fff</div>
             );
           })}
         </div>
