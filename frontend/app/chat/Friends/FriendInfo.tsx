@@ -37,7 +37,7 @@ export const FriendInfo = () => {
       blocked: !friend.blocked,
     };
     try {
-      axios.patch(`http://10.13.4.4:3000/channels/dm`, body, {
+      axios.patch(`http://localhost:3000/channels/dm`, body, {
         headers: {
           Authorization: `Bearer ${userTok}`,
         },
@@ -53,7 +53,7 @@ export const FriendInfo = () => {
     const getUserData = async () => {
       try {
         const res = await fetch(
-          `http://10.13.4.4:3000/user-achievement/${friend.uid}`,
+          `http://localhost:3000/user-achievement/${friend.uid}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,

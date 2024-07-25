@@ -60,16 +60,16 @@ export default function SubChildrens({
     // user !== -1 && pathname === "/login" && router.push("/");
   }, [user]);
 
-  
+
   const changeUserStatus = async () => {
     if (user === -1) return;
     const body = {
       status: "online",
     };
     try {
-      const res = await fetch(`http://10.13.4.4:3000/users/status/${user}`, {
-        method: 'PATCH',  
-      headers: {
+      const res = await fetch(`http://localhost:3000/users/status/${user}`, {
+        method: 'PATCH',
+        headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
@@ -225,9 +225,9 @@ export default function SubChildrens({
   return (
     <>
       {
-        uid !== -1 && 
+        uid !== -1 &&
         <Nav />
-       }
+      }
 
       <div className="upperNav-children-container">
         <SocketContext.Provider value={{ socket }}>

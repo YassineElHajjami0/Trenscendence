@@ -49,7 +49,7 @@ model Channel {
   type     channelType @default(DM)
   name     String
   topic    String
-  uri      String      @default("http://10.13.4.4:3000/channelDefaultImage.png")
+  uri      String      @default("http://localhost:3000/channelDefaultImage.png")
   code     Int         @default(0000)
   roles    Role[]
   messages Message[]
@@ -118,9 +118,9 @@ model T_User {
   bio      String     @default("I am a player")
   password String
   twoFA    Boolean    @default(false)
-  avatar   String     @default("http://10.13.4.4:3000/default.png")
-  paddle   String     @default("http://10.13.4.4:3000/defaultPaddle.png")
-  banner   String     @default("http://10.13.4.4:3000/defaultBanner.jpg") // neeeeeed to be updated
+  avatar   String     @default("http://localhost:3000/default.png")
+  paddle   String     @default("http://localhost:3000/defaultPaddle.png")
+  banner   String     @default("http://localhost:3000/defaultBanner.jpg") // neeeeeed to be updated
   wallet   Int        @default(0)
   xp       Int        @default(0)
 

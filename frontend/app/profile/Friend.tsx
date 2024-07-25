@@ -63,7 +63,7 @@ export default function Friend({
     };
 
     try {
-      axios.patch(`http://10.13.4.4:3000/channels/dm`, body, {
+      axios.patch(`http://localhost:3000/channels/dm`, body, {
         headers: {
           Authorization: `Bearer ${userTok}`,
         },

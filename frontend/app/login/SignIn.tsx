@@ -71,7 +71,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
 
     try {
       const response = await axios.post(
-        `http://10.13.4.4:3000/auth/2fa`,
+        `http://localhost:3000/auth/2fa`,
         Udata
       );
       const data = await response.data;
@@ -96,7 +96,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
     const endpoint = signInUp ? "signup" : "login";
     try {
       const response = await axios.post(
-        `http://10.13.4.4:3000/auth/${endpoint}`,
+        `http://localhost:3000/auth/${endpoint}`,
         Udata
       );
       const data = await response.data;
@@ -120,7 +120,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
   const uri = test ? verifyTwoFA : signUpFunction;
 
   const auth42 = async () => {
-    router.push(`http://10.13.4.4:3000/auth/login-42`);
+    router.push(`http://localhost:3000/auth/login-42`);
   };
 
 

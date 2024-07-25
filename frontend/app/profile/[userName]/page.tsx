@@ -13,7 +13,7 @@ import { loggedUser } from "@/app/Atoms/logged";
 import { userToken } from "@/app/Atoms/userToken";
 import { selectedFriendProfile } from "@/app/Atoms/selectedFriendProfile";
 import ProfileDetails from "../ProfileDetails";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import LoadingPaddle from "@/app/LoadingPaddle";
 
 interface OtherProfileProps {
@@ -40,7 +40,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
     const getUserData = async () => {
       try {
         const res = await axios.get(
-          `http://10.13.4.4:3000/users/user/${params.userName}`,
+          `http://localhost:3000/users/user/${params.userName}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -61,7 +61,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
     }, 1000);
   }, [selectedProfile]);
 
-  
+
 
   return loading ? (
     <LoadingPaddle />
@@ -77,16 +77,16 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
         }}
         className="user_account"
       >
-        
-          <div className="img_container_add">
-            <Image
-              src={userData?.avatar}
-              width={2000}
-              height={2000}
-              alt="profile_avatar"
-              className="profile_photo"
-            />
-          </div>
+
+        <div className="img_container_add">
+          <Image
+            src={userData?.avatar}
+            width={2000}
+            height={2000}
+            alt="profile_avatar"
+            className="profile_photo"
+          />
+        </div>
 
         <div className="profile_data">
           <h1>{userData?.username}</h1>

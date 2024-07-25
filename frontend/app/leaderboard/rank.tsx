@@ -13,7 +13,7 @@ interface FetchResult {
 }
 
 const Rank = () => {
-    const { data, isPending, err } = useFetch(`http://10.13.4.4:3000/users?order_by=win`) as FetchResult;
+    const { data, isPending, err } = useFetch(`http://localhost:3000/users?order_by=win`) as FetchResult;
 
     return (
         <section className="rank-leaderboard">

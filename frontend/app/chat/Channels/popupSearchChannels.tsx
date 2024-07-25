@@ -34,7 +34,7 @@ const PopupSearchChannels: React.FC<popupProps> = ({
 
   const handleJoin = async (id: number) => {
     const req = await fetch(
-      `http://10.13.4.4:3000/channelss/roles?channelId=${id}`,
+      `http://localhost:3000/channelss/roles?channelId=${id}`,
       {
         headers: {
           Authorization: `Bearer ${userTok}`,
@@ -53,7 +53,7 @@ const PopupSearchChannels: React.FC<popupProps> = ({
       return;
     }
     await fetch(
-      `http://10.13.4.4:3000/channelss/joinpublic?userID=${userId}&channelID=${id}`,
+      `http://localhost:3000/channelss/joinpublic?userID=${userId}&channelID=${id}`,
       {
         method: "PATCH",
         headers: {
@@ -91,7 +91,7 @@ const PopupSearchChannels: React.FC<popupProps> = ({
     console.log("HERE");
     const fetchFreshChannels = async () => {
       const response = await fetch(
-        `http://10.13.4.4:3000/channelss?mustinclude=${channelName}`,
+        `http://localhost:3000/channelss?mustinclude=${channelName}`,
         {
           headers: {
             Authorization: `Bearer ${userTok}`,

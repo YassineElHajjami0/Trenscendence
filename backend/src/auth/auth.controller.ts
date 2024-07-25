@@ -84,7 +84,7 @@ export class AuthController {
   @UseGuards(FortyTwoGuard)
   @Get('fortyTwo/redirect')
   @Public()
-  @Redirect(`http://10.13.4.4:5252/login`, 302)
+  @Redirect(`http://localhost:5252/login`, 302)
   async fortyTwoAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
     if (!req.user) {
       return {};

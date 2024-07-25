@@ -1,16 +1,16 @@
 import Image from "next/image";
 import { getRank } from "../util/headers";
 
-const Leaders = ({ users }:{users:any}) => {
+const Leaders = ({ users }: { users: any }) => {
   let cups = [
-    `http://10.13.4.4:3000/cups/cup-1.svg`,
-    `http://10.13.4.4:3000/cups/cup-2.svg`,
-    `http://10.13.4.4:3000/cups/cup-3.svg`,
+    `http://localhost:3000/cups/cup-1.svg`,
+    `http://localhost:3000/cups/cup-2.svg`,
+    `http://localhost:3000/cups/cup-3.svg`,
   ];
   let throphies = [
-    `http://10.13.4.4:3000/throphies/throphy-1.svg`,
-    `http://10.13.4.4:3000/throphies/throphy-2.svg`,
-    `http://10.13.4.4:3000/throphies/throphy-3.svg`,
+    `http://localhost:3000/throphies/throphy-1.svg`,
+    `http://localhost:3000/throphies/throphy-2.svg`,
+    `http://localhost:3000/throphies/throphy-3.svg`,
   ];
   if (users.length < 3) return <div className="leaders-leaderboard"></div>;
   return (

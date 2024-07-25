@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { MdBlock } from "react-icons/md";
 import { BiSolidVolumeMute } from "react-icons/bi";
 import { io } from "socket.io-client";
-const socket = io("http://10.13.4.4:3001", { transports: ["websocket"] });
+const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
 type CHANNELUSER = {
   id: number;
@@ -55,7 +55,7 @@ const ChannelInfo = ({
     const patchRmAdmin = async () => {
       try {
         const response = await fetch(
-          `http://10.13.4.4:3000/channelss/rmadmin?channelId=${selectedChannel}&userId=${id}`,
+          `http://localhost:3000/channelss/rmadmin?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -74,7 +74,7 @@ const ChannelInfo = ({
     const patchMakeAdmin = async () => {
       try {
         const response = await fetch(
-          `http://10.13.4.4:3000/channelss/makeadmin?channelId=${selectedChannel}&userId=${id}`,
+          `http://localhost:3000/channelss/makeadmin?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -93,7 +93,7 @@ const ChannelInfo = ({
     const patchKick = async () => {
       try {
         const response = await fetch(
-          `http://10.13.4.4:3000/channelss/kick?channelId=${selectedChannel}&userId=${id}`,
+          `http://localhost:3000/channelss/kick?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -113,7 +113,7 @@ const ChannelInfo = ({
     const patchKick = async () => {
       try {
         const req = await fetch(
-          `http://10.13.4.4:3000/channelss/roles?channelId=${selectedChannel}`,
+          `http://localhost:3000/channelss/roles?channelId=${selectedChannel}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -127,7 +127,7 @@ const ChannelInfo = ({
         if (theOwner[0].user.uid == userId) {
           if (allRoles.length > 1) {
             const response = await fetch(
-              `http://10.13.4.4:3000/channelss/leave?channelId=${selectedChannel}&userId=${id}`,
+              `http://localhost:3000/channelss/leave?channelId=${selectedChannel}&userId=${id}`,
               {
                 method: "PATCH",
                 headers: {
@@ -142,7 +142,7 @@ const ChannelInfo = ({
         } else {
           console.log("HEEEEEREEE!!!");
           const response = await fetch(
-            `http://10.13.4.4:3000/channelss/kick?channelId=${selectedChannel}&userId=${userId}`,
+            `http://localhost:3000/channelss/kick?channelId=${selectedChannel}&userId=${userId}`,
             {
               method: "PATCH",
               headers: {
@@ -162,7 +162,7 @@ const ChannelInfo = ({
     const patchblock = async () => {
       try {
         const response = await fetch(
-          `http://10.13.4.4:3000/channelss/block?channelId=${selectedChannel}&userId=${id}`,
+          `http://localhost:3000/channelss/block?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -181,7 +181,7 @@ const ChannelInfo = ({
     const patchrmblock = async () => {
       try {
         const response = await fetch(
-          `http://10.13.4.4:3000/channelss/rmblock?channelId=${selectedChannel}&userId=${id}`,
+          `http://localhost:3000/channelss/rmblock?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -200,7 +200,7 @@ const ChannelInfo = ({
     const patchmute = async () => {
       try {
         const response = await fetch(
-          `http://10.13.4.4:3000/channelss/mute?channelId=${selectedChannel}&userId=${id}`,
+          `http://localhost:3000/channelss/mute?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -219,7 +219,7 @@ const ChannelInfo = ({
     const patchRmMute = async () => {
       try {
         const response = await fetch(
-          `http://10.13.4.4:3000/channelss/rmmute?channelId=${selectedChannel}&userId=${id}`,
+          `http://localhost:3000/channelss/rmmute?channelId=${selectedChannel}&userId=${id}`,
           {
             method: "PATCH",
             headers: {
@@ -246,7 +246,7 @@ const ChannelInfo = ({
     const fetchMessages = async () => {
       try {
         const response = await fetch(
-          `http://10.13.4.4:3000/channelss/messages?channelId=${channelToDisplay?.id}`,
+          `http://localhost:3000/channelss/messages?channelId=${channelToDisplay?.id}`,
           {
             headers: {
               Authorization: `Bearer ${userTok}`,
@@ -295,7 +295,7 @@ const ChannelInfo = ({
     <div className="selectedChannelData">
       <div className="ChannelImage">
         <Image
-          src={channelData?.uri ? `${channelData.uri}` : `http://10.13.4.4:3000/default.png`}
+          src={channelData?.uri ? `${channelData.uri}` : `http://localhost:3000/default.png`}
           width={100}
           height={100}
           alt="avatar"

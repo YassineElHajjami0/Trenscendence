@@ -115,7 +115,7 @@ export default function FriendsChat() {
     if (UID === -1) return;
 
     try {
-      const response = await fetch(`http://10.13.4.4:3000/channels/dm/${UID}`, {
+      const response = await fetch(`http://localhost:3000/channels/dm/${UID}`, {
         headers: {
           Authorization: `Bearer ${userTok}`,
           "Content-Type": "application/json",

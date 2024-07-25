@@ -19,7 +19,7 @@ export default function Stats() {
     if (userId === -1) return;
     try {
       const response = await fetch(
-        `http://10.13.4.4:3000/match-history/${userId}`,
+        `http://localhost:3000/match-history/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${userTok}`,
