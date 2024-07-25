@@ -164,7 +164,7 @@ function RobotGame() {
         });
       };
     }
-  }, [gameStarted, botPaddleSpeed, window.innerWidth]);
+  }, [gameStarted, botPaddleSpeed, window?.innerWidth]);
 
   useEffect(() => {
     let gameInterval: NodeJS.Timeout;

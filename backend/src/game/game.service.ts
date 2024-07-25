@@ -119,32 +119,32 @@ export class GameService {
       }
     });
     
-      if (this.queue.length === 0) return;
-      this.queue.forEach((user) => {
-        if (user.sockets.includes(client)) {
-          user.sockets.splice(user.sockets.indexOf(client), 1);
-        }
-      });
-      
-      if (this.againstFriendQueue.length === 0) return;
-      this.againstFriendQueue.forEach((user) => {
-        if (user.sockets.includes(client)) {
-          user.sockets.splice(user.sockets.indexOf(client), 1);
-        }
-      });
-      
-      if (this.rooms.size === 0) return;
-      this.rooms.forEach((room) => {
-        if (room.player1.sockets.includes(client)) {
-          room.player1.sockets.splice(room.player1.sockets.indexOf(client), 1);
-        }
-        if (room.player2.sockets.includes(client)) {
-          room.player2.sockets.splice(room.player2.sockets.indexOf(client), 1);
-        }
-      });
+    if (this.queue.length === 0) return;
+    this.queue.forEach((user) => {
+      if (user.sockets.includes(client)) {
+        user.sockets.splice(user.sockets.indexOf(client), 1);
+      }
+    });
     
+    if (this.againstFriendQueue.length === 0) return;
+    this.againstFriendQueue.forEach((user) => {
+      if (user.sockets.includes(client)) {
+        user.sockets.splice(user.sockets.indexOf(client), 1);
+      }
+    });
+    
+    if (this.rooms.size === 0) return;
+    this.rooms.forEach((room) => {
+      if (room.player1.sockets.includes(client)) {
+        room.player1.sockets.splice(room.player1.sockets.indexOf(client), 1);
+      }
+      if (room.player2.sockets.includes(client)) {
+        room.player2.sockets.splice(room.player2.sockets.indexOf(client), 1);
+      }
+    });
   }
-    // reconnect user to the game when the user refreshes the page
+
+  // reconnect user to the game when the user refreshes the page
   reconnectUser(client: Socket, userId: number) {
     const roomId = this.getRoomIdByUserId(userId);
       if (roomId) {

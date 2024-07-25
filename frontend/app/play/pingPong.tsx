@@ -357,94 +357,104 @@ export function PingPong() {
       } else {
         controlButtons!.style.display = "none";
       }
+      if (window.innerWidth > 769) {
+        controlButtons.style.display = "none";
+      }
+      window.addEventListener("resize", () => {
+        if (window.innerWidth < 769) {
+          controlButtons.style.display = "flex";
+        }
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 769) {
+          controlButtons.style.display = "none";
+        }
+      });
+
+      return () => {
+        window.removeEventListener("resize", () => {
+          if (window.innerWidth < 769) {
+            controlButtons.style.display = "flex";
+          }
+        });
+        window.removeEventListener("resize", () => {
+          if (window.innerWidth > 769) {
+            controlButtons.style.display = "none";
+          }
+        });
+      };
     }
   }, [gameStarted, window.innerWidth]);
 
   useEffect(() => {
-    if (gameStarted) {
-      const keyState: { [key: string]: boolean } = {};
-
-      // window.addEventListener('keydown', (event) => {
-      // 	keyState[event.key] = true;
-      // });
-
-      // window.addEventListener('keyup', (event) => {
-      // 	keyState[event.key] = false;
-      // });
-
-      const handdleKeyDown = (e: KeyboardEvent | MouseEvent) => {
-        if (e instanceof KeyboardEvent) {
-          keyState[e.key] = true;
-          if (e.key === "ArrowUp") {
-            delete keyState["ArrowDown"];
-          } else if (e.key === "ArrowDown") {
-            delete keyState["ArrowUp"];
-          }
-        } else {
-          const target = e.target as HTMLButtonElement;
-          keyState[target.id] = true;
-          if (target.id === "left") {
-            delete keyState["right"];
-          } else if (target.id === "right") {
-            delete keyState["left"];
-          }
+    // when i incomment this the paddle in against friend doesn't move after refreshing the page
+    // if (gameStarted) {
+    const keyState: { [key: string]: boolean } = {};
+    const handdleKeyDown = (e: KeyboardEvent | MouseEvent) => {
+      if (e instanceof KeyboardEvent) {
+        keyState[e.key] = true;
+        if (e.key === "ArrowUp") {
+          delete keyState["ArrowDown"];
+        } else if (e.key === "ArrowDown") {
+          delete keyState["ArrowUp"];
         }
-      };
-
-      const handdleKeyUp = (e: KeyboardEvent | MouseEvent) => {
-        if (e instanceof KeyboardEvent) {
-          delete keyState[e.key];
-        } else {
-          const target = e.target as HTMLButtonElement;
-          delete keyState[target.id];
+      } else {
+        const target = e.target as HTMLButtonElement;
+        keyState[target.id] = true;
+        if (target.id === "left") {
+          delete keyState["right"];
+        } else if (target.id === "right") {
+          delete keyState["left"];
         }
-      };
+      }
+    };
 
-      window.addEventListener("keydown", handdleKeyDown);
-      window.addEventListener("keyup", handdleKeyUp);
+    const handdleKeyUp = (e: KeyboardEvent | MouseEvent) => {
+      if (e instanceof KeyboardEvent) {
+        delete keyState[e.key];
+      } else {
+        const target = e.target as HTMLButtonElement;
+        delete keyState[target.id];
+      }
+    };
 
-      leftArrowRef.current?.addEventListener("mousedown", handdleKeyDown);
-      rightArrowRef.current?.addEventListener("mousedown", handdleKeyDown);
-      leftArrowRef.current?.addEventListener("mouseup", handdleKeyUp);
-      rightArrowRef.current?.addEventListener("mouseup", handdleKeyUp);
+    window.addEventListener("keydown", handdleKeyDown);
+    window.addEventListener("keyup", handdleKeyUp);
 
-      const moveBallAndPaddle = () => {
-        if (!socket) return;
+    leftArrowRef.current?.addEventListener("mousedown", handdleKeyDown);
+    rightArrowRef.current?.addEventListener("mousedown", handdleKeyDown);
+    leftArrowRef.current?.addEventListener("mouseup", handdleKeyUp);
+    rightArrowRef.current?.addEventListener("mouseup", handdleKeyUp);
 
-        if (keyState["ArrowUp"] || keyState["left"]) {
-          socket.emit("movePaddle", { userId: userId, keyCode: "up" });
-        } else if (keyState["ArrowDown"] || keyState["right"]) {
-          socket.emit("movePaddle", { userId: userId, keyCode: "down" });
-        }
+    const moveBallAndPaddle = () => {
+      if (!socket) return;
 
-        // socket.emit('moveBall', { userId: userId });
-      };
+      if (keyState["ArrowUp"] || keyState["left"]) {
+        socket.emit("movePaddle", { userId: userId, keyCode: "up" });
+      } else if (keyState["ArrowDown"] || keyState["right"]) {
+        socket.emit("movePaddle", { userId: userId, keyCode: "down" });
+      }
+    };
 
-      const interval = setInterval(moveBallAndPaddle, 1000 / 60);
+    const interval = setInterval(moveBallAndPaddle, 1000 / 60);
 
-      return () => {
-        clearInterval(interval);
-        window.removeEventListener("keydown", handdleKeyDown);
-        window.removeEventListener("keyup", handdleKeyUp);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("keydown", handdleKeyDown);
+      window.removeEventListener("keyup", handdleKeyUp);
 
-        leftArrowRef.current?.removeEventListener("mousedown", handdleKeyDown);
-        rightArrowRef.current?.removeEventListener("mousedown", handdleKeyDown);
+      leftArrowRef.current?.removeEventListener("mousedown", handdleKeyDown);
+      rightArrowRef.current?.removeEventListener("mousedown", handdleKeyDown);
 
-        leftArrowRef.current?.removeEventListener("mouseup", handdleKeyUp);
-        rightArrowRef.current?.removeEventListener("mouseup", handdleKeyUp);
-      };
-    }
+      leftArrowRef.current?.removeEventListener("mouseup", handdleKeyUp);
+      rightArrowRef.current?.removeEventListener("mouseup", handdleKeyUp);
+    };
+    // }
   }, [gameStarted]);
-
-  // useEffect(() => {
-  // 	socket.on('go_to_game', ( opponentId: number ) => {
-  // 		setGameMode('friend');
-  // 	});
-  // }, []);
 
   return (
     <div className="game-container">
-      {/* <Img priority={true} id='character' src={"/game/character.png"} alt="" width={280} height={270} /> */}
       <div className="canvas-container">
         <div className="control-buttons">
           <button id="left" className="control-button" ref={leftArrowRef}>
