@@ -50,6 +50,10 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
     try {
+      createUserDto.avatar = `${process.env.BACK_URL}/default.png`;
+      createUserDto.paddle = `${process.env.BACK_URL}/defaultPaddle.png`;
+      createUserDto.banner = `${process.env.BACK_URL}/defaultBanner.jpg`;
+
       const user = await this.databaseService.t_User.create({
         data: createUserDto,
       });
