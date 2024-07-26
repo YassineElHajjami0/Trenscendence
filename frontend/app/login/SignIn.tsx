@@ -99,6 +99,7 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
       );
       const data = await response.data;
       if (data.user.twoFA) {
+        setLoggedU2fa(data.user.uid);
         setTwofa(true);
         return;
       }
@@ -149,8 +150,9 @@ export default function SignIn({ signInUp }: { signInUp: boolean }) {
           tabIndex={signInUp ? 3 : 2}
           required={!test}
           placeholder="password"
-          className={`sign_in_ships for_pass_only ${showPass && "change_pass_bg"
-            }`}
+          className={`sign_in_ships for_pass_only ${
+            showPass && "change_pass_bg"
+          }`}
           type={showPass ? "text" : "password"}
           value={pass}
           onChange={(e) => setPass(e.target.value)}

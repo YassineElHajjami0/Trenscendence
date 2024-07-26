@@ -35,7 +35,12 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('game_request')
   handleGameRequest(
     client: Socket,
-    payload: { userId: number; opponentId: number; index: number; table: string }
+    payload: {
+      userId: number;
+      opponentId: number;
+      index: number;
+      table: string;
+    },
   ) {
     this.gameService.sendGameRequest(client, payload);
   }
@@ -43,7 +48,12 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('game_response')
   handleGameResponse(
     client: Socket,
-    response: { userId: number; opponentId: number; accepted: boolean; index: number }
+    response: {
+      userId: number;
+      opponentId: number;
+      accepted: boolean;
+      index: number;
+    },
   ) {
     console.log('Game response received ', response);
     this.gameService.gameResponse(client, response);
@@ -51,6 +61,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('remove_notification')
   handleRemoveNotification(
+    client: Socket,
     payload: { userId: number; opponentId: number },
   ) {
     // userId not user (remove-it-later)

@@ -235,8 +235,7 @@ export class GameService {
   ) {
     const user = this.getUser(response.userId);
     if (user) {
-      const opponent = this.getUser(response.opponentId);
-      opponent?.sockets.forEach((socket) => {
+      user?.sockets.forEach((socket) => {
         socket.emit('game_response_response', {
           accepted: response.accepted,
           index: response.index,
@@ -244,7 +243,7 @@ export class GameService {
         });
       });
     } else {
-      client.emit('game_response_response', 'Opponent not found'); // for debugging
+      client.emit('game_response_response', 'Opponent not found');
     }
   }
 
