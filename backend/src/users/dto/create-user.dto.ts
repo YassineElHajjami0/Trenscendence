@@ -30,8 +30,9 @@ export class CreateUserDto {
 
   twoFA?: boolean;
 
-  avatar?: string;
-  banner?: string;
+  avatar: string;
+  banner: string;
+  paddle: string;
   level?: number;
   points?: number;
 

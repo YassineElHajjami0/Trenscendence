@@ -89,11 +89,13 @@ export class AuthController {
     if (!req.user) {
       return {};
     }
-    const createUserDto = {
+    const createUserDto: CreateUserDto = {
       username: req.user.username,
       email: req.user.email,
       password: this.authService.generateRandomChars(10),
       avatar: req.user.avatar,
+      paddle: req.user.paddle,
+      banner: req.user.banner,
       strategy: '42',
     };
 
@@ -134,6 +136,8 @@ export class AuthController {
       email: req.user.email,
       password: req.user.password,
       avatar: req.user.avatar,
+      paddle: req.user.paddle,
+      banner: req.user.banner,
       strategy: 'google',
     };
     const cookies = await this.authService.signUpWithProvider(createUserDto);

@@ -27,8 +27,7 @@ export class UserItemsService {
           },
         });
 
-        console.log(items, '<<<<<<<<<<<<<<<<< items >>>>>>>>>>>>>>>>>>');
-        return items[0].color;
+        return items?.[0]?.color ?? "white";
       }
     }
     return 'white';

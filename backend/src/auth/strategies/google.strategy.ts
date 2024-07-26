@@ -54,6 +54,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       username: `${name.givenName}_${name.familyName}`,
       password: this.authService.generateRandomChars(10),
       avatar: photos[0].value,
+      paddle: `${process.env.BACK_URL}/defaultPaddle.png`,
+      banner: `${process.env.BACK_URL}/defaultBanner.jpg`,
       strategy: 'google',
       accessToken,
     };

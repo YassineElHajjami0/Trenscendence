@@ -33,6 +33,8 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
       password: this.authService.generateRandomChars(10),
       strategy: '42',
       avatar: image.link,
+      paddle: `${process.env.BACK_URL}/defaultPaddle.png`,
+      banner: `${process.env.BACK_URL}/defaultBanner.jpg`,
     };
     // console.log("user ", user);
     done(null, user);
