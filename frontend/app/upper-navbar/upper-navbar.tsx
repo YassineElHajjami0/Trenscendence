@@ -36,6 +36,27 @@ const UpperNav = () => {
     };
   }, [notificationRef]);
 
+  useEffect(() => {
+    const fetchedData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${loggedU}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const d = await response.json();
+        setUserAV(d?.avatar);
+      } catch (err) {
+        console.error("settings error >>>>>>", err);
+      }
+    };
+    fetchedData();
+  }, []);
+
   // const [userData, setUserData] = useState<User>();
   // useEffect(() => {
   //   const fetchUserData = async () => {
@@ -176,7 +197,9 @@ const UpperNav = () => {
         <div className="profile-picture">
           <div>
             <Image
-              src={userAV || `${process.env.NEXT_PUBLIC_BACKEND_URL}/default.png`}
+              src={
+                userAV || `${process.env.NEXT_PUBLIC_BACKEND_URL}/default.png`
+              }
               alt="P"
               width={45}
               height={45}

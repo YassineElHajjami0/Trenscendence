@@ -84,12 +84,15 @@ const Settings = () => {
           }
         );
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${userTok}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
         const avatarsAndPaddlesData = await avatarsAndPaddlesResponse.json();
         const d = await response.json();
         console.log("D >>>>> ", d);
@@ -188,24 +191,27 @@ const Settings = () => {
         }
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${userTok}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          avatar: data?.avatar,
-          banner: data?.banner,
-          username: data?.username,
-          email: data?.email,
-          oldPassword: data?.oldPassword,
-          newPassword: data?.newPassword,
-          confirmedPassword: data?.confirmedPassword,
-          bio: data?.bio,
-          twoFA: data?.twoFA,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            avatar: data?.avatar,
+            banner: data?.banner,
+            username: data?.username,
+            email: data?.email,
+            oldPassword: data?.oldPassword,
+            newPassword: data?.newPassword,
+            confirmedPassword: data?.confirmedPassword,
+            bio: data?.bio,
+            twoFA: data?.twoFA,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorResponse = await response.json();
@@ -255,14 +261,17 @@ const Settings = () => {
         body.confirmedPassword = data.confirmedPassword;
       }
       console.log(body);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${userTok}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...body }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...body }),
+        }
+      );
 
       if (!response.ok) {
         const errorResponse = await response.json();
@@ -279,17 +288,20 @@ const Settings = () => {
 
   const getNewQrCode = async (data: any) => {
     if (data.twoFA) {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/2fa/turn-on`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${userTok}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          uid: userId,
-          email: data.email,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/2fa/turn-on`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uid: userId,
+            email: data.email,
+          }),
+        }
+      );
       const data_ = await response.text();
       setQrImage(data_);
     }
@@ -298,32 +310,38 @@ const Settings = () => {
   const bringQrImage = async (data: any) => {
     console.log("data   ", data);
     if (!data.twoFA) {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/2fa/turn-on`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${userTok}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          uid: userId,
-          email: data.email,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/2fa/turn-on`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uid: userId,
+            email: data.email,
+          }),
+        }
+      );
       const data_ = await response.text();
       setQrImage(data_);
       console.log(data_);
     } else {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${userTok}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          twoFASecret: "",
-          twoFA: false,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            twoFASecret: "",
+            twoFA: false,
+          }),
+        }
+      );
     }
   };
 
@@ -366,29 +384,32 @@ const Settings = () => {
       const response =
         type == "avatar"
           ? await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems`, {
-            method: "PATCH",
-            headers: {
-              Authorization: `Bearer ${userTok}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              itemId: id,
-              userId: userId,
-              // choosed: true,
-              type: type,
-              img: img,
-            }),
-          })
-          : await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`, {
-            method: "PATCH",
-            headers: {
-              Authorization: `Bearer ${userTok}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              banner: img,
-            }),
-          });
+              method: "PATCH",
+              headers: {
+                Authorization: `Bearer ${userTok}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                itemId: id,
+                userId: userId,
+                // choosed: true,
+                type: type,
+                img: img,
+              }),
+            })
+          : await fetch(
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`,
+              {
+                method: "PATCH",
+                headers: {
+                  Authorization: `Bearer ${userTok}`,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  banner: img,
+                }),
+              }
+            );
       if (!response.ok) {
         const errorResponse = await response.json();
         setErrors("Something went wrong !");
@@ -408,10 +429,13 @@ const Settings = () => {
       const formData = new FormData();
       formData.append("image", file);
 
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/upload/${userId}?type=${ArticlesType}`, {
-        method: "POST",
-        body: formData,
-      })
+      fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/upload/${userId}?type=${ArticlesType}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      )
         .then((res) => {
           setShowArticlesPopup(false);
         })
@@ -529,8 +553,10 @@ const Settings = () => {
                   <div>
                     <Image
                       className="profile-image"
-                      src={`${data?.avatar || `${process.env.NEXT_PUBLIC_BACKEND_URL}/default.png`
-                        }`}
+                      src={`${
+                        data?.avatar ||
+                        `${process.env.NEXT_PUBLIC_BACKEND_URL}/default.png`
+                      }`}
                       width={192}
                       height={192}
                       alt="Profile Picture"

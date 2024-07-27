@@ -9,6 +9,7 @@ import { FaBagShopping } from "react-icons/fa6";
 import { userToken } from "@/app/Atoms/userToken";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { loggedUser } from "../Atoms/logged";
+import { userAvatar } from "../Atoms/userAvatar";
 
 interface itemsInterface {
   description: string;
@@ -47,6 +48,7 @@ const Store = () => {
   const [userData, setUserData] = useState<dataInterface>();
   const userId = useRecoilValue(loggedUser);
   const [playerPoints, setPlayerPoints] = useState<number>(0);
+  const [userAV, setUserAV] = useRecoilState(userAvatar);
 
   useEffect(() => {
     setTimeout(() => {
@@ -111,18 +113,21 @@ const Store = () => {
         setPopUpCannotBuy(false);
       }, 5000);
     } else {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${userTok}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: userId,
-          itemId: id,
-          choosed: false,
-        }),
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: userId,
+            itemId: id,
+            choosed: false,
+          }),
+        }
+      )
         .then((res) => {
           console.log(">>>>>>>>>>>>>>>baaa3>>>>>>>>>>", res);
           setUserData((prevData: any) => ({
@@ -157,23 +162,26 @@ const Store = () => {
 
   const handleChooseArticle = async (id: number, type: String) => {
     console.log("choosedArticle?.name => ", prevchoosedArticle);
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${userTok}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: userId,
-        itemId: id,
-        // choosed: true,
-        // oldId: prevchoosedArticle?.id || "undefined",
-        // oldType: prevchoosedArticle?.type || "undefined",
-        type: choosedArticle?.type, //++
-        // avatar: choosedArticle?.img, //++
-        img: choosedArticle?.img, //++
-      }),
-    })
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userId,
+          itemId: id,
+          // choosed: true,
+          // oldId: prevchoosedArticle?.id || "undefined",
+          // oldType: prevchoosedArticle?.type || "undefined",
+          type: choosedArticle?.type, //++
+          // avatar: choosedArticle?.img, //++
+          img: choosedArticle?.img, //++
+        }),
+      }
+    )
       .then(() => {
         console.log("?????????? => ITEMS =>", items);
 
@@ -183,8 +191,7 @@ const Store = () => {
               ...item,
               choosed: true,
             };
-          }
-          else if (item.type == type) {
+          } else if (item.type == type) {
             return {
               ...item,
               choosed: false,
@@ -198,8 +205,9 @@ const Store = () => {
           ...choosedArticle,
           choosed: true,
         };
-
         setChoosedArticle(updatedchoosedArticle);
+        if (updatedchoosedArticle?.type === "avatar")
+          setUserAV(updatedchoosedArticle.img);
       })
       .catch((errorResponse) => {
         throw new Error(`Failed to POST data. Error: ${errorResponse.message}`);
@@ -256,7 +264,12 @@ const Store = () => {
                         "choosed"
                       ) : (
                         <button
-                          onClick={() => handleChooseArticle(choosedArticle.id, choosedArticle.type)}
+                          onClick={() =>
+                            handleChooseArticle(
+                              choosedArticle.id,
+                              choosedArticle.type
+                            )
+                          }
                         >
                           choose
                         </button>

@@ -101,12 +101,6 @@ export default function FriendsChat() {
   });
 
   useEffect(() => {
-    myFriends.sort((a: channelData, b: channelData) => {
-      return new Date(b.sendAT).getTime() - new Date(a.sendAT).getTime();
-    });
-  });
-
-  useEffect(() => {
     if (!socket) return;
 
     const updateFriends = (friend: channelData) => {
@@ -120,12 +114,15 @@ export default function FriendsChat() {
 
   const getMyFriends = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/channels/dm/${UID}`, {
-        headers: {
-          Authorization: `Bearer ${userTok}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/channels/dm/${UID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
       await data.sort((a: channelData, b: channelData) => {
         return new Date(b.sendAT).getTime() - new Date(a.sendAT).getTime();
