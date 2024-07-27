@@ -44,8 +44,8 @@ model Channel {
   type     channelType @default(DM)
   name     String
   topic    String
-  uri      String      @default("http://10.13.10.8:3000/channelDefaultImage.png")
-  // uri      String
+  // uri      String      @default("http://10.13.4.4:3000/channelDefaultImage.png")
+  uri      String
   code     Int         @default(0000)
   roles    Role[]
   messages Message[]

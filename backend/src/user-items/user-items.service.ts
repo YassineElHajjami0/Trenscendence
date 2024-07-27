@@ -27,7 +27,7 @@ export class UserItemsService {
           },
         });
 
-        return items?.[0]?.color ?? "white";
+        return items?.[0]?.color ?? 'white';
       }
     }
     return 'white';

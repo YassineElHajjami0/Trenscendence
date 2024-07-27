@@ -50,7 +50,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
     try {
-      if (createUserDto.strategy === 'local')
+      if (!createUserDto.strategy)
         createUserDto.avatar = `${process.env.BACK_URL}/default.png`;
       createUserDto.paddle = `${process.env.BACK_URL}/defaultPaddle.png`;
       createUserDto.banner = `${process.env.BACK_URL}/defaultBanner.jpg`;
@@ -61,6 +61,7 @@ export class UsersService {
       this.chatGateway.updateAllUsers(user);
       return user;
     } catch (err: any) {
+      console.log(err);
       throw new UnauthorizedException(
         `${err.meta?.target} cannot be duplicated`,
       );

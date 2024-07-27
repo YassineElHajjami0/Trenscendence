@@ -9,11 +9,15 @@ export class ChannelService {
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly chatGateway: ChatGateway,
-  ) {}
+  ) { }
 
   async createDM(createChannelDto: ChannelDto) {
     const { name, topic, ...rest } = createChannelDto;
-    const data = { name, topic };
+    const data = {
+      name,
+      topic,
+      uri: `${process.env.BACK_URL}/channelDefaultImage.png`,
+    };
     const channel = await this.databaseService.channel.create({
       data: data,
     });

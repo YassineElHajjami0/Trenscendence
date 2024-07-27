@@ -1,6 +1,6 @@
 #/bin/bash
-export FRONT_URL="http://10.13.10.8:5252"
-export BACK_URL="http://10.13.10.8:3000"
+export FRONT_URL="http://10.13.4.4:5252"
+export BACK_URL="http://10.13.4.4:3000"
 
 
 # Wait for PostgreSQL to be ready

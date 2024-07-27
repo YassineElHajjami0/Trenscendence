@@ -155,7 +155,7 @@ const Store = () => {
     }
   };
 
-  const handleChooseArticle = async (id: number) => {
+  const handleChooseArticle = async (id: number, type: String) => {
     console.log("choosedArticle?.name => ", prevchoosedArticle);
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems`, {
       method: "PATCH",
@@ -184,7 +184,13 @@ const Store = () => {
               choosed: true,
             };
           }
-          return { ...item, choosed: false };
+          else if (item.type == type) {
+            return {
+              ...item,
+              choosed: false,
+            };
+          }
+          return { ...item };
         });
         console.log("?????????? => updatedItems =>", updatedItems);
         setItems(updatedItems);
@@ -250,7 +256,7 @@ const Store = () => {
                         "choosed"
                       ) : (
                         <button
-                          onClick={() => handleChooseArticle(choosedArticle.id)}
+                          onClick={() => handleChooseArticle(choosedArticle.id, choosedArticle.type)}
                         >
                           choose
                         </button>
