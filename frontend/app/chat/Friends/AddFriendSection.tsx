@@ -75,13 +75,10 @@ const AddFriendSection = () => {
   useEffect(() => {
     if (!socket) return;
     const updateFriends = (friend: any) => {
-      getAllusers();
+      if (friend) getAllusers();
     };
 
     socket.on("update_All_Users", updateFriends);
-    return () => {
-      socket.off("update_All_Users");
-    };
   });
 
   return (
@@ -93,8 +90,9 @@ const AddFriendSection = () => {
       {addFriend ? (
         <div
           onClick={addFriendClick}
-          className={`add_friend_container ${pathname === "/profile" && "big_one"
-            }`}
+          className={`add_friend_container ${
+            pathname === "/profile" && "big_one"
+          }`}
         >
           <input
             value={input}

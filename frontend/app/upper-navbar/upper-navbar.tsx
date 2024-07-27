@@ -131,9 +131,6 @@ const UpperNav = () => {
       getAllUsers();
     };
     socket.on("update_All_Users", handleUpdateList);
-    return () => {
-      socket.off("update_All_Users");
-    };
   });
 
   const handleOnBlur = () => {

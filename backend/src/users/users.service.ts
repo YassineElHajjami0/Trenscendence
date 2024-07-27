@@ -166,6 +166,8 @@ export class UsersService {
           where: { uid },
           data: result,
         });
+        this.chatGateway.updateFriendList(res);
+        this.chatGateway.updateAllUsers(res);
         return res;
       } catch (err: any) {
         throw new BadRequestException(
@@ -176,17 +178,20 @@ export class UsersService {
       //   where: { uid },
       //   data: result,
       // });
-    }
-    try {
-      const res = await this.databaseService.t_User.update({
-        where: { uid },
-        data: updateUserDto,
-      });
-      return res;
-    } catch (err: any) {
-      throw new BadRequestException(
-        `${err.meta?.target} Already taken by another user`,
-      );
+    } else {
+      try {
+        const res = await this.databaseService.t_User.update({
+          where: { uid },
+          data: updateUserDto,
+        });
+        this.chatGateway.updateFriendList(res);
+        this.chatGateway.updateAllUsers(res);
+        return res;
+      } catch (err: any) {
+        throw new BadRequestException(
+          `${err.meta?.target} Already taken by another user`,
+        );
+      }
     }
   }
 

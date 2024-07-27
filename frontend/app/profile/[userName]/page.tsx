@@ -75,9 +75,9 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
     };
 
     socket.on("update_friend_list", updateFriends);
-    return () => {
-      socket.off("update_friend_list");
-    };
+    // return () => {
+    //   socket.off("update_friend_list");
+    // };
   });
 
   const getIfFriend = async () => {
@@ -86,12 +86,15 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
       friendId: selectedProfile,
     };
 
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/friends/me/${loggedU}`, {
-      params: query,
-      headers: {
-        Authorization: `Bearer ${userTok}`,
-      },
-    });
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/friends/me/${loggedU}`,
+      {
+        params: query,
+        headers: {
+          Authorization: `Bearer ${userTok}`,
+        },
+      }
+    );
     const data = await res.data;
     setIsFriend(data);
   };
@@ -111,14 +114,17 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
     };
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/notifications`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${userTok}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(notifData),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/notifications`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${userTok}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(notifData),
+        }
+      );
     } catch (error: any) {
       console.log("error>>>", error);
     }

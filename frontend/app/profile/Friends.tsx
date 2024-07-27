@@ -44,9 +44,9 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
     };
 
     socket.on("update_blocked_friend", handleBlockedFriend);
-    return () => {
-      socket.off("update_blocked_friend");
-    };
+    // return () => {
+    //   socket.off("update_blocked_friend");
+    // };
   });
 
   useEffect(() => {
@@ -64,9 +64,9 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
     };
 
     socket.on("update_friend_status", handleNewFriendStatus);
-    return () => {
-      socket.off("update_friend_status");
-    };
+    // return () => {
+    //   socket.off("update_friend_status");
+    // };
   });
 
   useEffect(() => {
@@ -76,10 +76,10 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
     };
 
     socket.on("update_friend_list", updateFriends);
-    return () => {
-      socket.off("update_friend_list");
-    };
-  }, []);
+    // return () => {
+    //   socket.off("update_friend_list");
+    // };
+  });
 
   const getUserData = async () => {
     try {
