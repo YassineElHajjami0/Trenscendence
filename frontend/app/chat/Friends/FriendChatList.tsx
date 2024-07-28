@@ -24,6 +24,7 @@ import { chatMSG } from "@/app/Atoms/chatMSG";
 import { blockedMe } from "@/app/Atoms/blockedMe";
 import { useSocket } from "@/app/SubChildrens";
 import { tablePicture } from "@/app/Atoms/tablePicture";
+import { useRouter } from "next/navigation";
 
 const FriendChatList = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -115,6 +116,7 @@ const FriendChatList = () => {
   const { socket } = useSocket();
   const playButtonRef = useRef<HTMLButtonElement>(null);
   const table = useRecoilValue(tablePicture);
+  const router = useRouter();
   const sendGameReq = () => {
 
     if (!socket) return;
@@ -160,6 +162,9 @@ const FriendChatList = () => {
             userId: loggedU,
             opponentId: id,
           });
+          if (accepted) {
+            router.push('\play');
+          }
         }
       );
   };
