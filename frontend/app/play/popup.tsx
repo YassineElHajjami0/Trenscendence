@@ -208,11 +208,9 @@ export default function Popup({ setShowPopup }: any) {
         },
       });
       const data = await res.json();
-      // console.log("all users ====> ", data);
       if (data?.statusCode === 401) return;
       setAllUsers(data);
     } catch (error) {
-      console.log("catched error: ", error);
     }
   };
   const onlineFriends = allUsers.filter(
@@ -266,11 +264,7 @@ export default function Popup({ setShowPopup }: any) {
     if (!socket) return;
 
     setSendedRequestQueue((prevQueue) => [...prevQueue, opponentId]);
-    console.log(`sendedRequestQueue: ${sendedRequestQueue}`);
     const timeout = setTimeout(() => {
-      console.log(
-        `Request timeout for opponentId: ${opponentId}, index: ${index}`
-      );
       setSendedRequestQueue((prevQueue) =>
         prevQueue.filter((id) => id !== opponentId)
       );
@@ -288,8 +282,6 @@ export default function Popup({ setShowPopup }: any) {
       index: index,
       table: table,
     });
-    console.log(`opponentId: ${opponentId}, index: ${index}`);
-    console.log(`Sending game request to ${opponentId}`);
 
     socket
       .off("game_response_response")
@@ -307,10 +299,8 @@ export default function Popup({ setShowPopup }: any) {
           setResponseIndex(index);
           setResponseValue(accepted);
           if (accepted) {
-            console.log(`Game request accepted from ${id}`);
             toast.success(`Game request accepted from ${id}`);
           } else {
-            console.log(`Game rejected from ${id}`);
             toast.error(`Game rejected from ${id}`);
           }
 

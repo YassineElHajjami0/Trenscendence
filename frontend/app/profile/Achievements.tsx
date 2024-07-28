@@ -24,9 +24,7 @@ export default function Achievements({ whichProfile }: { whichProfile: any }) {
         );
         const data = await res.json();
         setUserAchievement(data);
-        console.log("userData-->>>", data);
       } catch (error: any) {
-        console.log("--->>>", error.message);
       }
     };
     getUserData();

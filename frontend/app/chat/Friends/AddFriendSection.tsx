@@ -64,7 +64,6 @@ const AddFriendSection = () => {
       const data = await res.json();
       setAllUsers(data);
     } catch (error) {
-      console.log("add friend error addFriendSection.tsx");
     }
   };
   useEffect(() => {
@@ -90,9 +89,8 @@ const AddFriendSection = () => {
       {addFriend ? (
         <div
           onClick={addFriendClick}
-          className={`add_friend_container ${
-            pathname === "/profile" && "big_one"
-          }`}
+          className={`add_friend_container ${pathname === "/profile" && "big_one"
+            }`}
         >
           <input
             value={input}

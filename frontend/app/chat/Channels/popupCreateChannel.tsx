@@ -35,7 +35,6 @@ const PopupCreateChannel: React.FC<popupProps> = ({
     formData.append("type", status);
     formData.append("code", code.toString());
     formData.append("topic", topic);
-    console.log("formData: ", formData);
     if (file) formData.append("uri", file);
 
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss?userId=${userId}`, {

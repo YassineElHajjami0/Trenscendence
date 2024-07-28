@@ -8,7 +8,7 @@ export class NotificationsService {
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly chatGateway: ChatGateway,
-  ) {}
+  ) { }
 
   async create(createNotificationDto: Prisma.NotificationUncheckedCreateInput) {
     const getNotificatons = await this.databaseService.notification.findFirst({
@@ -30,7 +30,6 @@ export class NotificationsService {
   async createChannelNotif(
     createNotificationDto: Prisma.NotificationUncheckedCreateInput,
   ) {
-    console.log('createNotificationDto=>', createNotificationDto);
     const getNotificatons = await this.databaseService.notification.findFirst({
       where: {
         chnnelId: createNotificationDto.chnnelId,
@@ -40,7 +39,6 @@ export class NotificationsService {
     });
 
     if (getNotificatons) {
-      console.log('DEJA VU');
       return;
     }
     const notification = await this.databaseService.notification.create({

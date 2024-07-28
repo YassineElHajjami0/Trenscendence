@@ -95,15 +95,12 @@ const Settings = () => {
         );
         const avatarsAndPaddlesData = await avatarsAndPaddlesResponse.json();
         const d = await response.json();
-        console.log("D >>>>> ", d);
         /******** */
         setData(d);
         setUserAV(d?.avatar);
 
         setAvatarsAndPaddles(avatarsAndPaddlesData);
         getNewQrCode(d);
-        console.log("data", d);
-        console.log("avatarsAndPaddles", avatarsAndPaddlesData);
       } catch (err) {
         console.error("settings error >>>>>>", err);
       }
@@ -113,8 +110,7 @@ const Settings = () => {
   }, [showArticlesPopup]);
 
   // useEffect(() => {
-  //           console.log("D >>>>> ", data);
-
+  //           
   //     bringQrImage(data?.twoFA);
 
   // }, [data])
@@ -169,7 +165,6 @@ const Settings = () => {
   }
 
   const saveUpdatewBtn = async () => {
-    console.log("????", data);
     try {
       setErrors("");
       if (
@@ -260,7 +255,6 @@ const Settings = () => {
         body.newPassword = data.newPassword;
         body.confirmedPassword = data.confirmedPassword;
       }
-      console.log(body);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`,
         {
@@ -308,7 +302,6 @@ const Settings = () => {
   };
 
   const bringQrImage = async (data: any) => {
-    console.log("data   ", data);
     if (!data.twoFA) {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/2fa/turn-on`,
@@ -326,7 +319,6 @@ const Settings = () => {
       );
       const data_ = await response.text();
       setQrImage(data_);
-      console.log(data_);
     } else {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`,
@@ -384,32 +376,32 @@ const Settings = () => {
       const response =
         type == "avatar"
           ? await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems`, {
+            method: "PATCH",
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              itemId: id,
+              userId: userId,
+              // choosed: true,
+              type: type,
+              img: img,
+            }),
+          })
+          : await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`,
+            {
               method: "PATCH",
               headers: {
                 Authorization: `Bearer ${userTok}`,
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                itemId: id,
-                userId: userId,
-                // choosed: true,
-                type: type,
-                img: img,
+                banner: img,
               }),
-            })
-          : await fetch(
-              `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`,
-              {
-                method: "PATCH",
-                headers: {
-                  Authorization: `Bearer ${userTok}`,
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  banner: img,
-                }),
-              }
-            );
+            }
+          );
       if (!response.ok) {
         const errorResponse = await response.json();
         setErrors("Something went wrong !");
@@ -423,7 +415,6 @@ const Settings = () => {
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("changed");
     const file = event.target.files?.[0];
     if (file) {
       const formData = new FormData();
@@ -553,10 +544,9 @@ const Settings = () => {
                   <div>
                     <Image
                       className="profile-image"
-                      src={`${
-                        data?.avatar ||
+                      src={`${data?.avatar ||
                         `${process.env.NEXT_PUBLIC_BACKEND_URL}/default.png`
-                      }`}
+                        }`}
                       width={192}
                       height={192}
                       alt="Profile Picture"

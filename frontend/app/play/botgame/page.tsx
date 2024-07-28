@@ -98,7 +98,6 @@ function RobotGame() {
         });
       }
     } catch (error) {
-      console.log("catched error: ", error);
     }
   };
 
@@ -114,7 +113,6 @@ function RobotGame() {
       const data = await res.json();
       setUserData(data);
     } catch (error) {
-      console.log("catched error: ", error);
     }
   };
 

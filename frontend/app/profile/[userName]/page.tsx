@@ -126,7 +126,6 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
         }
       );
     } catch (error: any) {
-      console.log("error>>>", error);
     }
   };
 
@@ -213,8 +212,7 @@ export default OtherProfile;
 //     navigator.clipboard
 //       .writeText(textToCopy)
 //       .then(() => {
-//         console.log("Text copied to clipboard:", textToCopy);
-//       })
+//         //       })
 //       .catch((error) => {
 //         console.error("Unable to copy text to clipboard", error);
 //       });

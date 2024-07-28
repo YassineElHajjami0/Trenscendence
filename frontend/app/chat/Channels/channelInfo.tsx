@@ -65,7 +65,6 @@ const ChannelInfo = ({
           }
         );
       } catch (error) {
-        console.log("Error herere");
       }
     };
     patchRmAdmin();
@@ -84,7 +83,6 @@ const ChannelInfo = ({
           }
         );
       } catch (error) {
-        console.log("Error herere");
       }
     };
     patchMakeAdmin();
@@ -103,11 +101,9 @@ const ChannelInfo = ({
           }
         );
       } catch (error) {
-        console.log("Error herere");
       }
     };
     patchKick();
-    console.log("KICKED");
   };
   const handleLeaveChannel = (id: number) => {
     const patchKick = async () => {
@@ -123,7 +119,6 @@ const ChannelInfo = ({
         );
         const allRoles = await req.json();
         const theOwner = allRoles.filter((e: any) => e.role == "OWNER");
-        console.log("theOwner=>", theOwner[0].user.uid, "  myID:", userId);
         if (theOwner[0].user.uid == userId) {
           if (allRoles.length > 1) {
             const response = await fetch(
@@ -140,7 +135,6 @@ const ChannelInfo = ({
             handleKickClick(theOwner[0].user.uid);
           }
         } else {
-          console.log("HEEEEEREEE!!!");
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/kick?channelId=${selectedChannel}&userId=${userId}`,
             {
@@ -153,7 +147,6 @@ const ChannelInfo = ({
           );
         }
       } catch (error) {
-        console.log("Error herere");
       }
     };
     patchKick();
@@ -172,7 +165,6 @@ const ChannelInfo = ({
           }
         );
       } catch (error) {
-        console.log("Error herere");
       }
     };
     patchblock();
@@ -191,7 +183,6 @@ const ChannelInfo = ({
           }
         );
       } catch (error) {
-        console.log("Error herere");
       }
     };
     patchrmblock();
@@ -210,7 +201,6 @@ const ChannelInfo = ({
           }
         );
       } catch (error) {
-        console.log("Error herere");
       }
     };
     patchmute();
@@ -229,7 +219,6 @@ const ChannelInfo = ({
           }
         );
       } catch (error) {
-        console.log("Error herere");
       }
     };
     patchRmMute();
@@ -242,7 +231,6 @@ const ChannelInfo = ({
       (ch) => ch.id === selectedChannel
     );
     setChannelData(channelToDisplay);
-    console.log(">>>>??>>>>", channelToDisplay);
     const fetchMessages = async () => {
       try {
         const response = await fetch(
@@ -266,7 +254,6 @@ const ChannelInfo = ({
           ),
         });
       } catch (error) {
-        console.log("Error herere");
       }
     };
     fetchMessages();

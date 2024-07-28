@@ -55,7 +55,6 @@ const Store = () => {
       setLoading(false);
     }, 1000);
     const fetchedData = async () => {
-      console.log("test");
       try {
         const responseUser = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${userId}`,
@@ -68,7 +67,6 @@ const Store = () => {
         );
         const dataofUser = await responseUser.json();
         setPlayerPoints(dataofUser.wallet);
-        console.log("data of user : ", dataofUser);
         setUserData(dataofUser);
 
         const response = await fetch(
@@ -81,13 +79,11 @@ const Store = () => {
           }
         );
         let data: itemsInterface[] = await response.json();
-        console.log("DATA:", data);
         data = data.filter((e) => e.type == "paddle" || e.type == "avatar");
         setChoosedArticle(data[0]);
 
         let oldestChoosedArticle: any = data.find((e) => e.choosed == true);
         setPrevChoosedArticle(oldestChoosedArticle?.id);
-        console.log("_______>>>", data);
         setItems(data);
       } catch (err) {
         console.error(">>>", err);
@@ -101,12 +97,6 @@ const Store = () => {
     id: number | undefined,
     price: number | undefined
   ) => {
-    console.log(
-      ">>>>playerPoints:",
-      playerPoints,
-      "   >>>>>choosedArticle?.price:",
-      choosedArticle?.price
-    );
     if (choosedArticle?.price && playerPoints < choosedArticle?.price) {
       setPopUpCannotBuy(!popUpCannotBuy);
       setTimeout(() => {
@@ -129,7 +119,6 @@ const Store = () => {
         }
       )
         .then((res) => {
-          console.log(">>>>>>>>>>>>>>>baaa3>>>>>>>>>>", res);
           setUserData((prevData: any) => ({
             ...prevData,
             wallet: prevData.wallet - (price ?? 0),
@@ -143,7 +132,6 @@ const Store = () => {
             }
             return item;
           });
-          console.log("?????????? => updatedItems =>", updatedItems);
           setItems(updatedItems);
           const updatedchoosedArticle: any = {
             ...choosedArticle,
@@ -161,7 +149,6 @@ const Store = () => {
   };
 
   const handleChooseArticle = async (id: number, type: String) => {
-    console.log("choosedArticle?.name => ", prevchoosedArticle);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/useritems`,
       {
@@ -183,7 +170,6 @@ const Store = () => {
       }
     )
       .then(() => {
-        console.log("?????????? => ITEMS =>", items);
 
         const updatedItems = items?.map((item) => {
           if (item.id === id) {
@@ -199,7 +185,6 @@ const Store = () => {
           }
           return { ...item };
         });
-        console.log("?????????? => updatedItems =>", updatedItems);
         setItems(updatedItems);
         const updatedchoosedArticle: any = {
           ...choosedArticle,

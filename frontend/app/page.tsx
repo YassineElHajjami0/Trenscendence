@@ -57,8 +57,6 @@ export default function Home() {
         );
         const data = await response.json();
         setData(data);
-        console.log("heeeeeeeerrrrreeeeee");
-        console.log(data);
       } catch (err) {
         console.error(">>>>>>", err);
       }

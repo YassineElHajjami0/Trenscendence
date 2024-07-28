@@ -9,9 +9,9 @@ import { GameService } from './game.service';
 
 @WebSocketGateway(3001, { cors: { origin: '*' } })
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  constructor(private readonly gameService: GameService) {}
+  constructor(private readonly gameService: GameService) { }
 
-  handleConnection(client: Socket) {}
+  handleConnection(client: Socket) { }
 
   handleDisconnect(client: Socket) {
     this.gameService.cleanUp(client);
@@ -55,7 +55,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       index: number;
     },
   ) {
-    console.log('Game response received ', response);
     this.gameService.gameResponse(client, response);
   }
 

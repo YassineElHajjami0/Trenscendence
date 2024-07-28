@@ -74,7 +74,6 @@ export default function Friend({
         },
       });
     } catch (error) {
-      console.log("3a", error);
     }
   };
 
@@ -102,9 +101,8 @@ export default function Friend({
 
         <label
           htmlFor={myFriend?.uid}
-          className={`profile_name ${blocked && "blocked_friend"}  ${
-            burgerM && "hideName"
-          }`}
+          className={`profile_name ${blocked && "blocked_friend"}  ${burgerM && "hideName"
+            }`}
         >
           <div
             className={`dot ${logged && "logged"}  ${inGame && "ingame"}`}
@@ -126,9 +124,8 @@ export default function Friend({
           {(whichProfile === -1 || whichProfile === loggedU) && (
             <>
               <button
-                className={`friend_component_btn friend_msg ${
-                  blocked && "disable_btns"
-                }`}
+                className={`friend_component_btn friend_msg ${blocked && "disable_btns"
+                  }`}
                 onClick={test}
                 disabled={blocked}
               >

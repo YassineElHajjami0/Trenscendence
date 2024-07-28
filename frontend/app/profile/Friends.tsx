@@ -22,7 +22,6 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
 
   const userTok = useRecoilValue(userToken);
   const [userFriends, setUserFriends] = useState<any[]>([]);
-  console.log("friend array>>>", userFriends);
 
   useEffect(() => {
     if (!socket) return;
@@ -93,11 +92,9 @@ export default function Friends({ whichProfile }: { whichProfile: any }) {
         }
       );
       const data = await res.json();
-      console.log("===========>>>>>>", data);
 
       setUserFriends(data);
     } catch (error: any) {
-      console.log("--->>>", error.message);
     }
   };
   useEffect(() => {

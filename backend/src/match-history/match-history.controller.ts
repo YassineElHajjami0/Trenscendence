@@ -14,18 +14,16 @@ import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('match-history')
 export class MatchHistoryController {
-  constructor(private readonly matchHistoryService: MatchHistoryService) {}
+  constructor(private readonly matchHistoryService: MatchHistoryService) { }
 
   @Public()
   @Post()
   create(@Body() createMatchHistoryDto: Prisma.MatchHistoryCreateInput) {
-    console.log('dataatat, ', createMatchHistoryDto);
     return this.matchHistoryService.create(createMatchHistoryDto);
   }
 
   @Get()
   findAll(@Query('id') id: string) {
-    console.log('hana 1111');
 
     if (id) {
       return this.matchHistoryService.findMatchOfUser(+id);
@@ -35,7 +33,6 @@ export class MatchHistoryController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    console.log('hana 122222');
     return this.matchHistoryService.findOne(+id);
   }
 

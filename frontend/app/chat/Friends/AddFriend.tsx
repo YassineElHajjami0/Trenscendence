@@ -29,7 +29,6 @@ export default function AddFriend({ user }: { user: any }) {
         body: JSON.stringify(notifData),
       });
     } catch (error: any) {
-      console.log("error>>>", error);
     }
   };
 

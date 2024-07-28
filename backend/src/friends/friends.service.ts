@@ -12,7 +12,7 @@ export class FriendsService {
     private readonly databaseService: DatabaseService,
     private readonly chatGateway: ChatGateway,
     private readonly channelService: ChannelService,
-  ) {}
+  ) { }
 
   async create(createFriendDto: FriendDto) {
     const { user1Id, user2Id } = createFriendDto;
@@ -61,7 +61,6 @@ export class FriendsService {
         AND: [{ userId: uid }, { choosed: true }],
       },
     });
-    // console.log("choosedItems", choosedItems);
 
     const avatar = choosedItems.filter((item: any) => {
       if (item.item.type == 'avatar') {

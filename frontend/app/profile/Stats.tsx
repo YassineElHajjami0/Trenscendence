@@ -87,7 +87,6 @@ export default function Stats() {
       );
       return dateObject;
     });
-    console.log(">>>>>>>>>>>>>2", dates);
     return dates;
   };
 

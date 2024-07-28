@@ -126,7 +126,6 @@ export function PingPong() {
       setRightPlayer(data2.username);
       setRightAvatar(data2.avatar);
     } catch (error) {
-      console.log("catched error: ", error);
     }
   };
 
@@ -308,7 +307,6 @@ export function PingPong() {
 
     socket.on("quited", (uId: number) => {
       if (userId === uId) {
-        console.log("uId: ", uId);
         setGameMode("");
         return;
       }

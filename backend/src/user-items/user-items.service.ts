@@ -5,7 +5,7 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class UserItemsService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) { }
 
   async getPaddleColor(userId: number) {
     const item = await this.databaseService.userItem.findFirst({
@@ -32,8 +32,7 @@ export class UserItemsService {
         ],
       },
     });
-    
-    console.log(item?.item?.color, "<<<<<<<<");
+
     return item?.item?.color ?? 'white';
 
     // return 'white';

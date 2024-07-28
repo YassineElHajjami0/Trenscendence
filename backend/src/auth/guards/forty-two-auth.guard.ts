@@ -10,7 +10,6 @@ export class FortyTwoGuard extends AuthGuard('FortyTwo') {
       await super.logIn(request);
       return activate;
     } catch (error) {
-      console.log(error);
     }
   }
 

@@ -23,8 +23,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   //   done: VerifyCallback,
   // ): Promise<any> {
   //   const { name, emails } = profile;
-  //   console.log('HELLO WORLD');
-  //   // const user = await this.authService.signUpWithProvider({
+  //     //   // const user = await this.authService.signUpWithProvider({
   //   //   username: `${name.givenName}_${name.familyName}`,
   //   //   email: emails[0].value,
   //   //   password: this.authService.generateRandomChars(10),
@@ -47,7 +46,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     profile: any,
     done: VerifyCallback,
   ): Promise<any> {
-    console.log('VALIDATE');
     const { name, emails, photos } = profile;
     const user = {
       email: emails[0].value,

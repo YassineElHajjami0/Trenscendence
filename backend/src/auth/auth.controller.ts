@@ -159,7 +159,6 @@ export class AuthController {
 
   @Get('tokens')
   async isTokenExpired(@Req() req) {
-    console.log(req.user);
     if (req.user) return { expired: true };
     return { expired: true };
   }
@@ -168,7 +167,6 @@ export class AuthController {
   @Post('2fa/turn-on')
   // @UseGuards(Jwt2faAuthGuard)
   async register(@Res({ passthrough: true }) res, @Body() body) {
-    console.log('BODY ', body);
     const { otpAuthUrl } =
       await this.authService.generateTwoFactorAuthenticationSecret(body);
     const qrCode = await this.authService.generateQrCodeDataURL(otpAuthUrl);

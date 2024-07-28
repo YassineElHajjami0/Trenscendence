@@ -78,10 +78,8 @@ const FriendChatList = () => {
 
   const sendMSG = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("lolololo1");
 
     if (inputMSG.length === 0) return;
-    console.log("lolololo1");
     const channelData = {
       userID: loggedU,
       channelID: channelID,
@@ -118,7 +116,6 @@ const FriendChatList = () => {
   const playButtonRef = useRef<HTMLButtonElement>(null);
   const table = useRecoilValue(tablePicture);
   const sendGameReq = () => {
-    console.log("3aaaaaaa");
 
     if (!socket) return;
 
@@ -246,7 +243,6 @@ const FriendChatList = () => {
             </button>
             <button
               onClick={() => {
-                console.log("lol");
               }}
               className="submit_msg"
               type="submit"

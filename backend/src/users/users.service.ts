@@ -22,7 +22,7 @@ export class UsersService {
     private readonly chatGateway: ChatGateway,
     @Inject(forwardRef(() => MatchHistoryService))
     private readonly matchHistory: MatchHistoryService,
-  ) {}
+  ) { }
 
   async delete() {
     return this.databaseService.t_User.deleteMany({});
@@ -61,7 +61,6 @@ export class UsersService {
       this.chatGateway.updateAllUsers(user);
       return user;
     } catch (err: any) {
-      console.log(err);
       throw new UnauthorizedException(
         `${err.meta?.target} cannot be duplicated`,
       );
@@ -249,14 +248,12 @@ export class UsersService {
     });
     if (user) {
       const oldXp = user.xp;
-      console.log('old xp', oldXp);
       const newXp = this.adjustXP(oldXp, status);
       const newRank = this.getRank(newXp);
       const res = await this.databaseService.t_User.update({
         where: { uid },
         data: { xp: newXp, rank: newRank },
       });
-      console.log('new xp', res.xp);
     }
   }
 

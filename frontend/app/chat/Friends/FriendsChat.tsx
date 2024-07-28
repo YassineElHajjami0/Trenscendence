@@ -129,7 +129,6 @@ export default function FriendsChat() {
       });
       setMyFriends(data);
     } catch (error) {
-      console.log("Error111");
     }
   };
   useEffect(() => {

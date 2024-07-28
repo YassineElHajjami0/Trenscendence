@@ -4,14 +4,13 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class ItemsService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) { }
 
   async create(createItemDto: Prisma.ItemCreateInput) {
     return this.databaseService.item.create({ data: createItemDto });
   }
 
   async findAll() {
-    console.log('hello world');
     return this.databaseService.item.findMany({});
   }
 

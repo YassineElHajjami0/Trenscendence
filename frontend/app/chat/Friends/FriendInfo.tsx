@@ -42,7 +42,6 @@ export const FriendInfo = () => {
         },
       });
     } catch (error) {
-      console.log("3a", error);
     }
   };
 
@@ -61,7 +60,6 @@ export const FriendInfo = () => {
         const data = await res.json();
         setUserAchievement(data);
       } catch (error: any) {
-        console.log("--->>>", error.message);
       }
     };
     getUserData();

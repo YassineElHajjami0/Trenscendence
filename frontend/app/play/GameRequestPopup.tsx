@@ -28,7 +28,6 @@ export default function GameRequestPopup() {
       const data = await res.json();
       setUsername(data.username);
     } catch (error) {
-      console.log("catched error: ", error);
     }
   };
 

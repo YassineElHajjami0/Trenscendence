@@ -16,7 +16,7 @@ import { UserStatus } from '@prisma/client';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -27,7 +27,6 @@ export class UsersController {
   @Get()
   findAll(@Query('order_by') order_by: string) {
     if (order_by === 'win') {
-      console.log('ORDER_BY ', order_by);
       return this.usersService.orderByAsc();
     }
     return this.usersService.findAll();
@@ -54,7 +53,6 @@ export class UsersController {
   }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    console.log('PATCH');
     return this.usersService.update(+id, updateUserDto);
   }
   @Patch('/status/:id')

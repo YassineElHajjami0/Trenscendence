@@ -143,7 +143,6 @@ export class ChannelService {
         where: { id: role.id },
         data: { blocked: body.blocked },
       });
-      console.log('newRole>>>', newRole);
       this.chatGateway.updateBlockedFriend(newRole);
       return newRole;
     }

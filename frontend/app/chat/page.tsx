@@ -55,7 +55,6 @@ const Chat = () => {
   useEffect(() => {
     const fetchChannels = async () => {
       try {
-        console.log("BLABLABLA");
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss/${userId}`,
           {
@@ -66,15 +65,11 @@ const Chat = () => {
           }
         );
         if (!response) {
-          console.log("Error");
         }
         const data = await response.json();
-        console.log("DAAAATAAAA:", data);
         const channelsArr = data.map((data: any) => data.channels);
-        console.log("channelsArr:", channelsArr);
         setChannels(channelsArr);
       } catch (error) {
-        console.log("Error");
       }
     };
     fetchChannels();

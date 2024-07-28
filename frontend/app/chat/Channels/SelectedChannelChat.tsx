@@ -11,7 +11,6 @@ import { MdOutlinePersonSearch } from "react-icons/md";
 import PopUpSearchFriend from "./popUpSearchFriend";
 
 const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}`, { transports: ["websocket"] });
-console.log("MMMMMM", socket);
 interface channelInterface {
   id: number;
   name: string;
@@ -58,7 +57,6 @@ const SelectedChannelChat = ({
       (ch) => ch.id === selectedChannel
     );
     setChToDisplay(channelToDisplay);
-    console.log("MMMMMMMMMM___>>", channelToDisplay);
     if (channelToDisplay?.type == "PRIVATE") {
       setShowSearchFriend(true);
     }
@@ -75,7 +73,6 @@ const SelectedChannelChat = ({
         );
         const data = await response.json();
 
-        console.log("?????????????? ", selectedChannel);
         const req = await fetch(
           `http://localhost:3000/channelss/roles?channelId=${selectedChannel}`,
           {
@@ -99,7 +96,6 @@ const SelectedChannelChat = ({
           setMessages(data);
         }
       } catch (error) {
-        console.log("Error herere");
       }
     };
     fetchMessages();
@@ -124,7 +120,6 @@ const SelectedChannelChat = ({
         setSelectedChannel(-1);
         return;
       }
-      console.log("my condition =", myCondition);
       setMyCondition(myCondition.condition);
       setMyRole(myCondition.role);
 
@@ -151,7 +146,6 @@ const SelectedChannelChat = ({
     socket.on("updateRoles", handleReceiveMessage);
     socket.on("updateUsersAfterSomeoneKick", (data: any) => {
       const imIn = data.find((e: any) => e.userID == userId);
-      console.log("im In =", imIn);
       if (!imIn) setSelectedChannel(-1);
     });
 
@@ -207,7 +201,6 @@ const SelectedChannelChat = ({
               difference
             );
             if (difference / (1000 * 60) >= 1) {
-              console.log("IMKN hERE");
               const patchRmMute = async () => {
                 try {
                   const response = await fetch(
@@ -221,7 +214,6 @@ const SelectedChannelChat = ({
                     }
                   );
                 } catch (error) {
-                  console.log("Error herere");
                 }
               };
               patchRmMute();
@@ -246,7 +238,6 @@ const SelectedChannelChat = ({
         const isItStillMute: Promise<number> = userIsMuted();
         const resolverNumber: number = await isItStillMute;
         if (resolverNumber == 0) {
-          console.log("STILL MUTED");
           return;
         }
         const response = await fetch(`http://localhost:3000/message`, {
@@ -260,7 +251,6 @@ const SelectedChannelChat = ({
           setMsgContent("");
         });
       } catch (error) {
-        console.log("Error herere");
       }
     };
     sendTheMessage();

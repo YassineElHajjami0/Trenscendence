@@ -121,7 +121,6 @@ export class MatchHistoryService {
         }
       }
     } catch (err: any) {
-      console.log(err);
     }
 
     return matchHistory;
@@ -149,7 +148,6 @@ export class MatchHistoryService {
       },
     });
     const matches_two = matches.map((match) => {
-      console.log(match);
       return {
         loserName: match.loserUser.username,
         winnerName: match.winnerUser.username,

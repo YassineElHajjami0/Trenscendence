@@ -43,10 +43,8 @@ const PopupSearchChannels: React.FC<popupProps> = ({
       }
     );
     const allRoles = await req.json();
-    console.log("all roles =>", allRoles);
     const imIinIt = allRoles.filter((e: any) => e.userID == userId);
     if (imIinIt.length && imIinIt.length > 0) {
-      console.log("ALREADY IN IT imIinIt => ", imIinIt);
       setShowPopUpSearchChannels(false);
       setSelectedChannel(id);
       setCode(undefined);
@@ -68,14 +66,6 @@ const PopupSearchChannels: React.FC<popupProps> = ({
   };
 
   const handleJoinProtected = async (id: number, originalCode: number) => {
-    console.log(
-      "id : ",
-      id,
-      " original code :",
-      originalCode,
-      " entered code :",
-      code
-    );
     if (originalCode == code) {
       handleJoin(id);
     } else {
@@ -88,7 +78,6 @@ const PopupSearchChannels: React.FC<popupProps> = ({
   };
 
   useEffect(() => {
-    console.log("HERE");
     const fetchFreshChannels = async () => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/channelss?mustinclude=${channelName}`,
@@ -100,7 +89,6 @@ const PopupSearchChannels: React.FC<popupProps> = ({
         }
       );
       const data = await response.json();
-      console.log("data is equal to :", data);
       setFetchedChannels(data);
     };
 

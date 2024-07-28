@@ -54,7 +54,6 @@ function Notification({ notif }: { notif: any }) {
         },
       });
     } catch (error: any) {
-      console.log("Error deleting notification:", error.message);
     }
   };
 
@@ -77,7 +76,6 @@ function Notification({ notif }: { notif: any }) {
         deleteNotificatio();
       });
     } catch (error: any) {
-      console.log("Error deleting notification:", error.message);
     }
   };
 

@@ -36,7 +36,6 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, 'FortyTwo') {
       paddle: `${process.env.BACK_URL}/defaultPaddle.png`,
       banner: `${process.env.BACK_URL}/defaultBanner.jpg`,
     };
-    // console.log("user ", user);
     done(null, user);
     return user;
   }

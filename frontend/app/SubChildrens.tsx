@@ -74,7 +74,6 @@ export default function SubChildrens({
         body: JSON.stringify(body),
       });
     } catch (error) {
-      console.log("3a", error);
     }
   };
 
@@ -95,7 +94,6 @@ export default function SubChildrens({
   useEffect(() => {
     if (user !== -1) {
       if (!socket) return;
-      console.log("-------------------------sokt");
 
       socket.emit("new_user", { userId: user });
       socket.on(
@@ -109,7 +107,6 @@ export default function SubChildrens({
           index: number;
           table: string;
         }) => {
-          console.log(`Game request from ${opponentId}`);
           setGameRequestQueue((prevQueue) => [...prevQueue, opponentId]);
           setIndex(index);
           setTable(table);
@@ -117,7 +114,6 @@ export default function SubChildrens({
       );
 
       socket.on("remove_notification", () => {
-        console.log("remove_notification event received");
         setGameRequestQueue((prevQueue) => prevQueue.slice(1));
         setGameRequestValue(-1);
         setGameResponseValue(0);
@@ -190,7 +186,6 @@ export default function SubChildrens({
     socket.on("go_to_random_game", () => {
       setGameMode("random");
       router.push("/play");
-      console.log("go to random game event received");
     });
 
     return () => {

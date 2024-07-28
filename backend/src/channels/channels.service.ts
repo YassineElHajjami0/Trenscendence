@@ -22,7 +22,6 @@ export class ChannelsService {
     // createChannelDto.uri = filePath;
     // createChannelDto.uri = `http://localhost:3000/${filePath}`;
     await fs.promises.writeFile(filePath, file.buffer);
-    console.log('!!!!!!', createChannelDto);
 
     const imageName = path.basename(filePath);
     createChannelDto.uri = `${process.env.BACK_URL}/${imageName}`;
@@ -48,7 +47,6 @@ export class ChannelsService {
       },
       take: 10,
     });
-    console.log('TEXT =>>', channels);
     return channels;
   }
 
@@ -74,7 +72,6 @@ export class ChannelsService {
       where: { channelID: channelId },
       include: { user: true },
     });
-    console.log('ROLES:', roles);
     return roles;
   }
 
@@ -87,7 +84,6 @@ export class ChannelsService {
   }
 
   update(id: number, updateChannelDto: UpdateChannelDto) {
-    console.log(updateChannelDto);
     return { data: `This action updates a #${id} channel` };
   }
   // return { data: `channel id : ${channelId} uid : ${userId}` };
@@ -154,7 +150,6 @@ export class ChannelsService {
       where: { channelID: channelId },
       include: { user: true },
     });
-    console.log('role now:', roles);
     if (roles.length == 0) {
       await this.databaseService.message.deleteMany({
         where: { channelID: channelId },
@@ -193,7 +188,6 @@ export class ChannelsService {
         data: { role: 'OWNER' },
       });
     }
-    console.log('oldestRole =', oldestRole);
     // const result = await this.databaseService.role.deleteMany({
     //   where: {
     //     channelID: channelId,

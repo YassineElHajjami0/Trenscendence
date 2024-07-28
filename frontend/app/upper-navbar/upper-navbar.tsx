@@ -67,8 +67,7 @@ const UpperNav = () => {
   //       },
   //     });
   //     const data = await response.json();
-  //     console.log(">>>>??>>>>", data);
-  //     setUserData(data);
+  //       //     setUserData(data);
   //   };
   //   fetchUserData();
   // }, []);
@@ -96,7 +95,6 @@ const UpperNav = () => {
       const data = await res.json();
       setMyNotifications(data);
     } catch (error: any) {
-      console.log("error>>>", error.message);
     }
   };
   const getAllUsers = async () => {
@@ -112,11 +110,9 @@ const UpperNav = () => {
         }
       );
       const data = await res.json();
-      console.log("all users>>>", data);
 
       setMyUsers(data);
     } catch (error: any) {
-      console.log("error>>>", error.message);
     }
   };
   useEffect(() => {

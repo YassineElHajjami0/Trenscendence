@@ -128,8 +128,7 @@ export default Profile;
 //     navigator.clipboard
 //       .writeText(textToCopy)
 //       .then(() => {
-//         console.log("Text copied to clipboard:", textToCopy);
-//       })
+//         //       })
 //       .catch((error) => {
 //         console.error("Unable to copy text to clipboard", error);
 //       });

@@ -17,7 +17,7 @@ import { Prisma } from '@prisma/client';
 
 @Controller('channelss')
 export class ChannelsController {
-  constructor(private readonly channelsService: ChannelsService) {}
+  constructor(private readonly channelsService: ChannelsService) { }
 
   @UseInterceptors(AnyFilesInterceptor())
   @Post()
@@ -27,13 +27,11 @@ export class ChannelsController {
     @Body() createChannelDto: Prisma.ChannelCreateInput,
   ) {
     createChannelDto.code = parseInt(createChannelDto.code.toString());
-    console.log('createChannelDto ==> ', createChannelDto);
     return this.channelsService.create(files[0], createChannelDto, userId);
   }
 
   @Get()
   findAll(@Query('mustinclude') text: string) {
-    console.log('Text:', text);
     return this.channelsService.findAll(text);
   }
   @Get('messages')
@@ -79,7 +77,6 @@ export class ChannelsController {
   }
   @Patch('kick')
   kick(@Query('channelId') channelId: string, @Query('userId') userId: string) {
-    console.log('PLLLZZ');
     return this.channelsService.kick(+channelId, +userId);
   }
   @Patch('mute')

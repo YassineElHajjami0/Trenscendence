@@ -6,72 +6,72 @@ import { UserItemsService } from "src/user-items/user-items.service";
 import { UsersService } from "src/users/users.service";
 
 export class Ball {
-	x: number;
-	y: number;
-	raduis: number;
-	dx: number;
-	dy: number;
-	speed: number;
+  x: number;
+  y: number;
+  raduis: number;
+  dx: number;
+  dy: number;
+  speed: number;
 
-	constructor(
-		x: number,
-		y: number,
-		raduis: number,
-		dx: number,
-		dy: number,
-		speed: number,
-	) {
-		this.x = x;
-		this.y = y;
-		this.raduis = raduis;
-		this.dx = dx;
-		this.dy = dy;
-		this.speed = speed;
-	}
+  constructor(
+    x: number,
+    y: number,
+    raduis: number,
+    dx: number,
+    dy: number,
+    speed: number,
+  ) {
+    this.x = x;
+    this.y = y;
+    this.raduis = raduis;
+    this.dx = dx;
+    this.dy = dy;
+    this.speed = speed;
+  }
 }
 
 export class Paddle {
-	x: number;
-	y: number;
-	width: number;
-	height: number;
-	score: number = 0;
-	color: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  score: number = 0;
+  color: string;
 
-	constructor(x: number, y: number, width: number, height: number, color: string) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		this.score = 0;
-		this.color = color;
-	}
+  constructor(x: number, y: number, width: number, height: number, color: string) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.score = 0;
+    this.color = color;
+  }
 }
 
 export class MatchDetails {
-	createdAt?: Date;
-	winnerScore: number;
-	loserScore: number;
-	gameMode: $Enums.GameMode;
-	startAt?: Date;
-	endAt?: Date;
-	winner: number;
-	loser: number;
+  createdAt?: Date;
+  winnerScore: number;
+  loserScore: number;
+  gameMode: $Enums.GameMode;
+  startAt?: Date;
+  endAt?: Date;
+  winner: number;
+  loser: number;
 }
 
 export class Room {
-	player1: User;
-	player2: User;
-	ball: Ball;
-	matchDetails: MatchDetails;
-	gameMode: string;
-	ballInterval: NodeJS.Timeout;
+  player1: User;
+  player2: User;
+  ball: Ball;
+  matchDetails: MatchDetails;
+  gameMode: string;
+  ballInterval: NodeJS.Timeout;
 }
 
 export class User {
-	userId: number;
-	sockets: Socket[] = [];
-	paddle: Paddle;
+  userId: number;
+  sockets: Socket[] = [];
+  paddle: Paddle;
 }
 
 
@@ -92,14 +92,14 @@ export class GameService {
     private readonly usersService: UsersService,
     private readonly matchHistoryService: MatchHistoryService,
     private readonly userItemsService: UserItemsService
-  ) {}
+  ) { }
   private queue: User[] = [];
   private againstFriendQueue: User[] = [];
   private rooms: Map<string, Room> = new Map();
   private users: Map<number, User> = new Map();
 
 
-	addNewUser(client: Socket, userId: number) {
+  addNewUser(client: Socket, userId: number) {
     const user = this.getUser(userId);
     if (!user) {
       const user = new User();
@@ -110,7 +110,7 @@ export class GameService {
       user?.sockets.push(client);
     }
 
-	}
+  }
 
   cleanUp(client: Socket) {
     this.users.forEach((user) => {
@@ -118,21 +118,21 @@ export class GameService {
         user.sockets.splice(user.sockets.indexOf(client), 1);
       }
     });
-    
+
     if (this.queue.length === 0) return;
     this.queue.forEach((user) => {
       if (user.sockets.includes(client)) {
         user.sockets.splice(user.sockets.indexOf(client), 1);
       }
     });
-    
+
     if (this.againstFriendQueue.length === 0) return;
     this.againstFriendQueue.forEach((user) => {
       if (user.sockets.includes(client)) {
         user.sockets.splice(user.sockets.indexOf(client), 1);
       }
     });
-    
+
     if (this.rooms.size === 0) return;
     this.rooms.forEach((room) => {
       if (room.player1.sockets.includes(client)) {
@@ -147,14 +147,14 @@ export class GameService {
   // reconnect user to the game when the user refreshes the page
   reconnectUser(client: Socket, userId: number) {
     const roomId = this.getRoomIdByUserId(userId);
-      if (roomId) {
-        const room = this.getRoom(roomId);
-        if (room) {
-          client.join(roomId);
-          if (room.gameMode === 'friend') {
-            client.emit('go_to_game', room.player1.userId === userId ? room.player2.userId : room.player1.userId);
-            if ( room.player1 !== undefined && room.player2 !== undefined && room.ball !== undefined) {
-              client.emit('start_game',
+    if (roomId) {
+      const room = this.getRoom(roomId);
+      if (room) {
+        client.join(roomId);
+        if (room.gameMode === 'friend') {
+          client.emit('go_to_game', room.player1.userId === userId ? room.player2.userId : room.player1.userId);
+          if (room.player1 !== undefined && room.player2 !== undefined && room.ball !== undefined) {
+            client.emit('start_game',
               room.ball, room.player1.paddle, room.player2.paddle,
               { userId: room.player1.userId, opponentId: room.player2.userId }
             );
@@ -247,7 +247,7 @@ export class GameService {
     }
   }
 
-  removeNotification(opponentId: number ) {
+  removeNotification(opponentId: number) {
     const user = this.getUser(opponentId);
     if (user) {
       user?.sockets.forEach((socket) => {
@@ -411,7 +411,6 @@ export class GameService {
       this.addToRandomQueue(user, color);
       this.startRandomMatch();
     } else {
-      console.log('User not found', userId);
     }
   }
 
@@ -429,7 +428,7 @@ export class GameService {
   }
 
   goToFriendlyGame(
-    payload: {userId: number, opponentId: number}
+    payload: { userId: number, opponentId: number }
   ) {
     const user = this.getUser(payload.userId);
     const opponent = this.getUser(payload.opponentId);
@@ -537,17 +536,17 @@ export class GameService {
     }
   }
 
-  getUser(userId: number) : User {
+  getUser(userId: number): User {
     return this.users.get(userId);
   }
 
-  getRoomIdByUserId(userId: number) : string {
+  getRoomIdByUserId(userId: number): string {
     const roomKeys = Array.from(this.rooms.keys());
     const roomId = roomKeys.find((roomId) => roomId.includes(userId.toString()));
     return roomId;
   }
 
-  getRoom(roomId: string) : Room {
+  getRoom(roomId: string): Room {
     return this.rooms.get(roomId);
   }
 

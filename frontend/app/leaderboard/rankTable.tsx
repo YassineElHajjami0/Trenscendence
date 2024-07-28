@@ -7,7 +7,7 @@ interface RankTableProps {
   users: any[];
 }
 
-const RankTable: React.FC<RankTableProps>  = ({ users }) => {
+const RankTable: React.FC<RankTableProps> = ({ users }) => {
   if (users.length == 3) {
     return <div className="scrollable-leaderboard"></div>;
   }
@@ -27,7 +27,6 @@ const RankTable: React.FC<RankTableProps>  = ({ users }) => {
         </tr>
         {data.map((user, index) => {
           let rank = getRank(user.xp);
-          console.log("RANK ", rank);
           return (
             <tr key={user.uid}>
               <td>#{index + 4 - i}</td>
