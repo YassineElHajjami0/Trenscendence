@@ -159,7 +159,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
         ) : (
           <div className="img_container_add">
             <Image
-              src={`${"/ranks/" + userData?.rank + ".png" || ""}`}
+              src={`${"/ranks/" + userData?.rank + ".png" }`}
               width={100}
               height={100}
               alt="profile_avatar"

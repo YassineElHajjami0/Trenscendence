@@ -78,6 +78,13 @@ export default function FriendsChat() {
     // };
   });
 
+
+  useEffect(() => {
+    myFriends.sort((a: channelData, b: channelData) => {
+      return new Date(b.sendAT).getTime() - new Date(a.sendAT).getTime();
+    });
+  });
+
   useEffect(() => {
     if (!socket) return;
 

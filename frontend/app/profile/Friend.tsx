@@ -19,11 +19,6 @@ import axios from "axios";
 import { userToken } from "../Atoms/userToken";
 import { channelId } from "../Atoms/channelId";
 import { currentFriend } from "../Atoms/currentFriend";
-import {
-  channelData,
-  newRole,
-  userInterface,
-} from "../Interfaces/chatInterfaces";
 
 export default function Friend({
   friend,
