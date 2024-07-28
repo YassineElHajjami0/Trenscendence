@@ -15,4 +15,3 @@ RUN npm install
 RUN npm run build
 
 CMD [ "npm", "run", "start", "--", "-p", "5252"]
-# CMD [ "npm", "run", "dev", "--", "-p", "5252"]

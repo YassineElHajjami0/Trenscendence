@@ -1,0 +1,3 @@
+add .env for back and front(.env.local) and db
+change config.mjs to domain [ipAdress]
+change the ip in script.sh

@@ -8,29 +8,35 @@ export class UserItemsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async getPaddleColor(userId: number) {
-    const userItems = await this.databaseService.userItem.findMany({
+    const item = await this.databaseService.userItem.findFirst({
+      select: {
+        item: {
+          select: {
+            color: true,
+          },
+        },
+      },
       where: {
-        userId: userId,
+        AND: [
+          {
+            userId: userId,
+          },
+          {
+            item: {
+              type: 'paddle',
+            },
+          },
+          {
+            choosed: true,
+          },
+        ],
       },
     });
+    
+    console.log(item?.item?.color, "<<<<<<<<");
+    return item?.item?.color ?? 'white';
 
-    if (userItems.length > 0) {
-      const choosedItems = userItems.filter((item) => item.choosed);
-
-      if (choosedItems.length > 0) {
-        const items = await this.databaseService.item.findMany({
-          where: {
-            type: 'paddle',
-            AND: choosedItems.map((item) => {
-              return { id: item.itemId };
-            }),
-          },
-        });
-
-        return items?.[0]?.color ?? 'white';
-      }
-    }
-    return 'white';
+    // return 'white';
   }
 
   async updateWallet(uid: number, itemId: number) {
