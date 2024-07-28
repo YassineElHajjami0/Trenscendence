@@ -11,24 +11,51 @@ import { FaRankingStar } from "react-icons/fa6";
 import { IoMdChatbubbles } from "react-icons/io";
 import { IoMdSettings } from "react-icons/io";
 import { MdOutlineLogout } from "react-icons/md";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { loggedUser } from "../Atoms/logged";
 import { userToken } from "../Atoms/userToken";
 import { userNotifications } from "../Atoms/notifications";
 import { userTwoFA } from "../Atoms/_2faUser";
 import { twoFA } from "../Atoms/_If_2fa";
 import { useRouter } from "next/navigation";
+import { blockedMe } from "../Atoms/blockedMe";
+import { channelId } from "../Atoms/channelId";
+import { chatMSG } from "../Atoms/chatMSG";
+import { currentFriend } from "../Atoms/currentFriend";
+import { selectedFriendProfile } from "../Atoms/selectedFriendProfile";
+import { gameModeVar } from "../Atoms/gameMode";
+import { gameRequest } from "../Atoms/gameRequest";
+import { gameResponse } from "../Atoms/gameRespose";
+import { g_gameStarted } from "../Atoms/gameStarted";
+import { loadingMsg } from "../Atoms/loadingMsg";
+import { tablePicture } from "../Atoms/tablePicture";
+import { userAvatar } from "../Atoms/userAvatar";
+import defautPicture from "@/public/game/tables/default-table.png";
+import { slctdFriend } from "../Atoms/friendAtom";
 
 const Nav = () => {
-  const [user2fa, setUser2fa] = useRecoilState(userTwoFA);
-  const [twofa, setTwofa] = useRecoilState(twoFA);
-
   const [loggedU, setLoggedU] = useRecoilState(loggedUser);
-  const [loggedU2fa, setLoggedU2fa] = useRecoilState(userTwoFA);
 
   const [loggedT, setLoggedT] = useRecoilState(userToken);
-  const [myNotifications, setMyNotifications] =
-    useRecoilState(userNotifications);
+
+  const setUserTwoFA = useSetRecoilState(userTwoFA);
+  const setTwoFA = useSetRecoilState(twoFA);
+  const setBlockedMe = useSetRecoilState(blockedMe);
+  const setChannelId = useSetRecoilState(channelId);
+  const setChatMSG = useSetRecoilState(chatMSG);
+  const setCurrentFriend = useSetRecoilState(currentFriend);
+  const SetslctdFriend = useSetRecoilState(slctdFriend);
+  const setSelectedFriendProfile = useSetRecoilState(selectedFriendProfile);
+  const setGameModeVar = useSetRecoilState(gameModeVar);
+  const setGameRequest = useSetRecoilState(gameRequest);
+  const setGameResponse = useSetRecoilState(gameResponse);
+  const setGGameStarted = useSetRecoilState(g_gameStarted);
+  const setLoadingMsg = useSetRecoilState(loadingMsg);
+  const setLoggedUser = useSetRecoilState(loggedUser);
+  const setUserNotifications = useSetRecoilState(userNotifications);
+  const setTablePicture = useSetRecoilState(tablePicture);
+  const setUserAvatar = useSetRecoilState(userAvatar);
+  const setUserToken = useSetRecoilState(userToken);
 
   const router = useRouter();
   const logout = async (e: any) => {
@@ -56,11 +83,24 @@ const Nav = () => {
         console.error("Error:", error);
       }
 
-      setTwofa(false);
-      setLoggedU(-1);
-      setLoggedU2fa(-1);
-      setLoggedT("");
-      setMyNotifications([]);
+      setUserTwoFA(-1);
+      setTwoFA(false);
+      setBlockedMe(false);
+      setChannelId(-1);
+      setChatMSG([]);
+      setCurrentFriend({});
+      SetslctdFriend(-1);
+      setGameModeVar("");
+      setGameRequest(-1);
+      setGameResponse(0);
+      setGGameStarted(false);
+      setLoadingMsg(false);
+      setLoggedUser(-1);
+      setUserNotifications([]);
+      setSelectedFriendProfile(-1);
+      setTablePicture(defautPicture.src);
+      setUserAvatar(`${process.env.NEXT_PUBLIC_BACKEND_URL}/default.png`);
+      setUserToken("");
       router.replace("/login");
     }
   };

@@ -65,16 +65,18 @@ export default function SubChildrens({
       status: "online",
     };
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/status/${user}`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
-    } catch (error) {
-    }
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/status/${user}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      );
+    } catch (error) {}
   };
 
   useEffect(() => {
