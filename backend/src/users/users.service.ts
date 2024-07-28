@@ -196,7 +196,6 @@ export class UsersService {
   }
 
   async updateStatus(uid: number, status: UserStatus) {
-    console.log('>>>>>>', status);
 
     const res = await this.databaseService.t_User.update({
       where: { uid },

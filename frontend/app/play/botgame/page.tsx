@@ -20,7 +20,7 @@ const BALL_DY = 5;
 const PADDLE_WIDTH = 20;
 const PADDLE_HEIGHT = 150;
 const PADDLE_SPEED = 10;
-const WINNER_SCORE = 1;
+const WINNER_SCORE = 5;
 
 function RobotGame() {
   const canvasRef = useRef(null);
@@ -371,6 +371,12 @@ function RobotGame() {
         ball.dx = direction * ball.speed * Math.cos(angleRad);
         ball.dy = ball.speed * Math.sin(angleRad);
         if (ball.speed < 10) ball.speed += 0.5;
+      }
+
+      if (ball.y + BALL_RADIUS > CANVAS_HEIGHT) {
+        ball.y = CANVAS_HEIGHT - BALL_RADIUS - 5;
+      } else if (ball.y < 0) {
+        ball.y = BALL_RADIUS + 5;
       }
 
       if ((keyState["ArrowUp"] || keyState["left"]) && leftPaddle.y > 0) {

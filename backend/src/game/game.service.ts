@@ -660,6 +660,12 @@ export class GameService {
       if (room.ball.speed < 20) room.ball.speed += 1;
     }
 
+    if (room.ball.y + BALL_RADIUS > CANVAS_HEIGHT) {
+      room.ball.y = CANVAS_HEIGHT - BALL_RADIUS - 5;
+    } else if (room.ball.y < 0) {
+      room.ball.y = BALL_RADIUS + 5;
+    }
+
     const allSockets = [...room.player1.sockets, ...room.player2.sockets];
 
     allSockets.forEach((socket) => {
