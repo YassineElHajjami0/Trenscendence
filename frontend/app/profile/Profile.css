@@ -35,41 +35,34 @@
   height: 200px;
   border-radius: 50%;
   border: 5px solid #1ce14e;
-  /* animation: heartbeat 3s infinite 5s ease-in-out; */
-  animation: showUp2 0.5s ease-in-out;
+  transition: all 0.4s;
 }
 .profile_photo2 {
+  position: absolute;
   width: 200px;
   height: 200px;
-
+  scale: 0;
+  opacity: 0;
   filter: drop-shadow(0 0 50px #1ce14d70);
-  animation: showUp 0.5s ease-in-out;
+  transition: all 0.4s;
 }
 
-@keyframes showUp {
-  0% {
-    opacity: 0;
-    scale: 0;
-  }
-  100% {
-    scale: 1;
-    opacity: 1;
-    rotate: 360deg;
-  }
+.hide_profile_photo {
+  scale: 0;
+  opacity: 0;
 }
-@keyframes showUp2 {
-  0% {
-    opacity: 0;
-    scale: 0;
-  }
-  100% {
-    scale: 1;
-    opacity: 1;
-  }
+.showUp2_profile_photo2 {
+  scale: 1;
+  opacity: 1;
 }
 
+.img_container_add:hover {
+  cursor: pointer;
+}
 .img_container_add {
   position: relative;
+  display: grid;
+  place-items: center;
 }
 .add_me_if_not {
   position: absolute;

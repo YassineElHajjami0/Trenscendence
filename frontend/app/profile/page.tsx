@@ -27,12 +27,15 @@ const Profile = () => {
     const getUserData = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${loggedU}`, {
-          headers: {
-            Authorization: `Bearer ${userTok}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/${loggedU}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userTok}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
         const data = await res.json();
         setUserData(data);
         setTimeout(() => {
@@ -63,40 +66,36 @@ const Profile = () => {
           <span>Edit</span>
           <MdOutlineEdit />
         </div>
-        {hoverEffect ? (
-          <div className="img_container_add">
-            <Image
-              src={`${userData?.avatar || ""}`}
-              width={200}
-              height={200}
-              alt="profile_avatar"
-              className="profile_photo"
-            />
-          </div>
-        ) : (
-          <div className="img_container_add">
-            <Image
-              src={`${"/ranks/" + userData?.rank + ".png"}`}
-              width={100}
-              height={100}
-              alt="profile_avatar"
-              className="profile_photo2"
-            />
-          </div>
-        )}
+        <div
+          onMouseOver={() => setHoverEffect(false)}
+          onMouseOut={() => setHoverEffect(true)}
+          className="img_container_add"
+        >
+          <Image
+            src={`${userData?.avatar || ""}`}
+            width={100}
+            height={100}
+            alt="profile_avatar"
+            className={`profile_photo ${!hoverEffect && "hide_profile_photo"}`}
+          />
+
+          <Image
+            src={`${"/ranks/" + userData?.rank + ".png"}`}
+            width={100}
+            height={100}
+            alt="profile_avatar"
+            className={`profile_photo2 ${
+              !hoverEffect && "showUp2_profile_photo2"
+            }`}
+          />
+        </div>
         <div className="profile_data">
           <h1>{userData?.username}</h1>
           <h4 className="profile_username">
             <PiCurrencyEthFill /> {userData?.wallet}
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
-          <h2
-            onMouseOver={() => setHoverEffect(false)}
-            onMouseOut={() => setHoverEffect(true)}
-            className="profile_user_lvl"
-          >
-            {userData?.rank}
-          </h2>
+          <h2 className="profile_user_lvl">{userData?.rank}</h2>
 
           <div className="profile_progress">
             <div className="progress">

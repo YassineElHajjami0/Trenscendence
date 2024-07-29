@@ -125,8 +125,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
           body: JSON.stringify(notifData),
         }
       );
-    } catch (error: any) {
-    }
+    } catch (error: any) {}
   };
 
   return loading ? (
@@ -143,30 +142,32 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
         }}
         className="user_account"
       >
-        {hoverEffect ? (
-          <div className="img_container_add">
-            <Image
-              src={userData?.avatar}
-              width={2000}
-              height={2000}
-              alt="profile_avatar"
-              className="profile_photo"
-            />
-            {!isFriend && (
-              <BsPersonFillAdd className="add_me_if_not" onClick={addFriend} />
-            )}
-          </div>
-        ) : (
-          <div className="img_container_add">
-            <Image
-              src={`${"/ranks/" + userData?.rank + ".png" }`}
-              width={100}
-              height={100}
-              alt="profile_avatar"
-              className="profile_photo2"
-            />
-          </div>
-        )}
+        <div
+          onMouseOver={() => setHoverEffect(false)}
+          onMouseOut={() => setHoverEffect(true)}
+          className="img_container_add"
+        >
+          {!isFriend && hoverEffect && (
+            <BsPersonFillAdd className="add_me_if_not" onClick={addFriend} />
+          )}
+          <Image
+            src={userData?.avatar}
+            width={100}
+            height={100}
+            alt="profile_avatar"
+            className={`profile_photo ${!hoverEffect && "hide_profile_photo"}`}
+          />
+
+          <Image
+            src={`${"/ranks/" + userData?.rank + ".png"}`}
+            width={100}
+            height={100}
+            alt="profile_avatar"
+            className={`profile_photo2 ${
+              !hoverEffect && "showUp2_profile_photo2"
+            }`}
+          />
+        </div>
 
         <div className="profile_data">
           <h1>{userData?.username}</h1>
@@ -174,13 +175,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ params }) => {
             <PiCurrencyEthFill /> {userData?.wallet}
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
-          <h2
-            onMouseOver={() => setHoverEffect(false)}
-            onMouseOut={() => setHoverEffect(true)}
-            className="profile_user_lvl"
-          >
-            {userData?.rank}
-          </h2>
+          <h2 className="profile_user_lvl">{userData?.rank}</h2>
 
           <div className="profile_progress">
             <div className="progress">
