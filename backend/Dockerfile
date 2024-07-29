@@ -9,10 +9,10 @@ WORKDIR /app
 # Copy the package.json and package-lock.json files
 COPY package.json ./
 
-COPY . .
-
 # Install dependencies
 RUN npm install
+
+COPY . .
 
 # Insert into tables some data [items ]
 ENTRYPOINT [ "sh", "script.sh" ]

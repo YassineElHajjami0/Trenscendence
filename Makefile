@@ -8,3 +8,7 @@ down :
 
 status : 
 	@docker ps
+
+re: 
+	docker system prune -af
+	make up

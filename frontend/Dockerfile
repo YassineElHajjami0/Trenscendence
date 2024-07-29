@@ -6,11 +6,11 @@ WORKDIR /frontend
 
 # Copy the package.json and package-lock.json files
 COPY package.json .
+
 # Install dependencies
 RUN npm install
 
 COPY . .
-
 
 RUN npm run build
 

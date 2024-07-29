@@ -210,11 +210,14 @@ export class GameService {
     }
   }
 
-  sendGameRequest(
+  async sendGameRequest(
     client: Socket,
     payload: { userId: number, opponentId: number, index: number, table: string }
   ) {
     if (payload.userId === -1) return;
+    const userData = await this.usersService.findOne(payload.userId);
+    const opData = await this.usersService.findOne(payload.opponentId);
+    if (userData.status !== 'online' || opData.status !== 'online') return;
     const user = this.getUser(payload.opponentId);
     if (user) {
       user?.sockets.forEach((socket) => {
