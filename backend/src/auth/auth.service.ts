@@ -42,13 +42,16 @@ export class AuthService {
   }
 
   async signUpWithProvider(createUserDto: CreateUserDto) {
+    let redirectUrl = `${process.env.FRONT_URL}/login`;
     let user = await this.usersService.findByEmail(createUserDto.email);
     if (!user) {
       createUserDto.username += this.generateRandomChars(5);
       user = await this.signUp(createUserDto);
+      redirectUrl = `${process.env.FRONT_URL}/settings`;
     }
     const bearer_token = await this.login(user);
     return {
+      redirectUrl: redirectUrl,
       uid: user.uid,
       twoFA: user.twoFA,
       bearer_token: bearer_token,

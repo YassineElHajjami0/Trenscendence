@@ -84,10 +84,10 @@ export class AuthController {
   @UseGuards(FortyTwoGuard)
   @Get('fortyTwo/redirect')
   @Public()
-  @Redirect(`${process.env.FRONT_URL}/login`, 302)
+  // @Redirect(`${process.env.FRONT_URL}/settings`, 302)
   async fortyTwoAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
     if (!req.user) {
-      return {};
+      return res.redirect(`${process.env.FRONT_URL}/login`);
     }
     const createUserDto: CreateUserDto = {
       username: req.user.username,
@@ -107,13 +107,14 @@ export class AuthController {
       twoFA: cookies.twoFA,
     };
     res.cookie('userData', JSON.stringify(userData));
-
+    return res.redirect(cookies.redirectUrl);
     // res.cookie('loggedUser', cookies.uid, { httpOnly: true });
     // res.cookie('userToken', cookies.bearer_token, { httpOnly: true });
-    return {
-      user_token: cookies.bearer_token,
-      user: cookies.uid,
-    };
+
+    // return {
+    //   user_token: cookies.bearer_token,
+    //   user: cookies.uid,
+    // };
   }
 
   @Get('google')
