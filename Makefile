@@ -1,14 +1,13 @@
 all : up
 
 up : 
-	@docker-compose up --build
+	@docker-compose up --build -d
 
 down : 
 	@docker-compose down
+	@docker system prune -af
 
 status : 
 	@docker ps
 
-re: 
-	docker system prune -af
-	make up
+re: down up

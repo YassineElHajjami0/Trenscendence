@@ -7,7 +7,7 @@ const nextConfig = {
     domains: [
       "cdn.intra.42.fr",
       "localhost",
-      "10.13.1.7",
+      "10.13.3.2",
       "lh3.googleusercontent.com",
     ],
   },

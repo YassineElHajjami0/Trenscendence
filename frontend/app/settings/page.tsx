@@ -293,6 +293,7 @@ const Settings = () => {
           body: JSON.stringify({
             uid: userId,
             email: data.email,
+            isEnabled: data.twoFA,
           }),
         }
       );

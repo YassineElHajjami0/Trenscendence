@@ -1,6 +1,6 @@
 #/bin/bash
-export FRONT_URL="http://10.13.1.7:5252"
-export BACK_URL="http://10.13.1.7:3000"
+export FRONT_URL="http://10.13.3.2:5252"
+export BACK_URL="http://10.13.3.2:3000"
 
 
 # Wait for PostgreSQL to be ready
@@ -25,16 +25,14 @@ INSERT INTO "Item" (img , name , description , price , type , power , color)
 VALUES ('$BACK_URL/pd/Cyber Siren.png', 'Cyber Siren', 'A captivating pink paddle designed for agility and finesse, blending elegance with deadly precision.', 50, 'paddle', 'Power', 'red');
 
 
-
-
 INSERT INTO "Item" (img , name , description , price , type , power)
 VALUES ('$BACK_URL/bn/Azure Nexus.jpeg', 'Azure Nexus', 'A sleek table with glowing blue neon edges and a holographic net, set against a neon-lit cyberpunk cityscape.', 100, 'banner', 'Power');
 INSERT INTO "Item" (img , name , description , price , type , power)
-VALUES ('$BACK_URL/bn/Emerald Grid.jpg', 'Emerald Grid', 'A vibrant table with green neon edges and a holographic net, perfect for a dynamic cyberpunk atmosphere.', 50, 'banner', 'Power');
+VALUES ('$BACK_URL/bn/Emerald Grid.jpeg', 'Emerald Grid', 'A vibrant table with green neon edges and a holographic net, perfect for a dynamic cyberpunk atmosphere.', 50, 'banner', 'Power');
 INSERT INTO "Item" (img , name , description , price , type , power)
-VALUES ('$BACK_URL/bn/Crimson Horizon.jpg', 'Crimson Horizon', 'A striking table with red neon edges and a holographic net, set against a bold, dystopian cityscape.', 200, 'banner', 'Power');
+VALUES ('$BACK_URL/bn/Crimson Horizon.jpeg', 'Crimson Horizon', 'A striking table with red neon edges and a holographic net, set against a bold, dystopian cityscape.', 200, 'banner', 'Power');
 INSERT INTO "Item" (img , name , description , price , type , power)
-VALUES ('$BACK_URL/bn/defaultBanner.jpg', 'Neon Core', 'A standard yet futuristic table with sleek lines and subtle neon accents, blending seamlessly into any cyberpunk setting. Perfect for all players, offering a balanced and visually appealing gameplay experience.', 0, 'banner', 'Power');
+VALUES ('$BACK_URL/bn/defaultBanner.jpeg', 'Neon Core', 'A standard yet futuristic table with sleek lines and subtle neon accents, blending seamlessly into any cyberpunk setting. Perfect for all players, offering a balanced and visually appealing gameplay experience.', 0, 'banner', 'Power');
 
 
 INSERT INTO "Item" (img , name , description , price , type , power)

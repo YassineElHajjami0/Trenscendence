@@ -43,4 +43,5 @@ export class CreateUserDto {
   role?: string;
   wallet?: number;
   twoFASecret?: string;
+  qrCode?: string;
 }

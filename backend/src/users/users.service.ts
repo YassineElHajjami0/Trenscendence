@@ -102,7 +102,7 @@ export class UsersService {
     return user;
   }
   async findOne(uid: number) {
-    const user = await this.databaseService.t_User.findFirst({
+    const user = await this.databaseService.t_User.findUnique({
       where: { uid },
     });
     if (user) {

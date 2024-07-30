@@ -127,6 +127,7 @@ model T_User {
   role             String            @default("User")
   strategy         String            @default("local")
   twoFASecret      String            @default("")
+  qrCode           String            @default("")
   userItems        UserItem[]
   usersSendThem    UserFriend[]      @relation("usersSendThem")
   usersSendMe      UserFriend[]      @relation("usersSendMe")
