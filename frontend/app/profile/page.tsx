@@ -22,6 +22,7 @@ const Profile = () => {
   const userTok = useRecoilValue(userToken);
   const route = useRouter();
   const [userData, setUserData] = useState<userInterface | null>(null);
+console.log('banner>>>',userData);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -58,7 +59,7 @@ const Profile = () => {
           77deg,
           rgba(0, 0, 0, 1) 30%,
           rgba(255, 255, 255, 0) 100%
-        ), url(${userData?.banner})`,
+        ), url('${userData?.banner}')`,
         }}
         className="user_account"
       >
@@ -67,8 +68,7 @@ const Profile = () => {
           <MdOutlineEdit />
         </div>
         <div
-          onMouseOver={() => setHoverEffect(false)}
-          onMouseOut={() => setHoverEffect(true)}
+          
           className="img_container_add"
         >
           <Image
@@ -95,7 +95,10 @@ const Profile = () => {
             <PiCurrencyEthFill /> {userData?.wallet}
           </h4>
           <h4 className="profile_email">{userData?.email}</h4>
-          <h2 className="profile_user_lvl">{userData?.rank}</h2>
+          <h2
+          onMouseOver={() => setHoverEffect(false)}
+          onMouseOut={() => setHoverEffect(true)}
+          className="profile_user_lvl">{userData?.rank}</h2>
 
           <div className="profile_progress">
             <div className="progress">

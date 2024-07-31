@@ -1,0 +1,212 @@
+postgres:5432 - accepting connections
+MIGRATOIN COUNT 1
+Migrations have already been applied. Skipping...
+
+> transcendence@0.0.1 start:dev
+> nest start --watch
+
+c[[90m11:07:31 AM[0m] Starting compilation in watch mode...
+
+[96msrc/achievements/achievements.controller.ts[0m:[93m18[0m:[93m47[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'AchievementCreateInput'.
+
+[7m18[0m   create(@Body() createAchievementDto: Prisma.AchievementCreateInput) {
+[7m  [0m [91m                                              ~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/achievements/achievements.controller.ts[0m:[93m24[0m:[93m37[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'AchievementUncheckedCreateInput'.
+
+[7m24[0m     createAllAchievementDto: Prisma.AchievementUncheckedCreateInput,
+[7m  [0m [91m                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/achievements/achievements.controller.ts[0m:[93m41[0m:[93m42[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'AchievementUpdateInput'.
+
+[7m41[0m     @Body() updateAchievementDto: Prisma.AchievementUpdateInput,
+[7m  [0m [91m                                         ~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/achievements/achievements.service.ts[0m:[93m9[0m:[93m45[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'AchievementCreateInput'.
+
+[7m9[0m   async create(createAchievementDto: Prisma.AchievementCreateInput) {
+[7m [0m [91m                                            ~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/achievements/achievements.service.ts[0m:[93m15[0m:[93m35[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'AchievementUncheckedCreateInput'.
+
+[7m15[0m   createMany(createManyDto:Prisma.AchievementUncheckedCreateInput){
+[7m  [0m [91m                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/achievements/achievements.service.ts[0m:[93m46[0m:[93m34[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'AchievementUpdateInput'.
+
+[7m46[0m     updateAchievementDto: Prisma.AchievementUpdateInput,
+[7m  [0m [91m                                 ~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/channels/channels.controller.ts[0m:[93m27[0m:[93m38[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'ChannelCreateInput'.
+
+[7m27[0m     @Body() createChannelDto: Prisma.ChannelCreateInput,
+[7m  [0m [91m                                     ~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/channels/channels.service.ts[0m:[93m18[0m:[93m30[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'ChannelCreateInput'.
+
+[7m18[0m     createChannelDto: Prisma.ChannelCreateInput,
+[7m  [0m [91m                             ~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/friends/dto/friendDto.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"@prisma/client"' has no exported member '$Enums'.
+
+[7m1[0m import { $Enums } from "@prisma/client";
+[7m [0m [91m         ~~~~~~[0m
+
+[96msrc/friends/friends.controller.ts[0m:[93m47[0m:[93m37[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'UserFriendUpdateInput'.
+
+[7m47[0m     @Body() updateFriendDto: Prisma.UserFriendUpdateInput,
+[7m  [0m [91m                                    ~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/friends/friends.service.ts[0m:[93m176[0m:[93m27[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'UserFriendUpdateInput'.
+
+[7m176[0m     updateUserDto: Prisma.UserFriendUpdateInput,
+[7m   [0m [91m                          ~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/game/game.service.ts[0m:[93m2[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"@prisma/client"' has no exported member '$Enums'.
+
+[7m2[0m import { $Enums } from "@prisma/client";
+[7m [0m [91m         ~~~~~~[0m
+
+[96msrc/items/items.controller.ts[0m:[93m18[0m:[93m40[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'ItemCreateInput'.
+
+[7m18[0m   create(@Body() createItemDto: Prisma.ItemCreateInput) {
+[7m  [0m [91m                                       ~~~~~~~~~~~~~~~[0m
+
+[96msrc/items/items.controller.ts[0m:[93m35[0m:[93m35[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'ItemUpdateInput'.
+
+[7m35[0m     @Body() updateItemDto: Prisma.ItemUpdateInput,
+[7m  [0m [91m                                  ~~~~~~~~~~~~~~~[0m
+
+[96msrc/items/items.service.ts[0m:[93m9[0m:[93m38[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'ItemCreateInput'.
+
+[7m9[0m   async create(createItemDto: Prisma.ItemCreateInput) {
+[7m [0m [91m                                     ~~~~~~~~~~~~~~~[0m
+
+[96msrc/items/items.service.ts[0m:[93m23[0m:[93m50[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'ItemUpdateInput'.
+
+[7m23[0m   async update(id: number, updateItemDto: Prisma.ItemUpdateInput) {
+[7m  [0m [91m                                                 ~~~~~~~~~~~~~~~[0m
+
+[96msrc/match-history/match-history.controller.ts[0m:[93m21[0m:[93m48[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'MatchHistoryCreateInput'.
+
+[7m21[0m   create(@Body() createMatchHistoryDto: Prisma.MatchHistoryCreateInput) {
+[7m  [0m [91m                                               ~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/match-history/match-history.controller.ts[0m:[93m42[0m:[93m43[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'MatchHistoryUpdateInput'.
+
+[7m42[0m     @Body() updateMatchHistoryDto: Prisma.MatchHistoryUpdateInput,
+[7m  [0m [91m                                          ~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/match-history/match-history.service.ts[0m:[93m2[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"@prisma/client"' has no exported member 'GameMode'.
+
+[7m2[0m import { GameMode, Prisma } from '@prisma/client';
+[7m [0m [91m         ~~~~~~~~[0m
+
+[96msrc/match-history/match-history.service.ts[0m:[93m16[0m:[93m46[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'MatchHistoryCreateInput'.
+
+[7m16[0m   async create(createMatchHistoryDto: Prisma.MatchHistoryCreateInput) {
+[7m  [0m [91m                                             ~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/match-history/match-history.service.ts[0m:[93m292[0m:[93m35[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'MatchHistoryUpdateInput'.
+
+[7m292[0m     updateMatchHistoryDto: Prisma.MatchHistoryUpdateInput,
+[7m   [0m [91m                                  ~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/message/message.controller.ts[0m:[93m39[0m:[93m38[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'MessageUpdateInput'.
+
+[7m39[0m     @Body() updateMessageDto: Prisma.MessageUpdateInput,
+[7m  [0m [91m                                     ~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/message/message.service.ts[0m:[93m44[0m:[93m47[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'MessageUpdateInput'.
+
+[7m44[0m   update(id: number, updateMessageDto: Prisma.MessageUpdateInput) {
+[7m  [0m [91m                                              ~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/notifications/notifications.controller.ts[0m:[93m19[0m:[93m43[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'NotificationUncheckedCreateInput'.
+
+[7m19[0m     @Body() createNotificationDto: Prisma.NotificationUncheckedCreateInput,
+[7m  [0m [91m                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/notifications/notifications.controller.ts[0m:[93m26[0m:[93m43[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'NotificationUncheckedCreateInput'.
+
+[7m26[0m     @Body() createNotificationDto: Prisma.NotificationUncheckedCreateInput,
+[7m  [0m [91m                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/notifications/notifications.controller.ts[0m:[93m44[0m:[93m43[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'NotificationUpdateInput'.
+
+[7m44[0m     @Body() updateNotificationDto: Prisma.NotificationUpdateInput,
+[7m  [0m [91m                                          ~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/notifications/notifications.service.ts[0m:[93m13[0m:[93m46[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'NotificationUncheckedCreateInput'.
+
+[7m13[0m   async create(createNotificationDto: Prisma.NotificationUncheckedCreateInput) {
+[7m  [0m [91m                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/notifications/notifications.service.ts[0m:[93m31[0m:[93m35[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'NotificationUncheckedCreateInput'.
+
+[7m31[0m     createNotificationDto: Prisma.NotificationUncheckedCreateInput,
+[7m  [0m [91m                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/notifications/notifications.service.ts[0m:[93m65[0m:[93m35[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'NotificationUpdateInput'.
+
+[7m65[0m     updateNotificationDto: Prisma.NotificationUpdateInput,
+[7m  [0m [91m                                  ~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/user-achievement/user-achievement.controller.ts[0m:[93m22[0m:[93m38[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'UserAchievementUncheckedCreateInput'.
+
+[7m22[0m     createUserAchievementDto: Prisma.UserAchievementUncheckedCreateInput,
+[7m  [0m [91m                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/user-achievement/user-achievement.controller.ts[0m:[93m41[0m:[93m46[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'UserAchievementUpdateInput'.
+
+[7m41[0m     @Body() updateUserAchievementDto: Prisma.UserAchievementUpdateInput,
+[7m  [0m [91m                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/user-achievement/user-achievement.service.ts[0m:[93m11[0m:[93m43[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'UserAchievementUncheckedCreateInput'.
+
+[7m11[0m   create(createUserAchievementDto: Prisma.UserAchievementUncheckedCreateInput) {
+[7m  [0m [91m                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/user-achievement/user-achievement.service.ts[0m:[93m47[0m:[93m38[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'UserAchievementUpdateInput'.
+
+[7m47[0m     updateUserAchievementDto: Prisma.UserAchievementUpdateInput,
+[7m  [0m [91m                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/user-items/user-items.controller.ts[0m:[93m20[0m:[93m44[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'UserItemUncheckedCreateInput'.
+
+[7m20[0m   create(@Body() createUserItemDto: Prisma.UserItemUncheckedCreateInput) {
+[7m  [0m [91m                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/user-items/user-items.controller.ts[0m:[93m39[0m:[93m44[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'UserItemUpdateInput'.
+
+[7m39[0m   update(@Body() updateUserItemDto: Prisma.UserItemUpdateInput) {
+[7m  [0m [91m                                           ~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/user-items/user-items.service.ts[0m:[93m61[0m:[93m42[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'UserItemUncheckedCreateInput'.
+
+[7m61[0m   async create(createUserItemDto: Prisma.UserItemUncheckedCreateInput) {
+[7m  [0m [91m                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/user-items/user-items.service.ts[0m:[93m106[0m:[93m23[0m - [91merror[0m[90m TS2694: [0mNamespace '"/app/node_modules/.prisma/client/default".Prisma' has no exported member 'UserItemUserIdItemIdCompoundUniqueInput'.
+
+[7m106[0m     const ids: Prisma.UserItemUserIdItemIdCompoundUniqueInput = {
+[7m   [0m [91m                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/users/dto/create-user.dto.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"@prisma/client"' has no exported member 'UserStatus'.
+
+[7m1[0m import { UserStatus } from '@prisma/client';
+[7m [0m [91m         ~~~~~~~~~~[0m
+
+[96msrc/users/users.controller.ts[0m:[93m15[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"@prisma/client"' has no exported member 'UserStatus'.
+
+[7m15[0m import { UserStatus } from '@prisma/client';
+[7m  [0m [91m         ~~~~~~~~~~[0m
+
+[96msrc/users/users.service.ts[0m:[93m14[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"@prisma/client"' has no exported member 'UserStatus'.
+
+[7m14[0m import { UserStatus } from '@prisma/client';
+[7m  [0m [91m         ~~~~~~~~~~[0m
+
+[[90m11:07:34 AM[0m] Found 40 errors. Watching for file changes.
+
+[32m[Nest] 43  - [39m07/31/2024, 11:07:35 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
