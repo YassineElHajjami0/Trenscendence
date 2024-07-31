@@ -11,9 +11,9 @@ COPY package.json ./
 
 # Install dependencies
 RUN npm install
+RUN npm install -g dotenv-cli
 
 COPY . .
 
 # Insert into tables some data [items ]
 ENTRYPOINT [ "sh", "script.sh" ]
-# ENTRYPOINT [ "tail", "-f"]
